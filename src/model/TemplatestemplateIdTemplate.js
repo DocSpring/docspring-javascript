@@ -16,32 +16,32 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/Templatesv2TemplateDocument'], factory);
+    define(['../ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./Templatesv2TemplateDocument'));
+    module.exports = factory(require('../ApiClient'));
   } else {
     // Browser globals (root is window)
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.Templatesv2Template = factory(root.DocSpring.ApiClient, root.DocSpring.Templatesv2TemplateDocument);
+    root.DocSpring.TemplatestemplateIdTemplate = factory(root.DocSpring.ApiClient);
   }
-}(this, function(ApiClient, Templatesv2TemplateDocument) {
+}(this, function(ApiClient) {
   'use strict';
 
 
 
 
   /**
-   * The Templatesv2Template model module.
-   * @module model/Templatesv2Template
-   * @version 1.0.0
+   * The TemplatestemplateIdTemplate model module.
+   * @module model/TemplatestemplateIdTemplate
+   * @version 1.1.0
    */
 
   /**
-   * Constructs a new <code>Templatesv2Template</code>.
-   * @alias module:model/Templatesv2Template
+   * Constructs a new <code>TemplatestemplateIdTemplate</code>.
+   * @alias module:model/TemplatestemplateIdTemplate
    * @class
    */
   var exports = function() {
@@ -59,14 +59,18 @@
 
 
 
+
+
+
+
   };
 
   /**
-   * Constructs a <code>Templatesv2Template</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>TemplatestemplateIdTemplate</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/Templatesv2Template} obj Optional instance to populate.
-   * @return {module:model/Templatesv2Template} The populated <code>Templatesv2Template</code> instance.
+   * @param {module:model/TemplatestemplateIdTemplate} obj Optional instance to populate.
+   * @return {module:model/TemplatestemplateIdTemplate} The populated <code>TemplatestemplateIdTemplate</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
@@ -75,17 +79,11 @@
       if (data.hasOwnProperty('expiration_interval')) {
         obj['expiration_interval'] = ApiClient.convertToType(data['expiration_interval'], 'String');
       }
-      if (data.hasOwnProperty('public_web_form')) {
-        obj['public_web_form'] = ApiClient.convertToType(data['public_web_form'], 'Boolean');
-      }
       if (data.hasOwnProperty('webhook_url')) {
         obj['webhook_url'] = ApiClient.convertToType(data['webhook_url'], 'String');
       }
-      if (data.hasOwnProperty('editable_submissions')) {
-        obj['editable_submissions'] = ApiClient.convertToType(data['editable_submissions'], 'Boolean');
-      }
-      if (data.hasOwnProperty('expire_submissions')) {
-        obj['expire_submissions'] = ApiClient.convertToType(data['expire_submissions'], 'Boolean');
+      if (data.hasOwnProperty('scss')) {
+        obj['scss'] = ApiClient.convertToType(data['scss'], 'String');
       }
       if (data.hasOwnProperty('expire_after')) {
         obj['expire_after'] = ApiClient.convertToType(data['expire_after'], 'Number');
@@ -93,17 +91,35 @@
       if (data.hasOwnProperty('allow_additional_properties')) {
         obj['allow_additional_properties'] = ApiClient.convertToType(data['allow_additional_properties'], 'Boolean');
       }
-      if (data.hasOwnProperty('document')) {
-        obj['document'] = Templatesv2TemplateDocument.constructFromObject(data['document']);
-      }
-      if (data.hasOwnProperty('name')) {
-        obj['name'] = ApiClient.convertToType(data['name'], 'String');
+      if (data.hasOwnProperty('description')) {
+        obj['description'] = ApiClient.convertToType(data['description'], 'String');
       }
       if (data.hasOwnProperty('public_submissions')) {
         obj['public_submissions'] = ApiClient.convertToType(data['public_submissions'], 'Boolean');
       }
       if (data.hasOwnProperty('slack_webhook_url')) {
         obj['slack_webhook_url'] = ApiClient.convertToType(data['slack_webhook_url'], 'String');
+      }
+      if (data.hasOwnProperty('header_html')) {
+        obj['header_html'] = ApiClient.convertToType(data['header_html'], 'String');
+      }
+      if (data.hasOwnProperty('public_web_form')) {
+        obj['public_web_form'] = ApiClient.convertToType(data['public_web_form'], 'Boolean');
+      }
+      if (data.hasOwnProperty('editable_submissions')) {
+        obj['editable_submissions'] = ApiClient.convertToType(data['editable_submissions'], 'Boolean');
+      }
+      if (data.hasOwnProperty('expire_submissions')) {
+        obj['expire_submissions'] = ApiClient.convertToType(data['expire_submissions'], 'Boolean');
+      }
+      if (data.hasOwnProperty('name')) {
+        obj['name'] = ApiClient.convertToType(data['name'], 'String');
+      }
+      if (data.hasOwnProperty('html')) {
+        obj['html'] = ApiClient.convertToType(data['html'], 'String');
+      }
+      if (data.hasOwnProperty('footer_html')) {
+        obj['footer_html'] = ApiClient.convertToType(data['footer_html'], 'String');
       }
       if (data.hasOwnProperty('redirect_url')) {
         obj['redirect_url'] = ApiClient.convertToType(data['redirect_url'], 'String');
@@ -113,25 +129,17 @@
   }
 
   /**
-   * @member {module:model/Templatesv2Template.ExpirationIntervalEnum} expiration_interval
+   * @member {module:model/TemplatestemplateIdTemplate.ExpirationIntervalEnum} expiration_interval
    */
   exports.prototype['expiration_interval'] = undefined;
-  /**
-   * @member {Boolean} public_web_form
-   */
-  exports.prototype['public_web_form'] = undefined;
   /**
    * @member {String} webhook_url
    */
   exports.prototype['webhook_url'] = undefined;
   /**
-   * @member {Boolean} editable_submissions
+   * @member {String} scss
    */
-  exports.prototype['editable_submissions'] = undefined;
-  /**
-   * @member {Boolean} expire_submissions
-   */
-  exports.prototype['expire_submissions'] = undefined;
+  exports.prototype['scss'] = undefined;
   /**
    * @member {Number} expire_after
    */
@@ -141,13 +149,9 @@
    */
   exports.prototype['allow_additional_properties'] = undefined;
   /**
-   * @member {module:model/Templatesv2TemplateDocument} document
+   * @member {String} description
    */
-  exports.prototype['document'] = undefined;
-  /**
-   * @member {String} name
-   */
-  exports.prototype['name'] = undefined;
+  exports.prototype['description'] = undefined;
   /**
    * @member {Boolean} public_submissions
    */
@@ -156,6 +160,34 @@
    * @member {String} slack_webhook_url
    */
   exports.prototype['slack_webhook_url'] = undefined;
+  /**
+   * @member {String} header_html
+   */
+  exports.prototype['header_html'] = undefined;
+  /**
+   * @member {Boolean} public_web_form
+   */
+  exports.prototype['public_web_form'] = undefined;
+  /**
+   * @member {Boolean} editable_submissions
+   */
+  exports.prototype['editable_submissions'] = undefined;
+  /**
+   * @member {Boolean} expire_submissions
+   */
+  exports.prototype['expire_submissions'] = undefined;
+  /**
+   * @member {String} name
+   */
+  exports.prototype['name'] = undefined;
+  /**
+   * @member {String} html
+   */
+  exports.prototype['html'] = undefined;
+  /**
+   * @member {String} footer_html
+   */
+  exports.prototype['footer_html'] = undefined;
   /**
    * @member {String} redirect_url
    */

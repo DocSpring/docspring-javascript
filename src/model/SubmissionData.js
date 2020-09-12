@@ -36,7 +36,7 @@
   /**
    * The SubmissionData model module.
    * @module model/SubmissionData
-   * @version 1.0.0
+   * @version 1.1.0
    */
 
   /**
@@ -50,6 +50,7 @@
 
 
     _this['data'] = data;
+
 
 
 
@@ -82,6 +83,9 @@
       if (data.hasOwnProperty('metadata')) {
         obj['metadata'] = ApiClient.convertToType(data['metadata'], Object);
       }
+      if (data.hasOwnProperty('field_overrides')) {
+        obj['field_overrides'] = ApiClient.convertToType(data['field_overrides'], Object);
+      }
       if (data.hasOwnProperty('data_requests')) {
         obj['data_requests'] = ApiClient.convertToType(data['data_requests'], [CreateSubmissionDataRequestData]);
       }
@@ -109,6 +113,10 @@
    * @member {Object} metadata
    */
   exports.prototype['metadata'] = undefined;
+  /**
+   * @member {Object} field_overrides
+   */
+  exports.prototype['field_overrides'] = undefined;
   /**
    * @member {Array.<module:model/CreateSubmissionDataRequestData>} data_requests
    */

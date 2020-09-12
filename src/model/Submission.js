@@ -36,7 +36,7 @@
   /**
    * The Submission model module.
    * @module model/Submission
-   * @version 1.0.0
+   * @version 1.1.0
    */
 
   /**
@@ -59,6 +59,7 @@
 
 
     _this['state'] = state;
+
 
 
 
@@ -104,6 +105,9 @@
       }
       if (data.hasOwnProperty('metadata')) {
         obj['metadata'] = ApiClient.convertToType(data['metadata'], Object);
+      }
+      if (data.hasOwnProperty('pdf_hash')) {
+        obj['pdf_hash'] = ApiClient.convertToType(data['pdf_hash'], 'String');
       }
       if (data.hasOwnProperty('download_url')) {
         obj['download_url'] = ApiClient.convertToType(data['download_url'], 'String');
@@ -160,6 +164,10 @@
    * @member {Object} metadata
    */
   exports.prototype['metadata'] = undefined;
+  /**
+   * @member {String} pdf_hash
+   */
+  exports.prototype['pdf_hash'] = undefined;
   /**
    * @member {String} download_url
    */
@@ -237,7 +245,12 @@
      * value: "license_revoked"
      * @const
      */
-    "license_revoked": "license_revoked"  };
+    "license_revoked": "license_revoked",
+    /**
+     * value: "accidental"
+     * @const
+     */
+    "accidental": "accidental"  };
 
 
   return exports;

@@ -25,7 +25,7 @@
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.CreateTemplateData = factory(root.DocSpring.ApiClient, root.DocSpring.TemplatesdesccachedUploadTemplate);
+    root.DocSpring.CreateTemplateData1 = factory(root.DocSpring.ApiClient, root.DocSpring.TemplatesdesccachedUploadTemplate);
   }
 }(this, function(ApiClient, TemplatesdesccachedUploadTemplate) {
   'use strict';
@@ -34,14 +34,14 @@
 
 
   /**
-   * The CreateTemplateData model module.
-   * @module model/CreateTemplateData
+   * The CreateTemplateData1 model module.
+   * @module model/CreateTemplateData1
    * @version 1.1.0
    */
 
   /**
-   * Constructs a new <code>CreateTemplateData</code>.
-   * @alias module:model/CreateTemplateData
+   * Constructs a new <code>CreateTemplateData1</code>.
+   * @alias module:model/CreateTemplateData1
    * @class
    * @param template {module:model/TemplatesdesccachedUploadTemplate} 
    */
@@ -52,11 +52,11 @@
   };
 
   /**
-   * Constructs a <code>CreateTemplateData</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>CreateTemplateData1</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/CreateTemplateData} obj Optional instance to populate.
-   * @return {module:model/CreateTemplateData} The populated <code>CreateTemplateData</code> instance.
+   * @param {module:model/CreateTemplateData1} obj Optional instance to populate.
+   * @return {module:model/CreateTemplateData1} The populated <code>CreateTemplateData1</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {

@@ -120,20 +120,30 @@
         done();
       });
     });
-    describe('createTemplate', function() {
-      it('should call createTemplate successfully', function(done) {
-        //uncomment below and update the code to test createTemplate
-        //instance.createTemplate(function(error) {
+    describe('createHTMLTemplate', function() {
+      it('should call createHTMLTemplate successfully', function(done) {
+        //uncomment below and update the code to test createHTMLTemplate
+        //instance.createHTMLTemplate(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
         done();
       });
     });
-    describe('createTemplateFromUpload', function() {
-      it('should call createTemplateFromUpload successfully', function(done) {
-        //uncomment below and update the code to test createTemplateFromUpload
-        //instance.createTemplateFromUpload(function(error) {
+    describe('createPDFTemplate', function() {
+      it('should call createPDFTemplate successfully', function(done) {
+        //uncomment below and update the code to test createPDFTemplate
+        //instance.createPDFTemplate(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('createPDFTemplateFromUpload', function() {
+      it('should call createPDFTemplateFromUpload successfully', function(done) {
+        //uncomment below and update the code to test createPDFTemplateFromUpload
+        //instance.createPDFTemplateFromUpload(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -314,6 +324,16 @@
       it('should call updateDataRequest successfully', function(done) {
         //uncomment below and update the code to test updateDataRequest
         //instance.updateDataRequest(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('updateTemplate', function() {
+      it('should call updateTemplate successfully', function(done) {
+        //uncomment below and update the code to test updateTemplate
+        //instance.updateTemplate(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

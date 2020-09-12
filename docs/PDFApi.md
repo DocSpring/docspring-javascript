@@ -11,8 +11,9 @@ Method | HTTP request | Description
 [**createCustomFileFromUpload**](PDFApi.md#createCustomFileFromUpload) | **POST** /custom_files | Create a new custom file from a cached presign upload
 [**createDataRequestToken**](PDFApi.md#createDataRequestToken) | **POST** /data_requests/{data_request_id}/tokens | Creates a new data request token for form authentication
 [**createFolder**](PDFApi.md#createFolder) | **POST** /folders/ | Create a folder
-[**createTemplate**](PDFApi.md#createTemplate) | **POST** /templates | Upload a new PDF template with a file upload
-[**createTemplateFromUpload**](PDFApi.md#createTemplateFromUpload) | **POST** /templates?v&#x3D;2 | Create a new PDF template from a cached presign upload
+[**createHTMLTemplate**](PDFApi.md#createHTMLTemplate) | **POST** /templates?desc&#x3D;html | Create a new HTML template
+[**createPDFTemplate**](PDFApi.md#createPDFTemplate) | **POST** /templates | Create a new PDF template with a form POST file upload
+[**createPDFTemplateFromUpload**](PDFApi.md#createPDFTemplateFromUpload) | **POST** /templates?desc&#x3D;cached_upload | Create a new PDF template from a cached presign upload
 [**deleteFolder**](PDFApi.md#deleteFolder) | **DELETE** /folders/{folder_id} | Delete a folder
 [**expireCombinedSubmission**](PDFApi.md#expireCombinedSubmission) | **DELETE** /combined_submissions/{combined_submission_id} | Expire a combined submission
 [**expireSubmission**](PDFApi.md#expireSubmission) | **DELETE** /submissions/{submission_id} | Expire a PDF submission
@@ -31,6 +32,7 @@ Method | HTTP request | Description
 [**renameFolder**](PDFApi.md#renameFolder) | **POST** /folders/{folder_id}/rename | Rename a folder
 [**testAuthentication**](PDFApi.md#testAuthentication) | **GET** /authentication | Test Authentication
 [**updateDataRequest**](PDFApi.md#updateDataRequest) | **PUT** /data_requests/{data_request_id} | Update a submission data request
+[**updateTemplate**](PDFApi.md#updateTemplate) | **PUT** /templates/{template_id} | Update a Template
 
 
 <a name="batchGeneratePdfV1"></a>
@@ -364,11 +366,58 @@ Name | Type | Description  | Notes
  - **Content-Type**: application/json
  - **Accept**: application/json
 
-<a name="createTemplate"></a>
-# **createTemplate**
-> PendingTemplate createTemplate(templateDocument, templateName, opts)
+<a name="createHTMLTemplate"></a>
+# **createHTMLTemplate**
+> PendingTemplate createHTMLTemplate(createTemplateData1)
 
-Upload a new PDF template with a file upload
+Create a new HTML template
+
+### Example
+```javascript
+var DocSpring = require('docspring');
+var defaultClient = DocSpring.ApiClient.instance;
+
+// Configure HTTP basic authorization: api_token_basic
+var api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+var apiInstance = new DocSpring.PDFApi();
+var createTemplateData1 = new DocSpring.CreateTemplateData1(); // CreateTemplateData1 | 
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.createHTMLTemplate(createTemplateData1, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **createTemplateData1** | [**CreateTemplateData1**](CreateTemplateData1.md)|  | 
+
+### Return type
+
+[**PendingTemplate**](PendingTemplate.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a name="createPDFTemplate"></a>
+# **createPDFTemplate**
+> PendingTemplate createPDFTemplate(templateDocument, templateName, opts)
+
+Create a new PDF template with a form POST file upload
 
 ### Example
 ```javascript
@@ -393,7 +442,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.createTemplate(templateDocument, templateName, opts, callback);
+apiInstance.createPDFTemplate(templateDocument, templateName, opts, callback);
 ```
 
 ### Parameters
@@ -417,9 +466,9 @@ Name | Type | Description  | Notes
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
-<a name="createTemplateFromUpload"></a>
-# **createTemplateFromUpload**
-> PendingTemplate createTemplateFromUpload(createTemplateData)
+<a name="createPDFTemplateFromUpload"></a>
+# **createPDFTemplateFromUpload**
+> PendingTemplate createPDFTemplateFromUpload(createTemplateData)
 
 Create a new PDF template from a cached presign upload
 
@@ -442,7 +491,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.createTemplateFromUpload(createTemplateData, callback);
+apiInstance.createPDFTemplateFromUpload(createTemplateData, callback);
 ```
 
 ### Parameters
@@ -1320,6 +1369,55 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**UpdateDataRequestResponse**](UpdateDataRequestResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a name="updateTemplate"></a>
+# **updateTemplate**
+> UpdateTemplateResponse updateTemplate(templateId, updateTemplateData)
+
+Update a Template
+
+### Example
+```javascript
+var DocSpring = require('docspring');
+var defaultClient = DocSpring.ApiClient.instance;
+
+// Configure HTTP basic authorization: api_token_basic
+var api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+var apiInstance = new DocSpring.PDFApi();
+var templateId = tpl_000000000000000003; // String | 
+var updateTemplateData = new DocSpring.UpdateTemplateData(); // UpdateTemplateData | 
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.updateTemplate(templateId, updateTemplateData, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**|  | 
+ **updateTemplateData** | [**UpdateTemplateData**](UpdateTemplateData.md)|  | 
+
+### Return type
+
+[**UpdateTemplateResponse**](UpdateTemplateResponse.md)
 
 ### Authorization
 

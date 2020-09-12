@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **expired** | **Boolean** |  | [optional] 
 **expiresAt** | **String** |  | [optional] 
 **sourcePdfs** | **[Object]** |  | [optional] 
+**pdfHash** | **String** |  | [optional] 
 **downloadUrl** | **String** |  | [optional] 
 **submissionIds** | **[String]** |  | [optional] 
 **id** | **String** |  | [optional] 

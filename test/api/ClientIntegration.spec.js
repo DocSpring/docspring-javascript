@@ -13,173 +13,204 @@
  *
  */
 
-(function(root, factory) {
-  if (typeof define === "function" && define.amd) {
+;(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
     // AMD.
-    define(["expect.js", "../../src/index"], factory);
-  } else if (typeof module === "object" && module.exports) {
+    define(['expect.js', '../../src/index'], factory)
+  } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    factory(require("expect.js"), require("../../src/index"));
+    factory(require('expect.js'), require('../../src/index'))
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.DocSpring);
+    factory(root.expect, root.DocSpring)
   }
 })(this, function(expect, DocSpring) {
-  "use strict";
+  'use strict'
 
-  var docspring;
+  var docspring
 
   beforeEach(function() {
-    var config = new DocSpring.Configuration();
-    config.apiTokenId = "api_token123";
-    config.apiTokenSecret = "testsecret123";
-    docspring = new DocSpring.Client(config);
-    config.basePath = "http://api.docspring.local:31337/api/v1";
+    var config = new DocSpring.Configuration()
+    config.apiTokenId = 'api_token123'
+    config.apiTokenSecret = 'testsecret123'
+    docspring = new DocSpring.Client(config)
+    config.basePath = 'http://api.docspring.local:31337/api/v1'
     // docspring = new docspring.Client(config);
-  });
+  })
 
-  describe("Client", function() {
-    describe("testAuthentication", function() {
-      it("should call testAuthentication method on PDFApi prototype", function(done) {
+  describe('Client', function() {
+    describe('testAuthentication', function() {
+      it('should call testAuthentication method on PDFApi prototype', function(done) {
         docspring.testAuthentication(function(error, response) {
-          if (error) throw error;
-          expect(response.status).to.be("success");
-          done();
-        });
-      });
-    });
+          if (error) throw error
+          expect(response.status).to.be('success')
+          done()
+        })
+      })
+    })
 
-    describe("combineSubmissions", function() {
-      it("should call combineSubmissions successfully and wait for PDF", function(done) {
-        this.timeout(10000);
+    describe('combineSubmissions', function() {
+      it('should call combineSubmissions successfully and wait for PDF', function(done) {
+        this.timeout(10000)
         var opts = {
-          submission_ids: ["sub_000000000000000001", "sub_000000000000000002"]
-        };
+          submission_ids: ['sub_000000000000000001', 'sub_000000000000000002'],
+        }
         docspring.combineSubmissions(opts, function(error, response) {
-          if (error) throw error;
-          expect(response.status).to.be("success");
-          expect(response.combined_submission.id).to.match(/^com_/);
-          expect(response.combined_submission.state).to.be("processed");
-          done();
-        });
-      });
-    });
+          if (error) throw error
+          expect(response.status).to.be('success')
+          expect(response.combined_submission.id).to.match(/^com_/)
+          expect(response.combined_submission.state).to.be('processed')
+          done()
+        })
+      })
+    })
 
-    describe("combinePdfs", function() {
-      it("should call combinePdfs successfully and wait for the PDF", function(done) {
-        this.timeout(10000);
+    describe('combinePdfs', function() {
+      it('should call combinePdfs successfully and wait for the PDF', function(done) {
+        this.timeout(10000)
         var options = {
           test: false,
           source_pdfs: [
-            { type: "submission", id: "sub_000000000000000001" },
-            { type: "template", id: "tpl_000000000000000001" },
-            { type: "submission", id: "sub_000000000000000002" }
+            { type: 'submission', id: 'sub_000000000000000001' },
+            { type: 'template', id: 'tpl_000000000000000001' },
+            { type: 'submission', id: 'sub_000000000000000002' },
           ],
-          wait: true
-        };
+          wait: true,
+        }
 
         docspring.combinePdfs(options, function(error, response) {
-          if (error) throw error;
-          var combined_submission = response.combined_submission;
+          if (error) throw error
+          var combined_submission = response.combined_submission
 
-          expect(response.status).to.be("success");
-          expect(combined_submission.id).to.match(/^com_/);
+          expect(response.status).to.be('success')
+          expect(combined_submission.id).to.match(/^com_/)
 
-          expect(combined_submission.state).to.be("processed");
-          expect(combined_submission.download_url).to.not.be(null);
-          expect(combined_submission.download_url).to.not.be("");
-          done();
-        });
-      });
+          expect(combined_submission.state).to.be('processed')
+          expect(combined_submission.download_url).to.not.be(null)
+          expect(combined_submission.download_url).to.not.be('')
+          done()
+        })
+      })
 
-      it("should call combinePdfs successfully and not wait for the PDF", function(done) {
-        this.timeout(10000);
+      it('should call combinePdfs successfully and not wait for the PDF', function(done) {
+        this.timeout(10000)
         var options = {
           test: false,
           source_pdfs: [
-            { type: "submission", id: "sub_000000000000000001" },
-            { type: "template", id: "tpl_000000000000000001" },
-            { type: "submission", id: "sub_000000000000000002" }
+            { type: 'submission', id: 'sub_000000000000000001' },
+            { type: 'template', id: 'tpl_000000000000000001' },
+            { type: 'submission', id: 'sub_000000000000000002' },
           ],
-          wait: false
-        };
+          wait: false,
+        }
 
         docspring.combinePdfs(options, function(error, response) {
-          if (error) throw error;
-          var combined_submission = response.combined_submission;
+          if (error) throw error
+          var combined_submission = response.combined_submission
 
-          expect(response.status).to.be("success");
-          expect(combined_submission.id).to.match(/^com_/);
+          expect(response.status).to.be('success')
+          expect(combined_submission.id).to.match(/^com_/)
 
-          expect(combined_submission.state).to.be("pending");
-          expect(combined_submission.download_url).to.be(null);
-          done();
-        });
-      });
-    });
+          expect(combined_submission.state).to.be('pending')
+          expect(combined_submission.download_url).to.be(null)
+          done()
+        })
+      })
+    })
 
-    describe("generatePDF", function() {
-      it("should call generatePDF and wait for the PDF", function(done) {
-        this.timeout(10000);
-        var template_id = "tpl_000000000000000001";
+    describe('generatePDF', function() {
+      it('should call generatePDF and wait for the PDF', function(done) {
+        this.timeout(10000)
+        var template_id = 'tpl_000000000000000001'
         var submission_data = {
           editable: false,
           data: {
-            title: "Test PDF",
-            description: "This PDF is great!"
+            title: 'Test PDF',
+            description: 'This PDF is great!',
           },
           metadata: {
-            user_id: 123
+            user_id: 123,
           },
-          wait: true
-        };
+          field_overrides: {
+            title: {
+              required: false,
+            },
+          },
+          wait: true,
+        }
         docspring.generatePDF(template_id, submission_data, function(
           error,
           response
         ) {
-          if (error) throw error;
-          var submission = response.submission;
-          expect(response.status).to.be("success");
-          expect(submission.id).to.match(/^sub_/);
-          expect(submission.expired).to.be(false);
-          expect(submission.editable).to.be(false);
-          expect(submission.state).to.be("processed");
-          expect(submission.download_url).to.not.be(null);
-          expect(submission.download_url).to.not.be("");
-          done();
-        });
-      });
-    });
+          if (error) throw error
+          var submission = response.submission
+          expect(response.status).to.be('success')
+          expect(submission.id).to.match(/^sub_/)
+          expect(submission.expired).to.be(false)
+          expect(submission.editable).to.be(false)
+          expect(submission.state).to.be('processed')
+          expect(submission.download_url).to.not.be(null)
+          expect(submission.download_url).to.not.be('')
+          done()
+        })
+      })
+    })
 
-    describe("generatePDF", function() {
-      it("should call generatePDF and not wait for the PDF", function(done) {
-        this.timeout(10000);
-        var template_id = "tpl_000000000000000001";
+    describe('generatePDF', function() {
+      it('should call generatePDF and not wait for the PDF', function(done) {
+        this.timeout(10000)
+        var template_id = 'tpl_000000000000000001'
         var submission_data = {
           editable: false,
           data: {
-            title: "Test PDF",
-            description: "This PDF is great!"
+            title: 'Test PDF',
+            description: 'This PDF is great!',
           },
           metadata: {
-            user_id: 123
+            user_id: 123,
           },
-          wait: false
-        };
+          field_overrides: {
+            title: {
+              required: false,
+            },
+          },
+          wait: false,
+        }
         docspring.generatePDF(template_id, submission_data, function(
           error,
           response
         ) {
-          if (error) throw error;
-          var submission = response.submission;
-          expect(response.status).to.be("success");
-          expect(submission.id).to.match(/^sub_/);
-          expect(submission.expired).to.be(false);
-          expect(submission.editable).to.be(false);
-          expect(submission.state).to.be("pending");
-          done();
-        });
-      });
-    });
-  });
-});
+          if (error) throw error
+          var submission = response.submission
+          expect(response.status).to.be('success')
+          expect(submission.id).to.match(/^sub_/)
+          expect(submission.expired).to.be(false)
+          expect(submission.editable).to.be(false)
+          expect(submission.state).to.be('pending')
+          done()
+        })
+      })
+    })
+
+    describe('updateTemplate', function() {
+      it('should call updateTemplate successfully', function(done) {
+        this.timeout(10000)
+        var template_id = 'tpl_000000000000000001'
+        var template_data = {
+          template: {
+            name: 'New Template Name',
+            html: '<html><body>New HTML</html></body>',
+          },
+        }
+        docspring.updateTemplate(template_id, template_data, function(
+          error,
+          response
+        ) {
+          if (error) throw error
+          expect(response.status).to.be('success')
+          done()
+        })
+      })
+    })
+  })
+})

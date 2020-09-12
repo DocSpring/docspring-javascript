@@ -36,7 +36,7 @@
   /**
    * The SubmissionDataRequest model module.
    * @module model/SubmissionDataRequest
-   * @version 1.0.0
+   * @version 1.1.0
    */
 
   /**
@@ -61,6 +61,8 @@
     _this['fields'] = fields;
     _this['metadata'] = metadata;
     _this['state'] = state;
+
+
 
 
 
@@ -135,6 +137,12 @@
       if (data.hasOwnProperty('auth_phone_number_hash')) {
         obj['auth_phone_number_hash'] = ApiClient.convertToType(data['auth_phone_number_hash'], 'String');
       }
+      if (data.hasOwnProperty('ip_address')) {
+        obj['ip_address'] = ApiClient.convertToType(data['ip_address'], 'String');
+      }
+      if (data.hasOwnProperty('user_agent')) {
+        obj['user_agent'] = ApiClient.convertToType(data['user_agent'], 'String');
+      }
     }
     return obj;
   }
@@ -207,6 +215,14 @@
    * @member {String} auth_phone_number_hash
    */
   exports.prototype['auth_phone_number_hash'] = undefined;
+  /**
+   * @member {String} ip_address
+   */
+  exports.prototype['ip_address'] = undefined;
+  /**
+   * @member {String} user_agent
+   */
+  exports.prototype['user_agent'] = undefined;
 
 
   /**

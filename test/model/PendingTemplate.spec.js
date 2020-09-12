@@ -86,6 +86,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property description (base name: "description")', function() {
+      // uncomment below and update the code to test the property description
+      //var instance = new DocSpring.PendingTemplate();
+      //expect(instance).to.be();
+    });
+
     it('should have the property publicSubmissions (base name: "public_submissions")', function() {
       // uncomment below and update the code to test the property publicSubmissions
       //var instance = new DocSpring.PendingTemplate();

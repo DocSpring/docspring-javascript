@@ -36,7 +36,7 @@
   /**
    * The Template model module.
    * @module model/Template
-   * @version 1.0.0
+   * @version 1.1.0
    */
 
   /**
@@ -46,6 +46,7 @@
    */
   var exports = function() {
     var _this = this;
+
 
 
 
@@ -92,6 +93,9 @@
       }
       if (data.hasOwnProperty('allow_additional_properties')) {
         obj['allow_additional_properties'] = ApiClient.convertToType(data['allow_additional_properties'], 'Boolean');
+      }
+      if (data.hasOwnProperty('description')) {
+        obj['description'] = ApiClient.convertToType(data['description'], 'String');
       }
       if (data.hasOwnProperty('public_submissions')) {
         obj['public_submissions'] = ApiClient.convertToType(data['public_submissions'], 'Boolean');
@@ -156,6 +160,10 @@
    * @member {Boolean} allow_additional_properties
    */
   exports.prototype['allow_additional_properties'] = undefined;
+  /**
+   * @member {String} description
+   */
+  exports.prototype['description'] = undefined;
   /**
    * @member {Boolean} public_submissions
    */

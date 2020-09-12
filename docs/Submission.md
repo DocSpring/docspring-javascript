@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **processedAt** | **String** |  | [optional] 
 **state** | **String** |  | 
 **metadata** | **Object** |  | [optional] 
+**pdfHash** | **String** |  | [optional] 
 **downloadUrl** | **String** |  | [optional] 
 **permanentDownloadUrl** | **String** |  | [optional] 
 **batchId** | **String** |  | [optional] 
@@ -42,6 +43,8 @@ Name | Type | Description | Notes
 * `account_suspended` (value: `"account_suspended"`)
 
 * `license_revoked` (value: `"license_revoked"`)
+
+* `accidental` (value: `"accidental"`)
 
 
 

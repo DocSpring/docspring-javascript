@@ -36,7 +36,7 @@
   /**
    * The CombinedSubmission model module.
    * @module model/CombinedSubmission
-   * @version 1.0.0
+   * @version 1.1.0
    */
 
   /**
@@ -46,6 +46,7 @@
    */
   var exports = function() {
     var _this = this;
+
 
 
 
@@ -80,6 +81,9 @@
       }
       if (data.hasOwnProperty('source_pdfs')) {
         obj['source_pdfs'] = ApiClient.convertToType(data['source_pdfs'], [Object]);
+      }
+      if (data.hasOwnProperty('pdf_hash')) {
+        obj['pdf_hash'] = ApiClient.convertToType(data['pdf_hash'], 'String');
       }
       if (data.hasOwnProperty('download_url')) {
         obj['download_url'] = ApiClient.convertToType(data['download_url'], 'String');
@@ -116,6 +120,10 @@
    * @member {Array.<Object>} source_pdfs
    */
   exports.prototype['source_pdfs'] = undefined;
+  /**
+   * @member {String} pdf_hash
+   */
+  exports.prototype['pdf_hash'] = undefined;
   /**
    * @member {String} download_url
    */

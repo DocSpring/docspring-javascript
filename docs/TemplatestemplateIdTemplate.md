@@ -1,19 +1,23 @@
-# DocSpring.Templatesv2Template
+# DocSpring.TemplatestemplateIdTemplate
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **expirationInterval** | **String** |  | [optional] 
-**publicWebForm** | **Boolean** |  | [optional] 
 **webhookUrl** | **String** |  | [optional] 
-**editableSubmissions** | **Boolean** |  | [optional] 
-**expireSubmissions** | **Boolean** |  | [optional] 
+**scss** | **String** |  | [optional] 
 **expireAfter** | **Number** |  | [optional] 
 **allowAdditionalProperties** | **Boolean** |  | [optional] 
-**document** | [**Templatesv2TemplateDocument**](Templatesv2TemplateDocument.md) |  | [optional] 
-**name** | **String** |  | [optional] 
+**description** | **String** |  | [optional] 
 **publicSubmissions** | **Boolean** |  | [optional] 
 **slackWebhookUrl** | **String** |  | [optional] 
+**headerHtml** | **String** |  | [optional] 
+**publicWebForm** | **Boolean** |  | [optional] 
+**editableSubmissions** | **Boolean** |  | [optional] 
+**expireSubmissions** | **Boolean** |  | [optional] 
+**name** | **String** |  | [optional] 
+**html** | **String** |  | [optional] 
+**footerHtml** | **String** |  | [optional] 
 **redirectUrl** | **String** |  | [optional] 
 
 

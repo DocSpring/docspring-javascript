@@ -158,6 +158,18 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property ipAddress (base name: "ip_address")', function() {
+      // uncomment below and update the code to test the property ipAddress
+      //var instance = new DocSpring.SubmissionDataRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property userAgent (base name: "user_agent")', function() {
+      // uncomment below and update the code to test the property userAgent
+      //var instance = new DocSpring.SubmissionDataRequest();
+      //expect(instance).to.be();
+    });
+
   });
 
 }));

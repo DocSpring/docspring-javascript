@@ -1,6 +1,6 @@
 {
   "name": "docspring",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An API client for the DocSpring PDF generation service",
   "license": "Unlicense",
   "main": "src/index.js",

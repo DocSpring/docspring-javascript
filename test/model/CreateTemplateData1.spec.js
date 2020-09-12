@@ -30,7 +30,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new DocSpring.Templatesv2TemplateDocumentMetadata();
+    instance = new DocSpring.CreateTemplateData1();
   });
 
   var getProperty = function(object, getter, property) {
@@ -49,28 +49,16 @@
       object[property] = value;
   }
 
-  describe('Templatesv2TemplateDocumentMetadata', function() {
-    it('should create an instance of Templatesv2TemplateDocumentMetadata', function() {
-      // uncomment below and update the code to test Templatesv2TemplateDocumentMetadata
-      //var instance = new DocSpring.Templatesv2TemplateDocumentMetadata();
-      //expect(instance).to.be.a(DocSpring.Templatesv2TemplateDocumentMetadata);
+  describe('CreateTemplateData1', function() {
+    it('should create an instance of CreateTemplateData1', function() {
+      // uncomment below and update the code to test CreateTemplateData1
+      //var instance = new DocSpring.CreateTemplateData1();
+      //expect(instance).to.be.a(DocSpring.CreateTemplateData1);
     });
 
-    it('should have the property filename (base name: "filename")', function() {
-      // uncomment below and update the code to test the property filename
-      //var instance = new DocSpring.Templatesv2TemplateDocumentMetadata();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property size (base name: "size")', function() {
-      // uncomment below and update the code to test the property size
-      //var instance = new DocSpring.Templatesv2TemplateDocumentMetadata();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property mimeType (base name: "mime_type")', function() {
-      // uncomment below and update the code to test the property mimeType
-      //var instance = new DocSpring.Templatesv2TemplateDocumentMetadata();
+    it('should have the property template (base name: "template")', function() {
+      // uncomment below and update the code to test the property template
+      //var instance = new DocSpring.CreateTemplateData1();
       //expect(instance).to.be();
     });
 

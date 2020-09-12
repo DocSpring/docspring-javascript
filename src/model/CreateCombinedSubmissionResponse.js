@@ -36,7 +36,7 @@
   /**
    * The CreateCombinedSubmissionResponse model module.
    * @module model/CreateCombinedSubmissionResponse
-   * @version 1.0.0
+   * @version 1.1.0
    */
 
   /**

@@ -86,6 +86,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property fieldOverrides (base name: "field_overrides")', function() {
+      // uncomment below and update the code to test the property fieldOverrides
+      //var instance = new DocSpring.SubmissionData();
+      //expect(instance).to.be();
+    });
+
     it('should have the property dataRequests (base name: "data_requests")', function() {
       // uncomment below and update the code to test the property dataRequests
       //var instance = new DocSpring.SubmissionData();

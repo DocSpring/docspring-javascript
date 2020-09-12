@@ -80,6 +80,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property pdfHash (base name: "pdf_hash")', function() {
+      // uncomment below and update the code to test the property pdfHash
+      //var instance = new DocSpring.CombinedSubmission();
+      //expect(instance).to.be();
+    });
+
     it('should have the property downloadUrl (base name: "download_url")', function() {
       // uncomment below and update the code to test the property downloadUrl
       //var instance = new DocSpring.CombinedSubmission();

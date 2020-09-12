@@ -25,7 +25,7 @@
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.Templatesv2TemplateDocumentMetadata = factory(root.DocSpring.ApiClient);
+    root.DocSpring.TemplatesdesccachedUploadTemplateDocumentMetadata = factory(root.DocSpring.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
@@ -34,14 +34,14 @@
 
 
   /**
-   * The Templatesv2TemplateDocumentMetadata model module.
-   * @module model/Templatesv2TemplateDocumentMetadata
-   * @version 1.0.0
+   * The TemplatesdesccachedUploadTemplateDocumentMetadata model module.
+   * @module model/TemplatesdesccachedUploadTemplateDocumentMetadata
+   * @version 1.1.0
    */
 
   /**
-   * Constructs a new <code>Templatesv2TemplateDocumentMetadata</code>.
-   * @alias module:model/Templatesv2TemplateDocumentMetadata
+   * Constructs a new <code>TemplatesdesccachedUploadTemplateDocumentMetadata</code>.
+   * @alias module:model/TemplatesdesccachedUploadTemplateDocumentMetadata
    * @class
    */
   var exports = function() {
@@ -53,11 +53,11 @@
   };
 
   /**
-   * Constructs a <code>Templatesv2TemplateDocumentMetadata</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>TemplatesdesccachedUploadTemplateDocumentMetadata</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/Templatesv2TemplateDocumentMetadata} obj Optional instance to populate.
-   * @return {module:model/Templatesv2TemplateDocumentMetadata} The populated <code>Templatesv2TemplateDocumentMetadata</code> instance.
+   * @param {module:model/TemplatesdesccachedUploadTemplateDocumentMetadata} obj Optional instance to populate.
+   * @return {module:model/TemplatesdesccachedUploadTemplateDocumentMetadata} The populated <code>TemplatesdesccachedUploadTemplateDocumentMetadata</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
@@ -85,7 +85,7 @@
    */
   exports.prototype['size'] = undefined;
   /**
-   * @member {module:model/Templatesv2TemplateDocumentMetadata.MimeTypeEnum} mime_type
+   * @member {module:model/TemplatesdesccachedUploadTemplateDocumentMetadata.MimeTypeEnum} mime_type
    */
   exports.prototype['mime_type'] = undefined;
 

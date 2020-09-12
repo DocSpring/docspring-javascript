@@ -20,6 +20,8 @@ Name | Type | Description | Notes
 **authUserIdHash** | **String** |  | [optional] 
 **authUsernameHash** | **String** |  | [optional] 
 **authPhoneNumberHash** | **String** |  | [optional] 
+**ipAddress** | **String** |  | [optional] 
+**userAgent** | **String** |  | [optional] 
 
 
 <a name="StateEnum"></a>

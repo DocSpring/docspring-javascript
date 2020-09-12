@@ -16,34 +16,34 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/TemplatesdesccachedUploadTemplate'], factory);
+    define(['../ApiClient', '../model/TemplatestemplateIdTemplate'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./TemplatesdesccachedUploadTemplate'));
+    module.exports = factory(require('../ApiClient'), require('./TemplatestemplateIdTemplate'));
   } else {
     // Browser globals (root is window)
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.CreateTemplateData = factory(root.DocSpring.ApiClient, root.DocSpring.TemplatesdesccachedUploadTemplate);
+    root.DocSpring.UpdateTemplateData = factory(root.DocSpring.ApiClient, root.DocSpring.TemplatestemplateIdTemplate);
   }
-}(this, function(ApiClient, TemplatesdesccachedUploadTemplate) {
+}(this, function(ApiClient, TemplatestemplateIdTemplate) {
   'use strict';
 
 
 
 
   /**
-   * The CreateTemplateData model module.
-   * @module model/CreateTemplateData
+   * The UpdateTemplateData model module.
+   * @module model/UpdateTemplateData
    * @version 1.1.0
    */
 
   /**
-   * Constructs a new <code>CreateTemplateData</code>.
-   * @alias module:model/CreateTemplateData
+   * Constructs a new <code>UpdateTemplateData</code>.
+   * @alias module:model/UpdateTemplateData
    * @class
-   * @param template {module:model/TemplatesdesccachedUploadTemplate} 
+   * @param template {module:model/TemplatestemplateIdTemplate} 
    */
   var exports = function(template) {
     var _this = this;
@@ -52,25 +52,25 @@
   };
 
   /**
-   * Constructs a <code>CreateTemplateData</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>UpdateTemplateData</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/CreateTemplateData} obj Optional instance to populate.
-   * @return {module:model/CreateTemplateData} The populated <code>CreateTemplateData</code> instance.
+   * @param {module:model/UpdateTemplateData} obj Optional instance to populate.
+   * @return {module:model/UpdateTemplateData} The populated <code>UpdateTemplateData</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('template')) {
-        obj['template'] = TemplatesdesccachedUploadTemplate.constructFromObject(data['template']);
+        obj['template'] = TemplatestemplateIdTemplate.constructFromObject(data['template']);
       }
     }
     return obj;
   }
 
   /**
-   * @member {module:model/TemplatesdesccachedUploadTemplate} template
+   * @member {module:model/TemplatestemplateIdTemplate} template
    */
   exports.prototype['template'] = undefined;
 
