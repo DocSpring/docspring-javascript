@@ -36,7 +36,7 @@
   /**
    * The Submission model module.
    * @module model/Submission
-   * @version 1.1.0
+   * @version 1.2.0
    */
 
   /**
@@ -59,6 +59,7 @@
 
 
     _this['state'] = state;
+
 
 
 
@@ -105,6 +106,9 @@
       }
       if (data.hasOwnProperty('metadata')) {
         obj['metadata'] = ApiClient.convertToType(data['metadata'], Object);
+      }
+      if (data.hasOwnProperty('truncated_text')) {
+        obj['truncated_text'] = ApiClient.convertToType(data['truncated_text'], Object);
       }
       if (data.hasOwnProperty('pdf_hash')) {
         obj['pdf_hash'] = ApiClient.convertToType(data['pdf_hash'], 'String');
@@ -164,6 +168,10 @@
    * @member {Object} metadata
    */
   exports.prototype['metadata'] = undefined;
+  /**
+   * @member {Object} truncated_text
+   */
+  exports.prototype['truncated_text'] = undefined;
   /**
    * @member {String} pdf_hash
    */

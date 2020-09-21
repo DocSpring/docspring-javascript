@@ -4,6 +4,7 @@ All URIs are relative to *https://api.docspring.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**addFieldsToTemplate**](PDFApi.md#addFieldsToTemplate) | **PUT** /templates/{template_id}/add_fields | Add new fields to a Template
 [**batchGeneratePdfV1**](PDFApi.md#batchGeneratePdfV1) | **POST** /templates/{template_id}/submissions/batch | Generates multiple PDFs
 [**batchGeneratePdfs**](PDFApi.md#batchGeneratePdfs) | **POST** /submissions/batches | Generates multiple PDFs
 [**combinePdfs**](PDFApi.md#combinePdfs) | **POST** /combined_submissions?v&#x3D;2 | Merge submission PDFs, template PDFs, or custom files
@@ -34,6 +35,55 @@ Method | HTTP request | Description
 [**updateDataRequest**](PDFApi.md#updateDataRequest) | **PUT** /data_requests/{data_request_id} | Update a submission data request
 [**updateTemplate**](PDFApi.md#updateTemplate) | **PUT** /templates/{template_id} | Update a Template
 
+
+<a name="addFieldsToTemplate"></a>
+# **addFieldsToTemplate**
+> AddFieldsTemplateResponse addFieldsToTemplate(templateId, addFieldsData)
+
+Add new fields to a Template
+
+### Example
+```javascript
+var DocSpring = require('docspring');
+var defaultClient = DocSpring.ApiClient.instance;
+
+// Configure HTTP basic authorization: api_token_basic
+var api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+var apiInstance = new DocSpring.PDFApi();
+var templateId = tpl_000000000000000002; // String | 
+var addFieldsData = new DocSpring.AddFieldsData(); // AddFieldsData | 
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.addFieldsToTemplate(templateId, addFieldsData, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**|  | 
+ **addFieldsData** | [**AddFieldsData**](AddFieldsData.md)|  | 
+
+### Return type
+
+[**AddFieldsTemplateResponse**](AddFieldsTemplateResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="batchGeneratePdfV1"></a>
 # **batchGeneratePdfV1**
@@ -368,7 +418,7 @@ Name | Type | Description  | Notes
 
 <a name="createHTMLTemplate"></a>
 # **createHTMLTemplate**
-> PendingTemplate createHTMLTemplate(createTemplateData1)
+> PendingTemplate createHTMLTemplate(createHtmlTemplateData)
 
 Create a new HTML template
 
@@ -383,7 +433,7 @@ api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
 var apiInstance = new DocSpring.PDFApi();
-var createTemplateData1 = new DocSpring.CreateTemplateData1(); // CreateTemplateData1 | 
+var createHtmlTemplateData = new DocSpring.CreateHtmlTemplateData(); // CreateHtmlTemplateData | 
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -391,14 +441,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.createHTMLTemplate(createTemplateData1, callback);
+apiInstance.createHTMLTemplate(createHtmlTemplateData, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createTemplateData1** | [**CreateTemplateData1**](CreateTemplateData1.md)|  | 
+ **createHtmlTemplateData** | [**CreateHtmlTemplateData**](CreateHtmlTemplateData.md)|  | 
 
 ### Return type
 
@@ -468,7 +518,7 @@ Name | Type | Description  | Notes
 
 <a name="createPDFTemplateFromUpload"></a>
 # **createPDFTemplateFromUpload**
-> PendingTemplate createPDFTemplateFromUpload(createTemplateData)
+> PendingTemplate createPDFTemplateFromUpload(createTemplateFromUploadData)
 
 Create a new PDF template from a cached presign upload
 
@@ -483,7 +533,7 @@ api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
 var apiInstance = new DocSpring.PDFApi();
-var createTemplateData = new DocSpring.CreateTemplateData(); // CreateTemplateData | 
+var createTemplateFromUploadData = new DocSpring.CreateTemplateFromUploadData(); // CreateTemplateFromUploadData | 
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -491,14 +541,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.createPDFTemplateFromUpload(createTemplateData, callback);
+apiInstance.createPDFTemplateFromUpload(createTemplateFromUploadData, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createTemplateData** | [**CreateTemplateData**](CreateTemplateData.md)|  | 
+ **createTemplateFromUploadData** | [**CreateTemplateFromUploadData**](CreateTemplateFromUploadData.md)|  | 
 
 ### Return type
 

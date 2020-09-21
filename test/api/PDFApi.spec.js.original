@@ -50,6 +50,16 @@
   }
 
   describe('PDFApi', function() {
+    describe('addFieldsToTemplate', function() {
+      it('should call addFieldsToTemplate successfully', function(done) {
+        //uncomment below and update the code to test addFieldsToTemplate
+        //instance.addFieldsToTemplate(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('batchGeneratePdfV1', function() {
       it('should call batchGeneratePdfV1 successfully', function(done) {
         //uncomment below and update the code to test batchGeneratePdfV1

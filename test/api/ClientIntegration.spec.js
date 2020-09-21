@@ -13,7 +13,7 @@
  *
  */
 
-;(function(root, factory) {
+;(function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD.
     define(['expect.js', '../../src/index'], factory)
@@ -24,12 +24,12 @@
     // Browser globals (root is window)
     factory(root.expect, root.DocSpring)
   }
-})(this, function(expect, DocSpring) {
+})(this, function (expect, DocSpring) {
   'use strict'
 
   var docspring
 
-  beforeEach(function() {
+  beforeEach(function () {
     var config = new DocSpring.Configuration()
     config.apiTokenId = 'api_token123'
     config.apiTokenSecret = 'testsecret123'
@@ -38,10 +38,10 @@
     // docspring = new docspring.Client(config);
   })
 
-  describe('Client', function() {
-    describe('testAuthentication', function() {
-      it('should call testAuthentication method on PDFApi prototype', function(done) {
-        docspring.testAuthentication(function(error, response) {
+  describe('Client', function () {
+    describe('testAuthentication', function () {
+      it('should call testAuthentication method on PDFApi prototype', function (done) {
+        docspring.testAuthentication(function (error, response) {
           if (error) throw error
           expect(response.status).to.be('success')
           done()
@@ -49,13 +49,13 @@
       })
     })
 
-    describe('combineSubmissions', function() {
-      it('should call combineSubmissions successfully and wait for PDF', function(done) {
+    describe('combineSubmissions', function () {
+      it('should call combineSubmissions successfully and wait for PDF', function (done) {
         this.timeout(10000)
         var opts = {
           submission_ids: ['sub_000000000000000001', 'sub_000000000000000002'],
         }
-        docspring.combineSubmissions(opts, function(error, response) {
+        docspring.combineSubmissions(opts, function (error, response) {
           if (error) throw error
           expect(response.status).to.be('success')
           expect(response.combined_submission.id).to.match(/^com_/)
@@ -65,8 +65,8 @@
       })
     })
 
-    describe('combinePdfs', function() {
-      it('should call combinePdfs successfully and wait for the PDF', function(done) {
+    describe('combinePdfs', function () {
+      it('should call combinePdfs successfully and wait for the PDF', function (done) {
         this.timeout(10000)
         var options = {
           test: false,
@@ -78,7 +78,7 @@
           wait: true,
         }
 
-        docspring.combinePdfs(options, function(error, response) {
+        docspring.combinePdfs(options, function (error, response) {
           if (error) throw error
           var combined_submission = response.combined_submission
 
@@ -92,7 +92,7 @@
         })
       })
 
-      it('should call combinePdfs successfully and not wait for the PDF', function(done) {
+      it('should call combinePdfs successfully and not wait for the PDF', function (done) {
         this.timeout(10000)
         var options = {
           test: false,
@@ -104,7 +104,7 @@
           wait: false,
         }
 
-        docspring.combinePdfs(options, function(error, response) {
+        docspring.combinePdfs(options, function (error, response) {
           if (error) throw error
           var combined_submission = response.combined_submission
 
@@ -118,8 +118,8 @@
       })
     })
 
-    describe('generatePDF', function() {
-      it('should call generatePDF and wait for the PDF', function(done) {
+    describe('generatePDF', function () {
+      it('should call generatePDF and wait for the PDF', function (done) {
         this.timeout(10000)
         var template_id = 'tpl_000000000000000001'
         var submission_data = {
@@ -138,11 +138,14 @@
           },
           wait: true,
         }
-        docspring.generatePDF(template_id, submission_data, function(
+        docspring.generatePDF(template_id, submission_data, function (
           error,
           response
         ) {
-          if (error) throw error
+          if (error) {
+            console.log(response, error)
+            throw error
+          }
           var submission = response.submission
           expect(response.status).to.be('success')
           expect(submission.id).to.match(/^sub_/)
@@ -156,8 +159,8 @@
       })
     })
 
-    describe('generatePDF', function() {
-      it('should call generatePDF and not wait for the PDF', function(done) {
+    describe('generatePDF', function () {
+      it('should call generatePDF and not wait for the PDF', function (done) {
         this.timeout(10000)
         var template_id = 'tpl_000000000000000001'
         var submission_data = {
@@ -176,11 +179,14 @@
           },
           wait: false,
         }
-        docspring.generatePDF(template_id, submission_data, function(
+        docspring.generatePDF(template_id, submission_data, function (
           error,
           response
         ) {
-          if (error) throw error
+          if (error) {
+            console.log(response, error)
+            throw error
+          }
           var submission = response.submission
           expect(response.status).to.be('success')
           expect(submission.id).to.match(/^sub_/)
@@ -192,8 +198,8 @@
       })
     })
 
-    describe('updateTemplate', function() {
-      it('should call updateTemplate successfully', function(done) {
+    describe('updateTemplate', function () {
+      it('should call updateTemplate successfully', function (done) {
         this.timeout(10000)
         var template_id = 'tpl_000000000000000001'
         var template_data = {
@@ -202,12 +208,49 @@
             html: '<html><body>New HTML</html></body>',
           },
         }
-        docspring.updateTemplate(template_id, template_data, function(
+        docspring.updateTemplate(template_id, template_data, function (
           error,
           response
         ) {
           if (error) throw error
           expect(response.status).to.be('success')
+          done()
+        })
+      })
+    })
+
+    describe('addFieldsToTemplate', function () {
+      it('should call addFieldsToTemplate successfully', function (done) {
+        this.timeout(10000)
+        var template_id = 'tpl_000000000000000001'
+        var newFieldData = {
+          fields: [
+            {
+              name: 'new_field_1',
+              page: 1,
+              type: 'string',
+              required: false,
+            },
+            {
+              name: 'new_field_2',
+              page: 1,
+              type: 'number',
+              integer: true,
+              required: false,
+            },
+          ],
+        }
+        docspring.addFieldsToTemplate(template_id, newFieldData, function (
+          error,
+          response
+        ) {
+          if (error) {
+            console.log(response, error)
+            throw error
+          }
+          expect(response.status).to.be('success')
+          expect(response.new_field_ids).to.eql([3, 4])
+          expect(response.errors).to.be(undefined)
           done()
         })
       })

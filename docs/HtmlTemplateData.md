@@ -1,4 +1,4 @@
-# DocSpring.TemplatestemplateIdTemplate
+# DocSpring.HtmlTemplateData
 
 ## Properties
 Name | Type | Description | Notes
@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **name** | **String** |  | [optional] 
 **html** | **String** |  | [optional] 
 **footerHtml** | **String** |  | [optional] 
+**templateType** | **String** |  | [optional] 
 **redirectUrl** | **String** |  | [optional] 
 
 
@@ -30,6 +31,17 @@ Name | Type | Description | Notes
 * `hours` (value: `"hours"`)
 
 * `days` (value: `"days"`)
+
+
+
+
+<a name="TemplateTypeEnum"></a>
+## Enum: TemplateTypeEnum
+
+
+* `pdf` (value: `"pdf"`)
+
+* `html` (value: `"html"`)
 
 
 

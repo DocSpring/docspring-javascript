@@ -36,7 +36,7 @@
   /**
    * The Template model module.
    * @module model/Template
-   * @version 1.1.0
+   * @version 1.2.0
    */
 
   /**
@@ -46,6 +46,7 @@
    */
   var exports = function() {
     var _this = this;
+
 
 
 
@@ -130,6 +131,9 @@
       if (data.hasOwnProperty('page_dimensions')) {
         obj['page_dimensions'] = ApiClient.convertToType(data['page_dimensions'], [['Number']]);
       }
+      if (data.hasOwnProperty('locked')) {
+        obj['locked'] = ApiClient.convertToType(data['locked'], 'Boolean');
+      }
       if (data.hasOwnProperty('redirect_url')) {
         obj['redirect_url'] = ApiClient.convertToType(data['redirect_url'], 'String');
       }
@@ -208,6 +212,10 @@
    * @member {Array.<Array.<Number>>} page_dimensions
    */
   exports.prototype['page_dimensions'] = undefined;
+  /**
+   * @member {Boolean} locked
+   */
+  exports.prototype['locked'] = undefined;
   /**
    * @member {String} redirect_url
    */

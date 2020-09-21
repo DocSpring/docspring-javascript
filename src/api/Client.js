@@ -13,7 +13,7 @@
  *
  */
 
-;(function(root, factory) {
+;(function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
     define([
@@ -30,7 +30,7 @@
       '../model/CreateSubmissionBatchResponse',
       '../model/CreateSubmissionDataRequestTokenResponse',
       '../model/CreateSubmissionResponse',
-      '../model/CreateTemplateData',
+      '../model/CreateHtmlTemplateData',
       '../model/Error',
       '../model/InvalidRequest',
       '../model/PendingTemplate',
@@ -59,7 +59,7 @@
       require('../model/CreateSubmissionBatchResponse'),
       require('../model/CreateSubmissionDataRequestTokenResponse'),
       require('../model/CreateSubmissionResponse'),
-      require('../model/CreateTemplateData'),
+      require('../model/CreateHtmlTemplateData'),
       require('../model/Error'),
       require('../model/InvalidRequest'),
       require('../model/PendingTemplate'),
@@ -105,7 +105,7 @@
       root.DocSpring.UpdateSubmissionDataRequestData
     )
   }
-})(this, function(
+})(this, function (
   PDFApi,
   ApiClient,
   AuthenticationError,
@@ -142,7 +142,7 @@
 
   // Object.create polyfill for very old browsers
   if (typeof Object.create !== 'function') {
-    Object.create = function(proto, propertiesObject) {
+    Object.create = function (proto, propertiesObject) {
       if (typeof proto !== 'object' && typeof proto !== 'function') {
         throw new TypeError('Object prototype may only be an Object: ' + proto)
       } else if (proto === null) {
@@ -210,11 +210,11 @@
     PDFApi.call(this, this.apiClient)
     var self = this
 
-    var waitForPDFJob = function(options, startJob, updateRecord, callback) {
+    var waitForPDFJob = function (options, startJob, updateRecord, callback) {
       var timeout = options.timeout != null ? options.timeout : 60
       var wait = options.wait == null ? true : !!options.wait
 
-      startJob(function(record) {
+      startJob(function (record) {
         if (!wait || record.state != 'pending') {
           callback(
             null,
@@ -225,8 +225,8 @@
         }
         var startTime = Math.floor(new Date() / 1000)
 
-        var waitForPDF = function() {
-          updateRecord(record, function(updatedRecord) {
+        var waitForPDF = function () {
+          updateRecord(record, function (updatedRecord) {
             record = updatedRecord
             if (record.state != 'pending') {
               callback(null, record, record.state === 'processed')
@@ -250,7 +250,7 @@
     }
 
     this.originalCombineSubmissions = this.combineSubmissions.bind(this)
-    this.combineSubmissions = function(_options, callback) {
+    this.combineSubmissions = function (_options, callback) {
       // eslint-disable-next-line es5/no-es6-static-methods
       var options = Object.assign({}, _options)
       // Don't send timeout or wait options to the API - causes a schema validation error.
@@ -259,8 +259,8 @@
 
       waitForPDFJob(
         _options,
-        function(waitCallback) {
-          self.originalCombineSubmissions(options, function(error, response) {
+        function (waitCallback) {
+          self.originalCombineSubmissions(options, function (error, response) {
             if (error) {
               callback(error, response)
               return
@@ -268,8 +268,8 @@
             waitCallback(response.combined_submission)
           })
         },
-        function(record, updateCallback) {
-          self.getCombinedSubmission(record.id, function(
+        function (record, updateCallback) {
+          self.getCombinedSubmission(record.id, function (
             error,
             combinedSubmission
           ) {
@@ -280,7 +280,7 @@
             updateCallback(combinedSubmission)
           })
         },
-        function(error, record, success) {
+        function (error, record, success) {
           if (error) {
             callback(error, record)
             return
@@ -295,7 +295,7 @@
     }
 
     this.originalCombinePdfs = this.combinePdfs.bind(this)
-    this.combinePdfs = function(_options, callback) {
+    this.combinePdfs = function (_options, callback) {
       // eslint-disable-next-line es5/no-es6-static-methods
       var options = Object.assign({}, _options)
       // Don't send timeout or wait options to the API - causes a schema validation error.
@@ -304,8 +304,8 @@
 
       waitForPDFJob(
         _options,
-        function(waitCallback) {
-          self.originalCombinePdfs(options, function(error, response) {
+        function (waitCallback) {
+          self.originalCombinePdfs(options, function (error, response) {
             if (error) {
               callback(error, response)
               return
@@ -313,8 +313,8 @@
             waitCallback(response.combined_submission)
           })
         },
-        function(record, updateCallback) {
-          self.getCombinedSubmission(record.id, function(
+        function (record, updateCallback) {
+          self.getCombinedSubmission(record.id, function (
             error,
             combinedSubmission
           ) {
@@ -325,7 +325,7 @@
             updateCallback(combinedSubmission)
           })
         },
-        function(error, record, success) {
+        function (error, record, success) {
           if (error) {
             callback(error, record)
             return
@@ -340,7 +340,7 @@
     }
 
     this.originalGeneratePDF = this.generatePDF.bind(this)
-    this.generatePDF = function(templateId, _options, callback) {
+    this.generatePDF = function (templateId, _options, callback) {
       // eslint-disable-next-line es5/no-es6-static-methods
       var options = Object.assign({}, _options)
       // Don't send timeout or wait options to the API - causes a schema validation error.
@@ -349,8 +349,8 @@
 
       waitForPDFJob(
         _options,
-        function(waitCallback) {
-          self.originalGeneratePDF(templateId, options, function(
+        function (waitCallback) {
+          self.originalGeneratePDF(templateId, options, function (
             error,
             response
           ) {
@@ -361,8 +361,8 @@
             waitCallback(response.submission)
           })
         },
-        function(record, updateCallback) {
-          self.getSubmission(record.id, {}, function(error, submission) {
+        function (record, updateCallback) {
+          self.getSubmission(record.id, {}, function (error, submission) {
             if (error) {
               callback(error, submission)
               return
@@ -370,7 +370,7 @@
             updateCallback(submission)
           })
         },
-        function(error, record, success) {
+        function (error, record, success) {
           if (error) {
             callback(error, record)
             return

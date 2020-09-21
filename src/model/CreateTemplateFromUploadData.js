@@ -16,34 +16,34 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/TemplatesdesccachedUploadTemplate'], factory);
+    define(['../ApiClient', '../model/UploadTemplateData'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./TemplatesdesccachedUploadTemplate'));
+    module.exports = factory(require('../ApiClient'), require('./UploadTemplateData'));
   } else {
     // Browser globals (root is window)
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.CreateTemplateData = factory(root.DocSpring.ApiClient, root.DocSpring.TemplatesdesccachedUploadTemplate);
+    root.DocSpring.CreateTemplateFromUploadData = factory(root.DocSpring.ApiClient, root.DocSpring.UploadTemplateData);
   }
-}(this, function(ApiClient, TemplatesdesccachedUploadTemplate) {
+}(this, function(ApiClient, UploadTemplateData) {
   'use strict';
 
 
 
 
   /**
-   * The CreateTemplateData model module.
-   * @module model/CreateTemplateData
-   * @version 1.1.0
+   * The CreateTemplateFromUploadData model module.
+   * @module model/CreateTemplateFromUploadData
+   * @version 1.2.0
    */
 
   /**
-   * Constructs a new <code>CreateTemplateData</code>.
-   * @alias module:model/CreateTemplateData
+   * Constructs a new <code>CreateTemplateFromUploadData</code>.
+   * @alias module:model/CreateTemplateFromUploadData
    * @class
-   * @param template {module:model/TemplatesdesccachedUploadTemplate} 
+   * @param template {module:model/UploadTemplateData} 
    */
   var exports = function(template) {
     var _this = this;
@@ -52,25 +52,25 @@
   };
 
   /**
-   * Constructs a <code>CreateTemplateData</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>CreateTemplateFromUploadData</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/CreateTemplateData} obj Optional instance to populate.
-   * @return {module:model/CreateTemplateData} The populated <code>CreateTemplateData</code> instance.
+   * @param {module:model/CreateTemplateFromUploadData} obj Optional instance to populate.
+   * @return {module:model/CreateTemplateFromUploadData} The populated <code>CreateTemplateFromUploadData</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('template')) {
-        obj['template'] = TemplatesdesccachedUploadTemplate.constructFromObject(data['template']);
+        obj['template'] = UploadTemplateData.constructFromObject(data['template']);
       }
     }
     return obj;
   }
 
   /**
-   * @member {module:model/TemplatesdesccachedUploadTemplate} template
+   * @member {module:model/UploadTemplateData} template
    */
   exports.prototype['template'] = undefined;
 

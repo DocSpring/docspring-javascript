@@ -16,18 +16,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/TemplatestemplateIdTemplate'], factory);
+    define(['../ApiClient', '../model/TemplateData'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./TemplatestemplateIdTemplate'));
+    module.exports = factory(require('../ApiClient'), require('./TemplateData'));
   } else {
     // Browser globals (root is window)
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.UpdateTemplateData = factory(root.DocSpring.ApiClient, root.DocSpring.TemplatestemplateIdTemplate);
+    root.DocSpring.UpdateTemplateData = factory(root.DocSpring.ApiClient, root.DocSpring.TemplateData);
   }
-}(this, function(ApiClient, TemplatestemplateIdTemplate) {
+}(this, function(ApiClient, TemplateData) {
   'use strict';
 
 
@@ -36,14 +36,14 @@
   /**
    * The UpdateTemplateData model module.
    * @module model/UpdateTemplateData
-   * @version 1.1.0
+   * @version 1.2.0
    */
 
   /**
    * Constructs a new <code>UpdateTemplateData</code>.
    * @alias module:model/UpdateTemplateData
    * @class
-   * @param template {module:model/TemplatestemplateIdTemplate} 
+   * @param template {module:model/TemplateData} 
    */
   var exports = function(template) {
     var _this = this;
@@ -63,14 +63,14 @@
       obj = obj || new exports();
 
       if (data.hasOwnProperty('template')) {
-        obj['template'] = TemplatestemplateIdTemplate.constructFromObject(data['template']);
+        obj['template'] = TemplateData.constructFromObject(data['template']);
       }
     }
     return obj;
   }
 
   /**
-   * @member {module:model/TemplatestemplateIdTemplate} template
+   * @member {module:model/TemplateData} template
    */
   exports.prototype['template'] = undefined;
 

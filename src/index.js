@@ -16,12 +16,12 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./ApiClient', './api/Client', './model/AuthenticationError', './model/AuthenticationSuccessResponse', './model/CombinePdfsData', './model/CombinedSubmission', './model/CombinedSubmissionAction', './model/CombinedSubmissionData', './model/CreateCombinedSubmissionResponse', './model/CreateCustomFileData', './model/CreateCustomFileResponse', './model/CreateFolderData', './model/CreateSubmissionBatchResponse', './model/CreateSubmissionBatchSubmissionsResponse', './model/CreateSubmissionDataRequestData', './model/CreateSubmissionDataRequestTokenResponse', './model/CreateSubmissionDataRequestTokenResponseToken', './model/CreateSubmissionResponse', './model/CreateTemplateData', './model/CreateTemplateData1', './model/CustomFile', './model/Error', './model/Folder', './model/FoldersFolder', './model/InvalidRequest', './model/MoveFolderData', './model/MoveTemplateData', './model/PendingTemplate', './model/RenameFolderData', './model/Submission', './model/SubmissionAction', './model/SubmissionBatch', './model/SubmissionBatchData', './model/SubmissionData', './model/SubmissionDataBatchRequest', './model/SubmissionDataRequest', './model/Template', './model/TemplatesdesccachedUploadTemplate', './model/TemplatesdesccachedUploadTemplateDocument', './model/TemplatesdesccachedUploadTemplateDocumentMetadata', './model/TemplatestemplateIdTemplate', './model/UpdateDataRequestResponse', './model/UpdateSubmissionDataRequestData', './model/UpdateTemplateData', './model/UpdateTemplateResponse', './api/PDFApi'], factory);
+    define(['./ApiClient', './api/Client', './model/AddFieldsData', './model/AddFieldsTemplateResponse', './model/AuthenticationError', './model/AuthenticationSuccessResponse', './model/CombinePdfsData', './model/CombinedSubmission', './model/CombinedSubmissionAction', './model/CombinedSubmissionData', './model/CreateCombinedSubmissionResponse', './model/CreateCustomFileData', './model/CreateCustomFileResponse', './model/CreateFolderData', './model/CreateHtmlTemplateData', './model/CreateSubmissionBatchResponse', './model/CreateSubmissionBatchSubmissionsResponse', './model/CreateSubmissionDataRequestData', './model/CreateSubmissionDataRequestTokenResponse', './model/CreateSubmissionDataRequestTokenResponseToken', './model/CreateSubmissionResponse', './model/CreateTemplateFromUploadData', './model/CustomFile', './model/Error', './model/Folder', './model/FoldersFolder', './model/HtmlTemplateData', './model/InvalidRequest', './model/MoveFolderData', './model/MoveTemplateData', './model/PendingTemplate', './model/RenameFolderData', './model/Submission', './model/SubmissionAction', './model/SubmissionBatch', './model/SubmissionBatchData', './model/SubmissionData', './model/SubmissionDataBatchRequest', './model/SubmissionDataRequest', './model/Template', './model/TemplateData', './model/TemplatestemplateIdaddFieldsFields', './model/UpdateDataRequestResponse', './model/UpdateSubmissionDataRequestData', './model/UpdateTemplateData', './model/UpdateTemplateResponse', './model/UploadTemplateData', './model/UploadTemplateDataDocument', './model/UploadTemplateDataDocumentMetadata', './api/PDFApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./api/Client'), require('./model/AuthenticationError'), require('./model/AuthenticationSuccessResponse'), require('./model/CombinePdfsData'), require('./model/CombinedSubmission'), require('./model/CombinedSubmissionAction'), require('./model/CombinedSubmissionData'), require('./model/CreateCombinedSubmissionResponse'), require('./model/CreateCustomFileData'), require('./model/CreateCustomFileResponse'), require('./model/CreateFolderData'), require('./model/CreateSubmissionBatchResponse'), require('./model/CreateSubmissionBatchSubmissionsResponse'), require('./model/CreateSubmissionDataRequestData'), require('./model/CreateSubmissionDataRequestTokenResponse'), require('./model/CreateSubmissionDataRequestTokenResponseToken'), require('./model/CreateSubmissionResponse'), require('./model/CreateTemplateData'), require('./model/CreateTemplateData1'), require('./model/CustomFile'), require('./model/Error'), require('./model/Folder'), require('./model/FoldersFolder'), require('./model/InvalidRequest'), require('./model/MoveFolderData'), require('./model/MoveTemplateData'), require('./model/PendingTemplate'), require('./model/RenameFolderData'), require('./model/Submission'), require('./model/SubmissionAction'), require('./model/SubmissionBatch'), require('./model/SubmissionBatchData'), require('./model/SubmissionData'), require('./model/SubmissionDataBatchRequest'), require('./model/SubmissionDataRequest'), require('./model/Template'), require('./model/TemplatesdesccachedUploadTemplate'), require('./model/TemplatesdesccachedUploadTemplateDocument'), require('./model/TemplatesdesccachedUploadTemplateDocumentMetadata'), require('./model/TemplatestemplateIdTemplate'), require('./model/UpdateDataRequestResponse'), require('./model/UpdateSubmissionDataRequestData'), require('./model/UpdateTemplateData'), require('./model/UpdateTemplateResponse'), require('./api/PDFApi'));
+    module.exports = factory(require('./ApiClient'), require('./api/Client'), require('./model/AddFieldsData'), require('./model/AddFieldsTemplateResponse'), require('./model/AuthenticationError'), require('./model/AuthenticationSuccessResponse'), require('./model/CombinePdfsData'), require('./model/CombinedSubmission'), require('./model/CombinedSubmissionAction'), require('./model/CombinedSubmissionData'), require('./model/CreateCombinedSubmissionResponse'), require('./model/CreateCustomFileData'), require('./model/CreateCustomFileResponse'), require('./model/CreateFolderData'), require('./model/CreateHtmlTemplateData'), require('./model/CreateSubmissionBatchResponse'), require('./model/CreateSubmissionBatchSubmissionsResponse'), require('./model/CreateSubmissionDataRequestData'), require('./model/CreateSubmissionDataRequestTokenResponse'), require('./model/CreateSubmissionDataRequestTokenResponseToken'), require('./model/CreateSubmissionResponse'), require('./model/CreateTemplateFromUploadData'), require('./model/CustomFile'), require('./model/Error'), require('./model/Folder'), require('./model/FoldersFolder'), require('./model/HtmlTemplateData'), require('./model/InvalidRequest'), require('./model/MoveFolderData'), require('./model/MoveTemplateData'), require('./model/PendingTemplate'), require('./model/RenameFolderData'), require('./model/Submission'), require('./model/SubmissionAction'), require('./model/SubmissionBatch'), require('./model/SubmissionBatchData'), require('./model/SubmissionData'), require('./model/SubmissionDataBatchRequest'), require('./model/SubmissionDataRequest'), require('./model/Template'), require('./model/TemplateData'), require('./model/TemplatestemplateIdaddFieldsFields'), require('./model/UpdateDataRequestResponse'), require('./model/UpdateSubmissionDataRequestData'), require('./model/UpdateTemplateData'), require('./model/UpdateTemplateResponse'), require('./model/UploadTemplateData'), require('./model/UploadTemplateDataDocument'), require('./model/UploadTemplateDataDocumentMetadata'), require('./api/PDFApi'));
   }
-}(function(ApiClient, Client, AuthenticationError, AuthenticationSuccessResponse, CombinePdfsData, CombinedSubmission, CombinedSubmissionAction, CombinedSubmissionData, CreateCombinedSubmissionResponse, CreateCustomFileData, CreateCustomFileResponse, CreateFolderData, CreateSubmissionBatchResponse, CreateSubmissionBatchSubmissionsResponse, CreateSubmissionDataRequestData, CreateSubmissionDataRequestTokenResponse, CreateSubmissionDataRequestTokenResponseToken, CreateSubmissionResponse, CreateTemplateData, CreateTemplateData1, CustomFile, Error, Folder, FoldersFolder, InvalidRequest, MoveFolderData, MoveTemplateData, PendingTemplate, RenameFolderData, Submission, SubmissionAction, SubmissionBatch, SubmissionBatchData, SubmissionData, SubmissionDataBatchRequest, SubmissionDataRequest, Template, TemplatesdesccachedUploadTemplate, TemplatesdesccachedUploadTemplateDocument, TemplatesdesccachedUploadTemplateDocumentMetadata, TemplatestemplateIdTemplate, UpdateDataRequestResponse, UpdateSubmissionDataRequestData, UpdateTemplateData, UpdateTemplateResponse, PDFApi) {
+}(function(ApiClient, Client, AddFieldsData, AddFieldsTemplateResponse, AuthenticationError, AuthenticationSuccessResponse, CombinePdfsData, CombinedSubmission, CombinedSubmissionAction, CombinedSubmissionData, CreateCombinedSubmissionResponse, CreateCustomFileData, CreateCustomFileResponse, CreateFolderData, CreateHtmlTemplateData, CreateSubmissionBatchResponse, CreateSubmissionBatchSubmissionsResponse, CreateSubmissionDataRequestData, CreateSubmissionDataRequestTokenResponse, CreateSubmissionDataRequestTokenResponseToken, CreateSubmissionResponse, CreateTemplateFromUploadData, CustomFile, Error, Folder, FoldersFolder, HtmlTemplateData, InvalidRequest, MoveFolderData, MoveTemplateData, PendingTemplate, RenameFolderData, Submission, SubmissionAction, SubmissionBatch, SubmissionBatchData, SubmissionData, SubmissionDataBatchRequest, SubmissionDataRequest, Template, TemplateData, TemplatestemplateIdaddFieldsFields, UpdateDataRequestResponse, UpdateSubmissionDataRequestData, UpdateTemplateData, UpdateTemplateResponse, UploadTemplateData, UploadTemplateDataDocument, UploadTemplateDataDocumentMetadata, PDFApi) {
   'use strict';
 
   /**
@@ -53,7 +53,7 @@
    * </pre>
    * </p>
    * @module index
-   * @version 1.1.0
+   * @version 1.2.0
    */
   var exports = {
     /**
@@ -68,6 +68,16 @@
      * @property {module:api/Client}
      */
     Client: Client,
+    /**
+     * The AddFieldsData model constructor.
+     * @property {module:model/AddFieldsData}
+     */
+    AddFieldsData: AddFieldsData,
+    /**
+     * The AddFieldsTemplateResponse model constructor.
+     * @property {module:model/AddFieldsTemplateResponse}
+     */
+    AddFieldsTemplateResponse: AddFieldsTemplateResponse,
     /**
      * The AuthenticationError model constructor.
      * @property {module:model/AuthenticationError}
@@ -119,6 +129,11 @@
      */
     CreateFolderData: CreateFolderData,
     /**
+     * The CreateHtmlTemplateData model constructor.
+     * @property {module:model/CreateHtmlTemplateData}
+     */
+    CreateHtmlTemplateData: CreateHtmlTemplateData,
+    /**
      * The CreateSubmissionBatchResponse model constructor.
      * @property {module:model/CreateSubmissionBatchResponse}
      */
@@ -149,15 +164,10 @@
      */
     CreateSubmissionResponse: CreateSubmissionResponse,
     /**
-     * The CreateTemplateData model constructor.
-     * @property {module:model/CreateTemplateData}
+     * The CreateTemplateFromUploadData model constructor.
+     * @property {module:model/CreateTemplateFromUploadData}
      */
-    CreateTemplateData: CreateTemplateData,
-    /**
-     * The CreateTemplateData1 model constructor.
-     * @property {module:model/CreateTemplateData1}
-     */
-    CreateTemplateData1: CreateTemplateData1,
+    CreateTemplateFromUploadData: CreateTemplateFromUploadData,
     /**
      * The CustomFile model constructor.
      * @property {module:model/CustomFile}
@@ -178,6 +188,11 @@
      * @property {module:model/FoldersFolder}
      */
     FoldersFolder: FoldersFolder,
+    /**
+     * The HtmlTemplateData model constructor.
+     * @property {module:model/HtmlTemplateData}
+     */
+    HtmlTemplateData: HtmlTemplateData,
     /**
      * The InvalidRequest model constructor.
      * @property {module:model/InvalidRequest}
@@ -244,25 +259,15 @@
      */
     Template: Template,
     /**
-     * The TemplatesdesccachedUploadTemplate model constructor.
-     * @property {module:model/TemplatesdesccachedUploadTemplate}
+     * The TemplateData model constructor.
+     * @property {module:model/TemplateData}
      */
-    TemplatesdesccachedUploadTemplate: TemplatesdesccachedUploadTemplate,
+    TemplateData: TemplateData,
     /**
-     * The TemplatesdesccachedUploadTemplateDocument model constructor.
-     * @property {module:model/TemplatesdesccachedUploadTemplateDocument}
+     * The TemplatestemplateIdaddFieldsFields model constructor.
+     * @property {module:model/TemplatestemplateIdaddFieldsFields}
      */
-    TemplatesdesccachedUploadTemplateDocument: TemplatesdesccachedUploadTemplateDocument,
-    /**
-     * The TemplatesdesccachedUploadTemplateDocumentMetadata model constructor.
-     * @property {module:model/TemplatesdesccachedUploadTemplateDocumentMetadata}
-     */
-    TemplatesdesccachedUploadTemplateDocumentMetadata: TemplatesdesccachedUploadTemplateDocumentMetadata,
-    /**
-     * The TemplatestemplateIdTemplate model constructor.
-     * @property {module:model/TemplatestemplateIdTemplate}
-     */
-    TemplatestemplateIdTemplate: TemplatestemplateIdTemplate,
+    TemplatestemplateIdaddFieldsFields: TemplatestemplateIdaddFieldsFields,
     /**
      * The UpdateDataRequestResponse model constructor.
      * @property {module:model/UpdateDataRequestResponse}
@@ -283,6 +288,21 @@
      * @property {module:model/UpdateTemplateResponse}
      */
     UpdateTemplateResponse: UpdateTemplateResponse,
+    /**
+     * The UploadTemplateData model constructor.
+     * @property {module:model/UploadTemplateData}
+     */
+    UploadTemplateData: UploadTemplateData,
+    /**
+     * The UploadTemplateDataDocument model constructor.
+     * @property {module:model/UploadTemplateDataDocument}
+     */
+    UploadTemplateDataDocument: UploadTemplateDataDocument,
+    /**
+     * The UploadTemplateDataDocumentMetadata model constructor.
+     * @property {module:model/UploadTemplateDataDocumentMetadata}
+     */
+    UploadTemplateDataDocumentMetadata: UploadTemplateDataDocumentMetadata,
     /**
      * The PDFApi service constructor.
      * @property {module:api/PDFApi}

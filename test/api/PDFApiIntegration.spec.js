@@ -13,7 +13,7 @@
  *
  */
 
-;(function(root, factory) {
+;(function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD.
     define(['expect.js', '../../src/index'], factory)
@@ -24,12 +24,12 @@
     // Browser globals (root is window)
     factory(root.expect, root.DocSpring)
   }
-})(this, function(expect, DocSpring) {
+})(this, function (expect, DocSpring) {
   'use strict'
 
   var instance
 
-  beforeEach(function() {
+  beforeEach(function () {
     // We test the default configuration in this test,
     // and a configuration instance in Client.spec.js
     var defaultConfiguration = DocSpring.Configuration.instance
@@ -40,9 +40,9 @@
     instance = new DocSpring.PDFApi()
   })
 
-  describe('PDFApi', function() {
-    describe('batchGeneratePdfs', function() {
-      it('should call batchGeneratePdfs successfully', function(done) {
+  describe('PDFApi', function () {
+    describe('batchGeneratePdfs', function () {
+      it('should call batchGeneratePdfs successfully', function (done) {
         var submissionBatchData = {
           test: true,
           template_id: 'tpl_000000000000000001',
@@ -63,11 +63,14 @@
           ],
         }
 
-        instance.batchGeneratePdfs(submissionBatchData, function(
+        instance.batchGeneratePdfs(submissionBatchData, function (
           error,
           response
         ) {
-          if (error) throw error
+          if (error) {
+            console.log(response, error)
+            throw error
+          }
           expect(response.status).to.be('success')
           expect(response.submissions.length).to.be(2)
           var firstSubmission = response.submissions[0]
@@ -90,12 +93,12 @@
       })
     })
 
-    describe('combineSubmissions', function() {
-      it('should call combineSubmissions successfully', function(done) {
+    describe('combineSubmissions', function () {
+      it('should call combineSubmissions successfully', function (done) {
         var opts = {
           submission_ids: ['sub_000000000000000001', 'sub_000000000000000002'],
         }
-        instance.combineSubmissions(opts, function(error, response) {
+        instance.combineSubmissions(opts, function (error, response) {
           if (error) throw error
           expect(response.status).to.be('success')
           expect(response.combined_submission.id).to.match(/^com_/)
@@ -104,10 +107,10 @@
         })
       })
     })
-    describe('expireCombinedSubmission', function() {
-      it('should call expireCombinedSubmission successfully', function(done) {
+    describe('expireCombinedSubmission', function () {
+      it('should call expireCombinedSubmission successfully', function (done) {
         var combinedSubmissionId = 'com_000000000000000001'
-        instance.expireCombinedSubmission(combinedSubmissionId, function(
+        instance.expireCombinedSubmission(combinedSubmissionId, function (
           error,
           response
         ) {
@@ -117,18 +120,18 @@
         })
       })
     })
-    describe('expireSubmission', function() {
-      it('should call expireSubmission successfully', function(done) {
+    describe('expireSubmission', function () {
+      it('should call expireSubmission successfully', function (done) {
         var submissionId = 'sub_000000000000000001'
-        instance.expireSubmission(submissionId, function(error, response) {
+        instance.expireSubmission(submissionId, function (error, response) {
           if (error) throw error
           expect(response.expired).to.be(true)
           done()
         })
       })
     })
-    describe('generatePDF', function() {
-      it('should call generatePDF successfully', function(done) {
+    describe('generatePDF', function () {
+      it('should call generatePDF successfully', function (done) {
         var templateId = 'tpl_000000000000000001'
         var submissionData = {
           data: {
@@ -136,7 +139,7 @@
             description: 'This PDF is great!',
           },
         }
-        instance.generatePDF(templateId, submissionData, function(
+        instance.generatePDF(templateId, submissionData, function (
           error,
           response
         ) {
@@ -150,8 +153,8 @@
         })
       })
     })
-    describe('generatePDF with data_requests', function() {
-      it('should call generatePDF with data_requests successfully', function(done) {
+    describe('generatePDF with data_requests', function () {
+      it('should call generatePDF with data_requests successfully', function (done) {
         var templateId = 'tpl_000000000000000001'
         var submissionData = {
           data: {
@@ -168,7 +171,7 @@
             },
           ],
         }
-        instance.generatePDF(templateId, submissionData, function(
+        instance.generatePDF(templateId, submissionData, function (
           error,
           response
         ) {
@@ -194,10 +197,10 @@
         })
       })
     })
-    describe('getCombinedSubmission', function() {
-      it('should call getCombinedSubmission successfully', function(done) {
+    describe('getCombinedSubmission', function () {
+      it('should call getCombinedSubmission successfully', function (done) {
         var combinedSubmissionId = 'com_000000000000000001'
-        instance.getCombinedSubmission(combinedSubmissionId, function(
+        instance.getCombinedSubmission(combinedSubmissionId, function (
           error,
           response
         ) {
@@ -207,24 +210,24 @@
         })
       })
     })
-    describe('getSubmission', function() {
-      it('should call getSubmission successfully', function(done) {
+    describe('getSubmission', function () {
+      it('should call getSubmission successfully', function (done) {
         var submissionId = 'sub_000000000000000001'
-        instance.getSubmission(submissionId, {}, function(error, response) {
+        instance.getSubmission(submissionId, {}, function (error, response) {
           if (error) throw error
           expect(response.id).to.match(/^sub_/)
           done()
         })
       })
     })
-    describe('listTemplates', function() {
-      it('should call listTemplates successfully', function(done) {
+    describe('listTemplates', function () {
+      it('should call listTemplates successfully', function (done) {
         var opts = {
           query: 'API Client Test Template 2',
           page: 1,
           per_page: 10,
         }
-        instance.listTemplates(opts, function(error, templates) {
+        instance.listTemplates(opts, function (error, templates) {
           if (error) throw error
           expect(templates.length).to.be(1)
           expect(templates[0].id).to.be('tpl_000000000000000002')
@@ -232,17 +235,17 @@
         })
       })
     })
-    describe('testAuthentication', function() {
-      it('should call testAuthentication successfully', function(done) {
-        instance.testAuthentication(function(error, response) {
+    describe('testAuthentication', function () {
+      it('should call testAuthentication successfully', function (done) {
+        instance.testAuthentication(function (error, response) {
           if (error) throw error
           expect(response.status).to.be('success')
           done()
         })
       })
     })
-    describe('createPDFTemplate', function() {
-      it('should call createPDFTemplate successfully', function(done) {
+    describe('createPDFTemplate', function () {
+      it('should call createPDFTemplate successfully', function (done) {
         this.timeout(10000)
         var fs = require('fs')
         var templateDocument = fs.createReadStream(
@@ -254,7 +257,7 @@
           templateDocument,
           templateName,
           parentFolderId,
-          function(error, data, response) {
+          function (error, data, response) {
             if (error) throw error
             expect(data.name).to.be('testPDFTemplate')
             expect(data.id).to.match(/^tpl_/)
@@ -264,8 +267,8 @@
       })
     })
 
-    describe('createHTMLTemplate', function() {
-      it('should call createHTMLTemplate successfully', function(done) {
+    describe('createHTMLTemplate', function () {
+      it('should call createHTMLTemplate successfully', function (done) {
         this.timeout(10000)
         var templateName = 'testHTMLTemplate' // String |
 
@@ -281,7 +284,7 @@
             footer_html: 'Test Footer',
           },
         }
-        instance.createHTMLTemplate(templateData, function(
+        instance.createHTMLTemplate(templateData, function (
           error,
           data,
           response

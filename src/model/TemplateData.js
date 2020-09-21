@@ -16,32 +16,32 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/TemplatesdesccachedUploadTemplateDocument'], factory);
+    define(['../ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./TemplatesdesccachedUploadTemplateDocument'));
+    module.exports = factory(require('../ApiClient'));
   } else {
     // Browser globals (root is window)
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.TemplatesdesccachedUploadTemplate = factory(root.DocSpring.ApiClient, root.DocSpring.TemplatesdesccachedUploadTemplateDocument);
+    root.DocSpring.TemplateData = factory(root.DocSpring.ApiClient);
   }
-}(this, function(ApiClient, TemplatesdesccachedUploadTemplateDocument) {
+}(this, function(ApiClient) {
   'use strict';
 
 
 
 
   /**
-   * The TemplatesdesccachedUploadTemplate model module.
-   * @module model/TemplatesdesccachedUploadTemplate
-   * @version 1.1.0
+   * The TemplateData model module.
+   * @module model/TemplateData
+   * @version 1.2.0
    */
 
   /**
-   * Constructs a new <code>TemplatesdesccachedUploadTemplate</code>.
-   * @alias module:model/TemplatesdesccachedUploadTemplate
+   * Constructs a new <code>TemplateData</code>.
+   * @alias module:model/TemplateData
    * @class
    */
   var exports = function() {
@@ -63,16 +63,14 @@
 
 
 
-
-
   };
 
   /**
-   * Constructs a <code>TemplatesdesccachedUploadTemplate</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>TemplateData</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/TemplatesdesccachedUploadTemplate} obj Optional instance to populate.
-   * @return {module:model/TemplatesdesccachedUploadTemplate} The populated <code>TemplatesdesccachedUploadTemplate</code> instance.
+   * @param {module:model/TemplateData} obj Optional instance to populate.
+   * @return {module:model/TemplateData} The populated <code>TemplateData</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
@@ -92,9 +90,6 @@
       }
       if (data.hasOwnProperty('allow_additional_properties')) {
         obj['allow_additional_properties'] = ApiClient.convertToType(data['allow_additional_properties'], 'Boolean');
-      }
-      if (data.hasOwnProperty('document')) {
-        obj['document'] = TemplatesdesccachedUploadTemplateDocument.constructFromObject(data['document']);
       }
       if (data.hasOwnProperty('description')) {
         obj['description'] = ApiClient.convertToType(data['description'], 'String');
@@ -126,9 +121,6 @@
       if (data.hasOwnProperty('footer_html')) {
         obj['footer_html'] = ApiClient.convertToType(data['footer_html'], 'String');
       }
-      if (data.hasOwnProperty('template_type')) {
-        obj['template_type'] = ApiClient.convertToType(data['template_type'], 'String');
-      }
       if (data.hasOwnProperty('redirect_url')) {
         obj['redirect_url'] = ApiClient.convertToType(data['redirect_url'], 'String');
       }
@@ -137,7 +129,7 @@
   }
 
   /**
-   * @member {module:model/TemplatesdesccachedUploadTemplate.ExpirationIntervalEnum} expiration_interval
+   * @member {module:model/TemplateData.ExpirationIntervalEnum} expiration_interval
    */
   exports.prototype['expiration_interval'] = undefined;
   /**
@@ -156,10 +148,6 @@
    * @member {Boolean} allow_additional_properties
    */
   exports.prototype['allow_additional_properties'] = undefined;
-  /**
-   * @member {module:model/TemplatesdesccachedUploadTemplateDocument} document
-   */
-  exports.prototype['document'] = undefined;
   /**
    * @member {String} description
    */
@@ -201,10 +189,6 @@
    */
   exports.prototype['footer_html'] = undefined;
   /**
-   * @member {module:model/TemplatesdesccachedUploadTemplate.TemplateTypeEnum} template_type
-   */
-  exports.prototype['template_type'] = undefined;
-  /**
    * @member {String} redirect_url
    */
   exports.prototype['redirect_url'] = undefined;
@@ -231,23 +215,6 @@
      * @const
      */
     "days": "days"  };
-
-  /**
-   * Allowed values for the <code>template_type</code> property.
-   * @enum {String}
-   * @readonly
-   */
-  exports.TemplateTypeEnum = {
-    /**
-     * value: "pdf"
-     * @const
-     */
-    "pdf": "pdf",
-    /**
-     * value: "html"
-     * @const
-     */
-    "html": "html"  };
 
 
   return exports;

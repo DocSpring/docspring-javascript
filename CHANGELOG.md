@@ -1,3 +1,7 @@
+### 1.2.0 [September 21, 2020]
+
+- Renamed some internal models for template creation API endpoints. (CreateTemplateData / CreateTemplateData1 renamed to CreateHtmlTemplateData and CreateTemplateFromUploadData)
+
 ### 1.1.0 [September 12, 2020]
 
 - **BREAKING CHANGE**: Renamed createTemplate operation to createPDFTemplate

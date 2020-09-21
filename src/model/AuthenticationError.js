@@ -36,7 +36,7 @@
   /**
    * The AuthenticationError model module.
    * @module model/AuthenticationError
-   * @version 1.1.0
+   * @version 1.2.0
    */
 
   /**

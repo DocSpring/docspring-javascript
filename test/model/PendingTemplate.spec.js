@@ -146,6 +146,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property locked (base name: "locked")', function() {
+      // uncomment below and update the code to test the property locked
+      //var instance = new DocSpring.PendingTemplate();
+      //expect(instance).to.be();
+    });
+
     it('should have the property redirectUrl (base name: "redirect_url")', function() {
       // uncomment below and update the code to test the property redirectUrl
       //var instance = new DocSpring.PendingTemplate();

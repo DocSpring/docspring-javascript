@@ -30,7 +30,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new DocSpring.CreateTemplateData();
+    instance = new DocSpring.UploadTemplateDataDocumentMetadata();
   });
 
   var getProperty = function(object, getter, property) {
@@ -49,16 +49,28 @@
       object[property] = value;
   }
 
-  describe('CreateTemplateData', function() {
-    it('should create an instance of CreateTemplateData', function() {
-      // uncomment below and update the code to test CreateTemplateData
-      //var instance = new DocSpring.CreateTemplateData();
-      //expect(instance).to.be.a(DocSpring.CreateTemplateData);
+  describe('UploadTemplateDataDocumentMetadata', function() {
+    it('should create an instance of UploadTemplateDataDocumentMetadata', function() {
+      // uncomment below and update the code to test UploadTemplateDataDocumentMetadata
+      //var instance = new DocSpring.UploadTemplateDataDocumentMetadata();
+      //expect(instance).to.be.a(DocSpring.UploadTemplateDataDocumentMetadata);
     });
 
-    it('should have the property template (base name: "template")', function() {
-      // uncomment below and update the code to test the property template
-      //var instance = new DocSpring.CreateTemplateData();
+    it('should have the property filename (base name: "filename")', function() {
+      // uncomment below and update the code to test the property filename
+      //var instance = new DocSpring.UploadTemplateDataDocumentMetadata();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property size (base name: "size")', function() {
+      // uncomment below and update the code to test the property size
+      //var instance = new DocSpring.UploadTemplateDataDocumentMetadata();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property mimeType (base name: "mime_type")', function() {
+      // uncomment below and update the code to test the property mimeType
+      //var instance = new DocSpring.UploadTemplateDataDocumentMetadata();
       //expect(instance).to.be();
     });
 

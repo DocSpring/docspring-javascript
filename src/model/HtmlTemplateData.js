@@ -25,7 +25,7 @@
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.PendingTemplate = factory(root.DocSpring.ApiClient);
+    root.DocSpring.HtmlTemplateData = factory(root.DocSpring.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
@@ -34,14 +34,14 @@
 
 
   /**
-   * The PendingTemplate model module.
-   * @module model/PendingTemplate
+   * The HtmlTemplateData model module.
+   * @module model/HtmlTemplateData
    * @version 1.2.0
    */
 
   /**
-   * Constructs a new <code>PendingTemplate</code>.
-   * @alias module:model/PendingTemplate
+   * Constructs a new <code>HtmlTemplateData</code>.
+   * @alias module:model/HtmlTemplateData
    * @class
    */
   var exports = function() {
@@ -67,11 +67,11 @@
   };
 
   /**
-   * Constructs a <code>PendingTemplate</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>HtmlTemplateData</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/PendingTemplate} obj Optional instance to populate.
-   * @return {module:model/PendingTemplate} The populated <code>PendingTemplate</code> instance.
+   * @param {module:model/HtmlTemplateData} obj Optional instance to populate.
+   * @return {module:model/HtmlTemplateData} The populated <code>HtmlTemplateData</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
@@ -83,8 +83,8 @@
       if (data.hasOwnProperty('webhook_url')) {
         obj['webhook_url'] = ApiClient.convertToType(data['webhook_url'], 'String');
       }
-      if (data.hasOwnProperty('parent_folder_id')) {
-        obj['parent_folder_id'] = ApiClient.convertToType(data['parent_folder_id'], 'String');
+      if (data.hasOwnProperty('scss')) {
+        obj['scss'] = ApiClient.convertToType(data['scss'], 'String');
       }
       if (data.hasOwnProperty('expire_after')) {
         obj['expire_after'] = ApiClient.convertToType(data['expire_after'], 'Number');
@@ -101,8 +101,8 @@
       if (data.hasOwnProperty('slack_webhook_url')) {
         obj['slack_webhook_url'] = ApiClient.convertToType(data['slack_webhook_url'], 'String');
       }
-      if (data.hasOwnProperty('path')) {
-        obj['path'] = ApiClient.convertToType(data['path'], 'String');
+      if (data.hasOwnProperty('header_html')) {
+        obj['header_html'] = ApiClient.convertToType(data['header_html'], 'String');
       }
       if (data.hasOwnProperty('public_web_form')) {
         obj['public_web_form'] = ApiClient.convertToType(data['public_web_form'], 'Boolean');
@@ -116,14 +116,14 @@
       if (data.hasOwnProperty('name')) {
         obj['name'] = ApiClient.convertToType(data['name'], 'String');
       }
+      if (data.hasOwnProperty('html')) {
+        obj['html'] = ApiClient.convertToType(data['html'], 'String');
+      }
+      if (data.hasOwnProperty('footer_html')) {
+        obj['footer_html'] = ApiClient.convertToType(data['footer_html'], 'String');
+      }
       if (data.hasOwnProperty('template_type')) {
         obj['template_type'] = ApiClient.convertToType(data['template_type'], 'String');
-      }
-      if (data.hasOwnProperty('id')) {
-        obj['id'] = ApiClient.convertToType(data['id'], 'String');
-      }
-      if (data.hasOwnProperty('locked')) {
-        obj['locked'] = ApiClient.convertToType(data['locked'], 'Boolean');
       }
       if (data.hasOwnProperty('redirect_url')) {
         obj['redirect_url'] = ApiClient.convertToType(data['redirect_url'], 'String');
@@ -133,7 +133,7 @@
   }
 
   /**
-   * @member {module:model/PendingTemplate.ExpirationIntervalEnum} expiration_interval
+   * @member {module:model/HtmlTemplateData.ExpirationIntervalEnum} expiration_interval
    */
   exports.prototype['expiration_interval'] = undefined;
   /**
@@ -141,9 +141,9 @@
    */
   exports.prototype['webhook_url'] = undefined;
   /**
-   * @member {String} parent_folder_id
+   * @member {String} scss
    */
-  exports.prototype['parent_folder_id'] = undefined;
+  exports.prototype['scss'] = undefined;
   /**
    * @member {Number} expire_after
    */
@@ -165,9 +165,9 @@
    */
   exports.prototype['slack_webhook_url'] = undefined;
   /**
-   * @member {String} path
+   * @member {String} header_html
    */
-  exports.prototype['path'] = undefined;
+  exports.prototype['header_html'] = undefined;
   /**
    * @member {Boolean} public_web_form
    */
@@ -185,17 +185,17 @@
    */
   exports.prototype['name'] = undefined;
   /**
-   * @member {String} template_type
+   * @member {String} html
+   */
+  exports.prototype['html'] = undefined;
+  /**
+   * @member {String} footer_html
+   */
+  exports.prototype['footer_html'] = undefined;
+  /**
+   * @member {module:model/HtmlTemplateData.TemplateTypeEnum} template_type
    */
   exports.prototype['template_type'] = undefined;
-  /**
-   * @member {String} id
-   */
-  exports.prototype['id'] = undefined;
-  /**
-   * @member {Boolean} locked
-   */
-  exports.prototype['locked'] = undefined;
   /**
    * @member {String} redirect_url
    */
@@ -223,6 +223,23 @@
      * @const
      */
     "days": "days"  };
+
+  /**
+   * Allowed values for the <code>template_type</code> property.
+   * @enum {String}
+   * @readonly
+   */
+  exports.TemplateTypeEnum = {
+    /**
+     * value: "pdf"
+     * @const
+     */
+    "pdf": "pdf",
+    /**
+     * value: "html"
+     * @const
+     */
+    "html": "html"  };
 
 
   return exports;

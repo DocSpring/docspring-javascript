@@ -30,7 +30,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new DocSpring.CreateTemplateData1();
+    instance = new DocSpring.CreateTemplateFromUploadData();
   });
 
   var getProperty = function(object, getter, property) {
@@ -49,16 +49,16 @@
       object[property] = value;
   }
 
-  describe('CreateTemplateData1', function() {
-    it('should create an instance of CreateTemplateData1', function() {
-      // uncomment below and update the code to test CreateTemplateData1
-      //var instance = new DocSpring.CreateTemplateData1();
-      //expect(instance).to.be.a(DocSpring.CreateTemplateData1);
+  describe('CreateTemplateFromUploadData', function() {
+    it('should create an instance of CreateTemplateFromUploadData', function() {
+      // uncomment below and update the code to test CreateTemplateFromUploadData
+      //var instance = new DocSpring.CreateTemplateFromUploadData();
+      //expect(instance).to.be.a(DocSpring.CreateTemplateFromUploadData);
     });
 
     it('should have the property template (base name: "template")', function() {
       // uncomment below and update the code to test the property template
-      //var instance = new DocSpring.CreateTemplateData1();
+      //var instance = new DocSpring.CreateTemplateFromUploadData();
       //expect(instance).to.be();
     });
 

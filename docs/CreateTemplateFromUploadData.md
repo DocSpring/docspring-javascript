@@ -1,8 +1,8 @@
-# DocSpring.UpdateTemplateData
+# DocSpring.CreateTemplateFromUploadData
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**template** | [**TemplateData**](TemplateData.md) |  | 
+**template** | [**UploadTemplateData**](UploadTemplateData.md) |  | 
 
 

@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **processedAt** | **String** |  | [optional] 
 **state** | **String** |  | 
 **metadata** | **Object** |  | [optional] 
+**truncatedText** | **Object** |  | [optional] 
 **pdfHash** | **String** |  | [optional] 
 **downloadUrl** | **String** |  | [optional] 
 **permanentDownloadUrl** | **String** |  | [optional] 

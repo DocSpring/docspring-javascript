@@ -30,7 +30,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new DocSpring.TemplatesdesccachedUploadTemplateDocument();
+    instance = new DocSpring.UploadTemplateDataDocument();
   });
 
   var getProperty = function(object, getter, property) {
@@ -49,28 +49,28 @@
       object[property] = value;
   }
 
-  describe('TemplatesdesccachedUploadTemplateDocument', function() {
-    it('should create an instance of TemplatesdesccachedUploadTemplateDocument', function() {
-      // uncomment below and update the code to test TemplatesdesccachedUploadTemplateDocument
-      //var instance = new DocSpring.TemplatesdesccachedUploadTemplateDocument();
-      //expect(instance).to.be.a(DocSpring.TemplatesdesccachedUploadTemplateDocument);
+  describe('UploadTemplateDataDocument', function() {
+    it('should create an instance of UploadTemplateDataDocument', function() {
+      // uncomment below and update the code to test UploadTemplateDataDocument
+      //var instance = new DocSpring.UploadTemplateDataDocument();
+      //expect(instance).to.be.a(DocSpring.UploadTemplateDataDocument);
     });
 
     it('should have the property metadata (base name: "metadata")', function() {
       // uncomment below and update the code to test the property metadata
-      //var instance = new DocSpring.TemplatesdesccachedUploadTemplateDocument();
+      //var instance = new DocSpring.UploadTemplateDataDocument();
       //expect(instance).to.be();
     });
 
     it('should have the property id (base name: "id")', function() {
       // uncomment below and update the code to test the property id
-      //var instance = new DocSpring.TemplatesdesccachedUploadTemplateDocument();
+      //var instance = new DocSpring.UploadTemplateDataDocument();
       //expect(instance).to.be();
     });
 
     it('should have the property storage (base name: "storage")', function() {
       // uncomment below and update the code to test the property storage
-      //var instance = new DocSpring.TemplatesdesccachedUploadTemplateDocument();
+      //var instance = new DocSpring.UploadTemplateDataDocument();
       //expect(instance).to.be();
     });
 

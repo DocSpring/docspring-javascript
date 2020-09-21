@@ -30,7 +30,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new DocSpring.TemplatesdesccachedUploadTemplateDocumentMetadata();
+    instance = new DocSpring.AddFieldsData();
   });
 
   var getProperty = function(object, getter, property) {
@@ -49,28 +49,16 @@
       object[property] = value;
   }
 
-  describe('TemplatesdesccachedUploadTemplateDocumentMetadata', function() {
-    it('should create an instance of TemplatesdesccachedUploadTemplateDocumentMetadata', function() {
-      // uncomment below and update the code to test TemplatesdesccachedUploadTemplateDocumentMetadata
-      //var instance = new DocSpring.TemplatesdesccachedUploadTemplateDocumentMetadata();
-      //expect(instance).to.be.a(DocSpring.TemplatesdesccachedUploadTemplateDocumentMetadata);
+  describe('AddFieldsData', function() {
+    it('should create an instance of AddFieldsData', function() {
+      // uncomment below and update the code to test AddFieldsData
+      //var instance = new DocSpring.AddFieldsData();
+      //expect(instance).to.be.a(DocSpring.AddFieldsData);
     });
 
-    it('should have the property filename (base name: "filename")', function() {
-      // uncomment below and update the code to test the property filename
-      //var instance = new DocSpring.TemplatesdesccachedUploadTemplateDocumentMetadata();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property size (base name: "size")', function() {
-      // uncomment below and update the code to test the property size
-      //var instance = new DocSpring.TemplatesdesccachedUploadTemplateDocumentMetadata();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property mimeType (base name: "mime_type")', function() {
-      // uncomment below and update the code to test the property mimeType
-      //var instance = new DocSpring.TemplatesdesccachedUploadTemplateDocumentMetadata();
+    it('should have the property fields (base name: "fields")', function() {
+      // uncomment below and update the code to test the property fields
+      //var instance = new DocSpring.AddFieldsData();
       //expect(instance).to.be();
     });
 

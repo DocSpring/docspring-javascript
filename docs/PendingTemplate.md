@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **name** | **String** |  | [optional] 
 **templateType** | **String** |  | [optional] 
 **id** | **String** |  | [optional] 
+**locked** | **Boolean** |  | [optional] 
 **redirectUrl** | **String** |  | [optional] 
 
 

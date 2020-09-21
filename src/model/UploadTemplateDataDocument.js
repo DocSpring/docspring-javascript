@@ -16,32 +16,32 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/TemplatesdesccachedUploadTemplateDocumentMetadata'], factory);
+    define(['../ApiClient', '../model/UploadTemplateDataDocumentMetadata'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./TemplatesdesccachedUploadTemplateDocumentMetadata'));
+    module.exports = factory(require('../ApiClient'), require('./UploadTemplateDataDocumentMetadata'));
   } else {
     // Browser globals (root is window)
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.TemplatesdesccachedUploadTemplateDocument = factory(root.DocSpring.ApiClient, root.DocSpring.TemplatesdesccachedUploadTemplateDocumentMetadata);
+    root.DocSpring.UploadTemplateDataDocument = factory(root.DocSpring.ApiClient, root.DocSpring.UploadTemplateDataDocumentMetadata);
   }
-}(this, function(ApiClient, TemplatesdesccachedUploadTemplateDocumentMetadata) {
+}(this, function(ApiClient, UploadTemplateDataDocumentMetadata) {
   'use strict';
 
 
 
 
   /**
-   * The TemplatesdesccachedUploadTemplateDocument model module.
-   * @module model/TemplatesdesccachedUploadTemplateDocument
-   * @version 1.1.0
+   * The UploadTemplateDataDocument model module.
+   * @module model/UploadTemplateDataDocument
+   * @version 1.2.0
    */
 
   /**
-   * Constructs a new <code>TemplatesdesccachedUploadTemplateDocument</code>.
-   * @alias module:model/TemplatesdesccachedUploadTemplateDocument
+   * Constructs a new <code>UploadTemplateDataDocument</code>.
+   * @alias module:model/UploadTemplateDataDocument
    * @class
    */
   var exports = function() {
@@ -53,18 +53,18 @@
   };
 
   /**
-   * Constructs a <code>TemplatesdesccachedUploadTemplateDocument</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>UploadTemplateDataDocument</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/TemplatesdesccachedUploadTemplateDocument} obj Optional instance to populate.
-   * @return {module:model/TemplatesdesccachedUploadTemplateDocument} The populated <code>TemplatesdesccachedUploadTemplateDocument</code> instance.
+   * @param {module:model/UploadTemplateDataDocument} obj Optional instance to populate.
+   * @return {module:model/UploadTemplateDataDocument} The populated <code>UploadTemplateDataDocument</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('metadata')) {
-        obj['metadata'] = TemplatesdesccachedUploadTemplateDocumentMetadata.constructFromObject(data['metadata']);
+        obj['metadata'] = UploadTemplateDataDocumentMetadata.constructFromObject(data['metadata']);
       }
       if (data.hasOwnProperty('id')) {
         obj['id'] = ApiClient.convertToType(data['id'], 'String');
@@ -77,7 +77,7 @@
   }
 
   /**
-   * @member {module:model/TemplatesdesccachedUploadTemplateDocumentMetadata} metadata
+   * @member {module:model/UploadTemplateDataDocumentMetadata} metadata
    */
   exports.prototype['metadata'] = undefined;
   /**
@@ -85,7 +85,7 @@
    */
   exports.prototype['id'] = undefined;
   /**
-   * @member {module:model/TemplatesdesccachedUploadTemplateDocument.StorageEnum} storage
+   * @member {module:model/UploadTemplateDataDocument.StorageEnum} storage
    */
   exports.prototype['storage'] = undefined;
 

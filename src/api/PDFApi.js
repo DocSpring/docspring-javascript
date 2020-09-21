@@ -16,24 +16,24 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/AuthenticationError', '../model/AuthenticationSuccessResponse', '../model/CombinePdfsData', '../model/CombinedSubmission', '../model/CombinedSubmissionData', '../model/CreateCombinedSubmissionResponse', '../model/CreateCustomFileData', '../model/CreateCustomFileResponse', '../model/CreateFolderData', '../model/CreateSubmissionBatchResponse', '../model/CreateSubmissionDataRequestTokenResponse', '../model/CreateSubmissionResponse', '../model/CreateTemplateData', '../model/CreateTemplateData1', '../model/Error', '../model/Folder', '../model/InvalidRequest', '../model/MoveFolderData', '../model/MoveTemplateData', '../model/PendingTemplate', '../model/RenameFolderData', '../model/Submission', '../model/SubmissionBatch', '../model/SubmissionBatchData', '../model/SubmissionData', '../model/SubmissionDataRequest', '../model/Template', '../model/UpdateDataRequestResponse', '../model/UpdateSubmissionDataRequestData', '../model/UpdateTemplateData', '../model/UpdateTemplateResponse'], factory);
+    define(['../ApiClient', '../model/AddFieldsData', '../model/AddFieldsTemplateResponse', '../model/AuthenticationError', '../model/AuthenticationSuccessResponse', '../model/CombinePdfsData', '../model/CombinedSubmission', '../model/CombinedSubmissionData', '../model/CreateCombinedSubmissionResponse', '../model/CreateCustomFileData', '../model/CreateCustomFileResponse', '../model/CreateFolderData', '../model/CreateHtmlTemplateData', '../model/CreateSubmissionBatchResponse', '../model/CreateSubmissionDataRequestTokenResponse', '../model/CreateSubmissionResponse', '../model/CreateTemplateFromUploadData', '../model/Error', '../model/Folder', '../model/InvalidRequest', '../model/MoveFolderData', '../model/MoveTemplateData', '../model/PendingTemplate', '../model/RenameFolderData', '../model/Submission', '../model/SubmissionBatch', '../model/SubmissionBatchData', '../model/SubmissionData', '../model/SubmissionDataRequest', '../model/Template', '../model/UpdateDataRequestResponse', '../model/UpdateSubmissionDataRequestData', '../model/UpdateTemplateData', '../model/UpdateTemplateResponse'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('../model/AuthenticationError'), require('../model/AuthenticationSuccessResponse'), require('../model/CombinePdfsData'), require('../model/CombinedSubmission'), require('../model/CombinedSubmissionData'), require('../model/CreateCombinedSubmissionResponse'), require('../model/CreateCustomFileData'), require('../model/CreateCustomFileResponse'), require('../model/CreateFolderData'), require('../model/CreateSubmissionBatchResponse'), require('../model/CreateSubmissionDataRequestTokenResponse'), require('../model/CreateSubmissionResponse'), require('../model/CreateTemplateData'), require('../model/CreateTemplateData1'), require('../model/Error'), require('../model/Folder'), require('../model/InvalidRequest'), require('../model/MoveFolderData'), require('../model/MoveTemplateData'), require('../model/PendingTemplate'), require('../model/RenameFolderData'), require('../model/Submission'), require('../model/SubmissionBatch'), require('../model/SubmissionBatchData'), require('../model/SubmissionData'), require('../model/SubmissionDataRequest'), require('../model/Template'), require('../model/UpdateDataRequestResponse'), require('../model/UpdateSubmissionDataRequestData'), require('../model/UpdateTemplateData'), require('../model/UpdateTemplateResponse'));
+    module.exports = factory(require('../ApiClient'), require('../model/AddFieldsData'), require('../model/AddFieldsTemplateResponse'), require('../model/AuthenticationError'), require('../model/AuthenticationSuccessResponse'), require('../model/CombinePdfsData'), require('../model/CombinedSubmission'), require('../model/CombinedSubmissionData'), require('../model/CreateCombinedSubmissionResponse'), require('../model/CreateCustomFileData'), require('../model/CreateCustomFileResponse'), require('../model/CreateFolderData'), require('../model/CreateHtmlTemplateData'), require('../model/CreateSubmissionBatchResponse'), require('../model/CreateSubmissionDataRequestTokenResponse'), require('../model/CreateSubmissionResponse'), require('../model/CreateTemplateFromUploadData'), require('../model/Error'), require('../model/Folder'), require('../model/InvalidRequest'), require('../model/MoveFolderData'), require('../model/MoveTemplateData'), require('../model/PendingTemplate'), require('../model/RenameFolderData'), require('../model/Submission'), require('../model/SubmissionBatch'), require('../model/SubmissionBatchData'), require('../model/SubmissionData'), require('../model/SubmissionDataRequest'), require('../model/Template'), require('../model/UpdateDataRequestResponse'), require('../model/UpdateSubmissionDataRequestData'), require('../model/UpdateTemplateData'), require('../model/UpdateTemplateResponse'));
   } else {
     // Browser globals (root is window)
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.PDFApi = factory(root.DocSpring.ApiClient, root.DocSpring.AuthenticationError, root.DocSpring.AuthenticationSuccessResponse, root.DocSpring.CombinePdfsData, root.DocSpring.CombinedSubmission, root.DocSpring.CombinedSubmissionData, root.DocSpring.CreateCombinedSubmissionResponse, root.DocSpring.CreateCustomFileData, root.DocSpring.CreateCustomFileResponse, root.DocSpring.CreateFolderData, root.DocSpring.CreateSubmissionBatchResponse, root.DocSpring.CreateSubmissionDataRequestTokenResponse, root.DocSpring.CreateSubmissionResponse, root.DocSpring.CreateTemplateData, root.DocSpring.CreateTemplateData1, root.DocSpring.Error, root.DocSpring.Folder, root.DocSpring.InvalidRequest, root.DocSpring.MoveFolderData, root.DocSpring.MoveTemplateData, root.DocSpring.PendingTemplate, root.DocSpring.RenameFolderData, root.DocSpring.Submission, root.DocSpring.SubmissionBatch, root.DocSpring.SubmissionBatchData, root.DocSpring.SubmissionData, root.DocSpring.SubmissionDataRequest, root.DocSpring.Template, root.DocSpring.UpdateDataRequestResponse, root.DocSpring.UpdateSubmissionDataRequestData, root.DocSpring.UpdateTemplateData, root.DocSpring.UpdateTemplateResponse);
+    root.DocSpring.PDFApi = factory(root.DocSpring.ApiClient, root.DocSpring.AddFieldsData, root.DocSpring.AddFieldsTemplateResponse, root.DocSpring.AuthenticationError, root.DocSpring.AuthenticationSuccessResponse, root.DocSpring.CombinePdfsData, root.DocSpring.CombinedSubmission, root.DocSpring.CombinedSubmissionData, root.DocSpring.CreateCombinedSubmissionResponse, root.DocSpring.CreateCustomFileData, root.DocSpring.CreateCustomFileResponse, root.DocSpring.CreateFolderData, root.DocSpring.CreateHtmlTemplateData, root.DocSpring.CreateSubmissionBatchResponse, root.DocSpring.CreateSubmissionDataRequestTokenResponse, root.DocSpring.CreateSubmissionResponse, root.DocSpring.CreateTemplateFromUploadData, root.DocSpring.Error, root.DocSpring.Folder, root.DocSpring.InvalidRequest, root.DocSpring.MoveFolderData, root.DocSpring.MoveTemplateData, root.DocSpring.PendingTemplate, root.DocSpring.RenameFolderData, root.DocSpring.Submission, root.DocSpring.SubmissionBatch, root.DocSpring.SubmissionBatchData, root.DocSpring.SubmissionData, root.DocSpring.SubmissionDataRequest, root.DocSpring.Template, root.DocSpring.UpdateDataRequestResponse, root.DocSpring.UpdateSubmissionDataRequestData, root.DocSpring.UpdateTemplateData, root.DocSpring.UpdateTemplateResponse);
   }
-}(this, function(ApiClient, AuthenticationError, AuthenticationSuccessResponse, CombinePdfsData, CombinedSubmission, CombinedSubmissionData, CreateCombinedSubmissionResponse, CreateCustomFileData, CreateCustomFileResponse, CreateFolderData, CreateSubmissionBatchResponse, CreateSubmissionDataRequestTokenResponse, CreateSubmissionResponse, CreateTemplateData, CreateTemplateData1, Error, Folder, InvalidRequest, MoveFolderData, MoveTemplateData, PendingTemplate, RenameFolderData, Submission, SubmissionBatch, SubmissionBatchData, SubmissionData, SubmissionDataRequest, Template, UpdateDataRequestResponse, UpdateSubmissionDataRequestData, UpdateTemplateData, UpdateTemplateResponse) {
+}(this, function(ApiClient, AddFieldsData, AddFieldsTemplateResponse, AuthenticationError, AuthenticationSuccessResponse, CombinePdfsData, CombinedSubmission, CombinedSubmissionData, CreateCombinedSubmissionResponse, CreateCustomFileData, CreateCustomFileResponse, CreateFolderData, CreateHtmlTemplateData, CreateSubmissionBatchResponse, CreateSubmissionDataRequestTokenResponse, CreateSubmissionResponse, CreateTemplateFromUploadData, Error, Folder, InvalidRequest, MoveFolderData, MoveTemplateData, PendingTemplate, RenameFolderData, Submission, SubmissionBatch, SubmissionBatchData, SubmissionData, SubmissionDataRequest, Template, UpdateDataRequestResponse, UpdateSubmissionDataRequestData, UpdateTemplateData, UpdateTemplateResponse) {
   'use strict';
 
   /**
    * PDF service.
    * @module api/PDFApi
-   * @version 1.1.0
+   * @version 1.2.0
    */
 
   /**
@@ -46,6 +46,59 @@
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
 
+
+    /**
+     * Callback function to receive the result of the addFieldsToTemplate operation.
+     * @callback module:api/PDFApi~addFieldsToTemplateCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/AddFieldsTemplateResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Add new fields to a Template
+     * @param {String} templateId 
+     * @param {module:model/AddFieldsData} addFieldsData 
+     * @param {module:api/PDFApi~addFieldsToTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/AddFieldsTemplateResponse}
+     */
+    this.addFieldsToTemplate = function(templateId, addFieldsData, callback) {
+      var postBody = addFieldsData;
+
+      // verify the required parameter 'templateId' is set
+      if (templateId === undefined || templateId === null) {
+        throw new Error("Missing the required parameter 'templateId' when calling addFieldsToTemplate");
+      }
+
+      // verify the required parameter 'addFieldsData' is set
+      if (addFieldsData === undefined || addFieldsData === null) {
+        throw new Error("Missing the required parameter 'addFieldsData' when calling addFieldsToTemplate");
+      }
+
+
+      var pathParams = {
+        'template_id': templateId
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['api_token_basic'];
+      var contentTypes = ['application/json'];
+      var accepts = ['application/json'];
+      var returnType = AddFieldsTemplateResponse;
+
+      return this.apiClient.callApi(
+        '/templates/{template_id}/add_fields', 'PUT',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
 
     /**
      * Callback function to receive the result of the batchGeneratePdfV1 operation.
@@ -387,16 +440,16 @@
 
     /**
      * Create a new HTML template
-     * @param {module:model/CreateTemplateData1} createTemplateData1 
+     * @param {module:model/CreateHtmlTemplateData} createHtmlTemplateData 
      * @param {module:api/PDFApi~createHTMLTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/PendingTemplate}
      */
-    this.createHTMLTemplate = function(createTemplateData1, callback) {
-      var postBody = createTemplateData1;
+    this.createHTMLTemplate = function(createHtmlTemplateData, callback) {
+      var postBody = createHtmlTemplateData;
 
-      // verify the required parameter 'createTemplateData1' is set
-      if (createTemplateData1 === undefined || createTemplateData1 === null) {
-        throw new Error("Missing the required parameter 'createTemplateData1' when calling createHTMLTemplate");
+      // verify the required parameter 'createHtmlTemplateData' is set
+      if (createHtmlTemplateData === undefined || createHtmlTemplateData === null) {
+        throw new Error("Missing the required parameter 'createHtmlTemplateData' when calling createHTMLTemplate");
       }
 
 
@@ -491,16 +544,16 @@
 
     /**
      * Create a new PDF template from a cached presign upload
-     * @param {module:model/CreateTemplateData} createTemplateData 
+     * @param {module:model/CreateTemplateFromUploadData} createTemplateFromUploadData 
      * @param {module:api/PDFApi~createPDFTemplateFromUploadCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/PendingTemplate}
      */
-    this.createPDFTemplateFromUpload = function(createTemplateData, callback) {
-      var postBody = createTemplateData;
+    this.createPDFTemplateFromUpload = function(createTemplateFromUploadData, callback) {
+      var postBody = createTemplateFromUploadData;
 
-      // verify the required parameter 'createTemplateData' is set
-      if (createTemplateData === undefined || createTemplateData === null) {
-        throw new Error("Missing the required parameter 'createTemplateData' when calling createPDFTemplateFromUpload");
+      // verify the required parameter 'createTemplateFromUploadData' is set
+      if (createTemplateFromUploadData === undefined || createTemplateFromUploadData === null) {
+        throw new Error("Missing the required parameter 'createTemplateFromUploadData' when calling createPDFTemplateFromUpload");
       }
 
 

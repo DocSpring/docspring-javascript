@@ -16,32 +16,32 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/Submission'], factory);
+    define(['../ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./Submission'));
+    module.exports = factory(require('../ApiClient'));
   } else {
     // Browser globals (root is window)
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.CreateSubmissionResponse = factory(root.DocSpring.ApiClient, root.DocSpring.Submission);
+    root.DocSpring.AddFieldsTemplateResponse = factory(root.DocSpring.ApiClient);
   }
-}(this, function(ApiClient, Submission) {
+}(this, function(ApiClient) {
   'use strict';
 
 
 
 
   /**
-   * The CreateSubmissionResponse model module.
-   * @module model/CreateSubmissionResponse
+   * The AddFieldsTemplateResponse model module.
+   * @module model/AddFieldsTemplateResponse
    * @version 1.2.0
    */
 
   /**
-   * Constructs a new <code>CreateSubmissionResponse</code>.
-   * @alias module:model/CreateSubmissionResponse
+   * Constructs a new <code>AddFieldsTemplateResponse</code>.
+   * @alias module:model/AddFieldsTemplateResponse
    * @class
    */
   var exports = function() {
@@ -53,18 +53,18 @@
   };
 
   /**
-   * Constructs a <code>CreateSubmissionResponse</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>AddFieldsTemplateResponse</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/CreateSubmissionResponse} obj Optional instance to populate.
-   * @return {module:model/CreateSubmissionResponse} The populated <code>CreateSubmissionResponse</code> instance.
+   * @param {module:model/AddFieldsTemplateResponse} obj Optional instance to populate.
+   * @return {module:model/AddFieldsTemplateResponse} The populated <code>AddFieldsTemplateResponse</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
-      if (data.hasOwnProperty('submission')) {
-        obj['submission'] = Submission.constructFromObject(data['submission']);
+      if (data.hasOwnProperty('new_field_ids')) {
+        obj['new_field_ids'] = ApiClient.convertToType(data['new_field_ids'], ['Number']);
       }
       if (data.hasOwnProperty('errors')) {
         obj['errors'] = ApiClient.convertToType(data['errors'], ['String']);
@@ -77,15 +77,15 @@
   }
 
   /**
-   * @member {module:model/Submission} submission
+   * @member {Array.<Number>} new_field_ids
    */
-  exports.prototype['submission'] = undefined;
+  exports.prototype['new_field_ids'] = undefined;
   /**
    * @member {Array.<String>} errors
    */
   exports.prototype['errors'] = undefined;
   /**
-   * @member {module:model/CreateSubmissionResponse.StatusEnum} status
+   * @member {module:model/AddFieldsTemplateResponse.StatusEnum} status
    */
   exports.prototype['status'] = undefined;
 

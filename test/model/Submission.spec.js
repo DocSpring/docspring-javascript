@@ -110,6 +110,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property truncatedText (base name: "truncated_text")', function() {
+      // uncomment below and update the code to test the property truncatedText
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
     it('should have the property pdfHash (base name: "pdf_hash")', function() {
       // uncomment below and update the code to test the property pdfHash
       //var instance = new DocSpring.Submission();
