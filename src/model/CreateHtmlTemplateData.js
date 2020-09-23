@@ -36,7 +36,7 @@
   /**
    * The CreateHtmlTemplateData model module.
    * @module model/CreateHtmlTemplateData
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**

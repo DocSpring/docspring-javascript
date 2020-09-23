@@ -36,7 +36,7 @@
   /**
    * The FoldersFolder model module.
    * @module model/FoldersFolder
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**

@@ -1,3 +1,7 @@
+### 1.2.1 [September 24, 2020]
+
+- Fixed the "include_data=true" option for the "Get Submission" API endpoint. Added the "data" property to the Submission model so that this is parsed and returned correctly when requested
+
 ### 1.2.0 [September 21, 2020]
 
 - Renamed some internal models for template creation API endpoints. (CreateTemplateData / CreateTemplateData1 renamed to CreateHtmlTemplateData and CreateTemplateFromUploadData)

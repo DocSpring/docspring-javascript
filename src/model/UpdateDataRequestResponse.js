@@ -36,7 +36,7 @@
   /**
    * The UpdateDataRequestResponse model module.
    * @module model/UpdateDataRequestResponse
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**

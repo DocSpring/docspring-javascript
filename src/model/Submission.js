@@ -36,7 +36,7 @@
   /**
    * The Submission model module.
    * @module model/Submission
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**
@@ -59,6 +59,9 @@
 
 
     _this['state'] = state;
+
+
+
 
 
 
@@ -104,6 +107,9 @@
       if (data.hasOwnProperty('state')) {
         obj['state'] = ApiClient.convertToType(data['state'], 'String');
       }
+      if (data.hasOwnProperty('data')) {
+        obj['data'] = ApiClient.convertToType(data['data'], Object);
+      }
       if (data.hasOwnProperty('metadata')) {
         obj['metadata'] = ApiClient.convertToType(data['metadata'], Object);
       }
@@ -127,6 +133,12 @@
       }
       if (data.hasOwnProperty('actions')) {
         obj['actions'] = ApiClient.convertToType(data['actions'], [SubmissionAction]);
+      }
+      if (data.hasOwnProperty('source')) {
+        obj['source'] = ApiClient.convertToType(data['source'], 'String');
+      }
+      if (data.hasOwnProperty('referrer')) {
+        obj['referrer'] = ApiClient.convertToType(data['referrer'], 'String');
       }
     }
     return obj;
@@ -165,6 +177,10 @@
    */
   exports.prototype['state'] = undefined;
   /**
+   * @member {Object} data
+   */
+  exports.prototype['data'] = undefined;
+  /**
    * @member {Object} metadata
    */
   exports.prototype['metadata'] = undefined;
@@ -196,6 +212,14 @@
    * @member {Array.<module:model/SubmissionAction>} actions
    */
   exports.prototype['actions'] = undefined;
+  /**
+   * @member {String} source
+   */
+  exports.prototype['source'] = undefined;
+  /**
+   * @member {String} referrer
+   */
+  exports.prototype['referrer'] = undefined;
 
 
   /**

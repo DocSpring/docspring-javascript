@@ -36,7 +36,7 @@
   /**
    * The SubmissionAction model module.
    * @module model/SubmissionAction
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**

@@ -909,7 +909,7 @@ api_token_basic.password = 'YOUR PASSWORD';
 var apiInstance = new DocSpring.PDFApi();
 var submissionId = sub_000000000000000001; // String | 
 var opts = {
-  'includeData': false // Boolean | 
+  'includeData': true // Boolean | 
 };
 var callback = function(error, data, response) {
   if (error) {

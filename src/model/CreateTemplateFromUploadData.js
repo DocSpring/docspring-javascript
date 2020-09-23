@@ -36,7 +36,7 @@
   /**
    * The CreateTemplateFromUploadData model module.
    * @module model/CreateTemplateFromUploadData
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**

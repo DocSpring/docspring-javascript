@@ -36,7 +36,7 @@
   /**
    * The SubmissionData model module.
    * @module model/SubmissionData
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**

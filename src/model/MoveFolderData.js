@@ -36,7 +36,7 @@
   /**
    * The MoveFolderData model module.
    * @module model/MoveFolderData
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**

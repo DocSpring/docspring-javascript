@@ -36,7 +36,7 @@
   /**
    * The CreateSubmissionResponse model module.
    * @module model/CreateSubmissionResponse
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**

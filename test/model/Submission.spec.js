@@ -104,6 +104,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property data (base name: "data")', function() {
+      // uncomment below and update the code to test the property data
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
     it('should have the property metadata (base name: "metadata")', function() {
       // uncomment below and update the code to test the property metadata
       //var instance = new DocSpring.Submission();
@@ -148,6 +154,18 @@
 
     it('should have the property actions (base name: "actions")', function() {
       // uncomment below and update the code to test the property actions
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property source (base name: "source")', function() {
+      // uncomment below and update the code to test the property source
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property referrer (base name: "referrer")', function() {
+      // uncomment below and update the code to test the property referrer
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });

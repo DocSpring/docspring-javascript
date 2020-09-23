@@ -33,7 +33,7 @@
   /**
    * PDF service.
    * @module api/PDFApi
-   * @version 1.2.0
+   * @version 1.2.1
    */
 
   /**
