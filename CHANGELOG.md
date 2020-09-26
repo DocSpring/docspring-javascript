@@ -1,3 +1,7 @@
+### 1.3.0 [September 26, 2020]
+
+- Updated OpenAPI Generator to v3.3.0
+
 ### 1.2.1 [September 24, 2020]
 
 - Fixed the "include_data=true" option for the "Get Submission" API endpoint. Added the "data" property to the Submission model so that this is parsed and returned correctly when requested

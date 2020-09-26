@@ -3,8 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**metadata** | **Object** |  | [optional] 
 **authType** | **String** |  | [optional] 
+**metadata** | **Object** |  | [optional] 
 **authSecondFactorType** | **String** |  | [optional] 
 **authPhoneNumberHash** | **String** |  | [optional] 
 **authSessionStartedAt** | **String** |  | [optional] 
@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **authUsernameHash** | **String** |  | [optional] 
 **name** | **String** |  | [optional] 
 **fields** | **[String]** |  | [optional] 
-**email** | **String** |  | [optional] 
 **authProvider** | **String** |  | [optional] 
+**email** | **String** |  | [optional] 
 **order** | **Number** |  | [optional] 
 
 
