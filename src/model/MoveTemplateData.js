@@ -36,18 +36,19 @@
   /**
    * The MoveTemplateData model module.
    * @module model/MoveTemplateData
-   * @version 1.3.0
+   * @version 1.3.1
    */
 
   /**
    * Constructs a new <code>MoveTemplateData</code>.
    * @alias module:model/MoveTemplateData
    * @class
+   * @param parentFolderId {String} 
    */
-  var exports = function() {
+  var exports = function(parentFolderId) {
     var _this = this;
 
-
+    _this['parent_folder_id'] = parentFolderId;
   };
 
   /**

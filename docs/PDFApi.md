@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**batchGeneratePdfs**](PDFApi.md#batchGeneratePdfs) | **POST** /submissions/batches | Generates multiple PDFs
 [**combinePdfs**](PDFApi.md#combinePdfs) | **POST** /combined_submissions?v&#x3D;2 | Merge submission PDFs, template PDFs, or custom files
 [**combineSubmissions**](PDFApi.md#combineSubmissions) | **POST** /combined_submissions | Merge generated PDFs together
+[**copyTemplate**](PDFApi.md#copyTemplate) | **POST** /templates/{template_id}/copy | Copy a Template
 [**createCustomFileFromUpload**](PDFApi.md#createCustomFileFromUpload) | **POST** /custom_files | Create a new custom file from a cached presign upload
 [**createDataRequestToken**](PDFApi.md#createDataRequestToken) | **POST** /data_requests/{data_request_id}/tokens | Creates a new data request token for form authentication
 [**createFolder**](PDFApi.md#createFolder) | **POST** /folders/ | Create a folder
@@ -265,6 +266,55 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**CreateCombinedSubmissionResponse**](CreateCombinedSubmissionResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a name="copyTemplate"></a>
+# **copyTemplate**
+> Template copyTemplate(templateId, copyTemplateData)
+
+Copy a Template
+
+### Example
+```javascript
+var DocSpring = require('docspring');
+var defaultClient = DocSpring.ApiClient.instance;
+
+// Configure HTTP basic authorization: api_token_basic
+var api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+var apiInstance = new DocSpring.PDFApi();
+var templateId = tpl_000000000000000001; // String | 
+var copyTemplateData = new DocSpring.CopyTemplateData(); // CopyTemplateData | 
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.copyTemplate(templateId, copyTemplateData, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**|  | 
+ **copyTemplateData** | [**CopyTemplateData**](CopyTemplateData.md)|  | 
+
+### Return type
+
+[**Template**](Template.md)
 
 ### Authorization
 

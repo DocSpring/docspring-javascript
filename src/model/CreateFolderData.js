@@ -36,7 +36,7 @@
   /**
    * The CreateFolderData model module.
    * @module model/CreateFolderData
-   * @version 1.3.0
+   * @version 1.3.1
    */
 
   /**

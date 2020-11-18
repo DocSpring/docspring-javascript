@@ -36,7 +36,7 @@
   /**
    * The RenameFolderData model module.
    * @module model/RenameFolderData
-   * @version 1.3.0
+   * @version 1.3.1
    */
 
   /**

@@ -36,7 +36,7 @@
   /**
    * The PendingTemplate model module.
    * @module model/PendingTemplate
-   * @version 1.3.0
+   * @version 1.3.1
    */
 
   /**

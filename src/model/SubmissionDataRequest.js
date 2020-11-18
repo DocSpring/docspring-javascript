@@ -36,7 +36,7 @@
   /**
    * The SubmissionDataRequest model module.
    * @module model/SubmissionDataRequest
-   * @version 1.3.0
+   * @version 1.3.1
    */
 
   /**
@@ -47,17 +47,19 @@
    * @param name {String} 
    * @param email {String} 
    * @param order {Number} 
+   * @param sortOrder {Number} 
    * @param fields {Array.<String>} 
    * @param metadata {Object} 
    * @param state {module:model/SubmissionDataRequest.StateEnum} 
    */
-  var exports = function(id, name, email, order, fields, metadata, state) {
+  var exports = function(id, name, email, order, sortOrder, fields, metadata, state) {
     var _this = this;
 
     _this['id'] = id;
     _this['name'] = name;
     _this['email'] = email;
     _this['order'] = order;
+    _this['sort_order'] = sortOrder;
     _this['fields'] = fields;
     _this['metadata'] = metadata;
     _this['state'] = state;
@@ -97,6 +99,9 @@
       }
       if (data.hasOwnProperty('order')) {
         obj['order'] = ApiClient.convertToType(data['order'], 'Number');
+      }
+      if (data.hasOwnProperty('sort_order')) {
+        obj['sort_order'] = ApiClient.convertToType(data['sort_order'], 'Number');
       }
       if (data.hasOwnProperty('fields')) {
         obj['fields'] = ApiClient.convertToType(data['fields'], ['String']);
@@ -163,6 +168,10 @@
    * @member {Number} order
    */
   exports.prototype['order'] = undefined;
+  /**
+   * @member {Number} sort_order
+   */
+  exports.prototype['sort_order'] = undefined;
   /**
    * @member {Array.<String>} fields
    */

@@ -36,7 +36,7 @@
   /**
    * The SubmissionBatch model module.
    * @module model/SubmissionBatch
-   * @version 1.3.0
+   * @version 1.3.1
    */
 
   /**

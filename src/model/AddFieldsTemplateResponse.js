@@ -36,7 +36,7 @@
   /**
    * The AddFieldsTemplateResponse model module.
    * @module model/AddFieldsTemplateResponse
-   * @version 1.3.0
+   * @version 1.3.1
    */
 
   /**

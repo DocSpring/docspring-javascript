@@ -100,6 +100,16 @@
         done();
       });
     });
+    describe('copyTemplate', function() {
+      it('should call copyTemplate successfully', function(done) {
+        //uncomment below and update the code to test copyTemplate
+        //instance.copyTemplate(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('createCustomFileFromUpload', function() {
       it('should call createCustomFileFromUpload successfully', function(done) {
         //uncomment below and update the code to test createCustomFileFromUpload

@@ -1,3 +1,7 @@
+### 1.3.1 [November 19, 2020]
+
+- Added "sort_order" property for Submission Data Requests
+
 ### 1.3.0 [September 26, 2020]
 
 - Updated OpenAPI Generator to v3.3.0

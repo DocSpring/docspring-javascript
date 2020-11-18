@@ -25,7 +25,7 @@
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.AuthenticationError = factory(root.DocSpring.ApiClient);
+    root.DocSpring.CopyTemplateData = factory(root.DocSpring.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
@@ -34,66 +34,54 @@
 
 
   /**
-   * The AuthenticationError model module.
-   * @module model/AuthenticationError
+   * The CopyTemplateData model module.
+   * @module model/CopyTemplateData
    * @version 1.3.1
    */
 
   /**
-   * Constructs a new <code>AuthenticationError</code>.
-   * @alias module:model/AuthenticationError
+   * Constructs a new <code>CopyTemplateData</code>.
+   * @alias module:model/CopyTemplateData
    * @class
-   * @param error {String} 
+   * @param parentFolderId {String} 
    */
-  var exports = function(error) {
+  var exports = function(parentFolderId) {
     var _this = this;
 
 
-    _this['error'] = error;
+    _this['parent_folder_id'] = parentFolderId;
   };
 
   /**
-   * Constructs a <code>AuthenticationError</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>CopyTemplateData</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/AuthenticationError} obj Optional instance to populate.
-   * @return {module:model/AuthenticationError} The populated <code>AuthenticationError</code> instance.
+   * @param {module:model/CopyTemplateData} obj Optional instance to populate.
+   * @return {module:model/CopyTemplateData} The populated <code>CopyTemplateData</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
-      if (data.hasOwnProperty('status')) {
-        obj['status'] = ApiClient.convertToType(data['status'], 'String');
+      if (data.hasOwnProperty('name')) {
+        obj['name'] = ApiClient.convertToType(data['name'], 'String');
       }
-      if (data.hasOwnProperty('error')) {
-        obj['error'] = ApiClient.convertToType(data['error'], 'String');
+      if (data.hasOwnProperty('parent_folder_id')) {
+        obj['parent_folder_id'] = ApiClient.convertToType(data['parent_folder_id'], 'String');
       }
     }
     return obj;
   }
 
   /**
-   * @member {module:model/AuthenticationError.StatusEnum} status
+   * @member {String} name
    */
-  exports.prototype['status'] = undefined;
+  exports.prototype['name'] = undefined;
   /**
-   * @member {String} error
+   * @member {String} parent_folder_id
    */
-  exports.prototype['error'] = undefined;
+  exports.prototype['parent_folder_id'] = undefined;
 
-
-  /**
-   * Allowed values for the <code>status</code> property.
-   * @enum {String}
-   * @readonly
-   */
-  exports.StatusEnum = {
-    /**
-     * value: "error"
-     * @const
-     */
-    "error": "error"  };
 
 
   return exports;

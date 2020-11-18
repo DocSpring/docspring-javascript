@@ -80,6 +80,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property sortOrder (base name: "sort_order")', function() {
+      // uncomment below and update the code to test the property sortOrder
+      //var instance = new DocSpring.SubmissionDataRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property fields (base name: "fields")', function() {
       // uncomment below and update the code to test the property fields
       //var instance = new DocSpring.SubmissionDataRequest();
