@@ -101,6 +101,9 @@
       if (data.hasOwnProperty('slack_webhook_url')) {
         obj['slack_webhook_url'] = ApiClient.convertToType(data['slack_webhook_url'], 'String');
       }
+      if (data.hasOwnProperty('embed_domains')) {
+        obj['embed_domains'] = ApiClient.convertToType(data['embed_domains'], 'String');
+      }
       if (data.hasOwnProperty('path')) {
         obj['path'] = ApiClient.convertToType(data['path'], 'String');
       }
@@ -164,6 +167,10 @@
    * @member {String} slack_webhook_url
    */
   exports.prototype['slack_webhook_url'] = undefined;
+  /**
+   * @member {String} embed_domains
+   */
+  exports.prototype['embed_domains'] = undefined;
   /**
    * @member {String} path
    */

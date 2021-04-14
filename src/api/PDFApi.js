@@ -543,6 +543,7 @@
      * @param {String} templateName 
      * @param {Object} opts Optional parameters
      * @param {String} opts.templateParentFolderId 
+     * @param {String} opts.templateEmbedDomains
      * @param {module:api/PDFApi~createPDFTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/PendingTemplate}
      */
@@ -574,6 +575,8 @@
         'template[name]': templateName,
         'template[parent_folder_id]': opts['templateParentFolderId']
       };
+
+      if (opts['templateEmbedDomains']) formParams['template[embed_domains]'] = opts['templateEmbedDomains']
 
       var authNames = ['api_token_basic'];
       var contentTypes = ['multipart/form-data'];

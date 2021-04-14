@@ -104,6 +104,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property embedDomains (base name: "embed_domains")', function() {
+      // uncomment below and update the code to test the property embedDomains
+      //var instance = new DocSpring.HtmlTemplateData();
+      //expect(instance).to.be();
+    });
+
     it('should have the property headerHtml (base name: "header_html")', function() {
       // uncomment below and update the code to test the property headerHtml
       //var instance = new DocSpring.HtmlTemplateData();
