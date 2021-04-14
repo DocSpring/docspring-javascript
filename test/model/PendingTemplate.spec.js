@@ -104,6 +104,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property embedDomains (base name: "embed_domains")', function() {
+      // uncomment below and update the code to test the property embedDomains
+      //var instance = new DocSpring.PendingTemplate();
+      //expect(instance).to.be();
+    });
+
     it('should have the property path (base name: "path")', function() {
       // uncomment below and update the code to test the property path
       //var instance = new DocSpring.PendingTemplate();

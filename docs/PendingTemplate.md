@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **description** | **String** |  | [optional] 
 **publicSubmissions** | **Boolean** |  | [optional] 
 **slackWebhookUrl** | **String** |  | [optional] 
+**embedDomains** | **String** |  | [optional] 
 **path** | **String** |  | [optional] 
 **publicWebForm** | **Boolean** |  | [optional] 
 **editableSubmissions** | **Boolean** |  | [optional] 
