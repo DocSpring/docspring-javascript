@@ -68,6 +68,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property password (base name: "password")', function() {
+      // uncomment below and update the code to test the property password
+      //var instance = new DocSpring.CombinedSubmissionData();
+      //expect(instance).to.be();
+    });
+
     it('should have the property submissionIds (base name: "submission_ids")', function() {
       // uncomment below and update the code to test the property submissionIds
       //var instance = new DocSpring.CombinedSubmissionData();

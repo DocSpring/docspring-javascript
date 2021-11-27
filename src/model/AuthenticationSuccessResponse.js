@@ -36,7 +36,7 @@
   /**
    * The AuthenticationSuccessResponse model module.
    * @module model/AuthenticationSuccessResponse
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**

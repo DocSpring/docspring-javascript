@@ -36,7 +36,7 @@
   /**
    * The SubmissionData model module.
    * @module model/SubmissionData
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**
@@ -50,6 +50,7 @@
 
 
     _this['data'] = data;
+
 
 
 
@@ -86,6 +87,9 @@
       if (data.hasOwnProperty('metadata')) {
         obj['metadata'] = ApiClient.convertToType(data['metadata'], Object);
       }
+      if (data.hasOwnProperty('password')) {
+        obj['password'] = ApiClient.convertToType(data['password'], 'String');
+      }
       if (data.hasOwnProperty('test')) {
         obj['test'] = ApiClient.convertToType(data['test'], 'Boolean');
       }
@@ -117,6 +121,10 @@
    * @member {Object} metadata
    */
   exports.prototype['metadata'] = undefined;
+  /**
+   * @member {String} password
+   */
+  exports.prototype['password'] = undefined;
   /**
    * @member {Boolean} test
    */

@@ -36,7 +36,7 @@
   /**
    * The TemplatestemplateIdaddFieldsFields model module.
    * @module model/TemplatestemplateIdaddFieldsFields
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**

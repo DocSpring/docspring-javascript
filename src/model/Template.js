@@ -36,7 +36,7 @@
   /**
    * The Template model module.
    * @module model/Template
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**

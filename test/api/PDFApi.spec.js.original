@@ -230,6 +230,16 @@
         done();
       });
     });
+    describe('getFullTemplate', function() {
+      it('should call getFullTemplate successfully', function(done) {
+        //uncomment below and update the code to test getFullTemplate
+        //instance.getFullTemplate(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('getPresignUrl', function() {
       it('should call getPresignUrl successfully', function(done) {
         //uncomment below and update the code to test getPresignUrl
@@ -284,6 +294,26 @@
       it('should call listFolders successfully', function(done) {
         //uncomment below and update the code to test listFolders
         //instance.listFolders(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('listSubmissions', function() {
+      it('should call listSubmissions successfully', function(done) {
+        //uncomment below and update the code to test listSubmissions
+        //instance.listSubmissions(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('listSubmissions_0', function() {
+      it('should call listSubmissions_0 successfully', function(done) {
+        //uncomment below and update the code to test listSubmissions_0
+        //instance.listSubmissions_0(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

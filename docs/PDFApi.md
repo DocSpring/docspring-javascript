@@ -22,12 +22,15 @@ Method | HTTP request | Description
 [**generatePDF**](PDFApi.md#generatePDF) | **POST** /templates/{template_id}/submissions | Generates a new PDF
 [**getCombinedSubmission**](PDFApi.md#getCombinedSubmission) | **GET** /combined_submissions/{combined_submission_id} | Check the status of a combined submission (merged PDFs)
 [**getDataRequest**](PDFApi.md#getDataRequest) | **GET** /data_requests/{data_request_id} | Look up a submission data request
+[**getFullTemplate**](PDFApi.md#getFullTemplate) | **GET** /templates/{template_id}?full&#x3D;true | Fetch the full template attributes
 [**getPresignUrl**](PDFApi.md#getPresignUrl) | **GET** /uploads/presign | Get a presigned URL so that you can upload a file to our AWS S3 bucket
 [**getSubmission**](PDFApi.md#getSubmission) | **GET** /submissions/{submission_id} | Check the status of a PDF
 [**getSubmissionBatch**](PDFApi.md#getSubmissionBatch) | **GET** /submissions/batches/{submission_batch_id} | Check the status of a submission batch job
-[**getTemplate**](PDFApi.md#getTemplate) | **GET** /templates/{template_id} | Get a single template
+[**getTemplate**](PDFApi.md#getTemplate) | **GET** /templates/{template_id} | Check the status of an uploaded template
 [**getTemplateSchema**](PDFApi.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Fetch the JSON schema for a template
 [**listFolders**](PDFApi.md#listFolders) | **GET** /folders/ | Get a list of all folders
+[**listSubmissions**](PDFApi.md#listSubmissions) | **GET** /submissions | List all submissions
+[**listSubmissions_0**](PDFApi.md#listSubmissions_0) | **GET** /templates/{template_id}/submissions | List all submissions for a given template
 [**listTemplates**](PDFApi.md#listTemplates) | **GET** /templates | Get a list of all templates
 [**moveFolderToFolder**](PDFApi.md#moveFolderToFolder) | **POST** /folders/{folder_id}/move | Move a folder
 [**moveTemplateToFolder**](PDFApi.md#moveTemplateToFolder) | **POST** /templates/{template_id}/move | Move Template to folder
@@ -897,6 +900,53 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+<a name="getFullTemplate"></a>
+# **getFullTemplate**
+> Template1 getFullTemplate(templateId)
+
+Fetch the full template attributes
+
+### Example
+```javascript
+var DocSpring = require('docspring');
+var defaultClient = DocSpring.ApiClient.instance;
+
+// Configure HTTP basic authorization: api_token_basic
+var api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+var apiInstance = new DocSpring.PDFApi();
+var templateId = tpl_000000000000000001; // String | 
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.getFullTemplate(templateId, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**|  | 
+
+### Return type
+
+[**Template1**](Template1.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
 <a name="getPresignUrl"></a>
 # **getPresignUrl**
 > {String: Object} getPresignUrl()
@@ -1046,7 +1096,7 @@ Name | Type | Description  | Notes
 # **getTemplate**
 > Template getTemplate(templateId)
 
-Get a single template
+Check the status of an uploaded template
 
 ### Example
 ```javascript
@@ -1059,7 +1109,7 @@ api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
 var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000011; // String | 
+var templateId = tpl_000000000000000001; // String | 
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -1175,6 +1225,126 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**[Folder]**](Folder.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="listSubmissions"></a>
+# **listSubmissions**
+> ListSubmissionsResponse listSubmissions(opts)
+
+List all submissions
+
+### Example
+```javascript
+var DocSpring = require('docspring');
+var defaultClient = DocSpring.ApiClient.instance;
+
+// Configure HTTP basic authorization: api_token_basic
+var api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+var apiInstance = new DocSpring.PDFApi();
+var opts = {
+  'cursor': sub_list_000012, // String | 
+  'limit': 3, // Number | 
+  'createdAfter': 2019-01-01T09:00:00-05:00, // String | 
+  'createdBefore': 2020-01-01T09:00:00-05:00, // String | 
+  'type': test, // String | 
+  'includeData': true // Boolean | 
+};
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.listSubmissions(opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **cursor** | **String**|  | [optional] 
+ **limit** | **Number**|  | [optional] 
+ **createdAfter** | **String**|  | [optional] 
+ **createdBefore** | **String**|  | [optional] 
+ **type** | **String**|  | [optional] 
+ **includeData** | **Boolean**|  | [optional] 
+
+### Return type
+
+[**ListSubmissionsResponse**](ListSubmissionsResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="listSubmissions_0"></a>
+# **listSubmissions_0**
+> ListSubmissionsResponse listSubmissions_0(templateId, opts)
+
+List all submissions for a given template
+
+### Example
+```javascript
+var DocSpring = require('docspring');
+var defaultClient = DocSpring.ApiClient.instance;
+
+// Configure HTTP basic authorization: api_token_basic
+var api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+var apiInstance = new DocSpring.PDFApi();
+var templateId = tpl_000000000000000002; // String | 
+var opts = {
+  'cursor': "cursor_example", // String | 
+  'limit': 3.4, // Number | 
+  'createdAfter': "createdAfter_example", // String | 
+  'createdBefore': "createdBefore_example", // String | 
+  'type': "type_example", // String | 
+  'includeData': true // Boolean | 
+};
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.listSubmissions_0(templateId, opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**|  | 
+ **cursor** | **String**|  | [optional] 
+ **limit** | **Number**|  | [optional] 
+ **createdAfter** | **String**|  | [optional] 
+ **createdBefore** | **String**|  | [optional] 
+ **type** | **String**|  | [optional] 
+ **includeData** | **Boolean**|  | [optional] 
+
+### Return type
+
+[**ListSubmissionsResponse**](ListSubmissionsResponse.md)
 
 ### Authorization
 

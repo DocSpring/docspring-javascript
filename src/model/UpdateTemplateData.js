@@ -36,7 +36,7 @@
   /**
    * The UpdateTemplateData model module.
    * @module model/UpdateTemplateData
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**

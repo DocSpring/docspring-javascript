@@ -36,7 +36,7 @@
   /**
    * The CombinedSubmissionData model module.
    * @module model/CombinedSubmissionData
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**
@@ -47,6 +47,7 @@
    */
   var exports = function(submissionIds) {
     var _this = this;
+
 
 
 
@@ -71,6 +72,9 @@
       if (data.hasOwnProperty('metadata')) {
         obj['metadata'] = ApiClient.convertToType(data['metadata'], Object);
       }
+      if (data.hasOwnProperty('password')) {
+        obj['password'] = ApiClient.convertToType(data['password'], 'String');
+      }
       if (data.hasOwnProperty('submission_ids')) {
         obj['submission_ids'] = ApiClient.convertToType(data['submission_ids'], ['String']);
       }
@@ -89,6 +93,10 @@
    * @member {Object} metadata
    */
   exports.prototype['metadata'] = undefined;
+  /**
+   * @member {String} password
+   */
+  exports.prototype['password'] = undefined;
   /**
    * @member {Array.<String>} submission_ids
    */

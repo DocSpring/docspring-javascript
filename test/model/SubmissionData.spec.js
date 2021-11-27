@@ -92,6 +92,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property password (base name: "password")', function() {
+      // uncomment below and update the code to test the property password
+      //var instance = new DocSpring.SubmissionData();
+      //expect(instance).to.be();
+    });
+
     it('should have the property test (base name: "test")', function() {
       // uncomment below and update the code to test the property test
       //var instance = new DocSpring.SubmissionData();

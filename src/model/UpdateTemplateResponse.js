@@ -36,7 +36,7 @@
   /**
    * The UpdateTemplateResponse model module.
    * @module model/UpdateTemplateResponse
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**

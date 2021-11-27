@@ -36,7 +36,7 @@
   /**
    * The CombinePdfsData model module.
    * @module model/CombinePdfsData
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**
@@ -47,6 +47,7 @@
    */
   var exports = function(sourcePdfs) {
     var _this = this;
+
 
 
 
@@ -75,6 +76,9 @@
       if (data.hasOwnProperty('metadata')) {
         obj['metadata'] = ApiClient.convertToType(data['metadata'], Object);
       }
+      if (data.hasOwnProperty('password')) {
+        obj['password'] = ApiClient.convertToType(data['password'], 'String');
+      }
       if (data.hasOwnProperty('source_pdfs')) {
         obj['source_pdfs'] = ApiClient.convertToType(data['source_pdfs'], [Object]);
       }
@@ -97,6 +101,10 @@
    * @member {Object} metadata
    */
   exports.prototype['metadata'] = undefined;
+  /**
+   * @member {String} password
+   */
+  exports.prototype['password'] = undefined;
   /**
    * @member {Array.<Object>} source_pdfs
    */

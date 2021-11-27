@@ -1,3 +1,7 @@
+### 1.3.2 [November 28, 2021]
+
+- Added 'password' parameter to Generate PDF and Combine PDF API endpoints. You can now encrypt each generated PDF with a unique password.
+
 ### 1.3.1 [November 19, 2020]
 
 - Added "sort_order" property for Submission Data Requests

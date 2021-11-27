@@ -62,6 +62,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property password (base name: "password")', function() {
+      // uncomment below and update the code to test the property password
+      //var instance = new DocSpring.CombinedSubmission();
+      //expect(instance).to.be();
+    });
+
     it('should have the property expired (base name: "expired")', function() {
       // uncomment below and update the code to test the property expired
       //var instance = new DocSpring.CombinedSubmission();

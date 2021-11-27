@@ -74,6 +74,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property password (base name: "password")', function() {
+      // uncomment below and update the code to test the property password
+      //var instance = new DocSpring.CombinePdfsData();
+      //expect(instance).to.be();
+    });
+
     it('should have the property sourcePdfs (base name: "source_pdfs")', function() {
       // uncomment below and update the code to test the property sourcePdfs
       //var instance = new DocSpring.CombinePdfsData();

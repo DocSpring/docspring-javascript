@@ -36,7 +36,7 @@
   /**
    * The UpdateSubmissionDataRequestData model module.
    * @module model/UpdateSubmissionDataRequestData
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**

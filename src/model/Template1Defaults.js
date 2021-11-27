@@ -25,7 +25,7 @@
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.AuthenticationError = factory(root.DocSpring.ApiClient);
+    root.DocSpring.Template1Defaults = factory(root.DocSpring.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
@@ -34,66 +34,61 @@
 
 
   /**
-   * The AuthenticationError model module.
-   * @module model/AuthenticationError
+   * The Template1Defaults model module.
+   * @module model/Template1Defaults
    * @version 1.3.2
    */
 
   /**
-   * Constructs a new <code>AuthenticationError</code>.
-   * @alias module:model/AuthenticationError
+   * Constructs a new <code>Template1Defaults</code>.
+   * @alias module:model/Template1Defaults
    * @class
-   * @param error {String} 
    */
-  var exports = function(error) {
+  var exports = function() {
     var _this = this;
 
 
-    _this['error'] = error;
+
+
   };
 
   /**
-   * Constructs a <code>AuthenticationError</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>Template1Defaults</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/AuthenticationError} obj Optional instance to populate.
-   * @return {module:model/AuthenticationError} The populated <code>AuthenticationError</code> instance.
+   * @param {module:model/Template1Defaults} obj Optional instance to populate.
+   * @return {module:model/Template1Defaults} The populated <code>Template1Defaults</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
-      if (data.hasOwnProperty('status')) {
-        obj['status'] = ApiClient.convertToType(data['status'], 'String');
+      if (data.hasOwnProperty('color')) {
+        obj['color'] = ApiClient.convertToType(data['color'], 'String');
       }
-      if (data.hasOwnProperty('error')) {
-        obj['error'] = ApiClient.convertToType(data['error'], 'String');
+      if (data.hasOwnProperty('fontSize')) {
+        obj['fontSize'] = ApiClient.convertToType(data['fontSize'], 'Number');
+      }
+      if (data.hasOwnProperty('typeface')) {
+        obj['typeface'] = ApiClient.convertToType(data['typeface'], 'String');
       }
     }
     return obj;
   }
 
   /**
-   * @member {module:model/AuthenticationError.StatusEnum} status
+   * @member {String} color
    */
-  exports.prototype['status'] = undefined;
+  exports.prototype['color'] = undefined;
   /**
-   * @member {String} error
+   * @member {Number} fontSize
    */
-  exports.prototype['error'] = undefined;
-
-
+  exports.prototype['fontSize'] = undefined;
   /**
-   * Allowed values for the <code>status</code> property.
-   * @enum {String}
-   * @readonly
+   * @member {String} typeface
    */
-  exports.StatusEnum = {
-    /**
-     * value: "error"
-     * @const
-     */
-    "error": "error"  };
+  exports.prototype['typeface'] = undefined;
+
 
 
   return exports;

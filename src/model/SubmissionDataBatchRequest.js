@@ -36,7 +36,7 @@
   /**
    * The SubmissionDataBatchRequest model module.
    * @module model/SubmissionDataBatchRequest
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**

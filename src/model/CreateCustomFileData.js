@@ -36,7 +36,7 @@
   /**
    * The CreateCustomFileData model module.
    * @module model/CreateCustomFileData
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**

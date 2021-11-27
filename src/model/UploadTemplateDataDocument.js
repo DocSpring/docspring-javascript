@@ -36,7 +36,7 @@
   /**
    * The UploadTemplateDataDocument model module.
    * @module model/UploadTemplateDataDocument
-   * @version 1.3.1
+   * @version 1.3.2
    */
 
   /**

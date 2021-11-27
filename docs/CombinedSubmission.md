@@ -4,6 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **metadata** | **Object** |  | [optional] 
+**password** | **String** |  | [optional] 
 **expired** | **Boolean** |  | [optional] 
 **expiresAt** | **String** |  | [optional] 
 **sourcePdfs** | **[Object]** |  | [optional] 
