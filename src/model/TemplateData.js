@@ -127,6 +127,9 @@
       if (data.hasOwnProperty('redirect_url')) {
         obj['redirect_url'] = ApiClient.convertToType(data['redirect_url'], 'String');
       }
+      if (data.hasOwnProperty('fields')) {
+        obj['fields'] = ApiClient.convertToType(data['fields'], 'Object');
+      }
     }
     return obj;
   }
@@ -199,6 +202,10 @@
    * @member {String} redirect_url
    */
   exports.prototype['redirect_url'] = undefined;
+  /**
+   * @member {String} fields
+   */
+  exports.prototype['fields'] = undefined;
 
 
   /**

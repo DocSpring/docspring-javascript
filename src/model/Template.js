@@ -143,6 +143,12 @@
       if (data.hasOwnProperty('document_url')) {
         obj['document_url'] = ApiClient.convertToType(data['document_url'], 'String');
       }
+      if (data.hasOwnProperty('fields')) {
+        obj['fields'] = ApiClient.convertToType(data['fields'], 'Object');
+      }
+      if (data.hasOwnProperty('shared_field_data')) {
+        obj['shared_field_data'] = ApiClient.convertToType(data['shared_field_data'], 'Object');
+      }
     }
     return obj;
   }
@@ -231,6 +237,14 @@
    * @member {String} document_url
    */
   exports.prototype['document_url'] = undefined;
+  /**
+   * @member {String} fields
+   */
+  exports.prototype['fields'] = undefined;
+  /**
+   * @member {String} shared_field_data
+   */
+  exports.prototype['shared_field_data'] = undefined;
 
 
   /**

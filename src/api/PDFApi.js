@@ -544,6 +544,7 @@
      * @param {Object} opts Optional parameters
      * @param {String} opts.templateParentFolderId 
      * @param {String} opts.templateEmbedDomains
+     * @param {String} opts.allowAdditionalProperties
      * @param {module:api/PDFApi~createPDFTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/PendingTemplate}
      */
@@ -573,7 +574,8 @@
       var formParams = {
         'template[document]': templateDocument,
         'template[name]': templateName,
-        'template[parent_folder_id]': opts['templateParentFolderId']
+        'template[parent_folder_id]': opts['templateParentFolderId'],
+        'template[allow_additional_properties]': opts['allowAdditionalProperties']
       };
 
       if (opts['templateEmbedDomains']) formParams['template[embed_domains]'] = opts['templateEmbedDomains']
@@ -1080,7 +1082,7 @@
      * @param {module:api/PDFApi~getTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Template}
      */
-    this.getTemplate = function(templateId, callback) {
+    this.getTemplate = function(templateId, opts, callback) {
       var postBody = null;
 
       // verify the required parameter 'templateId' is set
@@ -1101,13 +1103,18 @@
       var formParams = {
       };
 
+      let url = '/templates/{template_id}'
+      if (opts && opts['full']) {
+        url = '/templates/{template_id}?full=true'
+      }
+
       var authNames = ['api_token_basic'];
       var contentTypes = [];
       var accepts = ['application/json'];
       var returnType = Template;
 
       return this.apiClient.callApi(
-        '/templates/{template_id}', 'GET',
+        url, 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );

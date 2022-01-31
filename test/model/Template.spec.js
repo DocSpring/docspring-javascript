@@ -110,6 +110,18 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property fields (base name: "fields")', function() {
+      // uncomment below and update the code to test the property embedDomains
+      //var instance = new DocSpring.HtmlTemplateData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property sharedFieldData (base name: "shared_field_data")', function() {
+      // uncomment below and update the code to test the property embedDomains
+      //var instance = new DocSpring.HtmlTemplateData();
+      //expect(instance).to.be();
+    });
+
     it('should have the property path (base name: "path")', function() {
       // uncomment below and update the code to test the property path
       //var instance = new DocSpring.Template();
