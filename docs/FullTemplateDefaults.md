@@ -1,4 +1,4 @@
-# DocSpring.Template1Defaults
+# DocSpring.FullTemplateDefaults
 
 ## Properties
 Name | Type | Description | Notes

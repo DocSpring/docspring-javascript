@@ -30,7 +30,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new DocSpring.Template1Defaults();
+    instance = new DocSpring.FullTemplateDefaults();
   });
 
   var getProperty = function(object, getter, property) {
@@ -49,28 +49,28 @@
       object[property] = value;
   }
 
-  describe('Template1Defaults', function() {
-    it('should create an instance of Template1Defaults', function() {
-      // uncomment below and update the code to test Template1Defaults
-      //var instance = new DocSpring.Template1Defaults();
-      //expect(instance).to.be.a(DocSpring.Template1Defaults);
+  describe('FullTemplateDefaults', function() {
+    it('should create an instance of FullTemplateDefaults', function() {
+      // uncomment below and update the code to test FullTemplateDefaults
+      //var instance = new DocSpring.FullTemplateDefaults();
+      //expect(instance).to.be.a(DocSpring.FullTemplateDefaults);
     });
 
     it('should have the property color (base name: "color")', function() {
       // uncomment below and update the code to test the property color
-      //var instance = new DocSpring.Template1Defaults();
+      //var instance = new DocSpring.FullTemplateDefaults();
       //expect(instance).to.be();
     });
 
     it('should have the property fontSize (base name: "fontSize")', function() {
       // uncomment below and update the code to test the property fontSize
-      //var instance = new DocSpring.Template1Defaults();
+      //var instance = new DocSpring.FullTemplateDefaults();
       //expect(instance).to.be();
     });
 
     it('should have the property typeface (base name: "typeface")', function() {
       // uncomment below and update the code to test the property typeface
-      //var instance = new DocSpring.Template1Defaults();
+      //var instance = new DocSpring.FullTemplateDefaults();
       //expect(instance).to.be();
     });
 

@@ -30,7 +30,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new DocSpring.Template1();
+    instance = new DocSpring.FullTemplate();
   });
 
   var getProperty = function(object, getter, property) {
@@ -49,244 +49,244 @@
       object[property] = value;
   }
 
-  describe('Template1', function() {
-    it('should create an instance of Template1', function() {
-      // uncomment below and update the code to test Template1
-      //var instance = new DocSpring.Template1();
-      //expect(instance).to.be.a(DocSpring.Template1);
+  describe('FullTemplate', function() {
+    it('should create an instance of FullTemplate', function() {
+      // uncomment below and update the code to test FullTemplate
+      //var instance = new DocSpring.FullTemplate();
+      //expect(instance).to.be.a(DocSpring.FullTemplate);
     });
 
     it('should have the property documentProcessed (base name: "document_processed")', function() {
       // uncomment below and update the code to test the property documentProcessed
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property expirationInterval (base name: "expiration_interval")', function() {
       // uncomment below and update the code to test the property expirationInterval
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property scss (base name: "scss")', function() {
       // uncomment below and update the code to test the property scss
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property documentState (base name: "document_state")', function() {
       // uncomment below and update the code to test the property documentState
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property expireAfter (base name: "expire_after")', function() {
       // uncomment below and update the code to test the property expireAfter
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property description (base name: "description")', function() {
       // uncomment below and update the code to test the property description
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property slackWebhookUrl (base name: "slack_webhook_url")', function() {
       // uncomment below and update the code to test the property slackWebhookUrl
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property demo (base name: "demo")', function() {
       // uncomment below and update the code to test the property demo
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property path (base name: "path")', function() {
       // uncomment below and update the code to test the property path
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property headerHtml (base name: "header_html")', function() {
       // uncomment below and update the code to test the property headerHtml
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property publicWebForm (base name: "public_web_form")', function() {
       // uncomment below and update the code to test the property publicWebForm
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property fieldOrder (base name: "field_order")', function() {
       // uncomment below and update the code to test the property fieldOrder
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property permanentDocumentUrl (base name: "permanent_document_url")', function() {
       // uncomment below and update the code to test the property permanentDocumentUrl
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property html (base name: "html")', function() {
       // uncomment below and update the code to test the property html
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property templateType (base name: "template_type")', function() {
       // uncomment below and update the code to test the property templateType
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property id (base name: "id")', function() {
       // uncomment below and update the code to test the property id
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property pageDimensions (base name: "page_dimensions")', function() {
       // uncomment below and update the code to test the property pageDimensions
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property locked (base name: "locked")', function() {
       // uncomment below and update the code to test the property locked
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property pageCount (base name: "page_count")', function() {
       // uncomment below and update the code to test the property pageCount
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property encryptPdfs (base name: "encrypt_pdfs")', function() {
       // uncomment below and update the code to test the property encryptPdfs
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property webhookUrl (base name: "webhook_url")', function() {
       // uncomment below and update the code to test the property webhookUrl
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property embedDomains (base name: "embed_domains")', function() {
       // uncomment below and update the code to test the property embedDomains
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property parentFolderId (base name: "parent_folder_id")', function() {
       // uncomment below and update the code to test the property parentFolderId
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property allowAdditionalProperties (base name: "allow_additional_properties")', function() {
       // uncomment below and update the code to test the property allowAdditionalProperties
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property encryptPdfsPassword (base name: "encrypt_pdfs_password")', function() {
       // uncomment below and update the code to test the property encryptPdfsPassword
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property publicSubmissions (base name: "public_submissions")', function() {
       // uncomment below and update the code to test the property publicSubmissions
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property sharedFieldData (base name: "shared_field_data")', function() {
       // uncomment below and update the code to test the property sharedFieldData
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property documentMd5 (base name: "document_md5")', function() {
       // uncomment below and update the code to test the property documentMd5
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property firstTemplate (base name: "first_template")', function() {
       // uncomment below and update the code to test the property firstTemplate
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property defaults (base name: "defaults")', function() {
       // uncomment below and update the code to test the property defaults
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property editableSubmissions (base name: "editable_submissions")', function() {
       // uncomment below and update the code to test the property editableSubmissions
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property expireSubmissions (base name: "expire_submissions")', function() {
       // uncomment below and update the code to test the property expireSubmissions
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property name (base name: "name")', function() {
       // uncomment below and update the code to test the property name
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property footerHtml (base name: "footer_html")', function() {
       // uncomment below and update the code to test the property footerHtml
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property documentParseError (base name: "document_parse_error")', function() {
       // uncomment below and update the code to test the property documentParseError
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property fields (base name: "fields")', function() {
       // uncomment below and update the code to test the property fields
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property documentFilename (base name: "document_filename")', function() {
       // uncomment below and update the code to test the property documentFilename
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property redirectUrl (base name: "redirect_url")', function() {
       // uncomment below and update the code to test the property redirectUrl
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 
     it('should have the property documentUrl (base name: "document_url")', function() {
       // uncomment below and update the code to test the property documentUrl
-      //var instance = new DocSpring.Template1();
+      //var instance = new DocSpring.FullTemplate();
       //expect(instance).to.be();
     });
 

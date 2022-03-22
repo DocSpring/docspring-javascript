@@ -36,7 +36,7 @@
   /**
    * The ListSubmissionsResponse model module.
    * @module model/ListSubmissionsResponse
-   * @version 1.3.2
+   * @version 1.4.0
    */
 
   /**

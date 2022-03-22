@@ -902,7 +902,7 @@ Name | Type | Description  | Notes
 
 <a name="getFullTemplate"></a>
 # **getFullTemplate**
-> Template1 getFullTemplate(templateId)
+> FullTemplate getFullTemplate(templateId)
 
 Fetch the full template attributes
 
@@ -936,7 +936,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Template1**](Template1.md)
+[**FullTemplate**](FullTemplate.md)
 
 ### Authorization
 

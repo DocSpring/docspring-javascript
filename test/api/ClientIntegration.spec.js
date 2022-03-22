@@ -157,9 +157,7 @@
           done()
         })
       })
-    })
 
-    describe('generatePDF', function () {
       it('should call generatePDF and not wait for the PDF', function (done) {
         this.timeout(10000)
         var template_id = 'tpl_000000000000000001'
@@ -193,6 +191,24 @@
           expect(submission.expired).to.be(false)
           expect(submission.editable).to.be(false)
           expect(submission.state).to.be('pending')
+          done()
+        })
+      })
+    })
+
+    describe('getTemplate', function () {
+      it('should call getTemplate successfully', function (done) {
+        this.timeout(10000)
+        var template_id = 'tpl_000000000000000001'
+
+        docspring.getTemplate(template_id, function (error, template) {
+          if (error) {
+            console.log(template, error)
+            throw error
+          }
+          expect(template.id).to.be(template_id)
+          expect(template.name).to.be('API Client Test Template 1')
+          expect(template.template_type).to.be('pdf')
           done()
         })
       })

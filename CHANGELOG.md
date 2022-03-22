@@ -1,3 +1,7 @@
+### 1.4.0 [March 22, 2022]
+
+- Renamed "Template1" model to "FullTemplate" since it includes all properties
+
 ### 1.3.2 [November 28, 2021]
 
 - Added 'password' parameter to Generate PDF and Combine PDF API endpoints. You can now encrypt each generated PDF with a unique password.

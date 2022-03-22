@@ -25,7 +25,7 @@
     if (!root.DocSpring) {
       root.DocSpring = {};
     }
-    root.DocSpring.Template1Defaults = factory(root.DocSpring.ApiClient);
+    root.DocSpring.FullTemplateDefaults = factory(root.DocSpring.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
@@ -34,14 +34,14 @@
 
 
   /**
-   * The Template1Defaults model module.
-   * @module model/Template1Defaults
-   * @version 1.3.2
+   * The FullTemplateDefaults model module.
+   * @module model/FullTemplateDefaults
+   * @version 1.4.0
    */
 
   /**
-   * Constructs a new <code>Template1Defaults</code>.
-   * @alias module:model/Template1Defaults
+   * Constructs a new <code>FullTemplateDefaults</code>.
+   * @alias module:model/FullTemplateDefaults
    * @class
    */
   var exports = function() {
@@ -53,11 +53,11 @@
   };
 
   /**
-   * Constructs a <code>Template1Defaults</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>FullTemplateDefaults</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/Template1Defaults} obj Optional instance to populate.
-   * @return {module:model/Template1Defaults} The populated <code>Template1Defaults</code> instance.
+   * @param {module:model/FullTemplateDefaults} obj Optional instance to populate.
+   * @return {module:model/FullTemplateDefaults} The populated <code>FullTemplateDefaults</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {

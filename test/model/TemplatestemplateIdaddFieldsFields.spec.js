@@ -434,6 +434,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property placeholder (base name: "placeholder")', function() {
+      // uncomment below and update the code to test the property placeholder
+      //var instance = new DocSpring.TemplatestemplateIdaddFieldsFields();
+      //expect(instance).to.be();
+    });
+
     it('should have the property strikethrough (base name: "strikethrough")', function() {
       // uncomment below and update the code to test the property strikethrough
       //var instance = new DocSpring.TemplatestemplateIdaddFieldsFields();

@@ -1,4 +1,4 @@
-# DocSpring.Template1
+# DocSpring.FullTemplate
 
 ## Properties
 Name | Type | Description | Notes
@@ -32,7 +32,7 @@ Name | Type | Description | Notes
 **sharedFieldData** | **Object** |  | [optional] 
 **documentMd5** | **String** |  | [optional] 
 **firstTemplate** | **Boolean** |  | [optional] 
-**defaults** | [**Template1Defaults**](Template1Defaults.md) |  | [optional] 
+**defaults** | [**FullTemplateDefaults**](FullTemplateDefaults.md) |  | [optional] 
 **editableSubmissions** | **Boolean** |  | [optional] 
 **expireSubmissions** | **Boolean** |  | [optional] 
 **name** | **String** |  | [optional] 

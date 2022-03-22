@@ -66,6 +66,7 @@ Name | Type | Description | Notes
 **qrcodeColorFieldRequired** | **Boolean** |  | [optional] 
 **currency** | **Boolean** |  | [optional] 
 **falseText** | **String** |  | [optional] 
+**placeholder** | **String** |  | [optional] 
 **strikethrough** | **Boolean** |  | [optional] 
 **characterSpacing** | **Number** |  | [optional] 
 **numberConditionRangeMax** | **Number** |  | [optional] 

@@ -36,7 +36,7 @@
   /**
    * The TemplatestemplateIdaddFieldsFields model module.
    * @module model/TemplatestemplateIdaddFieldsFields
-   * @version 1.3.2
+   * @version 1.4.0
    */
 
   /**
@@ -46,6 +46,7 @@
    */
   var exports = function() {
     var _this = this;
+
 
 
 
@@ -333,6 +334,9 @@
       }
       if (data.hasOwnProperty('falseText')) {
         obj['falseText'] = ApiClient.convertToType(data['falseText'], 'String');
+      }
+      if (data.hasOwnProperty('placeholder')) {
+        obj['placeholder'] = ApiClient.convertToType(data['placeholder'], 'String');
       }
       if (data.hasOwnProperty('strikethrough')) {
         obj['strikethrough'] = ApiClient.convertToType(data['strikethrough'], 'Boolean');
@@ -656,6 +660,10 @@
    * @member {String} falseText
    */
   exports.prototype['falseText'] = undefined;
+  /**
+   * @member {String} placeholder
+   */
+  exports.prototype['placeholder'] = undefined;
   /**
    * @member {Boolean} strikethrough
    */
