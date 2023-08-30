@@ -180,6 +180,16 @@
         done();
       });
     });
+    describe('deleteTemplate', function() {
+      it('should call deleteTemplate successfully', function(done) {
+        //uncomment below and update the code to test deleteTemplate
+        //instance.deleteTemplate(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('expireCombinedSubmission', function() {
       it('should call expireCombinedSubmission successfully', function(done) {
         //uncomment below and update the code to test expireCombinedSubmission
@@ -284,6 +294,16 @@
       it('should call getTemplateSchema successfully', function(done) {
         //uncomment below and update the code to test getTemplateSchema
         //instance.getTemplateSchema(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('listCombinedSubmissions', function() {
+      it('should call listCombinedSubmissions successfully', function(done) {
+        //uncomment below and update the code to test listCombinedSubmissions
+        //instance.listCombinedSubmissions(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

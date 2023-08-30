@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**createPDFTemplate**](PDFApi.md#createPDFTemplate) | **POST** /templates | Create a new PDF template with a form POST file upload
 [**createPDFTemplateFromUpload**](PDFApi.md#createPDFTemplateFromUpload) | **POST** /templates?desc&#x3D;cached_upload | Create a new PDF template from a cached presign upload
 [**deleteFolder**](PDFApi.md#deleteFolder) | **DELETE** /folders/{folder_id} | Delete a folder
+[**deleteTemplate**](PDFApi.md#deleteTemplate) | **DELETE** /templates/{template_id} | Delete a template
 [**expireCombinedSubmission**](PDFApi.md#expireCombinedSubmission) | **DELETE** /combined_submissions/{combined_submission_id} | Expire a combined submission
 [**expireSubmission**](PDFApi.md#expireSubmission) | **DELETE** /submissions/{submission_id} | Expire a PDF submission
 [**generatePDF**](PDFApi.md#generatePDF) | **POST** /templates/{template_id}/submissions | Generates a new PDF
@@ -28,6 +29,7 @@ Method | HTTP request | Description
 [**getSubmissionBatch**](PDFApi.md#getSubmissionBatch) | **GET** /submissions/batches/{submission_batch_id} | Check the status of a submission batch job
 [**getTemplate**](PDFApi.md#getTemplate) | **GET** /templates/{template_id} | Check the status of an uploaded template
 [**getTemplateSchema**](PDFApi.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Fetch the JSON schema for a template
+[**listCombinedSubmissions**](PDFApi.md#listCombinedSubmissions) | **GET** /combined_submissions | Get a list of all combined submissions
 [**listFolders**](PDFApi.md#listFolders) | **GET** /folders/ | Get a list of all folders
 [**listSubmissions**](PDFApi.md#listSubmissions) | **GET** /submissions | List all submissions
 [**listSubmissions_0**](PDFApi.md#listSubmissions_0) | **GET** /templates/{template_id}/submissions | List all submissions for a given template
@@ -663,6 +665,53 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+<a name="deleteTemplate"></a>
+# **deleteTemplate**
+> UpdateTemplateResponse deleteTemplate(templateId)
+
+Delete a template
+
+### Example
+```javascript
+var DocSpring = require('docspring');
+var defaultClient = DocSpring.ApiClient.instance;
+
+// Configure HTTP basic authorization: api_token_basic
+var api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+var apiInstance = new DocSpring.PDFApi();
+var templateId = tpl_000000000000000001; // String | 
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.deleteTemplate(templateId, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**|  | 
+
+### Return type
+
+[**UpdateTemplateResponse**](UpdateTemplateResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
 <a name="expireCombinedSubmission"></a>
 # **expireCombinedSubmission**
 > CombinedSubmission expireCombinedSubmission(combinedSubmissionId)
@@ -1186,6 +1235,57 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+<a name="listCombinedSubmissions"></a>
+# **listCombinedSubmissions**
+> [CombinedSubmission] listCombinedSubmissions(opts)
+
+Get a list of all combined submissions
+
+### Example
+```javascript
+var DocSpring = require('docspring');
+var defaultClient = DocSpring.ApiClient.instance;
+
+// Configure HTTP basic authorization: api_token_basic
+var api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+var apiInstance = new DocSpring.PDFApi();
+var opts = {
+  'page': 2, // Number | Default: 1
+  'perPage': 1 // Number | Default: 50
+};
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.listCombinedSubmissions(opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **page** | **Number**| Default: 1 | [optional] 
+ **perPage** | **Number**| Default: 50 | [optional] 
+
+### Return type
+
+[**[CombinedSubmission]**](CombinedSubmission.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
 <a name="listFolders"></a>
 # **listFolders**
 > [Folder] listFolders(opts)
@@ -1256,7 +1356,7 @@ var opts = {
   'cursor': sub_list_000012, // String | 
   'limit': 3, // Number | 
   'createdAfter': 2019-01-01T09:00:00-05:00, // String | 
-  'createdBefore': 2020-01-01T09:00:00-05:00, // String | 
+  'createdBefore': 2020-01-01T09:00:00.000+0200, // String | 
   'type': test, // String | 
   'includeData': true // Boolean | 
 };

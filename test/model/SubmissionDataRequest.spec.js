@@ -62,6 +62,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property submissionId (base name: "submission_id")', function() {
+      // uncomment below and update the code to test the property submissionId
+      //var instance = new DocSpring.SubmissionDataRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property name (base name: "name")', function() {
       // uncomment below and update the code to test the property name
       //var instance = new DocSpring.SubmissionDataRequest();

@@ -36,7 +36,7 @@
   /**
    * The CombinedSubmission model module.
    * @module model/CombinedSubmission
-   * @version 1.4.0
+   * @version 1.5.0
    */
 
   /**
@@ -46,6 +46,8 @@
    */
   var exports = function() {
     var _this = this;
+
+
 
 
 
@@ -71,6 +73,9 @@
     if (data) {
       obj = obj || new exports();
 
+      if (data.hasOwnProperty('error_message')) {
+        obj['error_message'] = ApiClient.convertToType(data['error_message'], 'String');
+      }
       if (data.hasOwnProperty('metadata')) {
         obj['metadata'] = ApiClient.convertToType(data['metadata'], Object);
       }
@@ -101,6 +106,9 @@
       if (data.hasOwnProperty('state')) {
         obj['state'] = ApiClient.convertToType(data['state'], 'String');
       }
+      if (data.hasOwnProperty('expires_in')) {
+        obj['expires_in'] = ApiClient.convertToType(data['expires_in'], 'Number');
+      }
       if (data.hasOwnProperty('actions')) {
         obj['actions'] = ApiClient.convertToType(data['actions'], [CombinedSubmissionAction]);
       }
@@ -108,6 +116,10 @@
     return obj;
   }
 
+  /**
+   * @member {String} error_message
+   */
+  exports.prototype['error_message'] = undefined;
   /**
    * @member {Object} metadata
    */
@@ -148,6 +160,10 @@
    * @member {module:model/CombinedSubmission.StateEnum} state
    */
   exports.prototype['state'] = undefined;
+  /**
+   * @member {Number} expires_in
+   */
+  exports.prototype['expires_in'] = undefined;
   /**
    * @member {Array.<module:model/CombinedSubmissionAction>} actions
    */

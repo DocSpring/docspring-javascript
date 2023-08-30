@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**errorMessage** | **String** |  | [optional] 
 **metadata** | **Object** |  | [optional] 
 **password** | **String** |  | [optional] 
 **expired** | **Boolean** |  | [optional] 
@@ -13,6 +14,7 @@ Name | Type | Description | Notes
 **submissionIds** | **[String]** |  | [optional] 
 **id** | **String** |  | [optional] 
 **state** | **String** |  | [optional] 
+**expiresIn** | **Number** |  | [optional] 
 **actions** | [**[CombinedSubmissionAction]**](CombinedSubmissionAction.md) |  | [optional] 
 
 

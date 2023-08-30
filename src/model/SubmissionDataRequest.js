@@ -36,7 +36,7 @@
   /**
    * The SubmissionDataRequest model module.
    * @module model/SubmissionDataRequest
-   * @version 1.4.0
+   * @version 1.5.0
    */
 
   /**
@@ -56,6 +56,7 @@
     var _this = this;
 
     _this['id'] = id;
+
     _this['name'] = name;
     _this['email'] = email;
     _this['order'] = order;
@@ -90,6 +91,9 @@
 
       if (data.hasOwnProperty('id')) {
         obj['id'] = ApiClient.convertToType(data['id'], 'String');
+      }
+      if (data.hasOwnProperty('submission_id')) {
+        obj['submission_id'] = ApiClient.convertToType(data['submission_id'], 'String');
       }
       if (data.hasOwnProperty('name')) {
         obj['name'] = ApiClient.convertToType(data['name'], 'String');
@@ -156,6 +160,10 @@
    * @member {String} id
    */
   exports.prototype['id'] = undefined;
+  /**
+   * @member {String} submission_id
+   */
+  exports.prototype['submission_id'] = undefined;
   /**
    * @member {String} name
    */

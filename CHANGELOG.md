@@ -1,3 +1,7 @@
+### 1.5.0 [August 30, 2023]
+
+- Added Delete Template API endpoint
+
 ### 1.4.0 [March 22, 2022]
 
 - Renamed "Template1" model to "FullTemplate" since it includes all properties

@@ -74,6 +74,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property expiresIn (base name: "expires_in")', function() {
+      // uncomment below and update the code to test the property expiresIn
+      //var instance = new DocSpring.SubmissionData();
+      //expect(instance).to.be();
+    });
+
     it('should have the property fieldOverrides (base name: "field_overrides")', function() {
       // uncomment below and update the code to test the property fieldOverrides
       //var instance = new DocSpring.SubmissionData();

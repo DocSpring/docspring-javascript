@@ -125,37 +125,39 @@
         var submission_data = {
           editable: false,
           data: {
-            title: 'Test PDF',
-            description: 'This PDF is great!',
+            first_name: 'John',
+            last_name: 'Smith',
+            phone_number: '+11234567890',
           },
           metadata: {
             user_id: 123,
           },
           field_overrides: {
-            title: {
+            phone_number: {
               required: false,
             },
           },
           wait: true,
         }
-        docspring.generatePDF(template_id, submission_data, function (
-          error,
-          response
-        ) {
-          if (error) {
-            console.log(response, error)
-            throw error
+        docspring.generatePDF(
+          template_id,
+          submission_data,
+          function (error, response) {
+            if (error) {
+              console.log(response, error)
+              throw error
+            }
+            var submission = response.submission
+            expect(response.status).to.be('success')
+            expect(submission.id).to.match(/^sub_/)
+            expect(submission.expired).to.be(false)
+            expect(submission.editable).to.be(false)
+            expect(submission.state).to.be('processed')
+            expect(submission.download_url).to.not.be(null)
+            expect(submission.download_url).to.not.be('')
+            done()
           }
-          var submission = response.submission
-          expect(response.status).to.be('success')
-          expect(submission.id).to.match(/^sub_/)
-          expect(submission.expired).to.be(false)
-          expect(submission.editable).to.be(false)
-          expect(submission.state).to.be('processed')
-          expect(submission.download_url).to.not.be(null)
-          expect(submission.download_url).to.not.be('')
-          done()
-        })
+        )
       })
 
       it('should call generatePDF and not wait for the PDF', function (done) {
@@ -164,35 +166,37 @@
         var submission_data = {
           editable: false,
           data: {
-            title: 'Test PDF',
-            description: 'This PDF is great!',
+            first_name: 'John',
+            last_name: 'Smith',
+            phone_number: '+11234567890',
           },
           metadata: {
             user_id: 123,
           },
           field_overrides: {
-            title: {
+            phone_number: {
               required: false,
             },
           },
           wait: false,
         }
-        docspring.generatePDF(template_id, submission_data, function (
-          error,
-          response
-        ) {
-          if (error) {
-            console.log(response, error)
-            throw error
+        docspring.generatePDF(
+          template_id,
+          submission_data,
+          function (error, response) {
+            if (error) {
+              console.log(response, error)
+              throw error
+            }
+            var submission = response.submission
+            expect(response.status).to.be('success')
+            expect(submission.id).to.match(/^sub_/)
+            expect(submission.expired).to.be(false)
+            expect(submission.editable).to.be(false)
+            expect(submission.state).to.be('pending')
+            done()
           }
-          var submission = response.submission
-          expect(response.status).to.be('success')
-          expect(submission.id).to.match(/^sub_/)
-          expect(submission.expired).to.be(false)
-          expect(submission.editable).to.be(false)
-          expect(submission.state).to.be('pending')
-          done()
-        })
+        )
       })
     })
 
@@ -224,14 +228,15 @@
             html: '<html><body>New HTML</html></body>',
           },
         }
-        docspring.updateTemplate(template_id, template_data, function (
-          error,
-          response
-        ) {
-          if (error) throw error
-          expect(response.status).to.be('success')
-          done()
-        })
+        docspring.updateTemplate(
+          template_id,
+          template_data,
+          function (error, response) {
+            if (error) throw error
+            expect(response.status).to.be('success')
+            done()
+          }
+        )
       })
     })
 
@@ -256,19 +261,20 @@
             },
           ],
         }
-        docspring.addFieldsToTemplate(template_id, newFieldData, function (
-          error,
-          response
-        ) {
-          if (error) {
-            console.log(response, error)
-            throw error
+        docspring.addFieldsToTemplate(
+          template_id,
+          newFieldData,
+          function (error, response) {
+            if (error) {
+              console.log(response, error)
+              throw error
+            }
+            expect(response.status).to.be('success')
+            expect(response.new_field_ids).to.eql([4, 5])
+            expect(response.errors).to.be(undefined)
+            done()
           }
-          expect(response.status).to.be('success')
-          expect(response.new_field_ids).to.eql([3, 4])
-          expect(response.errors).to.be(undefined)
-          done()
-        })
+        )
       })
     })
   })

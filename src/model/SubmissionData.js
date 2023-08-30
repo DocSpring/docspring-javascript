@@ -36,7 +36,7 @@
   /**
    * The SubmissionData model module.
    * @module model/SubmissionData
-   * @version 1.4.0
+   * @version 1.5.0
    */
 
   /**
@@ -50,6 +50,7 @@
 
 
     _this['data'] = data;
+
 
 
 
@@ -77,6 +78,9 @@
       }
       if (data.hasOwnProperty('data_requests')) {
         obj['data_requests'] = ApiClient.convertToType(data['data_requests'], [CreateSubmissionDataRequestData]);
+      }
+      if (data.hasOwnProperty('expires_in')) {
+        obj['expires_in'] = ApiClient.convertToType(data['expires_in'], 'Number');
       }
       if (data.hasOwnProperty('field_overrides')) {
         obj['field_overrides'] = ApiClient.convertToType(data['field_overrides'], Object);
@@ -109,6 +113,10 @@
    * @member {Array.<module:model/CreateSubmissionDataRequestData>} data_requests
    */
   exports.prototype['data_requests'] = undefined;
+  /**
+   * @member {Number} expires_in
+   */
+  exports.prototype['expires_in'] = undefined;
   /**
    * @member {Object} field_overrides
    */

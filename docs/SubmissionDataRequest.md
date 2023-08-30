@@ -4,6 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | 
+**submissionId** | **String** |  | [optional] 
 **name** | **String** |  | 
 **email** | **String** |  | 
 **order** | **Number** |  | 

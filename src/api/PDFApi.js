@@ -33,7 +33,7 @@
   /**
    * PDF service.
    * @module api/PDFApi
-   * @version 1.4.0
+   * @version 1.5.0
    */
 
   /**
@@ -681,6 +681,53 @@
     }
 
     /**
+     * Callback function to receive the result of the deleteTemplate operation.
+     * @callback module:api/PDFApi~deleteTemplateCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/UpdateTemplateResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Delete a template
+     * @param {String} templateId 
+     * @param {module:api/PDFApi~deleteTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/UpdateTemplateResponse}
+     */
+    this.deleteTemplate = function(templateId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'templateId' is set
+      if (templateId === undefined || templateId === null) {
+        throw new Error("Missing the required parameter 'templateId' when calling deleteTemplate");
+      }
+
+
+      var pathParams = {
+        'template_id': templateId
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['api_token_basic'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = UpdateTemplateResponse;
+
+      return this.apiClient.callApi(
+        '/templates/{template_id}', 'DELETE',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the expireCombinedSubmission operation.
      * @callback module:api/PDFApi~expireCombinedSubmissionCallback
      * @param {String} error Error message, if any.
@@ -1199,6 +1246,52 @@
 
       return this.apiClient.callApi(
         '/templates/{template_id}/schema', 'GET',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the listCombinedSubmissions operation.
+     * @callback module:api/PDFApi~listCombinedSubmissionsCallback
+     * @param {String} error Error message, if any.
+     * @param {Array.<module:model/CombinedSubmission>} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Get a list of all combined submissions
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.page Default: 1
+     * @param {Number} opts.perPage Default: 50
+     * @param {module:api/PDFApi~listCombinedSubmissionsCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Array.<module:model/CombinedSubmission>}
+     */
+    this.listCombinedSubmissions = function(opts, callback) {
+      opts = opts || {};
+      var postBody = null;
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+        'page': opts['page'],
+        'per_page': opts['perPage'],
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['api_token_basic'];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = [CombinedSubmission];
+
+      return this.apiClient.callApi(
+        '/combined_submissions', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );

@@ -56,6 +56,12 @@
       //expect(instance).to.be.a(DocSpring.CombinedSubmission);
     });
 
+    it('should have the property errorMessage (base name: "error_message")', function() {
+      // uncomment below and update the code to test the property errorMessage
+      //var instance = new DocSpring.CombinedSubmission();
+      //expect(instance).to.be();
+    });
+
     it('should have the property metadata (base name: "metadata")', function() {
       // uncomment below and update the code to test the property metadata
       //var instance = new DocSpring.CombinedSubmission();
@@ -112,6 +118,12 @@
 
     it('should have the property state (base name: "state")', function() {
       // uncomment below and update the code to test the property state
+      //var instance = new DocSpring.CombinedSubmission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property expiresIn (base name: "expires_in")', function() {
+      // uncomment below and update the code to test the property expiresIn
       //var instance = new DocSpring.CombinedSubmission();
       //expect(instance).to.be();
     });
