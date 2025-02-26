@@ -1,11 +1,12 @@
 # DocSpring.Folder
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**path** | **String** |  | [optional] 
-**parentFolderId** | **String** |  | [optional] 
-**name** | **String** |  | [optional] 
-**id** | **String** |  | [optional] 
+**id** | **String** |  | 
+**name** | **String** |  | 
+**path** | **String** |  | 
+**parentFolderId** | **String** |  | 
 
 

@@ -1,14 +1,15 @@
 # DocSpring.CreateCustomFileResponse
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**customFile** | [**CustomFile**](CustomFile.md) |  | [optional] 
+**status** | **String** |  | 
+**customFile** | [**CustomFile**](CustomFile.md) |  | 
 **errors** | **[String]** |  | [optional] 
-**status** | **String** |  | [optional] 
 
 
-<a name="StatusEnum"></a>
+
 ## Enum: StatusEnum
 
 

@@ -1,6 +1,7 @@
 # DocSpring.CombinedSubmissionData
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **expiresIn** | **Number** |  | [optional] 

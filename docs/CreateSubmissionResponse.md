@@ -1,14 +1,15 @@
 # DocSpring.CreateSubmissionResponse
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**submission** | [**Submission**](Submission.md) |  | [optional] 
+**status** | **String** |  | 
+**submission** | [**SubmissionPreview**](SubmissionPreview.md) |  | 
 **errors** | **[String]** |  | [optional] 
-**status** | **String** |  | [optional] 
 
 
-<a name="StatusEnum"></a>
+
 ## Enum: StatusEnum
 
 

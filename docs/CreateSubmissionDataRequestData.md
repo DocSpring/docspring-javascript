@@ -1,24 +1,36 @@
 # DocSpring.CreateSubmissionDataRequestData
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**authType** | **String** |  | [optional] 
-**metadata** | **Object** |  | [optional] 
 **authSecondFactorType** | **String** |  | [optional] 
-**authPhoneNumberHash** | **String** |  | [optional] 
-**authSessionStartedAt** | **String** |  | [optional] 
-**authUserIdHash** | **String** |  | [optional] 
-**authSessionIdHash** | **String** |  | [optional] 
-**authUsernameHash** | **String** |  | [optional] 
-**name** | **String** |  | [optional] 
+**authType** | **String** |  | [optional] 
 **fields** | **[String]** |  | [optional] 
-**authProvider** | **String** |  | [optional] 
-**email** | **String** |  | [optional] 
+**metadata** | **Object** |  | [optional] 
 **order** | **Number** |  | [optional] 
 
 
-<a name="AuthTypeEnum"></a>
+
+## Enum: AuthSecondFactorTypeEnum
+
+
+* `none` (value: `"none"`)
+
+* `phone_number` (value: `"phone_number"`)
+
+* `totp` (value: `"totp"`)
+
+* `mobile_push` (value: `"mobile_push"`)
+
+* `security_key` (value: `"security_key"`)
+
+* `fingerprint` (value: `"fingerprint"`)
+
+
+
+
+
 ## Enum: AuthTypeEnum
 
 
@@ -35,25 +47,6 @@ Name | Type | Description | Notes
 * `ldap` (value: `"ldap"`)
 
 * `saml` (value: `"saml"`)
-
-
-
-
-<a name="AuthSecondFactorTypeEnum"></a>
-## Enum: AuthSecondFactorTypeEnum
-
-
-* `none` (value: `"none"`)
-
-* `phone_number` (value: `"phone_number"`)
-
-* `totp` (value: `"totp"`)
-
-* `mobile_push` (value: `"mobile_push"`)
-
-* `security_key` (value: `"security_key"`)
-
-* `fingerprint` (value: `"fingerprint"`)
 
 
 

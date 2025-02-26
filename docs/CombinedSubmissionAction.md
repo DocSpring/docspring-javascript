@@ -1,17 +1,18 @@
 # DocSpring.CombinedSubmissionAction
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | 
 **integrationId** | **String** |  | 
 **state** | **String** |  | 
-**actionCategory** | **String** |  | 
 **actionType** | **String** |  | 
+**actionCategory** | **String** |  | 
 **resultData** | **Object** |  | 
 
 
-<a name="StateEnum"></a>
+
 ## Enum: StateEnum
 
 
@@ -26,18 +27,7 @@ Name | Type | Description | Notes
 
 
 
-<a name="ActionCategoryEnum"></a>
-## Enum: ActionCategoryEnum
 
-
-* `notification` (value: `"notification"`)
-
-* `file_upload` (value: `"file_upload"`)
-
-
-
-
-<a name="ActionTypeEnum"></a>
 ## Enum: ActionTypeEnum
 
 
@@ -48,6 +38,17 @@ Name | Type | Description | Notes
 * `email` (value: `"email"`)
 
 * `aws_s3_upload` (value: `"aws_s3_upload"`)
+
+
+
+
+
+## Enum: ActionCategoryEnum
+
+
+* `notification` (value: `"notification"`)
+
+* `file_upload` (value: `"file_upload"`)
 
 
 

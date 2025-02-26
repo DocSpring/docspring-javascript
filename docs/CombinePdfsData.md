@@ -1,6 +1,7 @@
 # DocSpring.CombinePdfsData
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **deleteCustomFiles** | **Boolean** |  | [optional] 

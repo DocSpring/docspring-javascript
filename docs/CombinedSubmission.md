@@ -1,24 +1,26 @@
 # DocSpring.CombinedSubmission
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**errorMessage** | **String** |  | [optional] 
-**metadata** | **Object** |  | [optional] 
-**password** | **String** |  | [optional] 
-**expired** | **Boolean** |  | [optional] 
-**expiresAt** | **String** |  | [optional] 
-**sourcePdfs** | **[Object]** |  | [optional] 
-**pdfHash** | **String** |  | [optional] 
-**downloadUrl** | **String** |  | [optional] 
-**submissionIds** | **[String]** |  | [optional] 
-**id** | **String** |  | [optional] 
-**state** | **String** |  | [optional] 
-**expiresIn** | **Number** |  | [optional] 
-**actions** | [**[CombinedSubmissionAction]**](CombinedSubmissionAction.md) |  | [optional] 
+**id** | **String** |  | 
+**state** | **String** |  | 
+**expired** | **Boolean** |  | 
+**expiresIn** | **Number** |  | 
+**expiresAt** | **String** |  | 
+**processedAt** | **String** |  | 
+**errorMessage** | **String** |  | 
+**submissionIds** | **[String]** |  | 
+**sourcePdfs** | **[Object]** |  | 
+**metadata** | **Object** |  | 
+**password** | **String** |  | 
+**pdfHash** | **String** |  | 
+**downloadUrl** | **String** |  | 
+**actions** | [**[CombinedSubmissionAction]**](CombinedSubmissionAction.md) |  | 
 
 
-<a name="StateEnum"></a>
+
 ## Enum: StateEnum
 
 

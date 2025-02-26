@@ -1,14 +1,15 @@
 # DocSpring.CreateSubmissionDataRequestTokenResponse
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**status** | **String** |  | 
+**token** | [**SubmissionDataRequestToken**](SubmissionDataRequestToken.md) |  | 
 **errors** | **[String]** |  | [optional] 
-**status** | **String** |  | [optional] 
-**token** | [**CreateSubmissionDataRequestTokenResponseToken**](CreateSubmissionDataRequestTokenResponseToken.md) |  | [optional] 
 
 
-<a name="StatusEnum"></a>
+
 ## Enum: StatusEnum
 
 

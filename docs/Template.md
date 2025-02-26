@@ -1,39 +1,81 @@
 # DocSpring.Template
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**expirationInterval** | **String** |  | [optional] 
-**webhookUrl** | **String** |  | [optional] 
-**parentFolderId** | **String** |  | [optional] 
-**expireAfter** | **Number** |  | [optional] 
-**allowAdditionalProperties** | **Boolean** |  | [optional] 
-**description** | **String** |  | [optional] 
-**publicSubmissions** | **Boolean** |  | [optional] 
-**slackWebhookUrl** | **String** |  | [optional] 
-**path** | **String** |  | [optional] 
-**publicWebForm** | **Boolean** |  | [optional] 
-**editableSubmissions** | **Boolean** |  | [optional] 
-**expireSubmissions** | **Boolean** |  | [optional] 
-**name** | **String** |  | [optional] 
-**permanentDocumentUrl** | **String** |  | [optional] 
-**templateType** | **String** |  | [optional] 
-**id** | **String** |  | [optional] 
-**pageDimensions** | **[[Number]]** |  | [optional] 
-**locked** | **Boolean** |  | [optional] 
-**redirectUrl** | **String** |  | [optional] 
-**documentUrl** | **String** |  | [optional] 
+**addDataRequestSubmissionIdFooters** | **Boolean** |  | 
+**allowAdditionalProperties** | **Boolean** |  | 
+**description** | **String** |  | 
+**documentFilename** | **String** |  | 
+**documentMd5** | **String** |  | 
+**documentParseError** | **Boolean** |  | 
+**documentProcessed** | **Boolean** |  | 
+**documentState** | **String** |  | 
+**documentUrl** | **String** |  | 
+**editableSubmissions** | **Boolean** |  | 
+**embedDomains** | **String** |  | 
+**encryptPdfsPassword** | **String** |  | 
+**encryptPdfs** | **Boolean** |  | 
+**expirationInterval** | **String** |  | 
+**expireAfter** | **Number** |  | 
+**expireSubmissions** | **Boolean** |  | 
+**externalPredefinedFieldsTemplateId** | **String** |  | 
+**externalPredefinedFieldsTemplateName** | **String** |  | 
+**firstTemplate** | **Boolean** |  | 
+**id** | **String** |  | 
+**locked** | **Boolean** |  | 
+**mergeAuditTrailPdf** | **Boolean** |  | 
+**name** | **String** |  | 
+**pageCount** | **Number** |  | 
+**pageDimensions** | **[[Number]]** |  | 
+**parentFolderId** | **String** |  | 
+**path** | **String** |  | 
+**permanentDocumentUrl** | **String** |  | 
+**publicSubmissions** | **Boolean** |  | 
+**publicWebForm** | **Boolean** |  | 
+**redirectUrl** | **String** |  | 
+**slackWebhookUrl** | **String** |  | 
+**templateType** | **String** |  | 
+**updatedAt** | **String** |  | 
+**webhookUrl** | **String** |  | 
+**demo** | **Boolean** |  | 
+**defaults** | **Object** |  | 
+**fieldOrder** | **[[Number]]** |  | 
+**fields** | **Object** |  | 
+**footerHtml** | **String** |  | 
+**headerHtml** | **String** |  | 
+**htmlEngineOptions** | **Object** |  | 
+**html** | **String** |  | 
+**predefinedFields** | **[Object]** |  | 
+**scss** | **String** |  | 
+**sharedFieldData** | **Object** |  | 
 
 
-<a name="ExpirationIntervalEnum"></a>
-## Enum: ExpirationIntervalEnum
+
+## Enum: DocumentStateEnum
 
 
-* `minutes` (value: `"minutes"`)
+* `pending` (value: `"pending"`)
 
-* `hours` (value: `"hours"`)
+* `processed` (value: `"processed"`)
 
-* `days` (value: `"days"`)
+* `password_required` (value: `"password_required"`)
+
+* `malformed_pdf` (value: `"malformed_pdf"`)
+
+* `unknown_error` (value: `"unknown_error"`)
+
+
+
+
+
+## Enum: TemplateTypeEnum
+
+
+* `pdf` (value: `"pdf"`)
+
+* `html` (value: `"html"`)
 
 
 

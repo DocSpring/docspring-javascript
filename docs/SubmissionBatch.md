@@ -1,20 +1,20 @@
 # DocSpring.SubmissionBatch
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**pendingCount** | **Number** |  | [optional] 
-**completionPercentage** | **Number** |  | [optional] 
-**metadata** | **Object** |  | [optional] 
-**totalCount** | **Number** |  | [optional] 
-**submissions** | [**[Submission]**](Submission.md) |  | [optional] 
-**processedAt** | **String** |  | [optional] 
-**id** | **String** |  | [optional] 
-**state** | **String** |  | [optional] 
-**errorCount** | **Number** |  | [optional] 
+**id** | **String** |  | 
+**state** | **String** |  | 
+**metadata** | **Object** |  | 
+**processedAt** | **String** |  | 
+**totalCount** | **Number** |  | 
+**pendingCount** | **Number** |  | 
+**errorCount** | **Number** |  | 
+**completionPercentage** | **Number** |  | 
 
 
-<a name="StateEnum"></a>
+
 ## Enum: StateEnum
 
 

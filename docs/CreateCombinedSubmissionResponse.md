@@ -1,14 +1,15 @@
 # DocSpring.CreateCombinedSubmissionResponse
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**combinedSubmission** | [**CombinedSubmission**](CombinedSubmission.md) |  | [optional] 
+**status** | **String** |  | 
+**combinedSubmission** | [**CombinedSubmission**](CombinedSubmission.md) |  | 
 **errors** | **[String]** |  | [optional] 
-**status** | **String** |  | [optional] 
 
 
-<a name="StatusEnum"></a>
+
 ## Enum: StatusEnum
 
 

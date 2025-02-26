@@ -1,30 +1,36 @@
 # DocSpring.Submission
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** |  | 
-**templateId** | **String** |  | [optional] 
-**test** | **Boolean** |  | 
-**editable** | **Boolean** |  | [optional] 
+**batchId** | **String** |  | 
+**dataRequests** | [**[SubmissionDataRequest]**](SubmissionDataRequest.md) |  | 
+**editable** | **Boolean** |  | 
 **expired** | **Boolean** |  | 
-**expiresAt** | **String** |  | [optional] 
-**processedAt** | **String** |  | [optional] 
+**expiresAt** | **String** |  | 
+**id** | **String** |  | 
+**jsonSchemaErrors** | **[String]** |  | 
+**metadata** | **Object** |  | 
+**password** | **String** |  | 
+**processedAt** | **String** |  | 
 **state** | **String** |  | 
-**data** | **Object** |  | [optional] 
-**metadata** | **Object** |  | [optional] 
-**truncatedText** | **Object** |  | [optional] 
-**pdfHash** | **String** |  | [optional] 
-**downloadUrl** | **String** |  | [optional] 
-**permanentDownloadUrl** | **String** |  | [optional] 
-**batchId** | **String** |  | [optional] 
-**dataRequests** | [**[SubmissionDataRequest]**](SubmissionDataRequest.md) |  | [optional] 
-**actions** | [**[SubmissionAction]**](SubmissionAction.md) |  | [optional] 
-**source** | **String** |  | [optional] 
-**referrer** | **String** |  | [optional] 
+**templateId** | **String** |  | 
+**test** | **Boolean** |  | 
+**truncatedText** | **Object** |  | 
+**pdfHash** | **String** |  | 
+**downloadUrl** | **String** |  | 
+**permanentDownloadUrl** | **String** |  | 
+**previewDownloadUrl** | **String** |  | 
+**previewGeneratedAt** | **String** |  | 
+**auditTrailDownloadUrl** | **String** |  | 
+**actions** | [**[SubmissionAction]**](SubmissionAction.md) |  | 
+**source** | **String** |  | 
+**referrer** | **String** |  | 
+**data** | **Object** |  | 
 
 
-<a name="StateEnum"></a>
+
 ## Enum: StateEnum
 
 
@@ -49,6 +55,21 @@ Name | Type | Description | Notes
 * `license_revoked` (value: `"license_revoked"`)
 
 * `accidental` (value: `"accidental"`)
+
+
+
+
+
+## Enum: SourceEnum
+
+
+* `api` (value: `"api"`)
+
+* `web` (value: `"web"`)
+
+* `reprocess` (value: `"reprocess"`)
+
+* `webhook` (value: `"webhook"`)
 
 
 

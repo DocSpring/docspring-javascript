@@ -1,26 +1,28 @@
 # DocSpring.PDFApi
 
-All URIs are relative to *https://api.docspring.com/api/v1*
+All URIs are relative to *https://sync.api.docspring.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addFieldsToTemplate**](PDFApi.md#addFieldsToTemplate) | **PUT** /templates/{template_id}/add_fields | Add new fields to a Template
-[**batchGeneratePdfV1**](PDFApi.md#batchGeneratePdfV1) | **POST** /templates/{template_id}/submissions/batch | Generates multiple PDFs
 [**batchGeneratePdfs**](PDFApi.md#batchGeneratePdfs) | **POST** /submissions/batches | Generates multiple PDFs
 [**combinePdfs**](PDFApi.md#combinePdfs) | **POST** /combined_submissions?v&#x3D;2 | Merge submission PDFs, template PDFs, or custom files
 [**combineSubmissions**](PDFApi.md#combineSubmissions) | **POST** /combined_submissions | Merge generated PDFs together
 [**copyTemplate**](PDFApi.md#copyTemplate) | **POST** /templates/{template_id}/copy | Copy a Template
 [**createCustomFileFromUpload**](PDFApi.md#createCustomFileFromUpload) | **POST** /custom_files | Create a new custom file from a cached presign upload
+[**createDataRequestEvent**](PDFApi.md#createDataRequestEvent) | **POST** /data_requests/{data_request_id}/events | Creates a new event for emailing a signee a request for signature
 [**createDataRequestToken**](PDFApi.md#createDataRequestToken) | **POST** /data_requests/{data_request_id}/tokens | Creates a new data request token for form authentication
 [**createFolder**](PDFApi.md#createFolder) | **POST** /folders/ | Create a folder
-[**createHTMLTemplate**](PDFApi.md#createHTMLTemplate) | **POST** /templates?desc&#x3D;html | Create a new HTML template
+[**createHTMLTemplate**](PDFApi.md#createHTMLTemplate) | **POST** /templates?endpoint_description&#x3D;html | Create a new HTML template
 [**createPDFTemplate**](PDFApi.md#createPDFTemplate) | **POST** /templates | Create a new PDF template with a form POST file upload
-[**createPDFTemplateFromUpload**](PDFApi.md#createPDFTemplateFromUpload) | **POST** /templates?desc&#x3D;cached_upload | Create a new PDF template from a cached presign upload
+[**createPDFTemplateFromUpload**](PDFApi.md#createPDFTemplateFromUpload) | **POST** /templates?endpoint_description&#x3D;cached_upload | Create a new PDF template from a cached presign upload
 [**deleteFolder**](PDFApi.md#deleteFolder) | **DELETE** /folders/{folder_id} | Delete a folder
 [**deleteTemplate**](PDFApi.md#deleteTemplate) | **DELETE** /templates/{template_id} | Delete a template
 [**expireCombinedSubmission**](PDFApi.md#expireCombinedSubmission) | **DELETE** /combined_submissions/{combined_submission_id} | Expire a combined submission
 [**expireSubmission**](PDFApi.md#expireSubmission) | **DELETE** /submissions/{submission_id} | Expire a PDF submission
-[**generatePDF**](PDFApi.md#generatePDF) | **POST** /templates/{template_id}/submissions | Generates a new PDF
+[**generatePdf**](PDFApi.md#generatePdf) | **POST** /templates/{template_id}/submissions | Generates a new PDF
+[**generatePdfForHtmlTemplate**](PDFApi.md#generatePdfForHtmlTemplate) | **POST** /templates/{template_id}/submissions?endpoint_description&#x3D;html_templates | Generates a new PDF for an HTML template
+[**generatePreview**](PDFApi.md#generatePreview) | **POST** /submissions/{submission_id}/generate_preview | Generated a preview PDF for partially completed data requests
 [**getCombinedSubmission**](PDFApi.md#getCombinedSubmission) | **GET** /combined_submissions/{combined_submission_id} | Check the status of a combined submission (merged PDFs)
 [**getDataRequest**](PDFApi.md#getDataRequest) | **GET** /data_requests/{data_request_id} | Look up a submission data request
 [**getFullTemplate**](PDFApi.md#getFullTemplate) | **GET** /templates/{template_id}?full&#x3D;true | Fetch the full template attributes
@@ -32,7 +34,7 @@ Method | HTTP request | Description
 [**listCombinedSubmissions**](PDFApi.md#listCombinedSubmissions) | **GET** /combined_submissions | Get a list of all combined submissions
 [**listFolders**](PDFApi.md#listFolders) | **GET** /folders/ | Get a list of all folders
 [**listSubmissions**](PDFApi.md#listSubmissions) | **GET** /submissions | List all submissions
-[**listSubmissions_0**](PDFApi.md#listSubmissions_0) | **GET** /templates/{template_id}/submissions | List all submissions for a given template
+[**listTemplateSubmissions**](PDFApi.md#listTemplateSubmissions) | **GET** /templates/{template_id}/submissions | List all submissions for a given template
 [**listTemplates**](PDFApi.md#listTemplates) | **GET** /templates | Get a list of all templates
 [**moveFolderToFolder**](PDFApi.md#moveFolderToFolder) | **POST** /folders/{folder_id}/move | Move a folder
 [**moveTemplateToFolder**](PDFApi.md#moveTemplateToFolder) | **POST** /templates/{template_id}/move | Move Template to folder
@@ -42,45 +44,46 @@ Method | HTTP request | Description
 [**updateTemplate**](PDFApi.md#updateTemplate) | **PUT** /templates/{template_id} | Update a Template
 
 
-<a name="addFieldsToTemplate"></a>
-# **addFieldsToTemplate**
-> AddFieldsTemplateResponse addFieldsToTemplate(templateId, addFieldsData)
+
+## addFieldsToTemplate
+
+> TemplateAddFieldsResponse addFieldsToTemplate(templateId, data)
 
 Add new fields to a Template
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000002; // String | 
-var addFieldsData = new DocSpring.AddFieldsData(); // AddFieldsData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef02"; // String | 
+let data = new DocSpring.AddFieldsData(); // AddFieldsData | 
+apiInstance.addFieldsToTemplate(templateId, data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.addFieldsToTemplate(templateId, addFieldsData, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **templateId** | **String**|  | 
- **addFieldsData** | [**AddFieldsData**](AddFieldsData.md)|  | 
+ **data** | [**AddFieldsData**](AddFieldsData.md)|  | 
 
 ### Return type
 
-[**AddFieldsTemplateResponse**](AddFieldsTemplateResponse.md)
+[**TemplateAddFieldsResponse**](TemplateAddFieldsResponse.md)
 
 ### Authorization
 
@@ -88,48 +91,51 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="batchGeneratePdfV1"></a>
-# **batchGeneratePdfV1**
-> [CreateSubmissionResponse] batchGeneratePdfV1(templateId, requestBody)
+
+## batchGeneratePdfs
+
+> BatchGeneratePdfs201Response batchGeneratePdfs(data, opts)
 
 Generates multiple PDFs
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000001; // String | 
-var requestBody = [null]; // [Object] | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let data = new DocSpring.SubmissionBatchData(); // SubmissionBatchData | 
+let opts = {
+  'wait': true // Boolean | Wait for submission batch to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
+};
+apiInstance.batchGeneratePdfs(data, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.batchGeneratePdfV1(templateId, requestBody, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **templateId** | **String**|  | 
- **requestBody** | [**[Object]**](Array.md)|  | 
+ **data** | [**SubmissionBatchData**](SubmissionBatchData.md)|  | 
+ **wait** | **Boolean**| Wait for submission batch to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain) | [optional] [default to true]
 
 ### Return type
 
-[**[CreateSubmissionResponse]**](CreateSubmissionResponse.md)
+[**BatchGeneratePdfs201Response**](BatchGeneratePdfs201Response.md)
 
 ### Authorization
 
@@ -137,89 +143,43 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="batchGeneratePdfs"></a>
-# **batchGeneratePdfs**
-> CreateSubmissionBatchResponse batchGeneratePdfs(submissionBatchData)
 
-Generates multiple PDFs
+## combinePdfs
 
-### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
-
-// Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
-api_token_basic.username = 'YOUR USERNAME';
-api_token_basic.password = 'YOUR PASSWORD';
-
-var apiInstance = new DocSpring.PDFApi();
-var submissionBatchData = new DocSpring.SubmissionBatchData(); // SubmissionBatchData | 
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully. Returned data: ' + data);
-  }
-};
-apiInstance.batchGeneratePdfs(submissionBatchData, callback);
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **submissionBatchData** | [**SubmissionBatchData**](SubmissionBatchData.md)|  | 
-
-### Return type
-
-[**CreateSubmissionBatchResponse**](CreateSubmissionBatchResponse.md)
-
-### Authorization
-
-[api_token_basic](../README.md#api_token_basic)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-<a name="combinePdfs"></a>
-# **combinePdfs**
-> CreateCombinedSubmissionResponse combinePdfs(combinePdfsData)
+> CreateCombinedSubmissionResponse combinePdfs(data)
 
 Merge submission PDFs, template PDFs, or custom files
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var combinePdfsData = new DocSpring.CombinePdfsData(); // CombinePdfsData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let data = new DocSpring.CombinePdfsData(); // CombinePdfsData | 
+apiInstance.combinePdfs(data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.combinePdfs(combinePdfsData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **combinePdfsData** | [**CombinePdfsData**](CombinePdfsData.md)|  | 
+ **data** | [**CombinePdfsData**](CombinePdfsData.md)|  | 
 
 ### Return type
 
@@ -231,42 +191,47 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="combineSubmissions"></a>
-# **combineSubmissions**
-> CreateCombinedSubmissionResponse combineSubmissions(combinedSubmissionData)
+
+## combineSubmissions
+
+> CreateCombinedSubmissionResponse combineSubmissions(data, opts)
 
 Merge generated PDFs together
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var combinedSubmissionData = new DocSpring.CombinedSubmissionData(); // CombinedSubmissionData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let data = new DocSpring.CombinedSubmissionData(); // CombinedSubmissionData | 
+let opts = {
+  'wait': true // Boolean | Wait for combined submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
+};
+apiInstance.combineSubmissions(data, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.combineSubmissions(combinedSubmissionData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **combinedSubmissionData** | [**CombinedSubmissionData**](CombinedSubmissionData.md)|  | 
+ **data** | [**CombinedSubmissionData**](CombinedSubmissionData.md)|  | 
+ **wait** | **Boolean**| Wait for combined submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain) | [optional] [default to true]
 
 ### Return type
 
@@ -278,48 +243,51 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="copyTemplate"></a>
-# **copyTemplate**
-> Template copyTemplate(templateId, copyTemplateData)
+
+## copyTemplate
+
+> TemplatePreview copyTemplate(templateId, opts)
 
 Copy a Template
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000001; // String | 
-var copyTemplateData = new DocSpring.CopyTemplateData(); // CopyTemplateData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef01"; // String | 
+let opts = {
+  'options': new DocSpring.CopyTemplateOptions() // CopyTemplateOptions | 
+};
+apiInstance.copyTemplate(templateId, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.copyTemplate(templateId, copyTemplateData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **templateId** | **String**|  | 
- **copyTemplateData** | [**CopyTemplateData**](CopyTemplateData.md)|  | 
+ **options** | [**CopyTemplateOptions**](CopyTemplateOptions.md)|  | [optional] 
 
 ### Return type
 
-[**Template**](Template.md)
+[**TemplatePreview**](TemplatePreview.md)
 
 ### Authorization
 
@@ -327,42 +295,43 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="createCustomFileFromUpload"></a>
-# **createCustomFileFromUpload**
-> CreateCustomFileResponse createCustomFileFromUpload(createCustomFileData)
+
+## createCustomFileFromUpload
+
+> CreateCustomFileResponse createCustomFileFromUpload(data)
 
 Create a new custom file from a cached presign upload
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var createCustomFileData = new DocSpring.CreateCustomFileData(); // CreateCustomFileData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let data = new DocSpring.CreateCustomFileData(); // CreateCustomFileData | 
+apiInstance.createCustomFileFromUpload(data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.createCustomFileFromUpload(createCustomFileData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createCustomFileData** | [**CreateCustomFileData**](CreateCustomFileData.md)|  | 
+ **data** | [**CreateCustomFileData**](CreateCustomFileData.md)|  | 
 
 ### Return type
 
@@ -374,42 +343,97 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="createDataRequestToken"></a>
-# **createDataRequestToken**
-> CreateSubmissionDataRequestTokenResponse createDataRequestToken(dataRequestId)
 
-Creates a new data request token for form authentication
+## createDataRequestEvent
+
+> CreateSubmissionDataRequestEventResponse createDataRequestEvent(dataRequestId, event)
+
+Creates a new event for emailing a signee a request for signature
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var dataRequestId = drq_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let dataRequestId = "drq_1234567890abcdef01"; // String | 
+let event = new DocSpring.CreateSubmissionDataRequestEventRequest(); // CreateSubmissionDataRequestEventRequest | 
+apiInstance.createDataRequestEvent(dataRequestId, event, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.createDataRequestToken(dataRequestId, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **dataRequestId** | **String**|  | 
+ **event** | [**CreateSubmissionDataRequestEventRequest**](CreateSubmissionDataRequestEventRequest.md)|  | 
+
+### Return type
+
+[**CreateSubmissionDataRequestEventResponse**](CreateSubmissionDataRequestEventResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## createDataRequestToken
+
+> CreateSubmissionDataRequestTokenResponse createDataRequestToken(dataRequestId, opts)
+
+Creates a new data request token for form authentication
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.PDFApi();
+let dataRequestId = "drq_1234567890abcdef01"; // String | 
+let opts = {
+  'type': "api" // String | 
+};
+apiInstance.createDataRequestToken(dataRequestId, opts, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dataRequestId** | **String**|  | 
+ **type** | **String**|  | [optional] 
 
 ### Return type
 
@@ -421,42 +445,43 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="createFolder"></a>
-# **createFolder**
-> Folder createFolder(createFolderData)
+
+## createFolder
+
+> Folder createFolder(data)
 
 Create a folder
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var createFolderData = new DocSpring.CreateFolderData(); // CreateFolderData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let data = new DocSpring.CreateFolderData(); // CreateFolderData | 
+apiInstance.createFolder(data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.createFolder(createFolderData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createFolderData** | [**CreateFolderData**](CreateFolderData.md)|  | 
+ **data** | [**CreateFolderData**](CreateFolderData.md)|  | 
 
 ### Return type
 
@@ -468,46 +493,47 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="createHTMLTemplate"></a>
-# **createHTMLTemplate**
-> PendingTemplate createHTMLTemplate(createHtmlTemplateData)
+
+## createHTMLTemplate
+
+> TemplatePreview createHTMLTemplate(data)
 
 Create a new HTML template
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var createHtmlTemplateData = new DocSpring.CreateHtmlTemplateData(); // CreateHtmlTemplateData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let data = new DocSpring.CreateHtmlTemplate(); // CreateHtmlTemplate | 
+apiInstance.createHTMLTemplate(data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.createHTMLTemplate(createHtmlTemplateData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createHtmlTemplateData** | [**CreateHtmlTemplateData**](CreateHtmlTemplateData.md)|  | 
+ **data** | [**CreateHtmlTemplate**](CreateHtmlTemplate.md)|  | 
 
 ### Return type
 
-[**PendingTemplate**](PendingTemplate.md)
+[**TemplatePreview**](TemplatePreview.md)
 
 ### Authorization
 
@@ -515,52 +541,57 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="createPDFTemplate"></a>
-# **createPDFTemplate**
-> PendingTemplate createPDFTemplate(templateDocument, templateName, opts)
+
+## createPDFTemplate
+
+> TemplatePreview createPDFTemplate(templateDocument, templateName, opts)
 
 Create a new PDF template with a form POST file upload
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateDocument = "/path/to/file"; // File | 
-var templateName = "templateName_example"; // String | 
-var opts = {
+let apiInstance = new DocSpring.PDFApi();
+let templateDocument = "/path/to/file"; // File | 
+let templateName = "templateName_example"; // String | 
+let opts = {
+  'wait': true, // Boolean | Wait for template document to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
+  'templateDescription': "templateDescription_example", // String | 
   'templateParentFolderId': "templateParentFolderId_example" // String | 
 };
-var callback = function(error, data, response) {
+apiInstance.createPDFTemplate(templateDocument, templateName, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.createPDFTemplate(templateDocument, templateName, opts, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **templateDocument** | **File**|  | 
  **templateName** | **String**|  | 
+ **wait** | **Boolean**| Wait for template document to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain) | [optional] [default to true]
+ **templateDescription** | **String**|  | [optional] 
  **templateParentFolderId** | **String**|  | [optional] 
 
 ### Return type
 
-[**PendingTemplate**](PendingTemplate.md)
+[**TemplatePreview**](TemplatePreview.md)
 
 ### Authorization
 
@@ -568,46 +599,47 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 
-<a name="createPDFTemplateFromUpload"></a>
-# **createPDFTemplateFromUpload**
-> PendingTemplate createPDFTemplateFromUpload(createTemplateFromUploadData)
+
+## createPDFTemplateFromUpload
+
+> TemplatePreview createPDFTemplateFromUpload(data)
 
 Create a new PDF template from a cached presign upload
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var createTemplateFromUploadData = new DocSpring.CreateTemplateFromUploadData(); // CreateTemplateFromUploadData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let data = new DocSpring.CreatePdfTemplate(); // CreatePdfTemplate | 
+apiInstance.createPDFTemplateFromUpload(data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.createPDFTemplateFromUpload(createTemplateFromUploadData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createTemplateFromUploadData** | [**CreateTemplateFromUploadData**](CreateTemplateFromUploadData.md)|  | 
+ **data** | [**CreatePdfTemplate**](CreatePdfTemplate.md)|  | 
 
 ### Return type
 
-[**PendingTemplate**](PendingTemplate.md)
+[**TemplatePreview**](TemplatePreview.md)
 
 ### Authorization
 
@@ -615,38 +647,39 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="deleteFolder"></a>
-# **deleteFolder**
+
+## deleteFolder
+
 > Folder deleteFolder(folderId)
 
 Delete a folder
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var folderId = fld_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let folderId = "fld_1234567890abcdef01"; // String | 
+apiInstance.deleteFolder(folderId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.deleteFolder(folderId, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -662,38 +695,39 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="deleteTemplate"></a>
-# **deleteTemplate**
-> UpdateTemplateResponse deleteTemplate(templateId)
+
+## deleteTemplate
+
+> SuccessMultipleErrorsResponse deleteTemplate(templateId)
 
 Delete a template
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef01"; // String | 
+apiInstance.deleteTemplate(templateId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.deleteTemplate(templateId, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -701,7 +735,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UpdateTemplateResponse**](UpdateTemplateResponse.md)
+[**SuccessMultipleErrorsResponse**](SuccessMultipleErrorsResponse.md)
 
 ### Authorization
 
@@ -709,38 +743,39 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="expireCombinedSubmission"></a>
-# **expireCombinedSubmission**
+
+## expireCombinedSubmission
+
 > CombinedSubmission expireCombinedSubmission(combinedSubmissionId)
 
 Expire a combined submission
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var combinedSubmissionId = com_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let combinedSubmissionId = "com_1234567890abcdef01"; // String | 
+apiInstance.expireCombinedSubmission(combinedSubmissionId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.expireCombinedSubmission(combinedSubmissionId, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -756,38 +791,39 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="expireSubmission"></a>
-# **expireSubmission**
-> Submission expireSubmission(submissionId)
+
+## expireSubmission
+
+> SubmissionPreview expireSubmission(submissionId)
 
 Expire a PDF submission
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var submissionId = sub_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let submissionId = "sub_1234567890abcdef01"; // String | 
+apiInstance.expireSubmission(submissionId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.expireSubmission(submissionId, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -795,7 +831,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Submission**](Submission.md)
+[**SubmissionPreview**](SubmissionPreview.md)
 
 ### Authorization
 
@@ -803,44 +839,49 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="generatePDF"></a>
-# **generatePDF**
-> CreateSubmissionResponse generatePDF(templateId, submissionData)
+
+## generatePdf
+
+> CreateSubmissionResponse generatePdf(templateId, submission, opts)
 
 Generates a new PDF
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000001; // String | 
-var submissionData = new DocSpring.SubmissionData(); // SubmissionData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef01"; // String | 
+let submission = new DocSpring.CreatePdfSubmissionData(); // CreatePdfSubmissionData | 
+let opts = {
+  'wait': true // Boolean | Wait for submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
+};
+apiInstance.generatePdf(templateId, submission, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.generatePDF(templateId, submissionData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **templateId** | **String**|  | 
- **submissionData** | [**SubmissionData**](SubmissionData.md)|  | 
+ **submission** | [**CreatePdfSubmissionData**](CreatePdfSubmissionData.md)|  | 
+ **wait** | **Boolean**| Wait for submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain) | [optional] [default to true]
 
 ### Return type
 
@@ -852,38 +893,141 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="getCombinedSubmission"></a>
-# **getCombinedSubmission**
-> CombinedSubmission getCombinedSubmission(combinedSubmissionId)
 
-Check the status of a combined submission (merged PDFs)
+## generatePdfForHtmlTemplate
+
+> CreateSubmissionResponse generatePdfForHtmlTemplate(templateId, submission, opts)
+
+Generates a new PDF for an HTML template
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var combinedSubmissionId = com_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_HTML567890abcdef01"; // String | 
+let submission = new DocSpring.CreateHtmlSubmissionData(); // CreateHtmlSubmissionData | 
+let opts = {
+  'wait': true // Boolean | Wait for submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
+};
+apiInstance.generatePdfForHtmlTemplate(templateId, submission, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getCombinedSubmission(combinedSubmissionId, callback);
+});
 ```
 
 ### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**|  | 
+ **submission** | [**CreateHtmlSubmissionData**](CreateHtmlSubmissionData.md)|  | 
+ **wait** | **Boolean**| Wait for submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain) | [optional] [default to true]
+
+### Return type
+
+[**CreateSubmissionResponse**](CreateSubmissionResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## generatePreview
+
+> SuccessErrorResponse generatePreview(submissionId)
+
+Generated a preview PDF for partially completed data requests
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.PDFApi();
+let submissionId = "sub_1234567890abcdef01"; // String | 
+apiInstance.generatePreview(submissionId, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **submissionId** | **String**|  | 
+
+### Return type
+
+[**SuccessErrorResponse**](SuccessErrorResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## getCombinedSubmission
+
+> CombinedSubmission getCombinedSubmission(combinedSubmissionId)
+
+Check the status of a combined submission (merged PDFs)
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.PDFApi();
+let combinedSubmissionId = "com_1234567890abcdef01"; // String | 
+apiInstance.getCombinedSubmission(combinedSubmissionId, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -899,38 +1043,39 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="getDataRequest"></a>
-# **getDataRequest**
-> SubmissionDataRequest getDataRequest(dataRequestId)
+
+## getDataRequest
+
+> SubmissionDataRequestShow getDataRequest(dataRequestId)
 
 Look up a submission data request
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var dataRequestId = drq_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let dataRequestId = "drq_1234567890abcdef01"; // String | 
+apiInstance.getDataRequest(dataRequestId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getDataRequest(dataRequestId, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -938,7 +1083,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SubmissionDataRequest**](SubmissionDataRequest.md)
+[**SubmissionDataRequestShow**](SubmissionDataRequestShow.md)
 
 ### Authorization
 
@@ -946,38 +1091,39 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="getFullTemplate"></a>
-# **getFullTemplate**
-> FullTemplate getFullTemplate(templateId)
+
+## getFullTemplate
+
+> Template getFullTemplate(templateId)
 
 Fetch the full template attributes
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef01"; // String | 
+apiInstance.getFullTemplate(templateId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getFullTemplate(templateId, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -985,7 +1131,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**FullTemplate**](FullTemplate.md)
+[**Template**](Template.md)
 
 ### Authorization
 
@@ -993,42 +1139,43 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="getPresignUrl"></a>
-# **getPresignUrl**
-> {String: Object} getPresignUrl()
+
+## getPresignUrl
+
+> UploadPresignResponse getPresignUrl()
 
 Get a presigned URL so that you can upload a file to our AWS S3 bucket
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+apiInstance.getPresignUrl((error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getPresignUrl(callback);
+});
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
 
-**{String: Object}**
+[**UploadPresignResponse**](UploadPresignResponse.md)
 
 ### Authorization
 
@@ -1036,41 +1183,42 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="getSubmission"></a>
-# **getSubmission**
+
+## getSubmission
+
 > Submission getSubmission(submissionId, opts)
 
 Check the status of a PDF
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var submissionId = sub_000000000000000001; // String | 
-var opts = {
+let apiInstance = new DocSpring.PDFApi();
+let submissionId = "sub_1234567890abcdef01"; // String | 
+let opts = {
   'includeData': true // Boolean | 
 };
-var callback = function(error, data, response) {
+apiInstance.getSubmission(submissionId, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getSubmission(submissionId, opts, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1087,41 +1235,42 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="getSubmissionBatch"></a>
-# **getSubmissionBatch**
-> SubmissionBatch getSubmissionBatch(submissionBatchId, opts)
+
+## getSubmissionBatch
+
+> SubmissionBatchWithSubmissions getSubmissionBatch(submissionBatchId, opts)
 
 Check the status of a submission batch job
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var submissionBatchId = sbb_000000000000000001; // String | 
-var opts = {
+let apiInstance = new DocSpring.PDFApi();
+let submissionBatchId = "sbb_1234567890abcdef01"; // String | 
+let opts = {
   'includeSubmissions': true // Boolean | 
 };
-var callback = function(error, data, response) {
+apiInstance.getSubmissionBatch(submissionBatchId, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getSubmissionBatch(submissionBatchId, opts, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1130,7 +1279,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SubmissionBatch**](SubmissionBatch.md)
+[**SubmissionBatchWithSubmissions**](SubmissionBatchWithSubmissions.md)
 
 ### Authorization
 
@@ -1138,38 +1287,39 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="getTemplate"></a>
-# **getTemplate**
-> Template getTemplate(templateId)
+
+## getTemplate
+
+> TemplatePreview getTemplate(templateId)
 
 Check the status of an uploaded template
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef01"; // String | 
+apiInstance.getTemplate(templateId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getTemplate(templateId, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1177,7 +1327,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Template**](Template.md)
+[**TemplatePreview**](TemplatePreview.md)
 
 ### Authorization
 
@@ -1185,38 +1335,39 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="getTemplateSchema"></a>
-# **getTemplateSchema**
-> {String: Object} getTemplateSchema(templateId)
+
+## getTemplateSchema
+
+> JsonSchema getTemplateSchema(templateId)
 
 Fetch the JSON schema for a template
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000001; // String | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef01"; // String | 
+apiInstance.getTemplateSchema(templateId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getTemplateSchema(templateId, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1224,7 +1375,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**{String: Object}**
+[**JsonSchema**](JsonSchema.md)
 
 ### Authorization
 
@@ -1232,41 +1383,42 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="listCombinedSubmissions"></a>
-# **listCombinedSubmissions**
+
+## listCombinedSubmissions
+
 > [CombinedSubmission] listCombinedSubmissions(opts)
 
 Get a list of all combined submissions
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var opts = {
+let apiInstance = new DocSpring.PDFApi();
+let opts = {
   'page': 2, // Number | Default: 1
   'perPage': 1 // Number | Default: 50
 };
-var callback = function(error, data, response) {
+apiInstance.listCombinedSubmissions(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.listCombinedSubmissions(opts, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1283,40 +1435,41 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="listFolders"></a>
-# **listFolders**
+
+## listFolders
+
 > [Folder] listFolders(opts)
 
 Get a list of all folders
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var opts = {
-  'parentFolderId': fld_000000000000000002 // String | Filter By Folder Id
+let apiInstance = new DocSpring.PDFApi();
+let opts = {
+  'parentFolderId': "fld_1234567890abcdef02" // String | Filter By Folder Id
 };
-var callback = function(error, data, response) {
+apiInstance.listFolders(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.listFolders(opts, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1332,45 +1485,46 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="listSubmissions"></a>
-# **listSubmissions**
+
+## listSubmissions
+
 > ListSubmissionsResponse listSubmissions(opts)
 
 List all submissions
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var opts = {
-  'cursor': sub_list_000012, // String | 
+let apiInstance = new DocSpring.PDFApi();
+let opts = {
+  'cursor': "sub_1234567890abcdef12", // String | 
   'limit': 3, // Number | 
-  'createdAfter': 2019-01-01T09:00:00-05:00, // String | 
-  'createdBefore': 2020-01-01T09:00:00.000+0200, // String | 
-  'type': test, // String | 
+  'createdAfter': "2019-01-01T09:00:00-05:00", // String | 
+  'createdBefore': "2020-01-01T09:00:00.000+0200", // String | 
+  'type': "test", // String | 
   'includeData': true // Boolean | 
 };
-var callback = function(error, data, response) {
+apiInstance.listSubmissions(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.listSubmissions(opts, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1391,28 +1545,29 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="listSubmissions_0"></a>
-# **listSubmissions_0**
-> ListSubmissionsResponse listSubmissions_0(templateId, opts)
+
+## listTemplateSubmissions
+
+> ListSubmissionsResponse listTemplateSubmissions(templateId, opts)
 
 List all submissions for a given template
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000002; // String | 
-var opts = {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef02"; // String | 
+let opts = {
   'cursor': "cursor_example", // String | 
   'limit': 3.4, // Number | 
   'createdAfter': "createdAfter_example", // String | 
@@ -1420,17 +1575,17 @@ var opts = {
   'type': "type_example", // String | 
   'includeData': true // Boolean | 
 };
-var callback = function(error, data, response) {
+apiInstance.listTemplateSubmissions(templateId, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.listSubmissions_0(templateId, opts, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1452,43 +1607,44 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="listTemplates"></a>
-# **listTemplates**
-> [Template] listTemplates(opts)
+
+## listTemplates
+
+> [TemplatePreview] listTemplates(opts)
 
 Get a list of all templates
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var opts = {
-  'query': 2, // String | Search By Name
-  'parentFolderId': fld_000000000000000001, // String | Filter By Folder Id
+let apiInstance = new DocSpring.PDFApi();
+let opts = {
+  'query': "2", // String | Search By Name
+  'parentFolderId': "fld_1234567890abcdef01", // String | Filter By Folder Id
   'page': 2, // Number | Default: 1
   'perPage': 1 // Number | Default: 50
 };
-var callback = function(error, data, response) {
+apiInstance.listTemplates(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.listTemplates(opts, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -1499,7 +1655,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[Template]**](Template.md)
+[**[TemplatePreview]**](TemplatePreview.md)
 
 ### Authorization
 
@@ -1507,44 +1663,45 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="moveFolderToFolder"></a>
-# **moveFolderToFolder**
-> Folder moveFolderToFolder(folderId, moveFolderData)
+
+## moveFolderToFolder
+
+> Folder moveFolderToFolder(folderId, data)
 
 Move a folder
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var folderId = fld_000000000000000001; // String | 
-var moveFolderData = new DocSpring.MoveFolderData(); // MoveFolderData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let folderId = "fld_1234567890abcdef01"; // String | 
+let data = new DocSpring.MoveFolderData(); // MoveFolderData | 
+apiInstance.moveFolderToFolder(folderId, data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.moveFolderToFolder(folderId, moveFolderData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **folderId** | **String**|  | 
- **moveFolderData** | [**MoveFolderData**](MoveFolderData.md)|  | 
+ **data** | [**MoveFolderData**](MoveFolderData.md)|  | 
 
 ### Return type
 
@@ -1556,48 +1713,49 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="moveTemplateToFolder"></a>
-# **moveTemplateToFolder**
-> Template moveTemplateToFolder(templateId, moveTemplateData)
+
+## moveTemplateToFolder
+
+> TemplatePreview moveTemplateToFolder(templateId, data)
 
 Move Template to folder
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000001; // String | 
-var moveTemplateData = new DocSpring.MoveTemplateData(); // MoveTemplateData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef01"; // String | 
+let data = new DocSpring.MoveTemplateData(); // MoveTemplateData | 
+apiInstance.moveTemplateToFolder(templateId, data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.moveTemplateToFolder(templateId, moveTemplateData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **templateId** | **String**|  | 
- **moveTemplateData** | [**MoveTemplateData**](MoveTemplateData.md)|  | 
+ **data** | [**MoveTemplateData**](MoveTemplateData.md)|  | 
 
 ### Return type
 
-[**Template**](Template.md)
+[**TemplatePreview**](TemplatePreview.md)
 
 ### Authorization
 
@@ -1605,48 +1763,49 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="renameFolder"></a>
-# **renameFolder**
-> renameFolder(folderId, renameFolderData)
+
+## renameFolder
+
+> Folder renameFolder(folderId, data)
 
 Rename a folder
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var folderId = fld_000000000000000001; // String | 
-var renameFolderData = new DocSpring.RenameFolderData(); // RenameFolderData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let folderId = "fld_1234567890abcdef01"; // String | 
+let data = new DocSpring.RenameFolderData(); // RenameFolderData | 
+apiInstance.renameFolder(folderId, data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully.');
+    console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.renameFolder(folderId, renameFolderData, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **folderId** | **String**|  | 
- **renameFolderData** | [**RenameFolderData**](RenameFolderData.md)|  | 
+ **data** | [**RenameFolderData**](RenameFolderData.md)|  | 
 
 ### Return type
 
-null (empty response body)
+[**Folder**](Folder.md)
 
 ### Authorization
 
@@ -1654,42 +1813,43 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="testAuthentication"></a>
-# **testAuthentication**
-> AuthenticationSuccessResponse testAuthentication()
+
+## testAuthentication
+
+> SuccessErrorResponse testAuthentication()
 
 Test Authentication
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+apiInstance.testAuthentication((error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.testAuthentication(callback);
+});
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
 
-[**AuthenticationSuccessResponse**](AuthenticationSuccessResponse.md)
+[**SuccessErrorResponse**](SuccessErrorResponse.md)
 
 ### Authorization
 
@@ -1697,48 +1857,49 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
-<a name="updateDataRequest"></a>
-# **updateDataRequest**
-> UpdateDataRequestResponse updateDataRequest(dataRequestId, updateSubmissionDataRequestData)
+
+## updateDataRequest
+
+> CreateSubmissionDataRequestResponse updateDataRequest(dataRequestId, data)
 
 Update a submission data request
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var dataRequestId = drq_000000000000000001; // String | 
-var updateSubmissionDataRequestData = new DocSpring.UpdateSubmissionDataRequestData(); // UpdateSubmissionDataRequestData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let dataRequestId = "drq_1234567890abcdef01"; // String | 
+let data = new DocSpring.UpdateSubmissionDataRequestData(); // UpdateSubmissionDataRequestData | 
+apiInstance.updateDataRequest(dataRequestId, data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.updateDataRequest(dataRequestId, updateSubmissionDataRequestData, callback);
+});
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **dataRequestId** | **String**|  | 
- **updateSubmissionDataRequestData** | [**UpdateSubmissionDataRequestData**](UpdateSubmissionDataRequestData.md)|  | 
+ **data** | [**UpdateSubmissionDataRequestData**](UpdateSubmissionDataRequestData.md)|  | 
 
 ### Return type
 
-[**UpdateDataRequestResponse**](UpdateDataRequestResponse.md)
+[**CreateSubmissionDataRequestResponse**](CreateSubmissionDataRequestResponse.md)
 
 ### Authorization
 
@@ -1746,48 +1907,49 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="updateTemplate"></a>
-# **updateTemplate**
-> UpdateTemplateResponse updateTemplate(templateId, updateTemplateData)
+
+## updateTemplate
+
+> SuccessMultipleErrorsResponse updateTemplate(templateId, data)
 
 Update a Template
 
 ### Example
-```javascript
-var DocSpring = require('docspring');
-var defaultClient = DocSpring.ApiClient.instance;
 
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
 // Configure HTTP basic authorization: api_token_basic
-var api_token_basic = defaultClient.authentications['api_token_basic'];
+let api_token_basic = defaultClient.authentications['api_token_basic'];
 api_token_basic.username = 'YOUR USERNAME';
 api_token_basic.password = 'YOUR PASSWORD';
 
-var apiInstance = new DocSpring.PDFApi();
-var templateId = tpl_000000000000000003; // String | 
-var updateTemplateData = new DocSpring.UpdateTemplateData(); // UpdateTemplateData | 
-var callback = function(error, data, response) {
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef03"; // String | 
+let data = new DocSpring.UpdateHtmlTemplate(); // UpdateHtmlTemplate | 
+apiInstance.updateTemplate(templateId, data, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.updateTemplate(templateId, updateTemplateData, callback);
+});
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **templateId** | **String**|  | 
- **updateTemplateData** | [**UpdateTemplateData**](UpdateTemplateData.md)|  | 
+ **data** | [**UpdateHtmlTemplate**](UpdateHtmlTemplate.md)|  | 
 
 ### Return type
 
-[**UpdateTemplateResponse**](UpdateTemplateResponse.md)
+[**SuccessMultipleErrorsResponse**](SuccessMultipleErrorsResponse.md)
 
 ### Authorization
 
@@ -1795,6 +1957,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 

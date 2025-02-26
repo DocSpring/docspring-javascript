@@ -1,32 +1,33 @@
 # DocSpring.SubmissionDataRequest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | 
-**submissionId** | **String** |  | [optional] 
-**name** | **String** |  | 
 **email** | **String** |  | 
+**name** | **String** |  | 
 **order** | **Number** |  | 
 **sortOrder** | **Number** |  | 
 **fields** | **[String]** |  | 
 **metadata** | **Object** |  | 
 **state** | **String** |  | 
-**viewedAt** | **String** |  | [optional] 
-**completedAt** | **String** |  | [optional] 
-**authType** | **String** |  | [optional] 
-**authSecondFactorType** | **String** |  | [optional] 
-**authProvider** | **String** |  | [optional] 
-**authSessionStartedAt** | **String** |  | [optional] 
-**authSessionIdHash** | **String** |  | [optional] 
-**authUserIdHash** | **String** |  | [optional] 
-**authUsernameHash** | **String** |  | [optional] 
-**authPhoneNumberHash** | **String** |  | [optional] 
-**ipAddress** | **String** |  | [optional] 
-**userAgent** | **String** |  | [optional] 
+**viewedAt** | **String** |  | 
+**completedAt** | **String** |  | 
+**data** | **Object** |  | 
+**authType** | **String** |  | 
+**authSecondFactorType** | **String** |  | 
+**authProvider** | **String** |  | 
+**authSessionStartedAt** | **String** |  | 
+**authSessionIdHash** | **String** |  | 
+**authUserIdHash** | **String** |  | 
+**authUsernameHash** | **String** |  | 
+**authPhoneNumberHash** | **String** |  | 
+**ipAddress** | **String** |  | 
+**userAgent** | **String** |  | 
 
 
-<a name="StateEnum"></a>
+
 ## Enum: StateEnum
 
 
@@ -37,7 +38,7 @@ Name | Type | Description | Notes
 
 
 
-<a name="AuthTypeEnum"></a>
+
 ## Enum: AuthTypeEnum
 
 
@@ -58,7 +59,7 @@ Name | Type | Description | Notes
 
 
 
-<a name="AuthSecondFactorTypeEnum"></a>
+
 ## Enum: AuthSecondFactorTypeEnum
 
 
