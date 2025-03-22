@@ -32,7 +32,9 @@ docs/MoveFolderData.md
 docs/MoveTemplateData.md
 docs/MultipleErrorsResponse.md
 docs/PDFApi.md
+docs/PublishVersionData.md
 docs/RenameFolderData.md
+docs/RestoreVersionData.md
 docs/Submission.md
 docs/SubmissionAction.md
 docs/SubmissionBatch.md
@@ -47,7 +49,9 @@ docs/SuccessErrorResponse.md
 docs/SuccessMultipleErrorsResponse.md
 docs/Template.md
 docs/TemplateAddFieldsResponse.md
+docs/TemplateDeleteResponse.md
 docs/TemplatePreview.md
+docs/TemplatePublishVersionResponse.md
 docs/UpdateHtmlTemplate.md
 docs/UpdateSubmissionDataRequestData.md
 docs/UploadPresignResponse.md
@@ -86,7 +90,9 @@ src/model/ListSubmissionsResponse.js
 src/model/MoveFolderData.js
 src/model/MoveTemplateData.js
 src/model/MultipleErrorsResponse.js
+src/model/PublishVersionData.js
 src/model/RenameFolderData.js
+src/model/RestoreVersionData.js
 src/model/Submission.js
 src/model/SubmissionAction.js
 src/model/SubmissionBatch.js
@@ -101,7 +107,9 @@ src/model/SuccessErrorResponse.js
 src/model/SuccessMultipleErrorsResponse.js
 src/model/Template.js
 src/model/TemplateAddFieldsResponse.js
+src/model/TemplateDeleteResponse.js
 src/model/TemplatePreview.js
+src/model/TemplatePublishVersionResponse.js
 src/model/UpdateHtmlTemplate.js
 src/model/UpdateSubmissionDataRequestData.js
 src/model/UploadPresignResponse.js
@@ -135,7 +143,9 @@ test/model/ListSubmissionsResponse.spec.js
 test/model/MoveFolderData.spec.js
 test/model/MoveTemplateData.spec.js
 test/model/MultipleErrorsResponse.spec.js
+test/model/PublishVersionData.spec.js
 test/model/RenameFolderData.spec.js
+test/model/RestoreVersionData.spec.js
 test/model/Submission.spec.js
 test/model/SubmissionAction.spec.js
 test/model/SubmissionBatch.spec.js
@@ -150,7 +160,9 @@ test/model/SuccessErrorResponse.spec.js
 test/model/SuccessMultipleErrorsResponse.spec.js
 test/model/Template.spec.js
 test/model/TemplateAddFieldsResponse.spec.js
+test/model/TemplateDeleteResponse.spec.js
 test/model/TemplatePreview.spec.js
+test/model/TemplatePublishVersionResponse.spec.js
 test/model/UpdateHtmlTemplate.spec.js
 test/model/UpdateSubmissionDataRequestData.spec.js
 test/model/UploadPresignResponse.spec.js

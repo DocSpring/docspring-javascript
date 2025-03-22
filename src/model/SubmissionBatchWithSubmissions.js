@@ -17,7 +17,7 @@ import SubmissionPreview from './SubmissionPreview';
 /**
  * The SubmissionBatchWithSubmissions model module.
  * @module model/SubmissionBatchWithSubmissions
- * @version 2.0.0
+ * @version 2.1.0
  */
 class SubmissionBatchWithSubmissions {
     /**

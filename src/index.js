@@ -42,7 +42,9 @@ import ListSubmissionsResponse from './model/ListSubmissionsResponse';
 import MoveFolderData from './model/MoveFolderData';
 import MoveTemplateData from './model/MoveTemplateData';
 import MultipleErrorsResponse from './model/MultipleErrorsResponse';
+import PublishVersionData from './model/PublishVersionData';
 import RenameFolderData from './model/RenameFolderData';
+import RestoreVersionData from './model/RestoreVersionData';
 import Submission from './model/Submission';
 import SubmissionAction from './model/SubmissionAction';
 import SubmissionBatch from './model/SubmissionBatch';
@@ -57,7 +59,9 @@ import SuccessErrorResponse from './model/SuccessErrorResponse';
 import SuccessMultipleErrorsResponse from './model/SuccessMultipleErrorsResponse';
 import Template from './model/Template';
 import TemplateAddFieldsResponse from './model/TemplateAddFieldsResponse';
+import TemplateDeleteResponse from './model/TemplateDeleteResponse';
 import TemplatePreview from './model/TemplatePreview';
+import TemplatePublishVersionResponse from './model/TemplatePublishVersionResponse';
 import UpdateHtmlTemplate from './model/UpdateHtmlTemplate';
 import UpdateSubmissionDataRequestData from './model/UpdateSubmissionDataRequestData';
 import UploadPresignResponse from './model/UploadPresignResponse';
@@ -93,7 +97,7 @@ import PDFApi from './api/PDFApi';
 * </pre>
 * </p>
 * @module index
-* @version 2.0.0
+* @version 2.1.0
 */
 export {
     /**
@@ -277,10 +281,22 @@ export {
     MultipleErrorsResponse,
 
     /**
+     * The PublishVersionData model constructor.
+     * @property {module:model/PublishVersionData}
+     */
+    PublishVersionData,
+
+    /**
      * The RenameFolderData model constructor.
      * @property {module:model/RenameFolderData}
      */
     RenameFolderData,
+
+    /**
+     * The RestoreVersionData model constructor.
+     * @property {module:model/RestoreVersionData}
+     */
+    RestoreVersionData,
 
     /**
      * The Submission model constructor.
@@ -367,10 +383,22 @@ export {
     TemplateAddFieldsResponse,
 
     /**
+     * The TemplateDeleteResponse model constructor.
+     * @property {module:model/TemplateDeleteResponse}
+     */
+    TemplateDeleteResponse,
+
+    /**
      * The TemplatePreview model constructor.
      * @property {module:model/TemplatePreview}
      */
     TemplatePreview,
+
+    /**
+     * The TemplatePublishVersionResponse model constructor.
+     * @property {module:model/TemplatePublishVersionResponse}
+     */
+    TemplatePublishVersionResponse,
 
     /**
      * The UpdateHtmlTemplate model constructor.

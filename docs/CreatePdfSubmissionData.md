@@ -12,5 +12,6 @@ Name | Type | Description | Notes
 **metadata** | **Object** |  | [optional] 
 **password** | **String** |  | [optional] 
 **test** | **Boolean** |  | [optional] 
+**version** | **String** |  | [optional] 
 
 

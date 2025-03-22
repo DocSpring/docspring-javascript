@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CopyTemplateOptions model module.
  * @module model/CopyTemplateOptions
- * @version 2.0.0
+ * @version 2.1.0
  */
 class CopyTemplateOptions {
     /**

@@ -388,10 +388,30 @@
         done();
       });
     });
+    describe('publishTemplateVersion', function() {
+      it('should call publishTemplateVersion successfully', function(done) {
+        //uncomment below and update the code to test publishTemplateVersion
+        //instance.publishTemplateVersion(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('renameFolder', function() {
       it('should call renameFolder successfully', function(done) {
         //uncomment below and update the code to test renameFolder
         //instance.renameFolder(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('restoreTemplateVersion', function() {
+      it('should call restoreTemplateVersion successfully', function(done) {
+        //uncomment below and update the code to test restoreTemplateVersion
+        //instance.restoreTemplateVersion(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

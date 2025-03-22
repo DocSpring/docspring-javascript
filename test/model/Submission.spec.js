@@ -126,6 +126,18 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property templateType (base name: "template_type")', function() {
+      // uncomment below and update the code to test the property templateType
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property templateVersion (base name: "template_version")', function() {
+      // uncomment below and update the code to test the property templateVersion
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
     it('should have the property test (base name: "test")', function() {
       // uncomment below and update the code to test the property test
       //var instance = new DocSpring.Submission();

@@ -17,7 +17,7 @@ import CustomFile from './CustomFile';
 /**
  * The CreateCustomFileResponse model module.
  * @module model/CreateCustomFileResponse
- * @version 2.0.0
+ * @version 2.1.0
  */
 class CreateCustomFileResponse {
     /**

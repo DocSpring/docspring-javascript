@@ -258,6 +258,18 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property versionPublishedAt (base name: "version_published_at")', function() {
+      // uncomment below and update the code to test the property versionPublishedAt
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property version (base name: "version")', function() {
+      // uncomment below and update the code to test the property version
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
     it('should have the property webhookUrl (base name: "webhook_url")', function() {
       // uncomment below and update the code to test the property webhookUrl
       //var instance = new DocSpring.Template();
@@ -266,6 +278,30 @@
 
     it('should have the property demo (base name: "demo")', function() {
       // uncomment below and update the code to test the property demo
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property latestVersion (base name: "latest_version")', function() {
+      // uncomment below and update the code to test the property latestVersion
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property lastChangedAt (base name: "last_changed_at")', function() {
+      // uncomment below and update the code to test the property lastChangedAt
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property lastChangedByType (base name: "last_changed_by_type")', function() {
+      // uncomment below and update the code to test the property lastChangedByType
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property lastChangedById (base name: "last_changed_by_id")', function() {
+      // uncomment below and update the code to test the property lastChangedById
       //var instance = new DocSpring.Template();
       //expect(instance).to.be();
     });
@@ -326,6 +362,12 @@
 
     it('should have the property sharedFieldData (base name: "shared_field_data")', function() {
       // uncomment below and update the code to test the property sharedFieldData
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property versions (base name: "versions")', function() {
+      // uncomment below and update the code to test the property versions
       //var instance = new DocSpring.Template();
       //expect(instance).to.be();
     });

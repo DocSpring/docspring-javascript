@@ -18,7 +18,7 @@ import SubmissionDataRequest from './SubmissionDataRequest';
 /**
  * The SubmissionPreview model module.
  * @module model/SubmissionPreview
- * @version 2.0.0
+ * @version 2.1.0
  */
 class SubmissionPreview {
     /**
@@ -36,6 +36,8 @@ class SubmissionPreview {
      * @param processedAt {String} 
      * @param state {module:model/SubmissionPreview.StateEnum} 
      * @param templateId {String} 
+     * @param templateType {module:model/SubmissionPreview.TemplateTypeEnum} 
+     * @param templateVersion {String} 
      * @param test {Boolean} 
      * @param truncatedText {Object} 
      * @param pdfHash {String} 
@@ -46,9 +48,9 @@ class SubmissionPreview {
      * @param auditTrailDownloadUrl {String} 
      * @param actions {Array.<module:model/SubmissionAction>} 
      */
-    constructor(batchId, dataRequests, editable, expired, expiresAt, id, jsonSchemaErrors, metadata, password, processedAt, state, templateId, test, truncatedText, pdfHash, downloadUrl, permanentDownloadUrl, previewDownloadUrl, previewGeneratedAt, auditTrailDownloadUrl, actions) { 
+    constructor(batchId, dataRequests, editable, expired, expiresAt, id, jsonSchemaErrors, metadata, password, processedAt, state, templateId, templateType, templateVersion, test, truncatedText, pdfHash, downloadUrl, permanentDownloadUrl, previewDownloadUrl, previewGeneratedAt, auditTrailDownloadUrl, actions) { 
         
-        SubmissionPreview.initialize(this, batchId, dataRequests, editable, expired, expiresAt, id, jsonSchemaErrors, metadata, password, processedAt, state, templateId, test, truncatedText, pdfHash, downloadUrl, permanentDownloadUrl, previewDownloadUrl, previewGeneratedAt, auditTrailDownloadUrl, actions);
+        SubmissionPreview.initialize(this, batchId, dataRequests, editable, expired, expiresAt, id, jsonSchemaErrors, metadata, password, processedAt, state, templateId, templateType, templateVersion, test, truncatedText, pdfHash, downloadUrl, permanentDownloadUrl, previewDownloadUrl, previewGeneratedAt, auditTrailDownloadUrl, actions);
     }
 
     /**
@@ -56,7 +58,7 @@ class SubmissionPreview {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, batchId, dataRequests, editable, expired, expiresAt, id, jsonSchemaErrors, metadata, password, processedAt, state, templateId, test, truncatedText, pdfHash, downloadUrl, permanentDownloadUrl, previewDownloadUrl, previewGeneratedAt, auditTrailDownloadUrl, actions) { 
+    static initialize(obj, batchId, dataRequests, editable, expired, expiresAt, id, jsonSchemaErrors, metadata, password, processedAt, state, templateId, templateType, templateVersion, test, truncatedText, pdfHash, downloadUrl, permanentDownloadUrl, previewDownloadUrl, previewGeneratedAt, auditTrailDownloadUrl, actions) { 
         obj['batch_id'] = batchId;
         obj['data_requests'] = dataRequests;
         obj['editable'] = editable;
@@ -69,6 +71,8 @@ class SubmissionPreview {
         obj['processed_at'] = processedAt;
         obj['state'] = state;
         obj['template_id'] = templateId;
+        obj['template_type'] = templateType;
+        obj['template_version'] = templateVersion;
         obj['test'] = test;
         obj['truncated_text'] = truncatedText;
         obj['pdf_hash'] = pdfHash;
@@ -126,6 +130,12 @@ class SubmissionPreview {
             }
             if (data.hasOwnProperty('template_id')) {
                 obj['template_id'] = ApiClient.convertToType(data['template_id'], 'String');
+            }
+            if (data.hasOwnProperty('template_type')) {
+                obj['template_type'] = ApiClient.convertToType(data['template_type'], 'String');
+            }
+            if (data.hasOwnProperty('template_version')) {
+                obj['template_version'] = ApiClient.convertToType(data['template_version'], 'String');
             }
             if (data.hasOwnProperty('test')) {
                 obj['test'] = ApiClient.convertToType(data['test'], 'Boolean');
@@ -213,6 +223,14 @@ class SubmissionPreview {
             throw new Error("Expected the field `template_id` to be a primitive type in the JSON string but got " + data['template_id']);
         }
         // ensure the json data is a string
+        if (data['template_type'] && !(typeof data['template_type'] === 'string' || data['template_type'] instanceof String)) {
+            throw new Error("Expected the field `template_type` to be a primitive type in the JSON string but got " + data['template_type']);
+        }
+        // ensure the json data is a string
+        if (data['template_version'] && !(typeof data['template_version'] === 'string' || data['template_version'] instanceof String)) {
+            throw new Error("Expected the field `template_version` to be a primitive type in the JSON string but got " + data['template_version']);
+        }
+        // ensure the json data is a string
         if (data['pdf_hash'] && !(typeof data['pdf_hash'] === 'string' || data['pdf_hash'] instanceof String)) {
             throw new Error("Expected the field `pdf_hash` to be a primitive type in the JSON string but got " + data['pdf_hash']);
         }
@@ -253,7 +271,7 @@ class SubmissionPreview {
 
 }
 
-SubmissionPreview.RequiredProperties = ["batch_id", "data_requests", "editable", "expired", "expires_at", "id", "json_schema_errors", "metadata", "password", "processed_at", "state", "template_id", "test", "truncated_text", "pdf_hash", "download_url", "permanent_download_url", "preview_download_url", "preview_generated_at", "audit_trail_download_url", "actions"];
+SubmissionPreview.RequiredProperties = ["batch_id", "data_requests", "editable", "expired", "expires_at", "id", "json_schema_errors", "metadata", "password", "processed_at", "state", "template_id", "template_type", "template_version", "test", "truncated_text", "pdf_hash", "download_url", "permanent_download_url", "preview_download_url", "preview_generated_at", "audit_trail_download_url", "actions"];
 
 /**
  * @member {String} batch_id
@@ -314,6 +332,16 @@ SubmissionPreview.prototype['state'] = undefined;
  * @member {String} template_id
  */
 SubmissionPreview.prototype['template_id'] = undefined;
+
+/**
+ * @member {module:model/SubmissionPreview.TemplateTypeEnum} template_type
+ */
+SubmissionPreview.prototype['template_type'] = undefined;
+
+/**
+ * @member {String} template_version
+ */
+SubmissionPreview.prototype['template_version'] = undefined;
 
 /**
  * @member {Boolean} test
@@ -436,6 +464,27 @@ SubmissionPreview['StateEnum'] = {
      * @const
      */
     "accidental": "accidental"
+};
+
+
+/**
+ * Allowed values for the <code>template_type</code> property.
+ * @enum {String}
+ * @readonly
+ */
+SubmissionPreview['TemplateTypeEnum'] = {
+
+    /**
+     * value: "pdf"
+     * @const
+     */
+    "pdf": "pdf",
+
+    /**
+     * value: "html"
+     * @const
+     */
+    "html": "html"
 };
 
 

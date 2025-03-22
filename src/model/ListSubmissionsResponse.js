@@ -17,7 +17,7 @@ import Submission from './Submission';
 /**
  * The ListSubmissionsResponse model module.
  * @module model/ListSubmissionsResponse
- * @version 2.0.0
+ * @version 2.1.0
  */
 class ListSubmissionsResponse {
     /**

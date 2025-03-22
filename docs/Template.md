@@ -38,8 +38,14 @@ Name | Type | Description | Notes
 **slackWebhookUrl** | **String** |  | 
 **templateType** | **String** |  | 
 **updatedAt** | **String** |  | 
+**versionPublishedAt** | **String** |  | 
+**version** | **String** |  | 
 **webhookUrl** | **String** |  | 
 **demo** | **Boolean** |  | 
+**latestVersion** | **String** |  | 
+**lastChangedAt** | **String** |  | 
+**lastChangedByType** | **String** |  | 
+**lastChangedById** | **String** |  | 
 **defaults** | **Object** |  | 
 **fieldOrder** | **[[Number]]** |  | 
 **fields** | **Object** |  | 
@@ -50,6 +56,7 @@ Name | Type | Description | Notes
 **predefinedFields** | **[Object]** |  | 
 **scss** | **String** |  | 
 **sharedFieldData** | **Object** |  | 
+**versions** | **[Object]** |  | 
 
 
 
@@ -76,6 +83,17 @@ Name | Type | Description | Notes
 * `pdf` (value: `"pdf"`)
 
 * `html` (value: `"html"`)
+
+
+
+
+
+## Enum: LastChangedByTypeEnum
+
+
+* `user` (value: `"user"`)
+
+* `api` (value: `"api"`)
 
 
 

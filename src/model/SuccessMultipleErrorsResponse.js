@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SuccessMultipleErrorsResponse model module.
  * @module model/SuccessMultipleErrorsResponse
- * @version 2.0.0
+ * @version 2.1.0
  */
 class SuccessMultipleErrorsResponse {
     /**

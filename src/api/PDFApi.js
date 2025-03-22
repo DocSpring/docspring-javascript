@@ -39,7 +39,9 @@ import ListSubmissionsResponse from '../model/ListSubmissionsResponse';
 import MoveFolderData from '../model/MoveFolderData';
 import MoveTemplateData from '../model/MoveTemplateData';
 import MultipleErrorsResponse from '../model/MultipleErrorsResponse';
+import PublishVersionData from '../model/PublishVersionData';
 import RenameFolderData from '../model/RenameFolderData';
+import RestoreVersionData from '../model/RestoreVersionData';
 import Submission from '../model/Submission';
 import SubmissionBatchData from '../model/SubmissionBatchData';
 import SubmissionBatchWithSubmissions from '../model/SubmissionBatchWithSubmissions';
@@ -49,7 +51,9 @@ import SuccessErrorResponse from '../model/SuccessErrorResponse';
 import SuccessMultipleErrorsResponse from '../model/SuccessMultipleErrorsResponse';
 import Template from '../model/Template';
 import TemplateAddFieldsResponse from '../model/TemplateAddFieldsResponse';
+import TemplateDeleteResponse from '../model/TemplateDeleteResponse';
 import TemplatePreview from '../model/TemplatePreview';
+import TemplatePublishVersionResponse from '../model/TemplatePublishVersionResponse';
 import UpdateHtmlTemplate from '../model/UpdateHtmlTemplate';
 import UpdateSubmissionDataRequestData from '../model/UpdateSubmissionDataRequestData';
 import UploadPresignResponse from '../model/UploadPresignResponse';
@@ -57,7 +61,7 @@ import UploadPresignResponse from '../model/UploadPresignResponse';
 /**
 * PDF service.
 * @module api/PDFApi
-* @version 2.0.0
+* @version 2.1.0
 */
 export default class PDFApi {
 
@@ -655,17 +659,20 @@ export default class PDFApi {
      * Callback function to receive the result of the deleteTemplate operation.
      * @callback module:api/PDFApi~deleteTemplateCallback
      * @param {String} error Error message, if any.
-     * @param {module:model/SuccessMultipleErrorsResponse} data The data returned by the service call.
+     * @param {module:model/TemplateDeleteResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
      * Delete a template
      * @param {String} templateId 
+     * @param {Object} opts Optional parameters
+     * @param {String} [version] 
      * @param {module:api/PDFApi~deleteTemplateCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link module:model/SuccessMultipleErrorsResponse}
+     * data is of type: {@link module:model/TemplateDeleteResponse}
      */
-    deleteTemplate(templateId, callback) {
+    deleteTemplate(templateId, opts, callback) {
+      opts = opts || {};
       let postBody = null;
       // verify the required parameter 'templateId' is set
       if (templateId === undefined || templateId === null) {
@@ -676,6 +683,7 @@ export default class PDFApi {
         'template_id': templateId
       };
       let queryParams = {
+        'version': opts['version']
       };
       let headerParams = {
       };
@@ -685,7 +693,7 @@ export default class PDFApi {
       let authNames = ['api_token_basic'];
       let contentTypes = [];
       let accepts = ['application/json'];
-      let returnType = SuccessMultipleErrorsResponse;
+      let returnType = TemplateDeleteResponse;
       return this.apiClient.callApi(
         '/templates/{template_id}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
@@ -1014,7 +1022,7 @@ export default class PDFApi {
      */
 
     /**
-     * Fetch the full template attributes
+     * Fetch the full attributes for a PDF template
      * @param {String} templateId 
      * @param {module:api/PDFApi~getFullTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Template}
@@ -1588,6 +1596,53 @@ export default class PDFApi {
     }
 
     /**
+     * Callback function to receive the result of the publishTemplateVersion operation.
+     * @callback module:api/PDFApi~publishTemplateVersionCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/TemplatePublishVersionResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Publish a template version
+     * @param {String} templateId 
+     * @param {module:model/PublishVersionData} data 
+     * @param {module:api/PDFApi~publishTemplateVersionCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/TemplatePublishVersionResponse}
+     */
+    publishTemplateVersion(templateId, data, callback) {
+      let postBody = data;
+      // verify the required parameter 'templateId' is set
+      if (templateId === undefined || templateId === null) {
+        throw new Error("Missing the required parameter 'templateId' when calling publishTemplateVersion");
+      }
+      // verify the required parameter 'data' is set
+      if (data === undefined || data === null) {
+        throw new Error("Missing the required parameter 'data' when calling publishTemplateVersion");
+      }
+
+      let pathParams = {
+        'template_id': templateId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = TemplatePublishVersionResponse;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/publish_version', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the renameFolder operation.
      * @callback module:api/PDFApi~renameFolderCallback
      * @param {String} error Error message, if any.
@@ -1629,6 +1684,53 @@ export default class PDFApi {
       let returnType = Folder;
       return this.apiClient.callApi(
         '/folders/{folder_id}/rename', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the restoreTemplateVersion operation.
+     * @callback module:api/PDFApi~restoreTemplateVersionCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/SuccessErrorResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Restore a template version
+     * @param {String} templateId 
+     * @param {module:model/RestoreVersionData} data 
+     * @param {module:api/PDFApi~restoreTemplateVersionCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/SuccessErrorResponse}
+     */
+    restoreTemplateVersion(templateId, data, callback) {
+      let postBody = data;
+      // verify the required parameter 'templateId' is set
+      if (templateId === undefined || templateId === null) {
+        throw new Error("Missing the required parameter 'templateId' when calling restoreTemplateVersion");
+      }
+      // verify the required parameter 'data' is set
+      if (data === undefined || data === null) {
+        throw new Error("Missing the required parameter 'data' when calling restoreTemplateVersion");
+      }
+
+      let pathParams = {
+        'template_id': templateId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = SuccessErrorResponse;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/restore_version', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

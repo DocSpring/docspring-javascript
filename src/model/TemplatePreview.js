@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplatePreview model module.
  * @module model/TemplatePreview
- * @version 2.0.0
+ * @version 2.1.0
  */
 class TemplatePreview {
     /**
@@ -56,12 +56,18 @@ class TemplatePreview {
      * @param slackWebhookUrl {String} 
      * @param templateType {module:model/TemplatePreview.TemplateTypeEnum} 
      * @param updatedAt {String} 
+     * @param versionPublishedAt {String} 
+     * @param version {String} 
      * @param webhookUrl {String} 
      * @param demo {Boolean} 
+     * @param latestVersion {String} 
+     * @param lastChangedAt {String} 
+     * @param lastChangedByType {module:model/TemplatePreview.LastChangedByTypeEnum} 
+     * @param lastChangedById {String} 
      */
-    constructor(addDataRequestSubmissionIdFooters, allowAdditionalProperties, description, documentFilename, documentMd5, documentParseError, documentProcessed, documentState, documentUrl, editableSubmissions, embedDomains, encryptPdfsPassword, encryptPdfs, expirationInterval, expireAfter, expireSubmissions, externalPredefinedFieldsTemplateId, externalPredefinedFieldsTemplateName, firstTemplate, id, locked, mergeAuditTrailPdf, name, pageCount, pageDimensions, parentFolderId, path, permanentDocumentUrl, publicSubmissions, publicWebForm, redirectUrl, slackWebhookUrl, templateType, updatedAt, webhookUrl, demo) { 
+    constructor(addDataRequestSubmissionIdFooters, allowAdditionalProperties, description, documentFilename, documentMd5, documentParseError, documentProcessed, documentState, documentUrl, editableSubmissions, embedDomains, encryptPdfsPassword, encryptPdfs, expirationInterval, expireAfter, expireSubmissions, externalPredefinedFieldsTemplateId, externalPredefinedFieldsTemplateName, firstTemplate, id, locked, mergeAuditTrailPdf, name, pageCount, pageDimensions, parentFolderId, path, permanentDocumentUrl, publicSubmissions, publicWebForm, redirectUrl, slackWebhookUrl, templateType, updatedAt, versionPublishedAt, version, webhookUrl, demo, latestVersion, lastChangedAt, lastChangedByType, lastChangedById) { 
         
-        TemplatePreview.initialize(this, addDataRequestSubmissionIdFooters, allowAdditionalProperties, description, documentFilename, documentMd5, documentParseError, documentProcessed, documentState, documentUrl, editableSubmissions, embedDomains, encryptPdfsPassword, encryptPdfs, expirationInterval, expireAfter, expireSubmissions, externalPredefinedFieldsTemplateId, externalPredefinedFieldsTemplateName, firstTemplate, id, locked, mergeAuditTrailPdf, name, pageCount, pageDimensions, parentFolderId, path, permanentDocumentUrl, publicSubmissions, publicWebForm, redirectUrl, slackWebhookUrl, templateType, updatedAt, webhookUrl, demo);
+        TemplatePreview.initialize(this, addDataRequestSubmissionIdFooters, allowAdditionalProperties, description, documentFilename, documentMd5, documentParseError, documentProcessed, documentState, documentUrl, editableSubmissions, embedDomains, encryptPdfsPassword, encryptPdfs, expirationInterval, expireAfter, expireSubmissions, externalPredefinedFieldsTemplateId, externalPredefinedFieldsTemplateName, firstTemplate, id, locked, mergeAuditTrailPdf, name, pageCount, pageDimensions, parentFolderId, path, permanentDocumentUrl, publicSubmissions, publicWebForm, redirectUrl, slackWebhookUrl, templateType, updatedAt, versionPublishedAt, version, webhookUrl, demo, latestVersion, lastChangedAt, lastChangedByType, lastChangedById);
     }
 
     /**
@@ -69,7 +75,7 @@ class TemplatePreview {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, addDataRequestSubmissionIdFooters, allowAdditionalProperties, description, documentFilename, documentMd5, documentParseError, documentProcessed, documentState, documentUrl, editableSubmissions, embedDomains, encryptPdfsPassword, encryptPdfs, expirationInterval, expireAfter, expireSubmissions, externalPredefinedFieldsTemplateId, externalPredefinedFieldsTemplateName, firstTemplate, id, locked, mergeAuditTrailPdf, name, pageCount, pageDimensions, parentFolderId, path, permanentDocumentUrl, publicSubmissions, publicWebForm, redirectUrl, slackWebhookUrl, templateType, updatedAt, webhookUrl, demo) { 
+    static initialize(obj, addDataRequestSubmissionIdFooters, allowAdditionalProperties, description, documentFilename, documentMd5, documentParseError, documentProcessed, documentState, documentUrl, editableSubmissions, embedDomains, encryptPdfsPassword, encryptPdfs, expirationInterval, expireAfter, expireSubmissions, externalPredefinedFieldsTemplateId, externalPredefinedFieldsTemplateName, firstTemplate, id, locked, mergeAuditTrailPdf, name, pageCount, pageDimensions, parentFolderId, path, permanentDocumentUrl, publicSubmissions, publicWebForm, redirectUrl, slackWebhookUrl, templateType, updatedAt, versionPublishedAt, version, webhookUrl, demo, latestVersion, lastChangedAt, lastChangedByType, lastChangedById) { 
         obj['add_data_request_submission_id_footers'] = addDataRequestSubmissionIdFooters;
         obj['allow_additional_properties'] = allowAdditionalProperties;
         obj['description'] = description;
@@ -104,8 +110,14 @@ class TemplatePreview {
         obj['slack_webhook_url'] = slackWebhookUrl;
         obj['template_type'] = templateType;
         obj['updated_at'] = updatedAt;
+        obj['version_published_at'] = versionPublishedAt;
+        obj['version'] = version;
         obj['webhook_url'] = webhookUrl;
         obj['demo'] = demo;
+        obj['latest_version'] = latestVersion;
+        obj['last_changed_at'] = lastChangedAt;
+        obj['last_changed_by_type'] = lastChangedByType;
+        obj['last_changed_by_id'] = lastChangedById;
     }
 
     /**
@@ -221,11 +233,29 @@ class TemplatePreview {
             if (data.hasOwnProperty('updated_at')) {
                 obj['updated_at'] = ApiClient.convertToType(data['updated_at'], 'String');
             }
+            if (data.hasOwnProperty('version_published_at')) {
+                obj['version_published_at'] = ApiClient.convertToType(data['version_published_at'], 'String');
+            }
+            if (data.hasOwnProperty('version')) {
+                obj['version'] = ApiClient.convertToType(data['version'], 'String');
+            }
             if (data.hasOwnProperty('webhook_url')) {
                 obj['webhook_url'] = ApiClient.convertToType(data['webhook_url'], 'String');
             }
             if (data.hasOwnProperty('demo')) {
                 obj['demo'] = ApiClient.convertToType(data['demo'], 'Boolean');
+            }
+            if (data.hasOwnProperty('latest_version')) {
+                obj['latest_version'] = ApiClient.convertToType(data['latest_version'], 'String');
+            }
+            if (data.hasOwnProperty('last_changed_at')) {
+                obj['last_changed_at'] = ApiClient.convertToType(data['last_changed_at'], 'String');
+            }
+            if (data.hasOwnProperty('last_changed_by_type')) {
+                obj['last_changed_by_type'] = ApiClient.convertToType(data['last_changed_by_type'], 'String');
+            }
+            if (data.hasOwnProperty('last_changed_by_id')) {
+                obj['last_changed_by_id'] = ApiClient.convertToType(data['last_changed_by_id'], 'String');
             }
         }
         return obj;
@@ -324,8 +354,32 @@ class TemplatePreview {
             throw new Error("Expected the field `updated_at` to be a primitive type in the JSON string but got " + data['updated_at']);
         }
         // ensure the json data is a string
+        if (data['version_published_at'] && !(typeof data['version_published_at'] === 'string' || data['version_published_at'] instanceof String)) {
+            throw new Error("Expected the field `version_published_at` to be a primitive type in the JSON string but got " + data['version_published_at']);
+        }
+        // ensure the json data is a string
+        if (data['version'] && !(typeof data['version'] === 'string' || data['version'] instanceof String)) {
+            throw new Error("Expected the field `version` to be a primitive type in the JSON string but got " + data['version']);
+        }
+        // ensure the json data is a string
         if (data['webhook_url'] && !(typeof data['webhook_url'] === 'string' || data['webhook_url'] instanceof String)) {
             throw new Error("Expected the field `webhook_url` to be a primitive type in the JSON string but got " + data['webhook_url']);
+        }
+        // ensure the json data is a string
+        if (data['latest_version'] && !(typeof data['latest_version'] === 'string' || data['latest_version'] instanceof String)) {
+            throw new Error("Expected the field `latest_version` to be a primitive type in the JSON string but got " + data['latest_version']);
+        }
+        // ensure the json data is a string
+        if (data['last_changed_at'] && !(typeof data['last_changed_at'] === 'string' || data['last_changed_at'] instanceof String)) {
+            throw new Error("Expected the field `last_changed_at` to be a primitive type in the JSON string but got " + data['last_changed_at']);
+        }
+        // ensure the json data is a string
+        if (data['last_changed_by_type'] && !(typeof data['last_changed_by_type'] === 'string' || data['last_changed_by_type'] instanceof String)) {
+            throw new Error("Expected the field `last_changed_by_type` to be a primitive type in the JSON string but got " + data['last_changed_by_type']);
+        }
+        // ensure the json data is a string
+        if (data['last_changed_by_id'] && !(typeof data['last_changed_by_id'] === 'string' || data['last_changed_by_id'] instanceof String)) {
+            throw new Error("Expected the field `last_changed_by_id` to be a primitive type in the JSON string but got " + data['last_changed_by_id']);
         }
 
         return true;
@@ -334,7 +388,7 @@ class TemplatePreview {
 
 }
 
-TemplatePreview.RequiredProperties = ["add_data_request_submission_id_footers", "allow_additional_properties", "description", "document_filename", "document_md5", "document_parse_error", "document_processed", "document_state", "document_url", "editable_submissions", "embed_domains", "encrypt_pdfs_password", "encrypt_pdfs", "expiration_interval", "expire_after", "expire_submissions", "external_predefined_fields_template_id", "external_predefined_fields_template_name", "first_template", "id", "locked", "merge_audit_trail_pdf", "name", "page_count", "page_dimensions", "parent_folder_id", "path", "permanent_document_url", "public_submissions", "public_web_form", "redirect_url", "slack_webhook_url", "template_type", "updated_at", "webhook_url", "demo"];
+TemplatePreview.RequiredProperties = ["add_data_request_submission_id_footers", "allow_additional_properties", "description", "document_filename", "document_md5", "document_parse_error", "document_processed", "document_state", "document_url", "editable_submissions", "embed_domains", "encrypt_pdfs_password", "encrypt_pdfs", "expiration_interval", "expire_after", "expire_submissions", "external_predefined_fields_template_id", "external_predefined_fields_template_name", "first_template", "id", "locked", "merge_audit_trail_pdf", "name", "page_count", "page_dimensions", "parent_folder_id", "path", "permanent_document_url", "public_submissions", "public_web_form", "redirect_url", "slack_webhook_url", "template_type", "updated_at", "version_published_at", "version", "webhook_url", "demo", "latest_version", "last_changed_at", "last_changed_by_type", "last_changed_by_id"];
 
 /**
  * @member {Boolean} add_data_request_submission_id_footers
@@ -507,6 +561,16 @@ TemplatePreview.prototype['template_type'] = undefined;
 TemplatePreview.prototype['updated_at'] = undefined;
 
 /**
+ * @member {String} version_published_at
+ */
+TemplatePreview.prototype['version_published_at'] = undefined;
+
+/**
+ * @member {String} version
+ */
+TemplatePreview.prototype['version'] = undefined;
+
+/**
  * @member {String} webhook_url
  */
 TemplatePreview.prototype['webhook_url'] = undefined;
@@ -515,6 +579,26 @@ TemplatePreview.prototype['webhook_url'] = undefined;
  * @member {Boolean} demo
  */
 TemplatePreview.prototype['demo'] = undefined;
+
+/**
+ * @member {String} latest_version
+ */
+TemplatePreview.prototype['latest_version'] = undefined;
+
+/**
+ * @member {String} last_changed_at
+ */
+TemplatePreview.prototype['last_changed_at'] = undefined;
+
+/**
+ * @member {module:model/TemplatePreview.LastChangedByTypeEnum} last_changed_by_type
+ */
+TemplatePreview.prototype['last_changed_by_type'] = undefined;
+
+/**
+ * @member {String} last_changed_by_id
+ */
+TemplatePreview.prototype['last_changed_by_id'] = undefined;
 
 
 
@@ -577,6 +661,27 @@ TemplatePreview['TemplateTypeEnum'] = {
      * @const
      */
     "html": "html"
+};
+
+
+/**
+ * Allowed values for the <code>last_changed_by_type</code> property.
+ * @enum {String}
+ * @readonly
+ */
+TemplatePreview['LastChangedByTypeEnum'] = {
+
+    /**
+     * value: "user"
+     * @const
+     */
+    "user": "user",
+
+    /**
+     * value: "api"
+     * @const
+     */
+    "api": "api"
 };
 
 

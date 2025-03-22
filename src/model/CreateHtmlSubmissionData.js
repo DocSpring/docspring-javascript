@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CreateHtmlSubmissionData model module.
  * @module model/CreateHtmlSubmissionData
- * @version 2.0.0
+ * @version 2.1.0
  */
 class CreateHtmlSubmissionData {
     /**
@@ -74,6 +74,9 @@ class CreateHtmlSubmissionData {
             if (data.hasOwnProperty('test')) {
                 obj['test'] = ApiClient.convertToType(data['test'], 'Boolean');
             }
+            if (data.hasOwnProperty('version')) {
+                obj['version'] = ApiClient.convertToType(data['version'], 'String');
+            }
         }
         return obj;
     }
@@ -95,6 +98,10 @@ class CreateHtmlSubmissionData {
         // ensure the json data is a string
         if (data['password'] && !(typeof data['password'] === 'string' || data['password'] instanceof String)) {
             throw new Error("Expected the field `password` to be a primitive type in the JSON string but got " + data['password']);
+        }
+        // ensure the json data is a string
+        if (data['version'] && !(typeof data['version'] === 'string' || data['version'] instanceof String)) {
+            throw new Error("Expected the field `version` to be a primitive type in the JSON string but got " + data['version']);
         }
 
         return true;
@@ -149,6 +156,11 @@ CreateHtmlSubmissionData.prototype['password'] = undefined;
  * @member {Boolean} test
  */
 CreateHtmlSubmissionData.prototype['test'] = undefined;
+
+/**
+ * @member {String} version
+ */
+CreateHtmlSubmissionData.prototype['version'] = undefined;
 
 
 

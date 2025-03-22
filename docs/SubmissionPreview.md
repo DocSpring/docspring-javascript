@@ -16,6 +16,8 @@ Name | Type | Description | Notes
 **processedAt** | **String** |  | 
 **state** | **String** |  | 
 **templateId** | **String** |  | 
+**templateType** | **String** |  | 
+**templateVersion** | **String** |  | 
 **test** | **Boolean** |  | 
 **truncatedText** | **Object** |  | 
 **pdfHash** | **String** |  | 
@@ -52,6 +54,17 @@ Name | Type | Description | Notes
 * `license_revoked` (value: `"license_revoked"`)
 
 * `accidental` (value: `"accidental"`)
+
+
+
+
+
+## Enum: TemplateTypeEnum
+
+
+* `pdf` (value: `"pdf"`)
+
+* `html` (value: `"html"`)
 
 
 

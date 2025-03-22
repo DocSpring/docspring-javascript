@@ -25,7 +25,7 @@ Method | HTTP request | Description
 [**generatePreview**](PDFApi.md#generatePreview) | **POST** /submissions/{submission_id}/generate_preview | Generated a preview PDF for partially completed data requests
 [**getCombinedSubmission**](PDFApi.md#getCombinedSubmission) | **GET** /combined_submissions/{combined_submission_id} | Check the status of a combined submission (merged PDFs)
 [**getDataRequest**](PDFApi.md#getDataRequest) | **GET** /data_requests/{data_request_id} | Look up a submission data request
-[**getFullTemplate**](PDFApi.md#getFullTemplate) | **GET** /templates/{template_id}?full&#x3D;true | Fetch the full template attributes
+[**getFullTemplate**](PDFApi.md#getFullTemplate) | **GET** /templates/{template_id}?full&#x3D;true | Fetch the full attributes for a PDF template
 [**getPresignUrl**](PDFApi.md#getPresignUrl) | **GET** /uploads/presign | Get a presigned URL so that you can upload a file to our AWS S3 bucket
 [**getSubmission**](PDFApi.md#getSubmission) | **GET** /submissions/{submission_id} | Check the status of a PDF
 [**getSubmissionBatch**](PDFApi.md#getSubmissionBatch) | **GET** /submissions/batches/{submission_batch_id} | Check the status of a submission batch job
@@ -38,7 +38,9 @@ Method | HTTP request | Description
 [**listTemplates**](PDFApi.md#listTemplates) | **GET** /templates | Get a list of all templates
 [**moveFolderToFolder**](PDFApi.md#moveFolderToFolder) | **POST** /folders/{folder_id}/move | Move a folder
 [**moveTemplateToFolder**](PDFApi.md#moveTemplateToFolder) | **POST** /templates/{template_id}/move | Move Template to folder
+[**publishTemplateVersion**](PDFApi.md#publishTemplateVersion) | **POST** /templates/{template_id}/publish_version | Publish a template version
 [**renameFolder**](PDFApi.md#renameFolder) | **POST** /folders/{folder_id}/rename | Rename a folder
+[**restoreTemplateVersion**](PDFApi.md#restoreTemplateVersion) | **POST** /templates/{template_id}/restore_version | Restore a template version
 [**testAuthentication**](PDFApi.md#testAuthentication) | **GET** /authentication | Test Authentication
 [**updateDataRequest**](PDFApi.md#updateDataRequest) | **PUT** /data_requests/{data_request_id} | Update a submission data request
 [**updateTemplate**](PDFApi.md#updateTemplate) | **PUT** /templates/{template_id} | Update a Template
@@ -701,7 +703,7 @@ Name | Type | Description  | Notes
 
 ## deleteTemplate
 
-> SuccessMultipleErrorsResponse deleteTemplate(templateId)
+> TemplateDeleteResponse deleteTemplate(templateId, opts)
 
 Delete a template
 
@@ -717,7 +719,10 @@ api_token_basic.password = 'YOUR PASSWORD';
 
 let apiInstance = new DocSpring.PDFApi();
 let templateId = "tpl_1234567890abcdef01"; // String | 
-apiInstance.deleteTemplate(templateId, (error, data, response) => {
+let opts = {
+  'version': "0.1.0" // String | 
+};
+apiInstance.deleteTemplate(templateId, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -732,10 +737,11 @@ apiInstance.deleteTemplate(templateId, (error, data, response) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **templateId** | **String**|  | 
+ **version** | **String**|  | [optional] 
 
 ### Return type
 
-[**SuccessMultipleErrorsResponse**](SuccessMultipleErrorsResponse.md)
+[**TemplateDeleteResponse**](TemplateDeleteResponse.md)
 
 ### Authorization
 
@@ -1099,7 +1105,7 @@ Name | Type | Description  | Notes
 
 > Template getFullTemplate(templateId)
 
-Fetch the full template attributes
+Fetch the full attributes for a PDF template
 
 ### Example
 
@@ -1767,6 +1773,56 @@ Name | Type | Description  | Notes
 - **Accept**: application/json
 
 
+## publishTemplateVersion
+
+> TemplatePublishVersionResponse publishTemplateVersion(templateId, data)
+
+Publish a template version
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef01"; // String | 
+let data = new DocSpring.PublishVersionData(); // PublishVersionData | 
+apiInstance.publishTemplateVersion(templateId, data, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**|  | 
+ **data** | [**PublishVersionData**](PublishVersionData.md)|  | 
+
+### Return type
+
+[**TemplatePublishVersionResponse**](TemplatePublishVersionResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
 ## renameFolder
 
 > Folder renameFolder(folderId, data)
@@ -1806,6 +1862,56 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Folder**](Folder.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## restoreTemplateVersion
+
+> SuccessErrorResponse restoreTemplateVersion(templateId, data)
+
+Restore a template version
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.PDFApi();
+let templateId = "tpl_1234567890abcdef01"; // String | 
+let data = new DocSpring.RestoreVersionData(); // RestoreVersionData | 
+apiInstance.restoreTemplateVersion(templateId, data, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**|  | 
+ **data** | [**RestoreVersionData**](RestoreVersionData.md)|  | 
+
+### Return type
+
+[**SuccessErrorResponse**](SuccessErrorResponse.md)
 
 ### Authorization
 

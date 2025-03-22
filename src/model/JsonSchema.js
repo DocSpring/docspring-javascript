@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The JsonSchema model module.
  * @module model/JsonSchema
- * @version 2.0.0
+ * @version 2.1.0
  */
 class JsonSchema {
     /**

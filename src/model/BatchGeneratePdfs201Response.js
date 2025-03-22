@@ -17,7 +17,7 @@ import SubmissionBatch from './SubmissionBatch';
 /**
  * The BatchGeneratePdfs201Response model module.
  * @module model/BatchGeneratePdfs201Response
- * @version 2.0.0
+ * @version 2.1.0
  */
 class BatchGeneratePdfs201Response {
     /**

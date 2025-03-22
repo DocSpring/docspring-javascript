@@ -12,23 +12,21 @@
  */
 
 import ApiClient from '../ApiClient';
-import SubmissionDataRequestShow from './SubmissionDataRequestShow';
 
 /**
- * The CreateSubmissionDataRequestResponse model module.
- * @module model/CreateSubmissionDataRequestResponse
+ * The TemplateDeleteResponse model module.
+ * @module model/TemplateDeleteResponse
  * @version 2.1.0
  */
-class CreateSubmissionDataRequestResponse {
+class TemplateDeleteResponse {
     /**
-     * Constructs a new <code>CreateSubmissionDataRequestResponse</code>.
-     * @alias module:model/CreateSubmissionDataRequestResponse
-     * @param status {module:model/CreateSubmissionDataRequestResponse.StatusEnum} 
-     * @param dataRequest {module:model/SubmissionDataRequestShow} 
+     * Constructs a new <code>TemplateDeleteResponse</code>.
+     * @alias module:model/TemplateDeleteResponse
+     * @param status {module:model/TemplateDeleteResponse.StatusEnum} 
      */
-    constructor(status, dataRequest) { 
+    constructor(status) { 
         
-        CreateSubmissionDataRequestResponse.initialize(this, status, dataRequest);
+        TemplateDeleteResponse.initialize(this, status);
     }
 
     /**
@@ -36,43 +34,45 @@ class CreateSubmissionDataRequestResponse {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, status, dataRequest) { 
+    static initialize(obj, status) { 
         obj['status'] = status;
-        obj['data_request'] = dataRequest;
     }
 
     /**
-     * Constructs a <code>CreateSubmissionDataRequestResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>TemplateDeleteResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/CreateSubmissionDataRequestResponse} obj Optional instance to populate.
-     * @return {module:model/CreateSubmissionDataRequestResponse} The populated <code>CreateSubmissionDataRequestResponse</code> instance.
+     * @param {module:model/TemplateDeleteResponse} obj Optional instance to populate.
+     * @return {module:model/TemplateDeleteResponse} The populated <code>TemplateDeleteResponse</code> instance.
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new CreateSubmissionDataRequestResponse();
+            obj = obj || new TemplateDeleteResponse();
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');
             }
-            if (data.hasOwnProperty('data_request')) {
-                obj['data_request'] = SubmissionDataRequestShow.constructFromObject(data['data_request']);
-            }
             if (data.hasOwnProperty('errors')) {
                 obj['errors'] = ApiClient.convertToType(data['errors'], ['String']);
+            }
+            if (data.hasOwnProperty('latest_version')) {
+                obj['latest_version'] = ApiClient.convertToType(data['latest_version'], 'String');
+            }
+            if (data.hasOwnProperty('versions')) {
+                obj['versions'] = ApiClient.convertToType(data['versions'], [Object]);
             }
         }
         return obj;
     }
 
     /**
-     * Validates the JSON data with respect to <code>CreateSubmissionDataRequestResponse</code>.
+     * Validates the JSON data with respect to <code>TemplateDeleteResponse</code>.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>CreateSubmissionDataRequestResponse</code>.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>TemplateDeleteResponse</code>.
      */
     static validateJSON(data) {
         // check to make sure all required properties are present in the JSON string
-        for (const property of CreateSubmissionDataRequestResponse.RequiredProperties) {
+        for (const property of TemplateDeleteResponse.RequiredProperties) {
             if (!data.hasOwnProperty(property)) {
                 throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
             }
@@ -81,13 +81,17 @@ class CreateSubmissionDataRequestResponse {
         if (data['status'] && !(typeof data['status'] === 'string' || data['status'] instanceof String)) {
             throw new Error("Expected the field `status` to be a primitive type in the JSON string but got " + data['status']);
         }
-        // validate the optional field `data_request`
-        if (data['data_request']) { // data not null
-          SubmissionDataRequestShow.validateJSON(data['data_request']);
-        }
         // ensure the json data is an array
         if (!Array.isArray(data['errors'])) {
             throw new Error("Expected the field `errors` to be an array in the JSON data but got " + data['errors']);
+        }
+        // ensure the json data is a string
+        if (data['latest_version'] && !(typeof data['latest_version'] === 'string' || data['latest_version'] instanceof String)) {
+            throw new Error("Expected the field `latest_version` to be a primitive type in the JSON string but got " + data['latest_version']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['versions'])) {
+            throw new Error("Expected the field `versions` to be an array in the JSON data but got " + data['versions']);
         }
 
         return true;
@@ -96,22 +100,27 @@ class CreateSubmissionDataRequestResponse {
 
 }
 
-CreateSubmissionDataRequestResponse.RequiredProperties = ["status", "data_request"];
+TemplateDeleteResponse.RequiredProperties = ["status"];
 
 /**
- * @member {module:model/CreateSubmissionDataRequestResponse.StatusEnum} status
+ * @member {module:model/TemplateDeleteResponse.StatusEnum} status
  */
-CreateSubmissionDataRequestResponse.prototype['status'] = undefined;
-
-/**
- * @member {module:model/SubmissionDataRequestShow} data_request
- */
-CreateSubmissionDataRequestResponse.prototype['data_request'] = undefined;
+TemplateDeleteResponse.prototype['status'] = undefined;
 
 /**
  * @member {Array.<String>} errors
  */
-CreateSubmissionDataRequestResponse.prototype['errors'] = undefined;
+TemplateDeleteResponse.prototype['errors'] = undefined;
+
+/**
+ * @member {String} latest_version
+ */
+TemplateDeleteResponse.prototype['latest_version'] = undefined;
+
+/**
+ * @member {Array.<Object>} versions
+ */
+TemplateDeleteResponse.prototype['versions'] = undefined;
 
 
 
@@ -122,7 +131,7 @@ CreateSubmissionDataRequestResponse.prototype['errors'] = undefined;
  * @enum {String}
  * @readonly
  */
-CreateSubmissionDataRequestResponse['StatusEnum'] = {
+TemplateDeleteResponse['StatusEnum'] = {
 
     /**
      * value: "success"
@@ -139,5 +148,5 @@ CreateSubmissionDataRequestResponse['StatusEnum'] = {
 
 
 
-export default CreateSubmissionDataRequestResponse;
+export default TemplateDeleteResponse;
 

@@ -17,7 +17,7 @@ import CombinedSubmission from './CombinedSubmission';
 /**
  * The CreateCombinedSubmissionResponse model module.
  * @module model/CreateCombinedSubmissionResponse
- * @version 2.0.0
+ * @version 2.1.0
  */
 class CreateCombinedSubmissionResponse {
     /**

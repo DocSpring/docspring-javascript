@@ -14,20 +14,20 @@
 import ApiClient from '../ApiClient';
 
 /**
- * The MultipleErrorsResponse model module.
- * @module model/MultipleErrorsResponse
+ * The TemplatePublishVersionResponse model module.
+ * @module model/TemplatePublishVersionResponse
  * @version 2.1.0
  */
-class MultipleErrorsResponse {
+class TemplatePublishVersionResponse {
     /**
-     * Constructs a new <code>MultipleErrorsResponse</code>.
-     * @alias module:model/MultipleErrorsResponse
-     * @param status {module:model/MultipleErrorsResponse.StatusEnum} 
-     * @param errors {Array.<String>} 
+     * Constructs a new <code>TemplatePublishVersionResponse</code>.
+     * @alias module:model/TemplatePublishVersionResponse
+     * @param status {module:model/TemplatePublishVersionResponse.StatusEnum} 
+     * @param result {Object} 
      */
-    constructor(status, errors) { 
+    constructor(status, result) { 
         
-        MultipleErrorsResponse.initialize(this, status, errors);
+        TemplatePublishVersionResponse.initialize(this, status, result);
     }
 
     /**
@@ -35,24 +35,27 @@ class MultipleErrorsResponse {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, status, errors) { 
+    static initialize(obj, status, result) { 
         obj['status'] = status;
-        obj['errors'] = errors;
+        obj['result'] = result;
     }
 
     /**
-     * Constructs a <code>MultipleErrorsResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>TemplatePublishVersionResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultipleErrorsResponse} obj Optional instance to populate.
-     * @return {module:model/MultipleErrorsResponse} The populated <code>MultipleErrorsResponse</code> instance.
+     * @param {module:model/TemplatePublishVersionResponse} obj Optional instance to populate.
+     * @return {module:model/TemplatePublishVersionResponse} The populated <code>TemplatePublishVersionResponse</code> instance.
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new MultipleErrorsResponse();
+            obj = obj || new TemplatePublishVersionResponse();
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');
+            }
+            if (data.hasOwnProperty('result')) {
+                obj['result'] = ApiClient.convertToType(data['result'], Object);
             }
             if (data.hasOwnProperty('errors')) {
                 obj['errors'] = ApiClient.convertToType(data['errors'], ['String']);
@@ -62,13 +65,13 @@ class MultipleErrorsResponse {
     }
 
     /**
-     * Validates the JSON data with respect to <code>MultipleErrorsResponse</code>.
+     * Validates the JSON data with respect to <code>TemplatePublishVersionResponse</code>.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>MultipleErrorsResponse</code>.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>TemplatePublishVersionResponse</code>.
      */
     static validateJSON(data) {
         // check to make sure all required properties are present in the JSON string
-        for (const property of MultipleErrorsResponse.RequiredProperties) {
+        for (const property of TemplatePublishVersionResponse.RequiredProperties) {
             if (!data.hasOwnProperty(property)) {
                 throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
             }
@@ -88,17 +91,22 @@ class MultipleErrorsResponse {
 
 }
 
-MultipleErrorsResponse.RequiredProperties = ["status", "errors"];
+TemplatePublishVersionResponse.RequiredProperties = ["status", "result"];
 
 /**
- * @member {module:model/MultipleErrorsResponse.StatusEnum} status
+ * @member {module:model/TemplatePublishVersionResponse.StatusEnum} status
  */
-MultipleErrorsResponse.prototype['status'] = undefined;
+TemplatePublishVersionResponse.prototype['status'] = undefined;
+
+/**
+ * @member {Object} result
+ */
+TemplatePublishVersionResponse.prototype['result'] = undefined;
 
 /**
  * @member {Array.<String>} errors
  */
-MultipleErrorsResponse.prototype['errors'] = undefined;
+TemplatePublishVersionResponse.prototype['errors'] = undefined;
 
 
 
@@ -109,7 +117,13 @@ MultipleErrorsResponse.prototype['errors'] = undefined;
  * @enum {String}
  * @readonly
  */
-MultipleErrorsResponse['StatusEnum'] = {
+TemplatePublishVersionResponse['StatusEnum'] = {
+
+    /**
+     * value: "success"
+     * @const
+     */
+    "success": "success",
 
     /**
      * value: "error"
@@ -120,5 +134,5 @@ MultipleErrorsResponse['StatusEnum'] = {
 
 
 
-export default MultipleErrorsResponse;
+export default TemplatePublishVersionResponse;
 

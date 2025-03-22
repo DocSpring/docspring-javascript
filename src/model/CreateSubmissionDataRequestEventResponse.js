@@ -17,7 +17,7 @@ import SubmissionDataRequestEvent from './SubmissionDataRequestEvent';
 /**
  * The CreateSubmissionDataRequestEventResponse model module.
  * @module model/CreateSubmissionDataRequestEventResponse
- * @version 2.0.0
+ * @version 2.1.0
  */
 class CreateSubmissionDataRequestEventResponse {
     /**
