@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,17 +16,17 @@ import ApiClient from '../ApiClient';
 /**
  * The MoveTemplateData model module.
  * @module model/MoveTemplateData
- * @version 2.1.0
+ * @version 3.0.0
  */
 class MoveTemplateData {
     /**
      * Constructs a new <code>MoveTemplateData</code>.
      * @alias module:model/MoveTemplateData
-     * @param parentFolderId {String} 
+     * @param parent_folder_id {String} 
      */
-    constructor(parentFolderId) { 
+    constructor(parent_folder_id) { 
         
-        MoveTemplateData.initialize(this, parentFolderId);
+        MoveTemplateData.initialize(this, parent_folder_id);
     }
 
     /**
@@ -34,8 +34,8 @@ class MoveTemplateData {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, parentFolderId) { 
-        obj['parent_folder_id'] = parentFolderId;
+    static initialize(obj, parent_folder_id) { 
+        obj['parent_folder_id'] = parent_folder_id;
     }
 
     /**

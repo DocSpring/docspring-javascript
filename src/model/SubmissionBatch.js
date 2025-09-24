@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionBatch model module.
  * @module model/SubmissionBatch
- * @version 2.1.0
+ * @version 3.0.0
  */
 class SubmissionBatch {
     /**
@@ -25,15 +25,15 @@ class SubmissionBatch {
      * @param id {String} 
      * @param state {module:model/SubmissionBatch.StateEnum} 
      * @param metadata {Object} 
-     * @param processedAt {String} 
-     * @param totalCount {Number} 
-     * @param pendingCount {Number} 
-     * @param errorCount {Number} 
-     * @param completionPercentage {Number} 
+     * @param processed_at {String} 
+     * @param total_count {Number} 
+     * @param pending_count {Number} 
+     * @param error_count {Number} 
+     * @param completion_percentage {Number} 
      */
-    constructor(id, state, metadata, processedAt, totalCount, pendingCount, errorCount, completionPercentage) { 
+    constructor(id, state, metadata, processed_at, total_count, pending_count, error_count, completion_percentage) { 
         
-        SubmissionBatch.initialize(this, id, state, metadata, processedAt, totalCount, pendingCount, errorCount, completionPercentage);
+        SubmissionBatch.initialize(this, id, state, metadata, processed_at, total_count, pending_count, error_count, completion_percentage);
     }
 
     /**
@@ -41,15 +41,15 @@ class SubmissionBatch {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, state, metadata, processedAt, totalCount, pendingCount, errorCount, completionPercentage) { 
+    static initialize(obj, id, state, metadata, processed_at, total_count, pending_count, error_count, completion_percentage) { 
         obj['id'] = id;
         obj['state'] = state;
         obj['metadata'] = metadata;
-        obj['processed_at'] = processedAt;
-        obj['total_count'] = totalCount;
-        obj['pending_count'] = pendingCount;
-        obj['error_count'] = errorCount;
-        obj['completion_percentage'] = completionPercentage;
+        obj['processed_at'] = processed_at;
+        obj['total_count'] = total_count;
+        obj['pending_count'] = pending_count;
+        obj['error_count'] = error_count;
+        obj['completion_percentage'] = completion_percentage;
     }
 
     /**

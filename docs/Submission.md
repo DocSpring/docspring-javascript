@@ -4,28 +4,28 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**batchId** | **String** |  | 
-**dataRequests** | [**[SubmissionDataRequest]**](SubmissionDataRequest.md) |  | 
+**batch_id** | **String** |  | 
+**data_requests** | [**[SubmissionDataRequest]**](SubmissionDataRequest.md) |  | 
 **editable** | **Boolean** |  | 
 **expired** | **Boolean** |  | 
-**expiresAt** | **String** |  | 
+**expires_at** | **String** |  | 
 **id** | **String** |  | 
-**jsonSchemaErrors** | **[String]** |  | 
+**json_schema_errors** | **[String]** |  | 
 **metadata** | **Object** |  | 
 **password** | **String** |  | 
-**processedAt** | **String** |  | 
+**processed_at** | **String** |  | 
 **state** | **String** |  | 
-**templateId** | **String** |  | 
-**templateType** | **String** |  | 
-**templateVersion** | **String** |  | 
+**template_id** | **String** |  | 
+**template_type** | **String** |  | 
+**template_version** | **String** |  | 
 **test** | **Boolean** |  | 
-**truncatedText** | **Object** |  | 
-**pdfHash** | **String** |  | 
-**downloadUrl** | **String** |  | 
-**permanentDownloadUrl** | **String** |  | 
-**previewDownloadUrl** | **String** |  | 
-**previewGeneratedAt** | **String** |  | 
-**auditTrailDownloadUrl** | **String** |  | 
+**truncated_text** | **Object** |  | 
+**pdf_hash** | **String** |  | 
+**download_url** | **String** |  | 
+**permanent_download_url** | **String** |  | 
+**preview_download_url** | **String** |  | 
+**preview_generated_at** | **String** |  | 
+**audit_trail_download_url** | **String** |  | 
 **actions** | [**[SubmissionAction]**](SubmissionAction.md) |  | 
 **source** | **String** |  | 
 **referrer** | **String** |  | 

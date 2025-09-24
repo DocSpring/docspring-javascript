@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,17 +16,17 @@ import ApiClient from '../ApiClient';
 /**
  * The CombinePdfsData model module.
  * @module model/CombinePdfsData
- * @version 2.1.0
+ * @version 3.0.0
  */
 class CombinePdfsData {
     /**
      * Constructs a new <code>CombinePdfsData</code>.
      * @alias module:model/CombinePdfsData
-     * @param sourcePdfs {Array.<Object>} 
+     * @param source_pdfs {Array.<Object>} 
      */
-    constructor(sourcePdfs) { 
+    constructor(source_pdfs) { 
         
-        CombinePdfsData.initialize(this, sourcePdfs);
+        CombinePdfsData.initialize(this, source_pdfs);
     }
 
     /**
@@ -34,8 +34,8 @@ class CombinePdfsData {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, sourcePdfs) { 
-        obj['source_pdfs'] = sourcePdfs;
+    static initialize(obj, source_pdfs) { 
+        obj['source_pdfs'] = source_pdfs;
     }
 
     /**

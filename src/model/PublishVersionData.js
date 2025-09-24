@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,17 +16,17 @@ import ApiClient from '../ApiClient';
 /**
  * The PublishVersionData model module.
  * @module model/PublishVersionData
- * @version 2.1.0
+ * @version 3.0.0
  */
 class PublishVersionData {
     /**
      * Constructs a new <code>PublishVersionData</code>.
      * @alias module:model/PublishVersionData
-     * @param versionType {String} 
+     * @param version_type {String} 
      */
-    constructor(versionType) { 
+    constructor(version_type) { 
         
-        PublishVersionData.initialize(this, versionType);
+        PublishVersionData.initialize(this, version_type);
     }
 
     /**
@@ -34,8 +34,8 @@ class PublishVersionData {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, versionType) { 
-        obj['version_type'] = versionType;
+    static initialize(obj, version_type) { 
+        obj['version_type'] = version_type;
     }
 
     /**

@@ -8,24 +8,24 @@ Name | Type | Description | Notes
 **email** | **String** |  | 
 **name** | **String** |  | 
 **order** | **Number** |  | 
-**sortOrder** | **Number** |  | 
+**sort_order** | **Number** |  | 
 **fields** | **[String]** |  | 
 **metadata** | **Object** |  | 
 **state** | **String** |  | 
-**viewedAt** | **String** |  | 
-**completedAt** | **String** |  | 
+**viewed_at** | **String** |  | 
+**completed_at** | **String** |  | 
 **data** | **Object** |  | 
-**authType** | **String** |  | 
-**authSecondFactorType** | **String** |  | 
-**authProvider** | **String** |  | 
-**authSessionStartedAt** | **String** |  | 
-**authSessionIdHash** | **String** |  | 
-**authUserIdHash** | **String** |  | 
-**authUsernameHash** | **String** |  | 
-**authPhoneNumberHash** | **String** |  | 
-**ipAddress** | **String** |  | 
-**userAgent** | **String** |  | 
-**submissionId** | **String** |  | 
+**auth_type** | **String** |  | 
+**auth_second_factor_type** | **String** |  | 
+**auth_provider** | **String** |  | 
+**auth_session_started_at** | **String** |  | 
+**auth_session_id_hash** | **String** |  | 
+**auth_user_id_hash** | **String** |  | 
+**auth_username_hash** | **String** |  | 
+**auth_phone_number_hash** | **String** |  | 
+**ip_address** | **String** |  | 
+**user_agent** | **String** |  | 
+**submission_id** | **String** |  | 
 
 
 

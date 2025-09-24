@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,18 +17,18 @@ import CombinedSubmission from './CombinedSubmission';
 /**
  * The CreateCombinedSubmissionResponse model module.
  * @module model/CreateCombinedSubmissionResponse
- * @version 2.1.0
+ * @version 3.0.0
  */
 class CreateCombinedSubmissionResponse {
     /**
      * Constructs a new <code>CreateCombinedSubmissionResponse</code>.
      * @alias module:model/CreateCombinedSubmissionResponse
      * @param status {module:model/CreateCombinedSubmissionResponse.StatusEnum} 
-     * @param combinedSubmission {module:model/CombinedSubmission} 
+     * @param combined_submission {module:model/CombinedSubmission} 
      */
-    constructor(status, combinedSubmission) { 
+    constructor(status, combined_submission) { 
         
-        CreateCombinedSubmissionResponse.initialize(this, status, combinedSubmission);
+        CreateCombinedSubmissionResponse.initialize(this, status, combined_submission);
     }
 
     /**
@@ -36,9 +36,9 @@ class CreateCombinedSubmissionResponse {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, status, combinedSubmission) { 
+    static initialize(obj, status, combined_submission) { 
         obj['status'] = status;
-        obj['combined_submission'] = combinedSubmission;
+        obj['combined_submission'] = combined_submission;
     }
 
     /**

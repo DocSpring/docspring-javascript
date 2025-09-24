@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionDataRequestToken model module.
  * @module model/SubmissionDataRequestToken
- * @version 2.1.0
+ * @version 3.0.0
  */
 class SubmissionDataRequestToken {
     /**
@@ -24,12 +24,12 @@ class SubmissionDataRequestToken {
      * @alias module:model/SubmissionDataRequestToken
      * @param id {String} 
      * @param secret {String} 
-     * @param expiresAt {String} 
-     * @param dataRequestUrl {String} 
+     * @param expires_at {String} 
+     * @param data_request_url {String} 
      */
-    constructor(id, secret, expiresAt, dataRequestUrl) { 
+    constructor(id, secret, expires_at, data_request_url) { 
         
-        SubmissionDataRequestToken.initialize(this, id, secret, expiresAt, dataRequestUrl);
+        SubmissionDataRequestToken.initialize(this, id, secret, expires_at, data_request_url);
     }
 
     /**
@@ -37,11 +37,11 @@ class SubmissionDataRequestToken {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, secret, expiresAt, dataRequestUrl) { 
+    static initialize(obj, id, secret, expires_at, data_request_url) { 
         obj['id'] = id;
         obj['secret'] = secret;
-        obj['expires_at'] = expiresAt;
-        obj['data_request_url'] = dataRequestUrl;
+        obj['expires_at'] = expires_at;
+        obj['data_request_url'] = data_request_url;
     }
 
     /**

@@ -7,11 +7,11 @@ Name | Type | Description | Notes
 **id** | **String** |  | 
 **state** | **String** |  | 
 **metadata** | **Object** |  | 
-**processedAt** | **String** |  | 
-**totalCount** | **Number** |  | 
-**pendingCount** | **Number** |  | 
-**errorCount** | **Number** |  | 
-**completionPercentage** | **Number** |  | 
+**processed_at** | **String** |  | 
+**total_count** | **Number** |  | 
+**pending_count** | **Number** |  | 
+**error_count** | **Number** |  | 
+**completion_percentage** | **Number** |  | 
 
 
 

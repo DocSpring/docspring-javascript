@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **status** | **String** |  | 
 **error** | **String** |  | [optional] 
 **errors** | **[String]** |  | [optional] 
-**submissionBatch** | [**SubmissionBatch**](SubmissionBatch.md) |  | 
+**submission_batch** | [**SubmissionBatch**](SubmissionBatch.md) |  | 
 **submissions** | **[Object]** |  | 
 
 

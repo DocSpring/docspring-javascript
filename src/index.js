@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -18,13 +18,11 @@ import BatchGeneratePdfs201Response from './model/BatchGeneratePdfs201Response';
 import CombinePdfsData from './model/CombinePdfsData';
 import CombinedSubmission from './model/CombinedSubmission';
 import CombinedSubmissionAction from './model/CombinedSubmissionAction';
-import CombinedSubmissionData from './model/CombinedSubmissionData';
 import CopyTemplateOptions from './model/CopyTemplateOptions';
 import CreateCombinedSubmissionResponse from './model/CreateCombinedSubmissionResponse';
 import CreateCustomFileData from './model/CreateCustomFileData';
 import CreateCustomFileResponse from './model/CreateCustomFileResponse';
 import CreateFolderData from './model/CreateFolderData';
-import CreateHtmlSubmissionData from './model/CreateHtmlSubmissionData';
 import CreateHtmlTemplate from './model/CreateHtmlTemplate';
 import CreatePdfSubmissionData from './model/CreatePdfSubmissionData';
 import CreatePdfTemplate from './model/CreatePdfTemplate';
@@ -35,6 +33,7 @@ import CreateSubmissionDataRequestResponse from './model/CreateSubmissionDataReq
 import CreateSubmissionDataRequestTokenResponse from './model/CreateSubmissionDataRequestTokenResponse';
 import CreateSubmissionResponse from './model/CreateSubmissionResponse';
 import CustomFile from './model/CustomFile';
+import ErrorOrMultipleErrorsResponse from './model/ErrorOrMultipleErrorsResponse';
 import ErrorResponse from './model/ErrorResponse';
 import Folder from './model/Folder';
 import JsonSchema from './model/JsonSchema';
@@ -46,6 +45,7 @@ import PublishVersionData from './model/PublishVersionData';
 import RenameFolderData from './model/RenameFolderData';
 import RestoreVersionData from './model/RestoreVersionData';
 import Submission from './model/Submission';
+import Submission422Response from './model/Submission422Response';
 import SubmissionAction from './model/SubmissionAction';
 import SubmissionBatch from './model/SubmissionBatch';
 import SubmissionBatchData from './model/SubmissionBatchData';
@@ -63,9 +63,10 @@ import TemplateDeleteResponse from './model/TemplateDeleteResponse';
 import TemplatePreview from './model/TemplatePreview';
 import TemplatePublishVersionResponse from './model/TemplatePublishVersionResponse';
 import UpdateHtmlTemplate from './model/UpdateHtmlTemplate';
+import UpdatePdfTemplate from './model/UpdatePdfTemplate';
 import UpdateSubmissionDataRequestData from './model/UpdateSubmissionDataRequestData';
 import UploadPresignResponse from './model/UploadPresignResponse';
-import PDFApi from './api/PDFApi';
+import Client from './api/Client';
 
 
 /**
@@ -97,7 +98,7 @@ import PDFApi from './api/PDFApi';
 * </pre>
 * </p>
 * @module index
-* @version 2.1.0
+* @version 3.0.0
 */
 export {
     /**
@@ -137,12 +138,6 @@ export {
     CombinedSubmissionAction,
 
     /**
-     * The CombinedSubmissionData model constructor.
-     * @property {module:model/CombinedSubmissionData}
-     */
-    CombinedSubmissionData,
-
-    /**
      * The CopyTemplateOptions model constructor.
      * @property {module:model/CopyTemplateOptions}
      */
@@ -171,12 +166,6 @@ export {
      * @property {module:model/CreateFolderData}
      */
     CreateFolderData,
-
-    /**
-     * The CreateHtmlSubmissionData model constructor.
-     * @property {module:model/CreateHtmlSubmissionData}
-     */
-    CreateHtmlSubmissionData,
 
     /**
      * The CreateHtmlTemplate model constructor.
@@ -237,6 +226,12 @@ export {
      * @property {module:model/CustomFile}
      */
     CustomFile,
+
+    /**
+     * The ErrorOrMultipleErrorsResponse model constructor.
+     * @property {module:model/ErrorOrMultipleErrorsResponse}
+     */
+    ErrorOrMultipleErrorsResponse,
 
     /**
      * The ErrorResponse model constructor.
@@ -303,6 +298,12 @@ export {
      * @property {module:model/Submission}
      */
     Submission,
+
+    /**
+     * The Submission422Response model constructor.
+     * @property {module:model/Submission422Response}
+     */
+    Submission422Response,
 
     /**
      * The SubmissionAction model constructor.
@@ -407,6 +408,12 @@ export {
     UpdateHtmlTemplate,
 
     /**
+     * The UpdatePdfTemplate model constructor.
+     * @property {module:model/UpdatePdfTemplate}
+     */
+    UpdatePdfTemplate,
+
+    /**
      * The UpdateSubmissionDataRequestData model constructor.
      * @property {module:model/UpdateSubmissionDataRequestData}
      */
@@ -419,8 +426,8 @@ export {
     UploadPresignResponse,
 
     /**
-    * The PDFApi service constructor.
-    * @property {module:api/PDFApi}
+    * The Client service constructor.
+    * @property {module:api/Client}
     */
-    PDFApi
+    Client
 };

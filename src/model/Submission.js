@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -18,42 +18,42 @@ import SubmissionDataRequest from './SubmissionDataRequest';
 /**
  * The Submission model module.
  * @module model/Submission
- * @version 2.1.0
+ * @version 3.0.0
  */
 class Submission {
     /**
      * Constructs a new <code>Submission</code>.
      * @alias module:model/Submission
-     * @param batchId {String} 
-     * @param dataRequests {Array.<module:model/SubmissionDataRequest>} 
+     * @param batch_id {String} 
+     * @param data_requests {Array.<module:model/SubmissionDataRequest>} 
      * @param editable {Boolean} 
      * @param expired {Boolean} 
-     * @param expiresAt {String} 
+     * @param expires_at {String} 
      * @param id {String} 
-     * @param jsonSchemaErrors {Array.<String>} 
+     * @param json_schema_errors {Array.<String>} 
      * @param metadata {Object} 
      * @param password {String} 
-     * @param processedAt {String} 
+     * @param processed_at {String} 
      * @param state {module:model/Submission.StateEnum} 
-     * @param templateId {String} 
-     * @param templateType {module:model/Submission.TemplateTypeEnum} 
-     * @param templateVersion {String} 
+     * @param template_id {String} 
+     * @param template_type {module:model/Submission.TemplateTypeEnum} 
+     * @param template_version {String} 
      * @param test {Boolean} 
-     * @param truncatedText {Object} 
-     * @param pdfHash {String} 
-     * @param downloadUrl {String} 
-     * @param permanentDownloadUrl {String} 
-     * @param previewDownloadUrl {String} 
-     * @param previewGeneratedAt {String} 
-     * @param auditTrailDownloadUrl {String} 
+     * @param truncated_text {Object} 
+     * @param pdf_hash {String} 
+     * @param download_url {String} 
+     * @param permanent_download_url {String} 
+     * @param preview_download_url {String} 
+     * @param preview_generated_at {String} 
+     * @param audit_trail_download_url {String} 
      * @param actions {Array.<module:model/SubmissionAction>} 
      * @param source {module:model/Submission.SourceEnum} 
      * @param referrer {String} 
      * @param data {Object} 
      */
-    constructor(batchId, dataRequests, editable, expired, expiresAt, id, jsonSchemaErrors, metadata, password, processedAt, state, templateId, templateType, templateVersion, test, truncatedText, pdfHash, downloadUrl, permanentDownloadUrl, previewDownloadUrl, previewGeneratedAt, auditTrailDownloadUrl, actions, source, referrer, data) { 
+    constructor(batch_id, data_requests, editable, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions, source, referrer, data) { 
         
-        Submission.initialize(this, batchId, dataRequests, editable, expired, expiresAt, id, jsonSchemaErrors, metadata, password, processedAt, state, templateId, templateType, templateVersion, test, truncatedText, pdfHash, downloadUrl, permanentDownloadUrl, previewDownloadUrl, previewGeneratedAt, auditTrailDownloadUrl, actions, source, referrer, data);
+        Submission.initialize(this, batch_id, data_requests, editable, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions, source, referrer, data);
     }
 
     /**
@@ -61,29 +61,29 @@ class Submission {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, batchId, dataRequests, editable, expired, expiresAt, id, jsonSchemaErrors, metadata, password, processedAt, state, templateId, templateType, templateVersion, test, truncatedText, pdfHash, downloadUrl, permanentDownloadUrl, previewDownloadUrl, previewGeneratedAt, auditTrailDownloadUrl, actions, source, referrer, data) { 
-        obj['batch_id'] = batchId;
-        obj['data_requests'] = dataRequests;
+    static initialize(obj, batch_id, data_requests, editable, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions, source, referrer, data) { 
+        obj['batch_id'] = batch_id;
+        obj['data_requests'] = data_requests;
         obj['editable'] = editable;
         obj['expired'] = expired;
-        obj['expires_at'] = expiresAt;
+        obj['expires_at'] = expires_at;
         obj['id'] = id;
-        obj['json_schema_errors'] = jsonSchemaErrors;
+        obj['json_schema_errors'] = json_schema_errors;
         obj['metadata'] = metadata;
         obj['password'] = password;
-        obj['processed_at'] = processedAt;
+        obj['processed_at'] = processed_at;
         obj['state'] = state;
-        obj['template_id'] = templateId;
-        obj['template_type'] = templateType;
-        obj['template_version'] = templateVersion;
+        obj['template_id'] = template_id;
+        obj['template_type'] = template_type;
+        obj['template_version'] = template_version;
         obj['test'] = test;
-        obj['truncated_text'] = truncatedText;
-        obj['pdf_hash'] = pdfHash;
-        obj['download_url'] = downloadUrl;
-        obj['permanent_download_url'] = permanentDownloadUrl;
-        obj['preview_download_url'] = previewDownloadUrl;
-        obj['preview_generated_at'] = previewGeneratedAt;
-        obj['audit_trail_download_url'] = auditTrailDownloadUrl;
+        obj['truncated_text'] = truncated_text;
+        obj['pdf_hash'] = pdf_hash;
+        obj['download_url'] = download_url;
+        obj['permanent_download_url'] = permanent_download_url;
+        obj['preview_download_url'] = preview_download_url;
+        obj['preview_generated_at'] = preview_generated_at;
+        obj['audit_trail_download_url'] = audit_trail_download_url;
         obj['actions'] = actions;
         obj['source'] = source;
         obj['referrer'] = referrer;

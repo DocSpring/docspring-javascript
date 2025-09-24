@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,18 +17,18 @@ import SubmissionDataRequestShow from './SubmissionDataRequestShow';
 /**
  * The CreateSubmissionDataRequestResponse model module.
  * @module model/CreateSubmissionDataRequestResponse
- * @version 2.1.0
+ * @version 3.0.0
  */
 class CreateSubmissionDataRequestResponse {
     /**
      * Constructs a new <code>CreateSubmissionDataRequestResponse</code>.
      * @alias module:model/CreateSubmissionDataRequestResponse
      * @param status {module:model/CreateSubmissionDataRequestResponse.StatusEnum} 
-     * @param dataRequest {module:model/SubmissionDataRequestShow} 
+     * @param data_request {module:model/SubmissionDataRequestShow} 
      */
-    constructor(status, dataRequest) { 
+    constructor(status, data_request) { 
         
-        CreateSubmissionDataRequestResponse.initialize(this, status, dataRequest);
+        CreateSubmissionDataRequestResponse.initialize(this, status, data_request);
     }
 
     /**
@@ -36,9 +36,9 @@ class CreateSubmissionDataRequestResponse {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, status, dataRequest) { 
+    static initialize(obj, status, data_request) { 
         obj['status'] = status;
-        obj['data_request'] = dataRequest;
+        obj['data_request'] = data_request;
     }
 
     /**

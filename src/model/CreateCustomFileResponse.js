@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,18 +17,18 @@ import CustomFile from './CustomFile';
 /**
  * The CreateCustomFileResponse model module.
  * @module model/CreateCustomFileResponse
- * @version 2.1.0
+ * @version 3.0.0
  */
 class CreateCustomFileResponse {
     /**
      * Constructs a new <code>CreateCustomFileResponse</code>.
      * @alias module:model/CreateCustomFileResponse
      * @param status {module:model/CreateCustomFileResponse.StatusEnum} 
-     * @param customFile {module:model/CustomFile} 
+     * @param custom_file {module:model/CustomFile} 
      */
-    constructor(status, customFile) { 
+    constructor(status, custom_file) { 
         
-        CreateCustomFileResponse.initialize(this, status, customFile);
+        CreateCustomFileResponse.initialize(this, status, custom_file);
     }
 
     /**
@@ -36,9 +36,9 @@ class CreateCustomFileResponse {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, status, customFile) { 
+    static initialize(obj, status, custom_file) { 
         obj['status'] = status;
-        obj['custom_file'] = customFile;
+        obj['custom_file'] = custom_file;
     }
 
     /**

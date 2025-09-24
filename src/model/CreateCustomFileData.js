@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,17 +16,17 @@ import ApiClient from '../ApiClient';
 /**
  * The CreateCustomFileData model module.
  * @module model/CreateCustomFileData
- * @version 2.1.0
+ * @version 3.0.0
  */
 class CreateCustomFileData {
     /**
      * Constructs a new <code>CreateCustomFileData</code>.
      * @alias module:model/CreateCustomFileData
-     * @param cacheId {String} 
+     * @param cache_id {String} 
      */
-    constructor(cacheId) { 
+    constructor(cache_id) { 
         
-        CreateCustomFileData.initialize(this, cacheId);
+        CreateCustomFileData.initialize(this, cache_id);
     }
 
     /**
@@ -34,8 +34,8 @@ class CreateCustomFileData {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, cacheId) { 
-        obj['cache_id'] = cacheId;
+    static initialize(obj, cache_id) { 
+        obj['cache_id'] = cache_id;
     }
 
     /**

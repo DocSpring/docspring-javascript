@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -72,32 +72,32 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property processedAt (base name: "processed_at")', function() {
-      // uncomment below and update the code to test the property processedAt
+    it('should have the property processed_at (base name: "processed_at")', function() {
+      // uncomment below and update the code to test the property processed_at
       //var instance = new DocSpring.SubmissionBatch();
       //expect(instance).to.be();
     });
 
-    it('should have the property totalCount (base name: "total_count")', function() {
-      // uncomment below and update the code to test the property totalCount
+    it('should have the property total_count (base name: "total_count")', function() {
+      // uncomment below and update the code to test the property total_count
       //var instance = new DocSpring.SubmissionBatch();
       //expect(instance).to.be();
     });
 
-    it('should have the property pendingCount (base name: "pending_count")', function() {
-      // uncomment below and update the code to test the property pendingCount
+    it('should have the property pending_count (base name: "pending_count")', function() {
+      // uncomment below and update the code to test the property pending_count
       //var instance = new DocSpring.SubmissionBatch();
       //expect(instance).to.be();
     });
 
-    it('should have the property errorCount (base name: "error_count")', function() {
-      // uncomment below and update the code to test the property errorCount
+    it('should have the property error_count (base name: "error_count")', function() {
+      // uncomment below and update the code to test the property error_count
       //var instance = new DocSpring.SubmissionBatch();
       //expect(instance).to.be();
     });
 
-    it('should have the property completionPercentage (base name: "completion_percentage")', function() {
-      // uncomment below and update the code to test the property completionPercentage
+    it('should have the property completion_percentage (base name: "completion_percentage")', function() {
+      // uncomment below and update the code to test the property completion_percentage
       //var instance = new DocSpring.SubmissionBatch();
       //expect(instance).to.be();
     });

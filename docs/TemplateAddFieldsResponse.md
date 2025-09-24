@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **String** |  | 
 **errors** | **[String]** |  | [optional] 
-**newFieldIds** | **[Number]** |  | [optional] 
+**new_field_ids** | **[Number]** |  | [optional] 
 
 
 

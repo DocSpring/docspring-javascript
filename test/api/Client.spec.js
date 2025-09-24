@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -28,7 +28,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new DocSpring.PDFApi();
+    instance = new DocSpring.Client();
   });
 
   var getProperty = function(object, getter, property) {
@@ -47,7 +47,7 @@
       object[property] = value;
   }
 
-  describe('PDFApi', function() {
+  describe('Client', function() {
     describe('addFieldsToTemplate', function() {
       it('should call addFieldsToTemplate successfully', function(done) {
         //uncomment below and update the code to test addFieldsToTemplate
@@ -72,16 +72,6 @@
       it('should call combinePdfs successfully', function(done) {
         //uncomment below and update the code to test combinePdfs
         //instance.combinePdfs(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
-    describe('combineSubmissions', function() {
-      it('should call combineSubmissions successfully', function(done) {
-        //uncomment below and update the code to test combineSubmissions
-        //instance.combineSubmissions(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -138,30 +128,30 @@
         done();
       });
     });
-    describe('createHTMLTemplate', function() {
-      it('should call createHTMLTemplate successfully', function(done) {
-        //uncomment below and update the code to test createHTMLTemplate
-        //instance.createHTMLTemplate(function(error) {
+    describe('createHtmlTemplate', function() {
+      it('should call createHtmlTemplate successfully', function(done) {
+        //uncomment below and update the code to test createHtmlTemplate
+        //instance.createHtmlTemplate(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
         done();
       });
     });
-    describe('createPDFTemplate', function() {
-      it('should call createPDFTemplate successfully', function(done) {
-        //uncomment below and update the code to test createPDFTemplate
-        //instance.createPDFTemplate(function(error) {
+    describe('createPdfTemplate', function() {
+      it('should call createPdfTemplate successfully', function(done) {
+        //uncomment below and update the code to test createPdfTemplate
+        //instance.createPdfTemplate(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
         done();
       });
     });
-    describe('createPDFTemplateFromUpload', function() {
-      it('should call createPDFTemplateFromUpload successfully', function(done) {
-        //uncomment below and update the code to test createPDFTemplateFromUpload
-        //instance.createPDFTemplateFromUpload(function(error) {
+    describe('createPdfTemplateFromUpload', function() {
+      it('should call createPdfTemplateFromUpload successfully', function(done) {
+        //uncomment below and update the code to test createPdfTemplateFromUpload
+        //instance.createPdfTemplateFromUpload(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -212,16 +202,6 @@
       it('should call generatePdf successfully', function(done) {
         //uncomment below and update the code to test generatePdf
         //instance.generatePdf(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
-    describe('generatePdfForHtmlTemplate', function() {
-      it('should call generatePdfForHtmlTemplate successfully', function(done) {
-        //uncomment below and update the code to test generatePdfForHtmlTemplate
-        //instance.generatePdfForHtmlTemplate(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -442,6 +422,26 @@
       it('should call updateTemplate successfully', function(done) {
         //uncomment below and update the code to test updateTemplate
         //instance.updateTemplate(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('updateTemplateDocument', function() {
+      it('should call updateTemplateDocument successfully', function(done) {
+        //uncomment below and update the code to test updateTemplateDocument
+        //instance.updateTemplateDocument(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('updateTemplateDocumentFromUpload', function() {
+      it('should call updateTemplateDocumentFromUpload successfully', function(done) {
+        //uncomment below and update the code to test updateTemplateDocumentFromUpload
+        //instance.updateTemplateDocumentFromUpload(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

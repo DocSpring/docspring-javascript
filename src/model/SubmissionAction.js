@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,22 +16,22 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionAction model module.
  * @module model/SubmissionAction
- * @version 2.1.0
+ * @version 3.0.0
  */
 class SubmissionAction {
     /**
      * Constructs a new <code>SubmissionAction</code>.
      * @alias module:model/SubmissionAction
      * @param id {String} 
-     * @param integrationId {String} 
+     * @param integration_id {String} 
      * @param state {module:model/SubmissionAction.StateEnum} 
-     * @param actionType {module:model/SubmissionAction.ActionTypeEnum} 
-     * @param actionCategory {module:model/SubmissionAction.ActionCategoryEnum} 
-     * @param resultData {Object} 
+     * @param action_type {module:model/SubmissionAction.ActionTypeEnum} 
+     * @param action_category {module:model/SubmissionAction.ActionCategoryEnum} 
+     * @param result_data {Object} 
      */
-    constructor(id, integrationId, state, actionType, actionCategory, resultData) { 
+    constructor(id, integration_id, state, action_type, action_category, result_data) { 
         
-        SubmissionAction.initialize(this, id, integrationId, state, actionType, actionCategory, resultData);
+        SubmissionAction.initialize(this, id, integration_id, state, action_type, action_category, result_data);
     }
 
     /**
@@ -39,13 +39,13 @@ class SubmissionAction {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, integrationId, state, actionType, actionCategory, resultData) { 
+    static initialize(obj, id, integration_id, state, action_type, action_category, result_data) { 
         obj['id'] = id;
-        obj['integration_id'] = integrationId;
+        obj['integration_id'] = integration_id;
         obj['state'] = state;
-        obj['action_type'] = actionType;
-        obj['action_category'] = actionCategory;
-        obj['result_data'] = resultData;
+        obj['action_type'] = action_type;
+        obj['action_category'] = action_category;
+        obj['result_data'] = result_data;
     }
 
     /**

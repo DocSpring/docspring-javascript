@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -54,14 +54,14 @@
       //expect(instance).to.be.a(DocSpring.Submission);
     });
 
-    it('should have the property batchId (base name: "batch_id")', function() {
-      // uncomment below and update the code to test the property batchId
+    it('should have the property batch_id (base name: "batch_id")', function() {
+      // uncomment below and update the code to test the property batch_id
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
 
-    it('should have the property dataRequests (base name: "data_requests")', function() {
-      // uncomment below and update the code to test the property dataRequests
+    it('should have the property data_requests (base name: "data_requests")', function() {
+      // uncomment below and update the code to test the property data_requests
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
@@ -78,8 +78,8 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property expiresAt (base name: "expires_at")', function() {
-      // uncomment below and update the code to test the property expiresAt
+    it('should have the property expires_at (base name: "expires_at")', function() {
+      // uncomment below and update the code to test the property expires_at
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
@@ -90,8 +90,8 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property jsonSchemaErrors (base name: "json_schema_errors")', function() {
-      // uncomment below and update the code to test the property jsonSchemaErrors
+    it('should have the property json_schema_errors (base name: "json_schema_errors")', function() {
+      // uncomment below and update the code to test the property json_schema_errors
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
@@ -108,8 +108,8 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property processedAt (base name: "processed_at")', function() {
-      // uncomment below and update the code to test the property processedAt
+    it('should have the property processed_at (base name: "processed_at")', function() {
+      // uncomment below and update the code to test the property processed_at
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
@@ -120,20 +120,20 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property templateId (base name: "template_id")', function() {
-      // uncomment below and update the code to test the property templateId
+    it('should have the property template_id (base name: "template_id")', function() {
+      // uncomment below and update the code to test the property template_id
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
 
-    it('should have the property templateType (base name: "template_type")', function() {
-      // uncomment below and update the code to test the property templateType
+    it('should have the property template_type (base name: "template_type")', function() {
+      // uncomment below and update the code to test the property template_type
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
 
-    it('should have the property templateVersion (base name: "template_version")', function() {
-      // uncomment below and update the code to test the property templateVersion
+    it('should have the property template_version (base name: "template_version")', function() {
+      // uncomment below and update the code to test the property template_version
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
@@ -144,44 +144,44 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property truncatedText (base name: "truncated_text")', function() {
-      // uncomment below and update the code to test the property truncatedText
+    it('should have the property truncated_text (base name: "truncated_text")', function() {
+      // uncomment below and update the code to test the property truncated_text
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
 
-    it('should have the property pdfHash (base name: "pdf_hash")', function() {
-      // uncomment below and update the code to test the property pdfHash
+    it('should have the property pdf_hash (base name: "pdf_hash")', function() {
+      // uncomment below and update the code to test the property pdf_hash
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
 
-    it('should have the property downloadUrl (base name: "download_url")', function() {
-      // uncomment below and update the code to test the property downloadUrl
+    it('should have the property download_url (base name: "download_url")', function() {
+      // uncomment below and update the code to test the property download_url
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
 
-    it('should have the property permanentDownloadUrl (base name: "permanent_download_url")', function() {
-      // uncomment below and update the code to test the property permanentDownloadUrl
+    it('should have the property permanent_download_url (base name: "permanent_download_url")', function() {
+      // uncomment below and update the code to test the property permanent_download_url
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
 
-    it('should have the property previewDownloadUrl (base name: "preview_download_url")', function() {
-      // uncomment below and update the code to test the property previewDownloadUrl
+    it('should have the property preview_download_url (base name: "preview_download_url")', function() {
+      // uncomment below and update the code to test the property preview_download_url
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
 
-    it('should have the property previewGeneratedAt (base name: "preview_generated_at")', function() {
-      // uncomment below and update the code to test the property previewGeneratedAt
+    it('should have the property preview_generated_at (base name: "preview_generated_at")', function() {
+      // uncomment below and update the code to test the property preview_generated_at
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
 
-    it('should have the property auditTrailDownloadUrl (base name: "audit_trail_download_url")', function() {
-      // uncomment below and update the code to test the property auditTrailDownloadUrl
+    it('should have the property audit_trail_download_url (base name: "audit_trail_download_url")', function() {
+      // uncomment below and update the code to test the property audit_trail_download_url
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });

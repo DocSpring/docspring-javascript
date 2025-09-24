@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CreateSubmissionDataRequestData model module.
  * @module model/CreateSubmissionDataRequestData
- * @version 2.1.0
+ * @version 3.0.0
  */
 class CreateSubmissionDataRequestData {
     /**
@@ -47,11 +47,32 @@ class CreateSubmissionDataRequestData {
         if (data) {
             obj = obj || new CreateSubmissionDataRequestData();
 
+            if (data.hasOwnProperty('auth_phone_number_hash')) {
+                obj['auth_phone_number_hash'] = ApiClient.convertToType(data['auth_phone_number_hash'], 'String');
+            }
+            if (data.hasOwnProperty('auth_provider')) {
+                obj['auth_provider'] = ApiClient.convertToType(data['auth_provider'], 'String');
+            }
             if (data.hasOwnProperty('auth_second_factor_type')) {
                 obj['auth_second_factor_type'] = ApiClient.convertToType(data['auth_second_factor_type'], 'String');
             }
+            if (data.hasOwnProperty('auth_session_id_hash')) {
+                obj['auth_session_id_hash'] = ApiClient.convertToType(data['auth_session_id_hash'], 'String');
+            }
+            if (data.hasOwnProperty('auth_session_started_at')) {
+                obj['auth_session_started_at'] = ApiClient.convertToType(data['auth_session_started_at'], 'String');
+            }
             if (data.hasOwnProperty('auth_type')) {
                 obj['auth_type'] = ApiClient.convertToType(data['auth_type'], 'String');
+            }
+            if (data.hasOwnProperty('auth_user_id_hash')) {
+                obj['auth_user_id_hash'] = ApiClient.convertToType(data['auth_user_id_hash'], 'String');
+            }
+            if (data.hasOwnProperty('auth_username_hash')) {
+                obj['auth_username_hash'] = ApiClient.convertToType(data['auth_username_hash'], 'String');
+            }
+            if (data.hasOwnProperty('email')) {
+                obj['email'] = ApiClient.convertToType(data['email'], 'String');
             }
             if (data.hasOwnProperty('fields')) {
                 obj['fields'] = ApiClient.convertToType(data['fields'], ['String']);
@@ -59,8 +80,14 @@ class CreateSubmissionDataRequestData {
             if (data.hasOwnProperty('metadata')) {
                 obj['metadata'] = ApiClient.convertToType(data['metadata'], Object);
             }
+            if (data.hasOwnProperty('name')) {
+                obj['name'] = ApiClient.convertToType(data['name'], 'String');
+            }
             if (data.hasOwnProperty('order')) {
                 obj['order'] = ApiClient.convertToType(data['order'], 'Number');
+            }
+            if (data.hasOwnProperty('skipped')) {
+                obj['skipped'] = ApiClient.convertToType(data['skipped'], 'Boolean');
             }
         }
         return obj;
@@ -73,16 +100,48 @@ class CreateSubmissionDataRequestData {
      */
     static validateJSON(data) {
         // ensure the json data is a string
+        if (data['auth_phone_number_hash'] && !(typeof data['auth_phone_number_hash'] === 'string' || data['auth_phone_number_hash'] instanceof String)) {
+            throw new Error("Expected the field `auth_phone_number_hash` to be a primitive type in the JSON string but got " + data['auth_phone_number_hash']);
+        }
+        // ensure the json data is a string
+        if (data['auth_provider'] && !(typeof data['auth_provider'] === 'string' || data['auth_provider'] instanceof String)) {
+            throw new Error("Expected the field `auth_provider` to be a primitive type in the JSON string but got " + data['auth_provider']);
+        }
+        // ensure the json data is a string
         if (data['auth_second_factor_type'] && !(typeof data['auth_second_factor_type'] === 'string' || data['auth_second_factor_type'] instanceof String)) {
             throw new Error("Expected the field `auth_second_factor_type` to be a primitive type in the JSON string but got " + data['auth_second_factor_type']);
+        }
+        // ensure the json data is a string
+        if (data['auth_session_id_hash'] && !(typeof data['auth_session_id_hash'] === 'string' || data['auth_session_id_hash'] instanceof String)) {
+            throw new Error("Expected the field `auth_session_id_hash` to be a primitive type in the JSON string but got " + data['auth_session_id_hash']);
+        }
+        // ensure the json data is a string
+        if (data['auth_session_started_at'] && !(typeof data['auth_session_started_at'] === 'string' || data['auth_session_started_at'] instanceof String)) {
+            throw new Error("Expected the field `auth_session_started_at` to be a primitive type in the JSON string but got " + data['auth_session_started_at']);
         }
         // ensure the json data is a string
         if (data['auth_type'] && !(typeof data['auth_type'] === 'string' || data['auth_type'] instanceof String)) {
             throw new Error("Expected the field `auth_type` to be a primitive type in the JSON string but got " + data['auth_type']);
         }
+        // ensure the json data is a string
+        if (data['auth_user_id_hash'] && !(typeof data['auth_user_id_hash'] === 'string' || data['auth_user_id_hash'] instanceof String)) {
+            throw new Error("Expected the field `auth_user_id_hash` to be a primitive type in the JSON string but got " + data['auth_user_id_hash']);
+        }
+        // ensure the json data is a string
+        if (data['auth_username_hash'] && !(typeof data['auth_username_hash'] === 'string' || data['auth_username_hash'] instanceof String)) {
+            throw new Error("Expected the field `auth_username_hash` to be a primitive type in the JSON string but got " + data['auth_username_hash']);
+        }
+        // ensure the json data is a string
+        if (data['email'] && !(typeof data['email'] === 'string' || data['email'] instanceof String)) {
+            throw new Error("Expected the field `email` to be a primitive type in the JSON string but got " + data['email']);
+        }
         // ensure the json data is an array
         if (!Array.isArray(data['fields'])) {
             throw new Error("Expected the field `fields` to be an array in the JSON data but got " + data['fields']);
+        }
+        // ensure the json data is a string
+        if (data['name'] && !(typeof data['name'] === 'string' || data['name'] instanceof String)) {
+            throw new Error("Expected the field `name` to be a primitive type in the JSON string but got " + data['name']);
         }
 
         return true;
@@ -94,14 +153,49 @@ class CreateSubmissionDataRequestData {
 
 
 /**
+ * @member {String} auth_phone_number_hash
+ */
+CreateSubmissionDataRequestData.prototype['auth_phone_number_hash'] = undefined;
+
+/**
+ * @member {String} auth_provider
+ */
+CreateSubmissionDataRequestData.prototype['auth_provider'] = undefined;
+
+/**
  * @member {module:model/CreateSubmissionDataRequestData.AuthSecondFactorTypeEnum} auth_second_factor_type
  */
 CreateSubmissionDataRequestData.prototype['auth_second_factor_type'] = undefined;
 
 /**
+ * @member {String} auth_session_id_hash
+ */
+CreateSubmissionDataRequestData.prototype['auth_session_id_hash'] = undefined;
+
+/**
+ * @member {String} auth_session_started_at
+ */
+CreateSubmissionDataRequestData.prototype['auth_session_started_at'] = undefined;
+
+/**
  * @member {module:model/CreateSubmissionDataRequestData.AuthTypeEnum} auth_type
  */
 CreateSubmissionDataRequestData.prototype['auth_type'] = undefined;
+
+/**
+ * @member {String} auth_user_id_hash
+ */
+CreateSubmissionDataRequestData.prototype['auth_user_id_hash'] = undefined;
+
+/**
+ * @member {String} auth_username_hash
+ */
+CreateSubmissionDataRequestData.prototype['auth_username_hash'] = undefined;
+
+/**
+ * @member {String} email
+ */
+CreateSubmissionDataRequestData.prototype['email'] = undefined;
 
 /**
  * @member {Array.<String>} fields
@@ -114,9 +208,19 @@ CreateSubmissionDataRequestData.prototype['fields'] = undefined;
 CreateSubmissionDataRequestData.prototype['metadata'] = undefined;
 
 /**
+ * @member {String} name
+ */
+CreateSubmissionDataRequestData.prototype['name'] = undefined;
+
+/**
  * @member {Number} order
  */
 CreateSubmissionDataRequestData.prototype['order'] = undefined;
+
+/**
+ * @member {Boolean} skipped
+ */
+CreateSubmissionDataRequestData.prototype['skipped'] = undefined;
 
 
 

@@ -5,11 +5,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | 
-**integrationId** | **String** |  | 
+**integration_id** | **String** |  | 
 **state** | **String** |  | 
-**actionType** | **String** |  | 
-**actionCategory** | **String** |  | 
-**resultData** | **Object** |  | 
+**action_type** | **String** |  | 
+**action_category** | **String** |  | 
+**result_data** | **Object** |  | 
 
 
 

@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -78,8 +78,8 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property sortOrder (base name: "sort_order")', function() {
-      // uncomment below and update the code to test the property sortOrder
+    it('should have the property sort_order (base name: "sort_order")', function() {
+      // uncomment below and update the code to test the property sort_order
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
@@ -102,14 +102,14 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property viewedAt (base name: "viewed_at")', function() {
-      // uncomment below and update the code to test the property viewedAt
+    it('should have the property viewed_at (base name: "viewed_at")', function() {
+      // uncomment below and update the code to test the property viewed_at
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property completedAt (base name: "completed_at")', function() {
-      // uncomment below and update the code to test the property completedAt
+    it('should have the property completed_at (base name: "completed_at")', function() {
+      // uncomment below and update the code to test the property completed_at
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
@@ -120,68 +120,68 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property authType (base name: "auth_type")', function() {
-      // uncomment below and update the code to test the property authType
+    it('should have the property auth_type (base name: "auth_type")', function() {
+      // uncomment below and update the code to test the property auth_type
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property authSecondFactorType (base name: "auth_second_factor_type")', function() {
-      // uncomment below and update the code to test the property authSecondFactorType
+    it('should have the property auth_second_factor_type (base name: "auth_second_factor_type")', function() {
+      // uncomment below and update the code to test the property auth_second_factor_type
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property authProvider (base name: "auth_provider")', function() {
-      // uncomment below and update the code to test the property authProvider
+    it('should have the property auth_provider (base name: "auth_provider")', function() {
+      // uncomment below and update the code to test the property auth_provider
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property authSessionStartedAt (base name: "auth_session_started_at")', function() {
-      // uncomment below and update the code to test the property authSessionStartedAt
+    it('should have the property auth_session_started_at (base name: "auth_session_started_at")', function() {
+      // uncomment below and update the code to test the property auth_session_started_at
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property authSessionIdHash (base name: "auth_session_id_hash")', function() {
-      // uncomment below and update the code to test the property authSessionIdHash
+    it('should have the property auth_session_id_hash (base name: "auth_session_id_hash")', function() {
+      // uncomment below and update the code to test the property auth_session_id_hash
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property authUserIdHash (base name: "auth_user_id_hash")', function() {
-      // uncomment below and update the code to test the property authUserIdHash
+    it('should have the property auth_user_id_hash (base name: "auth_user_id_hash")', function() {
+      // uncomment below and update the code to test the property auth_user_id_hash
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property authUsernameHash (base name: "auth_username_hash")', function() {
-      // uncomment below and update the code to test the property authUsernameHash
+    it('should have the property auth_username_hash (base name: "auth_username_hash")', function() {
+      // uncomment below and update the code to test the property auth_username_hash
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property authPhoneNumberHash (base name: "auth_phone_number_hash")', function() {
-      // uncomment below and update the code to test the property authPhoneNumberHash
+    it('should have the property auth_phone_number_hash (base name: "auth_phone_number_hash")', function() {
+      // uncomment below and update the code to test the property auth_phone_number_hash
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property ipAddress (base name: "ip_address")', function() {
-      // uncomment below and update the code to test the property ipAddress
+    it('should have the property ip_address (base name: "ip_address")', function() {
+      // uncomment below and update the code to test the property ip_address
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property userAgent (base name: "user_agent")', function() {
-      // uncomment below and update the code to test the property userAgent
+    it('should have the property user_agent (base name: "user_agent")', function() {
+      // uncomment below and update the code to test the property user_agent
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });
 
-    it('should have the property submissionId (base name: "submission_id")', function() {
-      // uncomment below and update the code to test the property submissionId
+    it('should have the property submission_id (base name: "submission_id")', function() {
+      // uncomment below and update the code to test the property submission_id
       //var instance = new DocSpring.SubmissionDataRequestShow();
       //expect(instance).to.be();
     });

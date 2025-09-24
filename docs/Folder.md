@@ -7,6 +7,6 @@ Name | Type | Description | Notes
 **id** | **String** |  | 
 **name** | **String** |  | 
 **path** | **String** |  | 
-**parentFolderId** | **String** |  | 
+**parent_folder_id** | **String** |  | 
 
 

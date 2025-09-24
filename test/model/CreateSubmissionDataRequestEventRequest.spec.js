@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -54,14 +54,26 @@
       //expect(instance).to.be.a(DocSpring.CreateSubmissionDataRequestEventRequest);
     });
 
-    it('should have the property eventType (base name: "event_type")', function() {
-      // uncomment below and update the code to test the property eventType
+    it('should have the property event_type (base name: "event_type")', function() {
+      // uncomment below and update the code to test the property event_type
       //var instance = new DocSpring.CreateSubmissionDataRequestEventRequest();
       //expect(instance).to.be();
     });
 
-    it('should have the property messageType (base name: "message_type")', function() {
-      // uncomment below and update the code to test the property messageType
+    it('should have the property message_recipient (base name: "message_recipient")', function() {
+      // uncomment below and update the code to test the property message_recipient
+      //var instance = new DocSpring.CreateSubmissionDataRequestEventRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property message_type (base name: "message_type")', function() {
+      // uncomment below and update the code to test the property message_type
+      //var instance = new DocSpring.CreateSubmissionDataRequestEventRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property occurred_at (base name: "occurred_at")', function() {
+      // uncomment below and update the code to test the property occurred_at
       //var instance = new DocSpring.CreateSubmissionDataRequestEventRequest();
       //expect(instance).to.be();
     });

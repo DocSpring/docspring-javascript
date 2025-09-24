@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,7 +17,7 @@ import Submission from './Submission';
 /**
  * The ListSubmissionsResponse model module.
  * @module model/ListSubmissionsResponse
- * @version 2.1.0
+ * @version 3.0.0
  */
 class ListSubmissionsResponse {
     /**
@@ -25,11 +25,11 @@ class ListSubmissionsResponse {
      * @alias module:model/ListSubmissionsResponse
      * @param submissions {Array.<module:model/Submission>} 
      * @param limit {Number} 
-     * @param nextCursor {String} 
+     * @param next_cursor {String} 
      */
-    constructor(submissions, limit, nextCursor) { 
+    constructor(submissions, limit, next_cursor) { 
         
-        ListSubmissionsResponse.initialize(this, submissions, limit, nextCursor);
+        ListSubmissionsResponse.initialize(this, submissions, limit, next_cursor);
     }
 
     /**
@@ -37,10 +37,10 @@ class ListSubmissionsResponse {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, submissions, limit, nextCursor) { 
+    static initialize(obj, submissions, limit, next_cursor) { 
         obj['submissions'] = submissions;
         obj['limit'] = limit;
-        obj['next_cursor'] = nextCursor;
+        obj['next_cursor'] = next_cursor;
     }
 
     /**

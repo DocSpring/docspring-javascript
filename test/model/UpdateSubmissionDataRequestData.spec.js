@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -54,8 +54,56 @@
       //expect(instance).to.be.a(DocSpring.UpdateSubmissionDataRequestData);
     });
 
-    it('should have the property authType (base name: "auth_type")', function() {
-      // uncomment below and update the code to test the property authType
+    it('should have the property auth_phone_number_hash (base name: "auth_phone_number_hash")', function() {
+      // uncomment below and update the code to test the property auth_phone_number_hash
+      //var instance = new DocSpring.UpdateSubmissionDataRequestData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property auth_provider (base name: "auth_provider")', function() {
+      // uncomment below and update the code to test the property auth_provider
+      //var instance = new DocSpring.UpdateSubmissionDataRequestData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property auth_second_factor_type (base name: "auth_second_factor_type")', function() {
+      // uncomment below and update the code to test the property auth_second_factor_type
+      //var instance = new DocSpring.UpdateSubmissionDataRequestData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property auth_session_id_hash (base name: "auth_session_id_hash")', function() {
+      // uncomment below and update the code to test the property auth_session_id_hash
+      //var instance = new DocSpring.UpdateSubmissionDataRequestData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property auth_session_started_at (base name: "auth_session_started_at")', function() {
+      // uncomment below and update the code to test the property auth_session_started_at
+      //var instance = new DocSpring.UpdateSubmissionDataRequestData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property auth_type (base name: "auth_type")', function() {
+      // uncomment below and update the code to test the property auth_type
+      //var instance = new DocSpring.UpdateSubmissionDataRequestData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property auth_user_id_hash (base name: "auth_user_id_hash")', function() {
+      // uncomment below and update the code to test the property auth_user_id_hash
+      //var instance = new DocSpring.UpdateSubmissionDataRequestData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property auth_username_hash (base name: "auth_username_hash")', function() {
+      // uncomment below and update the code to test the property auth_username_hash
+      //var instance = new DocSpring.UpdateSubmissionDataRequestData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property email (base name: "email")', function() {
+      // uncomment below and update the code to test the property email
       //var instance = new DocSpring.UpdateSubmissionDataRequestData();
       //expect(instance).to.be();
     });
@@ -68,6 +116,12 @@
 
     it('should have the property metadata (base name: "metadata")', function() {
       // uncomment below and update the code to test the property metadata
+      //var instance = new DocSpring.UpdateSubmissionDataRequestData();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property name (base name: "name")', function() {
+      // uncomment below and update the code to test the property name
       //var instance = new DocSpring.UpdateSubmissionDataRequestData();
       //expect(instance).to.be();
     });

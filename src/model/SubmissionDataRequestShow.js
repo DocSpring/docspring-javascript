@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionDataRequestShow model module.
  * @module model/SubmissionDataRequestShow
- * @version 2.1.0
+ * @version 3.0.0
  */
 class SubmissionDataRequestShow {
     /**
@@ -26,28 +26,28 @@ class SubmissionDataRequestShow {
      * @param email {String} 
      * @param name {String} 
      * @param order {Number} 
-     * @param sortOrder {Number} 
+     * @param sort_order {Number} 
      * @param fields {Array.<String>} 
      * @param metadata {Object} 
      * @param state {module:model/SubmissionDataRequestShow.StateEnum} 
-     * @param viewedAt {String} 
-     * @param completedAt {String} 
+     * @param viewed_at {String} 
+     * @param completed_at {String} 
      * @param data {Object} 
-     * @param authType {module:model/SubmissionDataRequestShow.AuthTypeEnum} 
-     * @param authSecondFactorType {module:model/SubmissionDataRequestShow.AuthSecondFactorTypeEnum} 
-     * @param authProvider {String} 
-     * @param authSessionStartedAt {String} 
-     * @param authSessionIdHash {String} 
-     * @param authUserIdHash {String} 
-     * @param authUsernameHash {String} 
-     * @param authPhoneNumberHash {String} 
-     * @param ipAddress {String} 
-     * @param userAgent {String} 
-     * @param submissionId {String} 
+     * @param auth_type {module:model/SubmissionDataRequestShow.AuthTypeEnum} 
+     * @param auth_second_factor_type {module:model/SubmissionDataRequestShow.AuthSecondFactorTypeEnum} 
+     * @param auth_provider {String} 
+     * @param auth_session_started_at {String} 
+     * @param auth_session_id_hash {String} 
+     * @param auth_user_id_hash {String} 
+     * @param auth_username_hash {String} 
+     * @param auth_phone_number_hash {String} 
+     * @param ip_address {String} 
+     * @param user_agent {String} 
+     * @param submission_id {String} 
      */
-    constructor(id, email, name, order, sortOrder, fields, metadata, state, viewedAt, completedAt, data, authType, authSecondFactorType, authProvider, authSessionStartedAt, authSessionIdHash, authUserIdHash, authUsernameHash, authPhoneNumberHash, ipAddress, userAgent, submissionId) { 
+    constructor(id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, submission_id) { 
         
-        SubmissionDataRequestShow.initialize(this, id, email, name, order, sortOrder, fields, metadata, state, viewedAt, completedAt, data, authType, authSecondFactorType, authProvider, authSessionStartedAt, authSessionIdHash, authUserIdHash, authUsernameHash, authPhoneNumberHash, ipAddress, userAgent, submissionId);
+        SubmissionDataRequestShow.initialize(this, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, submission_id);
     }
 
     /**
@@ -55,29 +55,29 @@ class SubmissionDataRequestShow {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, email, name, order, sortOrder, fields, metadata, state, viewedAt, completedAt, data, authType, authSecondFactorType, authProvider, authSessionStartedAt, authSessionIdHash, authUserIdHash, authUsernameHash, authPhoneNumberHash, ipAddress, userAgent, submissionId) { 
+    static initialize(obj, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, submission_id) { 
         obj['id'] = id;
         obj['email'] = email;
         obj['name'] = name;
         obj['order'] = order;
-        obj['sort_order'] = sortOrder;
+        obj['sort_order'] = sort_order;
         obj['fields'] = fields;
         obj['metadata'] = metadata;
         obj['state'] = state;
-        obj['viewed_at'] = viewedAt;
-        obj['completed_at'] = completedAt;
+        obj['viewed_at'] = viewed_at;
+        obj['completed_at'] = completed_at;
         obj['data'] = data;
-        obj['auth_type'] = authType;
-        obj['auth_second_factor_type'] = authSecondFactorType;
-        obj['auth_provider'] = authProvider;
-        obj['auth_session_started_at'] = authSessionStartedAt;
-        obj['auth_session_id_hash'] = authSessionIdHash;
-        obj['auth_user_id_hash'] = authUserIdHash;
-        obj['auth_username_hash'] = authUsernameHash;
-        obj['auth_phone_number_hash'] = authPhoneNumberHash;
-        obj['ip_address'] = ipAddress;
-        obj['user_agent'] = userAgent;
-        obj['submission_id'] = submissionId;
+        obj['auth_type'] = auth_type;
+        obj['auth_second_factor_type'] = auth_second_factor_type;
+        obj['auth_provider'] = auth_provider;
+        obj['auth_session_started_at'] = auth_session_started_at;
+        obj['auth_session_id_hash'] = auth_session_id_hash;
+        obj['auth_user_id_hash'] = auth_user_id_hash;
+        obj['auth_username_hash'] = auth_username_hash;
+        obj['auth_phone_number_hash'] = auth_phone_number_hash;
+        obj['ip_address'] = ip_address;
+        obj['user_agent'] = user_agent;
+        obj['submission_id'] = submission_id;
     }
 
     /**

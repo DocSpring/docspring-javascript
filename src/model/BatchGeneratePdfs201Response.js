@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,19 +17,19 @@ import SubmissionBatch from './SubmissionBatch';
 /**
  * The BatchGeneratePdfs201Response model module.
  * @module model/BatchGeneratePdfs201Response
- * @version 2.1.0
+ * @version 3.0.0
  */
 class BatchGeneratePdfs201Response {
     /**
      * Constructs a new <code>BatchGeneratePdfs201Response</code>.
      * @alias module:model/BatchGeneratePdfs201Response
      * @param status {module:model/BatchGeneratePdfs201Response.StatusEnum} 
-     * @param submissionBatch {module:model/SubmissionBatch} 
+     * @param submission_batch {module:model/SubmissionBatch} 
      * @param submissions {Array.<Object>} 
      */
-    constructor(status, submissionBatch, submissions) { 
+    constructor(status, submission_batch, submissions) { 
         
-        BatchGeneratePdfs201Response.initialize(this, status, submissionBatch, submissions);
+        BatchGeneratePdfs201Response.initialize(this, status, submission_batch, submissions);
     }
 
     /**
@@ -37,9 +37,9 @@ class BatchGeneratePdfs201Response {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, status, submissionBatch, submissions) { 
+    static initialize(obj, status, submission_batch, submissions) { 
         obj['status'] = status;
-        obj['submission_batch'] = submissionBatch;
+        obj['submission_batch'] = submission_batch;
         obj['submissions'] = submissions;
     }
 

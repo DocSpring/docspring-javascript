@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,17 +16,17 @@ import ApiClient from '../ApiClient';
 /**
  * The CreateSubmissionDataRequestEventRequest model module.
  * @module model/CreateSubmissionDataRequestEventRequest
- * @version 2.1.0
+ * @version 3.0.0
  */
 class CreateSubmissionDataRequestEventRequest {
     /**
      * Constructs a new <code>CreateSubmissionDataRequestEventRequest</code>.
      * @alias module:model/CreateSubmissionDataRequestEventRequest
-     * @param eventType {module:model/CreateSubmissionDataRequestEventRequest.EventTypeEnum} 
+     * @param event_type {module:model/CreateSubmissionDataRequestEventRequest.EventTypeEnum} 
      */
-    constructor(eventType) { 
+    constructor(event_type) { 
         
-        CreateSubmissionDataRequestEventRequest.initialize(this, eventType);
+        CreateSubmissionDataRequestEventRequest.initialize(this, event_type);
     }
 
     /**
@@ -34,8 +34,8 @@ class CreateSubmissionDataRequestEventRequest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, eventType) { 
-        obj['event_type'] = eventType;
+    static initialize(obj, event_type) { 
+        obj['event_type'] = event_type;
     }
 
     /**
@@ -52,8 +52,14 @@ class CreateSubmissionDataRequestEventRequest {
             if (data.hasOwnProperty('event_type')) {
                 obj['event_type'] = ApiClient.convertToType(data['event_type'], 'String');
             }
+            if (data.hasOwnProperty('message_recipient')) {
+                obj['message_recipient'] = ApiClient.convertToType(data['message_recipient'], 'String');
+            }
             if (data.hasOwnProperty('message_type')) {
                 obj['message_type'] = ApiClient.convertToType(data['message_type'], 'String');
+            }
+            if (data.hasOwnProperty('occurred_at')) {
+                obj['occurred_at'] = ApiClient.convertToType(data['occurred_at'], 'String');
             }
         }
         return obj;
@@ -76,8 +82,16 @@ class CreateSubmissionDataRequestEventRequest {
             throw new Error("Expected the field `event_type` to be a primitive type in the JSON string but got " + data['event_type']);
         }
         // ensure the json data is a string
+        if (data['message_recipient'] && !(typeof data['message_recipient'] === 'string' || data['message_recipient'] instanceof String)) {
+            throw new Error("Expected the field `message_recipient` to be a primitive type in the JSON string but got " + data['message_recipient']);
+        }
+        // ensure the json data is a string
         if (data['message_type'] && !(typeof data['message_type'] === 'string' || data['message_type'] instanceof String)) {
             throw new Error("Expected the field `message_type` to be a primitive type in the JSON string but got " + data['message_type']);
+        }
+        // ensure the json data is a string
+        if (data['occurred_at'] && !(typeof data['occurred_at'] === 'string' || data['occurred_at'] instanceof String)) {
+            throw new Error("Expected the field `occurred_at` to be a primitive type in the JSON string but got " + data['occurred_at']);
         }
 
         return true;
@@ -94,9 +108,19 @@ CreateSubmissionDataRequestEventRequest.RequiredProperties = ["event_type"];
 CreateSubmissionDataRequestEventRequest.prototype['event_type'] = undefined;
 
 /**
+ * @member {String} message_recipient
+ */
+CreateSubmissionDataRequestEventRequest.prototype['message_recipient'] = undefined;
+
+/**
  * @member {module:model/CreateSubmissionDataRequestEventRequest.MessageTypeEnum} message_type
  */
 CreateSubmissionDataRequestEventRequest.prototype['message_type'] = undefined;
+
+/**
+ * @member {String} occurred_at
+ */
+CreateSubmissionDataRequestEventRequest.prototype['occurred_at'] = undefined;
 
 
 

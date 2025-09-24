@@ -4,8 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**eventType** | **String** |  | 
-**messageType** | **String** |  | [optional] 
+**event_type** | **String** |  | 
+**message_recipient** | **String** |  | [optional] 
+**message_type** | **String** |  | [optional] 
+**occurred_at** | **String** |  | [optional] 
 
 
 

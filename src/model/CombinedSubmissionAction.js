@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,22 +16,22 @@ import ApiClient from '../ApiClient';
 /**
  * The CombinedSubmissionAction model module.
  * @module model/CombinedSubmissionAction
- * @version 2.1.0
+ * @version 3.0.0
  */
 class CombinedSubmissionAction {
     /**
      * Constructs a new <code>CombinedSubmissionAction</code>.
      * @alias module:model/CombinedSubmissionAction
      * @param id {String} 
-     * @param integrationId {String} 
+     * @param integration_id {String} 
      * @param state {module:model/CombinedSubmissionAction.StateEnum} 
-     * @param actionType {module:model/CombinedSubmissionAction.ActionTypeEnum} 
-     * @param actionCategory {module:model/CombinedSubmissionAction.ActionCategoryEnum} 
-     * @param resultData {Object} 
+     * @param action_type {module:model/CombinedSubmissionAction.ActionTypeEnum} 
+     * @param action_category {module:model/CombinedSubmissionAction.ActionCategoryEnum} 
+     * @param result_data {Object} 
      */
-    constructor(id, integrationId, state, actionType, actionCategory, resultData) { 
+    constructor(id, integration_id, state, action_type, action_category, result_data) { 
         
-        CombinedSubmissionAction.initialize(this, id, integrationId, state, actionType, actionCategory, resultData);
+        CombinedSubmissionAction.initialize(this, id, integration_id, state, action_type, action_category, result_data);
     }
 
     /**
@@ -39,13 +39,13 @@ class CombinedSubmissionAction {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, integrationId, state, actionType, actionCategory, resultData) { 
+    static initialize(obj, id, integration_id, state, action_type, action_category, result_data) { 
         obj['id'] = id;
-        obj['integration_id'] = integrationId;
+        obj['integration_id'] = integration_id;
         obj['state'] = state;
-        obj['action_type'] = actionType;
-        obj['action_category'] = actionCategory;
-        obj['result_data'] = resultData;
+        obj['action_type'] = action_type;
+        obj['action_category'] = action_category;
+        obj['result_data'] = result_data;
     }
 
     /**

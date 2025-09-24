@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **String** |  | 
-**customFile** | [**CustomFile**](CustomFile.md) |  | 
+**custom_file** | [**CustomFile**](CustomFile.md) |  | 
 **errors** | **[String]** |  | [optional] 
 
 

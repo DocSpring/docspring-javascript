@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **String** |  | 
 **errors** | **[String]** |  | [optional] 
-**latestVersion** | **String** |  | [optional] 
+**latest_version** | **String** |  | [optional] 
 **versions** | **[Object]** |  | [optional] 
 
 

@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**deleteCustomFiles** | **Boolean** |  | [optional] 
-**expiresIn** | **Number** |  | [optional] 
+**delete_custom_files** | **Boolean** |  | [optional] 
+**expires_in** | **Number** |  | [optional] 
 **metadata** | **Object** |  | [optional] 
 **password** | **String** |  | [optional] 
-**sourcePdfs** | **[Object]** |  | 
+**source_pdfs** | **[Object]** |  | 
 **test** | **Boolean** |  | [optional] 
 
 

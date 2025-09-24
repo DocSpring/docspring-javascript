@@ -5,6 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **description** | **String** |  | [optional] 
-**versionType** | **String** |  | 
+**version_type** | **String** |  | 
 
 

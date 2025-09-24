@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,13 +17,11 @@ import AddFieldsData from '../model/AddFieldsData';
 import BatchGeneratePdfs201Response from '../model/BatchGeneratePdfs201Response';
 import CombinePdfsData from '../model/CombinePdfsData';
 import CombinedSubmission from '../model/CombinedSubmission';
-import CombinedSubmissionData from '../model/CombinedSubmissionData';
 import CopyTemplateOptions from '../model/CopyTemplateOptions';
 import CreateCombinedSubmissionResponse from '../model/CreateCombinedSubmissionResponse';
 import CreateCustomFileData from '../model/CreateCustomFileData';
 import CreateCustomFileResponse from '../model/CreateCustomFileResponse';
 import CreateFolderData from '../model/CreateFolderData';
-import CreateHtmlSubmissionData from '../model/CreateHtmlSubmissionData';
 import CreateHtmlTemplate from '../model/CreateHtmlTemplate';
 import CreatePdfSubmissionData from '../model/CreatePdfSubmissionData';
 import CreatePdfTemplate from '../model/CreatePdfTemplate';
@@ -32,6 +30,7 @@ import CreateSubmissionDataRequestEventResponse from '../model/CreateSubmissionD
 import CreateSubmissionDataRequestResponse from '../model/CreateSubmissionDataRequestResponse';
 import CreateSubmissionDataRequestTokenResponse from '../model/CreateSubmissionDataRequestTokenResponse';
 import CreateSubmissionResponse from '../model/CreateSubmissionResponse';
+import ErrorOrMultipleErrorsResponse from '../model/ErrorOrMultipleErrorsResponse';
 import ErrorResponse from '../model/ErrorResponse';
 import Folder from '../model/Folder';
 import JsonSchema from '../model/JsonSchema';
@@ -43,6 +42,7 @@ import PublishVersionData from '../model/PublishVersionData';
 import RenameFolderData from '../model/RenameFolderData';
 import RestoreVersionData from '../model/RestoreVersionData';
 import Submission from '../model/Submission';
+import Submission422Response from '../model/Submission422Response';
 import SubmissionBatchData from '../model/SubmissionBatchData';
 import SubmissionBatchWithSubmissions from '../model/SubmissionBatchWithSubmissions';
 import SubmissionDataRequestShow from '../model/SubmissionDataRequestShow';
@@ -55,31 +55,66 @@ import TemplateDeleteResponse from '../model/TemplateDeleteResponse';
 import TemplatePreview from '../model/TemplatePreview';
 import TemplatePublishVersionResponse from '../model/TemplatePublishVersionResponse';
 import UpdateHtmlTemplate from '../model/UpdateHtmlTemplate';
+import UpdatePdfTemplate from '../model/UpdatePdfTemplate';
 import UpdateSubmissionDataRequestData from '../model/UpdateSubmissionDataRequestData';
 import UploadPresignResponse from '../model/UploadPresignResponse';
 
 /**
-* PDF service.
-* @module api/PDFApi
-* @version 2.1.0
+* Client service.
+* @module api/Client
+* @version 3.0.0
 */
-export default class PDFApi {
+export default class Client {
 
     /**
-    * Constructs a new PDFApi. 
-    * @alias module:api/PDFApi
+    * Constructs a new Client. 
+    * @alias module:api/Client
     * @class
     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
     * default to {@link module:ApiClient#instance} if unspecified.
     */
-    constructor(apiClient) {
-        this.apiClient = apiClient || ApiClient.instance;
+    constructor(options = {}) {
+    // Support both old style (apiClient) and new style (options object)
+    if (options && options.constructor && options.constructor.name === 'ApiClient') {
+        this.apiClient = options;
+    } else {
+        const apiClient = options.apiClient || ApiClient.instance;
+        const env = (typeof process !== 'undefined' && process.env) ? process.env : {};
+
+        const apiTokenId = options.apiTokenId !== undefined ? options.apiTokenId : env.DOCSPRING_TOKEN_ID ?? null;
+        const apiTokenSecret = options.apiTokenSecret !== undefined ? options.apiTokenSecret : env.DOCSPRING_TOKEN_SECRET ?? null;
+
+        if (apiTokenId != null && apiTokenSecret != null) {
+            apiClient.authentications['api_token_basic'].username = apiTokenId;
+            apiClient.authentications['api_token_basic'].password = apiTokenSecret;
+        }
+
+        // Resolve host from options.host, DOCSPRING_HOST, or region (options.region/DOCSPRING_REGION)
+        let host = options.host || env.DOCSPRING_HOST || null;
+        const region = options.region || env.DOCSPRING_REGION || null;
+        if (!host && region) {
+            const r = String(region).trim().toUpperCase();
+            if (r === 'US') host = 'sync.api.docspring.com';
+            else if (r === 'EU') host = 'sync.api-eu.docspring.com';
+            else throw new Error(`${region} is not a valid region. Valid regions: US, EU`);
+        }
+
+        if (host) {
+            let url = host;
+            if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
+            if (!/\/api\/v1\/?$/i.test(url)) url = `${url.replace(/\/$/, '')}/api/v1`;
+            apiClient.basePath = url;
+        }
+
+        this.apiClient = apiClient;
     }
+}
+
 
 
     /**
      * Callback function to receive the result of the addFieldsToTemplate operation.
-     * @callback module:api/PDFApi~addFieldsToTemplateCallback
+     * @callback module:api/Client~addFieldsToTemplateCallback
      * @param {String} error Error message, if any.
      * @param {module:model/TemplateAddFieldsResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -87,16 +122,17 @@ export default class PDFApi {
 
     /**
      * Add new fields to a Template
-     * @param {String} templateId 
+     * Adds fields to a PDF template. Configure field types, positions, defaults, and formatting options. 
+     * @param {String} template_id 
      * @param {module:model/AddFieldsData} data 
-     * @param {module:api/PDFApi~addFieldsToTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~addFieldsToTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/TemplateAddFieldsResponse}
      */
-    addFieldsToTemplate(templateId, data, callback) {
+    addFieldsToTemplate(template_id, data, callback) {
       let postBody = data;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling addFieldsToTemplate");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling addFieldsToTemplate");
       }
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
@@ -104,7 +140,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
       };
@@ -126,18 +162,19 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the batchGeneratePdfs operation.
-     * @callback module:api/PDFApi~batchGeneratePdfsCallback
+     * @callback module:api/Client~batchGeneratePdfsCallback
      * @param {String} error Error message, if any.
      * @param {module:model/BatchGeneratePdfs201Response} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Generates multiple PDFs
+     * Generate multiple PDFs
+     * Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  See also: - [Batch and Combine PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Generate and merge PDFs in one request 
      * @param {module:model/SubmissionBatchData} data 
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait = true)] Wait for submission batch to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
-     * @param {module:api/PDFApi~batchGeneratePdfsCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~batchGeneratePdfsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/BatchGeneratePdfs201Response}
      */
     batchGeneratePdfs(data, opts, callback) {
@@ -171,7 +208,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the combinePdfs operation.
-     * @callback module:api/PDFApi~combinePdfsCallback
+     * @callback module:api/Client~combinePdfsCallback
      * @param {String} error Error message, if any.
      * @param {module:model/CreateCombinedSubmissionResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -179,8 +216,9 @@ export default class PDFApi {
 
     /**
      * Merge submission PDFs, template PDFs, or custom files
+     * Combines multiple PDFs from various sources into a single PDF file. Supports merging submission PDFs, template PDFs, custom files, other merged PDFs, and PDFs from URLs. Merges the PDFs in the order provided. 
      * @param {module:model/CombinePdfsData} data 
-     * @param {module:api/PDFApi~combinePdfsCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~combinePdfsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CreateCombinedSubmissionResponse}
      */
     combinePdfs(data, callback) {
@@ -204,51 +242,6 @@ export default class PDFApi {
       let accepts = ['application/json'];
       let returnType = CreateCombinedSubmissionResponse;
       return this.apiClient.callApi(
-        '/combined_submissions?v=2', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
-     * Callback function to receive the result of the combineSubmissions operation.
-     * @callback module:api/PDFApi~combineSubmissionsCallback
-     * @param {String} error Error message, if any.
-     * @param {module:model/CreateCombinedSubmissionResponse} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Merge generated PDFs together
-     * @param {module:model/CombinedSubmissionData} data 
-     * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait = true)] Wait for combined submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
-     * @param {module:api/PDFApi~combineSubmissionsCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link module:model/CreateCombinedSubmissionResponse}
-     */
-    combineSubmissions(data, opts, callback) {
-      opts = opts || {};
-      let postBody = data;
-      // verify the required parameter 'data' is set
-      if (data === undefined || data === null) {
-        throw new Error("Missing the required parameter 'data' when calling combineSubmissions");
-      }
-
-      let pathParams = {
-      };
-      let queryParams = {
-        'wait': opts['wait']
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = ['api_token_basic'];
-      let contentTypes = ['application/json'];
-      let accepts = ['application/json'];
-      let returnType = CreateCombinedSubmissionResponse;
-      return this.apiClient.callApi(
         '/combined_submissions', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
@@ -257,30 +250,31 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the copyTemplate operation.
-     * @callback module:api/PDFApi~copyTemplateCallback
+     * @callback module:api/Client~copyTemplateCallback
      * @param {String} error Error message, if any.
      * @param {module:model/TemplatePreview} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Copy a Template
-     * @param {String} templateId 
+     * Copy a template
+     * Creates a copy of an existing template with all its fields and configuration. Optionally specify a new name and target folder. The copied template starts as a new draft that can be modified independently of the original. 
+     * @param {String} template_id 
      * @param {Object} opts Optional parameters
      * @param {module:model/CopyTemplateOptions} [options] 
-     * @param {module:api/PDFApi~copyTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~copyTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/TemplatePreview}
      */
-    copyTemplate(templateId, opts, callback) {
+    copyTemplate(template_id, opts, callback) {
       opts = opts || {};
       let postBody = opts['options'];
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling copyTemplate");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling copyTemplate");
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
       };
@@ -302,16 +296,17 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the createCustomFileFromUpload operation.
-     * @callback module:api/PDFApi~createCustomFileFromUploadCallback
+     * @callback module:api/Client~createCustomFileFromUploadCallback
      * @param {String} error Error message, if any.
      * @param {module:model/CreateCustomFileResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Create a new custom file from a cached presign upload
+     * Create a new custom file from a cached S3 upload
+     * The Custom Files API endpoint allows you to upload PDFs to DocSpring and then merge them with other PDFs. First upload your file using the presigned URL endpoint, then use the returned cache_id to create the custom file. 
      * @param {module:model/CreateCustomFileData} data 
-     * @param {module:api/PDFApi~createCustomFileFromUploadCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~createCustomFileFromUploadCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CreateCustomFileResponse}
      */
     createCustomFileFromUpload(data, callback) {
@@ -343,24 +338,25 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the createDataRequestEvent operation.
-     * @callback module:api/PDFApi~createDataRequestEventCallback
+     * @callback module:api/Client~createDataRequestEventCallback
      * @param {String} error Error message, if any.
      * @param {module:model/CreateSubmissionDataRequestEventResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Creates a new event for emailing a signee a request for signature
-     * @param {String} dataRequestId 
+     * Create a new event for emailing a signee a request for signature
+     * Records user notification events for data requests. Use this to create an audit trail showing when and how users were notified about data request forms. Supports email, SMS, and other notification types. Records the notification time for compliance tracking.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/) - User notification workflow 
+     * @param {String} data_request_id 
      * @param {module:model/CreateSubmissionDataRequestEventRequest} event 
-     * @param {module:api/PDFApi~createDataRequestEventCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~createDataRequestEventCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CreateSubmissionDataRequestEventResponse}
      */
-    createDataRequestEvent(dataRequestId, event, callback) {
+    createDataRequestEvent(data_request_id, event, callback) {
       let postBody = event;
-      // verify the required parameter 'dataRequestId' is set
-      if (dataRequestId === undefined || dataRequestId === null) {
-        throw new Error("Missing the required parameter 'dataRequestId' when calling createDataRequestEvent");
+      // verify the required parameter 'data_request_id' is set
+      if (data_request_id === undefined || data_request_id === null) {
+        throw new Error("Missing the required parameter 'data_request_id' when calling createDataRequestEvent");
       }
       // verify the required parameter 'event' is set
       if (event === undefined || event === null) {
@@ -368,7 +364,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'data_request_id': dataRequestId
+        'data_request_id': data_request_id
       };
       let queryParams = {
       };
@@ -390,30 +386,31 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the createDataRequestToken operation.
-     * @callback module:api/PDFApi~createDataRequestTokenCallback
+     * @callback module:api/Client~createDataRequestTokenCallback
      * @param {String} error Error message, if any.
      * @param {module:model/CreateSubmissionDataRequestTokenResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Creates a new data request token for form authentication
-     * @param {String} dataRequestId 
+     * Create a new data request token for form authentication
+     * Creates an authentication token for accessing a data request form. Tokens can be created for API access (1 hour expiration) or email links (30 day expiration). Returns a token and a pre-authenticated URL for the data request form.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/) 
+     * @param {String} data_request_id 
      * @param {Object} opts Optional parameters
      * @param {module:model/String} [type] 
-     * @param {module:api/PDFApi~createDataRequestTokenCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~createDataRequestTokenCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CreateSubmissionDataRequestTokenResponse}
      */
-    createDataRequestToken(dataRequestId, opts, callback) {
+    createDataRequestToken(data_request_id, opts, callback) {
       opts = opts || {};
       let postBody = null;
-      // verify the required parameter 'dataRequestId' is set
-      if (dataRequestId === undefined || dataRequestId === null) {
-        throw new Error("Missing the required parameter 'dataRequestId' when calling createDataRequestToken");
+      // verify the required parameter 'data_request_id' is set
+      if (data_request_id === undefined || data_request_id === null) {
+        throw new Error("Missing the required parameter 'data_request_id' when calling createDataRequestToken");
       }
 
       let pathParams = {
-        'data_request_id': dataRequestId
+        'data_request_id': data_request_id
       };
       let queryParams = {
         'type': opts['type']
@@ -436,7 +433,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the createFolder operation.
-     * @callback module:api/PDFApi~createFolderCallback
+     * @callback module:api/Client~createFolderCallback
      * @param {String} error Error message, if any.
      * @param {module:model/Folder} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -444,8 +441,9 @@ export default class PDFApi {
 
     /**
      * Create a folder
+     * Creates a new folder for organizing templates. Folders can be nested within other folders by providing a `parent_folder_id`. Folder names must be unique within the same parent. 
      * @param {module:model/CreateFolderData} data 
-     * @param {module:api/PDFApi~createFolderCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~createFolderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Folder}
      */
     createFolder(data, callback) {
@@ -476,8 +474,8 @@ export default class PDFApi {
     }
 
     /**
-     * Callback function to receive the result of the createHTMLTemplate operation.
-     * @callback module:api/PDFApi~createHTMLTemplateCallback
+     * Callback function to receive the result of the createHtmlTemplate operation.
+     * @callback module:api/Client~createHtmlTemplateCallback
      * @param {String} error Error message, if any.
      * @param {module:model/TemplatePreview} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -485,15 +483,16 @@ export default class PDFApi {
 
     /**
      * Create a new HTML template
+     * Creates a new HTML template using HTML, CSS/SCSS, and Liquid templating. Allows complete control over PDF layout and styling. Supports headers, footers, and dynamic content using Liquid syntax for field values, conditions, loops, and filters. 
      * @param {module:model/CreateHtmlTemplate} data 
-     * @param {module:api/PDFApi~createHTMLTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~createHtmlTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/TemplatePreview}
      */
-    createHTMLTemplate(data, callback) {
+    createHtmlTemplate(data, callback) {
       let postBody = data;
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
-        throw new Error("Missing the required parameter 'data' when calling createHTMLTemplate");
+        throw new Error("Missing the required parameter 'data' when calling createHtmlTemplate");
       }
 
       let pathParams = {
@@ -510,15 +509,15 @@ export default class PDFApi {
       let accepts = ['application/json'];
       let returnType = TemplatePreview;
       return this.apiClient.callApi(
-        '/templates?endpoint_description=html', 'POST',
+        '/templates?endpoint_variant=create_html_template', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
     /**
-     * Callback function to receive the result of the createPDFTemplate operation.
-     * @callback module:api/PDFApi~createPDFTemplateCallback
+     * Callback function to receive the result of the createPdfTemplate operation.
+     * @callback module:api/Client~createPdfTemplateCallback
      * @param {String} error Error message, if any.
      * @param {module:model/TemplatePreview} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -526,25 +525,26 @@ export default class PDFApi {
 
     /**
      * Create a new PDF template with a form POST file upload
-     * @param {File} templateDocument 
-     * @param {String} templateName 
+     * Creates a new PDF template by uploading a PDF file. The uploaded PDF becomes the foundation for your template, and you can then add fillable fields using the template editor. Use the wait parameter to control whether the request waits for document processing to complete. 
+     * @param {File} template_document 
+     * @param {String} template_name 
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait = true)] Wait for template document to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
-     * @param {String} [templateDescription] 
-     * @param {String} [templateParentFolderId] 
-     * @param {module:api/PDFApi~createPDFTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {String} [template_description] 
+     * @param {String} [template_parent_folder_id] 
+     * @param {module:api/Client~createPdfTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/TemplatePreview}
      */
-    createPDFTemplate(templateDocument, templateName, opts, callback) {
+    createPdfTemplate(template_document, template_name, opts, callback) {
       opts = opts || {};
       let postBody = null;
-      // verify the required parameter 'templateDocument' is set
-      if (templateDocument === undefined || templateDocument === null) {
-        throw new Error("Missing the required parameter 'templateDocument' when calling createPDFTemplate");
+      // verify the required parameter 'template_document' is set
+      if (template_document === undefined || template_document === null) {
+        throw new Error("Missing the required parameter 'template_document' when calling createPdfTemplate");
       }
-      // verify the required parameter 'templateName' is set
-      if (templateName === undefined || templateName === null) {
-        throw new Error("Missing the required parameter 'templateName' when calling createPDFTemplate");
+      // verify the required parameter 'template_name' is set
+      if (template_name === undefined || template_name === null) {
+        throw new Error("Missing the required parameter 'template_name' when calling createPdfTemplate");
       }
 
       let pathParams = {
@@ -555,10 +555,10 @@ export default class PDFApi {
       let headerParams = {
       };
       let formParams = {
-        'template[document]': templateDocument,
-        'template[name]': templateName,
-        'template[description]': opts['templateDescription'],
-        'template[parent_folder_id]': opts['templateParentFolderId']
+        'template[document]': template_document,
+        'template[name]': template_name,
+        'template[description]': opts['template_description'],
+        'template[parent_folder_id]': opts['template_parent_folder_id']
       };
 
       let authNames = ['api_token_basic'];
@@ -573,24 +573,25 @@ export default class PDFApi {
     }
 
     /**
-     * Callback function to receive the result of the createPDFTemplateFromUpload operation.
-     * @callback module:api/PDFApi~createPDFTemplateFromUploadCallback
+     * Callback function to receive the result of the createPdfTemplateFromUpload operation.
+     * @callback module:api/Client~createPdfTemplateFromUploadCallback
      * @param {String} error Error message, if any.
      * @param {module:model/TemplatePreview} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Create a new PDF template from a cached presign upload
+     * Create a new PDF template from a cached S3 file upload
+     * Creates a new PDF template from a file previously uploaded to S3 using a presigned URL. This two-step process allows for more reliable large file uploads by first uploading the file to S3, then creating the template using the cached upload ID. 
      * @param {module:model/CreatePdfTemplate} data 
-     * @param {module:api/PDFApi~createPDFTemplateFromUploadCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~createPdfTemplateFromUploadCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/TemplatePreview}
      */
-    createPDFTemplateFromUpload(data, callback) {
+    createPdfTemplateFromUpload(data, callback) {
       let postBody = data;
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
-        throw new Error("Missing the required parameter 'data' when calling createPDFTemplateFromUpload");
+        throw new Error("Missing the required parameter 'data' when calling createPdfTemplateFromUpload");
       }
 
       let pathParams = {
@@ -607,7 +608,7 @@ export default class PDFApi {
       let accepts = ['application/json'];
       let returnType = TemplatePreview;
       return this.apiClient.callApi(
-        '/templates?endpoint_description=cached_upload', 'POST',
+        '/templates?endpoint_variant=create_template_from_cached_upload', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );
@@ -615,7 +616,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the deleteFolder operation.
-     * @callback module:api/PDFApi~deleteFolderCallback
+     * @callback module:api/Client~deleteFolderCallback
      * @param {String} error Error message, if any.
      * @param {module:model/Folder} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -623,19 +624,20 @@ export default class PDFApi {
 
     /**
      * Delete a folder
-     * @param {String} folderId 
-     * @param {module:api/PDFApi~deleteFolderCallback} callback The callback function, accepting three arguments: error, data, response
+     * Deletes an empty folder. The folder must not contain any templates or subfolders. Move or delete all contents before attempting to delete the folder. 
+     * @param {String} folder_id 
+     * @param {module:api/Client~deleteFolderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Folder}
      */
-    deleteFolder(folderId, callback) {
+    deleteFolder(folder_id, callback) {
       let postBody = null;
-      // verify the required parameter 'folderId' is set
-      if (folderId === undefined || folderId === null) {
-        throw new Error("Missing the required parameter 'folderId' when calling deleteFolder");
+      // verify the required parameter 'folder_id' is set
+      if (folder_id === undefined || folder_id === null) {
+        throw new Error("Missing the required parameter 'folder_id' when calling deleteFolder");
       }
 
       let pathParams = {
-        'folder_id': folderId
+        'folder_id': folder_id
       };
       let queryParams = {
       };
@@ -657,7 +659,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the deleteTemplate operation.
-     * @callback module:api/PDFApi~deleteTemplateCallback
+     * @callback module:api/Client~deleteTemplateCallback
      * @param {String} error Error message, if any.
      * @param {module:model/TemplateDeleteResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -665,22 +667,23 @@ export default class PDFApi {
 
     /**
      * Delete a template
-     * @param {String} templateId 
+     * Deletes a template or a specific template version. When no version is specified, deletes the entire template including all versions. When a version is specified, deletes only that version while preserving others. Returns remaining version information. 
+     * @param {String} template_id 
      * @param {Object} opts Optional parameters
      * @param {String} [version] 
-     * @param {module:api/PDFApi~deleteTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~deleteTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/TemplateDeleteResponse}
      */
-    deleteTemplate(templateId, opts, callback) {
+    deleteTemplate(template_id, opts, callback) {
       opts = opts || {};
       let postBody = null;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling deleteTemplate");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling deleteTemplate");
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
         'version': opts['version']
@@ -703,7 +706,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the expireCombinedSubmission operation.
-     * @callback module:api/PDFApi~expireCombinedSubmissionCallback
+     * @callback module:api/Client~expireCombinedSubmissionCallback
      * @param {String} error Error message, if any.
      * @param {module:model/CombinedSubmission} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -711,19 +714,20 @@ export default class PDFApi {
 
     /**
      * Expire a combined submission
-     * @param {String} combinedSubmissionId 
-     * @param {module:api/PDFApi~expireCombinedSubmissionCallback} callback The callback function, accepting three arguments: error, data, response
+     * Expiring a combined submission deletes the PDF from our system. This is useful for invalidating sensitive documents. 
+     * @param {String} combined_submission_id 
+     * @param {module:api/Client~expireCombinedSubmissionCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CombinedSubmission}
      */
-    expireCombinedSubmission(combinedSubmissionId, callback) {
+    expireCombinedSubmission(combined_submission_id, callback) {
       let postBody = null;
-      // verify the required parameter 'combinedSubmissionId' is set
-      if (combinedSubmissionId === undefined || combinedSubmissionId === null) {
-        throw new Error("Missing the required parameter 'combinedSubmissionId' when calling expireCombinedSubmission");
+      // verify the required parameter 'combined_submission_id' is set
+      if (combined_submission_id === undefined || combined_submission_id === null) {
+        throw new Error("Missing the required parameter 'combined_submission_id' when calling expireCombinedSubmission");
       }
 
       let pathParams = {
-        'combined_submission_id': combinedSubmissionId
+        'combined_submission_id': combined_submission_id
       };
       let queryParams = {
       };
@@ -745,7 +749,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the expireSubmission operation.
-     * @callback module:api/PDFApi~expireSubmissionCallback
+     * @callback module:api/Client~expireSubmissionCallback
      * @param {String} error Error message, if any.
      * @param {module:model/SubmissionPreview} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -753,19 +757,20 @@ export default class PDFApi {
 
     /**
      * Expire a PDF submission
-     * @param {String} submissionId 
-     * @param {module:api/PDFApi~expireSubmissionCallback} callback The callback function, accepting three arguments: error, data, response
+     * Expiring a PDF submission deletes the PDF and removes the data from our database. This is useful for invalidating sensitive documents after they've been downloaded. You can also [configure a data retention policy for your submissions](https://docspring.com/docs/template-editor/settings/#expire-submissions) so that they automatically expire. 
+     * @param {String} submission_id 
+     * @param {module:api/Client~expireSubmissionCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/SubmissionPreview}
      */
-    expireSubmission(submissionId, callback) {
+    expireSubmission(submission_id, callback) {
       let postBody = null;
-      // verify the required parameter 'submissionId' is set
-      if (submissionId === undefined || submissionId === null) {
-        throw new Error("Missing the required parameter 'submissionId' when calling expireSubmission");
+      // verify the required parameter 'submission_id' is set
+      if (submission_id === undefined || submission_id === null) {
+        throw new Error("Missing the required parameter 'submission_id' when calling expireSubmission");
       }
 
       let pathParams = {
-        'submission_id': submissionId
+        'submission_id': submission_id
       };
       let queryParams = {
       };
@@ -787,27 +792,28 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the generatePdf operation.
-     * @callback module:api/PDFApi~generatePdfCallback
+     * @callback module:api/Client~generatePdfCallback
      * @param {String} error Error message, if any.
      * @param {module:model/CreateSubmissionResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Generates a new PDF
-     * @param {String} templateId 
+     * Generate a PDF
+     * Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Set `wait: false` to return immediately.  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn't fit in fields 
+     * @param {String} template_id 
      * @param {module:model/CreatePdfSubmissionData} submission 
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait = true)] Wait for submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
-     * @param {module:api/PDFApi~generatePdfCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~generatePdfCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CreateSubmissionResponse}
      */
-    generatePdf(templateId, submission, opts, callback) {
+    generatePdf(template_id, submission, opts, callback) {
       opts = opts || {};
       let postBody = submission;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling generatePdf");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling generatePdf");
       }
       // verify the required parameter 'submission' is set
       if (submission === undefined || submission === null) {
@@ -815,7 +821,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
         'wait': opts['wait']
@@ -837,79 +843,29 @@ export default class PDFApi {
     }
 
     /**
-     * Callback function to receive the result of the generatePdfForHtmlTemplate operation.
-     * @callback module:api/PDFApi~generatePdfForHtmlTemplateCallback
-     * @param {String} error Error message, if any.
-     * @param {module:model/CreateSubmissionResponse} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Generates a new PDF for an HTML template
-     * @param {String} templateId 
-     * @param {module:model/CreateHtmlSubmissionData} submission 
-     * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait = true)] Wait for submission to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
-     * @param {module:api/PDFApi~generatePdfForHtmlTemplateCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link module:model/CreateSubmissionResponse}
-     */
-    generatePdfForHtmlTemplate(templateId, submission, opts, callback) {
-      opts = opts || {};
-      let postBody = submission;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling generatePdfForHtmlTemplate");
-      }
-      // verify the required parameter 'submission' is set
-      if (submission === undefined || submission === null) {
-        throw new Error("Missing the required parameter 'submission' when calling generatePdfForHtmlTemplate");
-      }
-
-      let pathParams = {
-        'template_id': templateId
-      };
-      let queryParams = {
-        'wait': opts['wait']
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = ['api_token_basic'];
-      let contentTypes = ['application/json'];
-      let accepts = ['application/json'];
-      let returnType = CreateSubmissionResponse;
-      return this.apiClient.callApi(
-        '/templates/{template_id}/submissions?endpoint_description=html_templates', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the generatePreview operation.
-     * @callback module:api/PDFApi~generatePreviewCallback
+     * @callback module:api/Client~generatePreviewCallback
      * @param {String} error Error message, if any.
      * @param {module:model/SuccessErrorResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Generated a preview PDF for partially completed data requests
-     * @param {String} submissionId 
-     * @param {module:api/PDFApi~generatePreviewCallback} callback The callback function, accepting three arguments: error, data, response
+     * Generate a preview PDF for partially completed data requests
+     * Generates a preview PDF for a submission with partially completed data requests. Useful for showing users what the final document will look like before all signatures or data have been collected. The preview includes any data collected so far. 
+     * @param {String} submission_id 
+     * @param {module:api/Client~generatePreviewCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/SuccessErrorResponse}
      */
-    generatePreview(submissionId, callback) {
+    generatePreview(submission_id, callback) {
       let postBody = null;
-      // verify the required parameter 'submissionId' is set
-      if (submissionId === undefined || submissionId === null) {
-        throw new Error("Missing the required parameter 'submissionId' when calling generatePreview");
+      // verify the required parameter 'submission_id' is set
+      if (submission_id === undefined || submission_id === null) {
+        throw new Error("Missing the required parameter 'submission_id' when calling generatePreview");
       }
 
       let pathParams = {
-        'submission_id': submissionId
+        'submission_id': submission_id
       };
       let queryParams = {
       };
@@ -931,7 +887,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the getCombinedSubmission operation.
-     * @callback module:api/PDFApi~getCombinedSubmissionCallback
+     * @callback module:api/Client~getCombinedSubmissionCallback
      * @param {String} error Error message, if any.
      * @param {module:model/CombinedSubmission} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -939,19 +895,20 @@ export default class PDFApi {
 
     /**
      * Check the status of a combined submission (merged PDFs)
-     * @param {String} combinedSubmissionId 
-     * @param {module:api/PDFApi~getCombinedSubmissionCallback} callback The callback function, accepting three arguments: error, data, response
+     * Retrieves the details and status of a combined submission. Returns processing state, download URL (if processed), metadata, and information about any integrated actions (e.g., S3 uploads). 
+     * @param {String} combined_submission_id 
+     * @param {module:api/Client~getCombinedSubmissionCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CombinedSubmission}
      */
-    getCombinedSubmission(combinedSubmissionId, callback) {
+    getCombinedSubmission(combined_submission_id, callback) {
       let postBody = null;
-      // verify the required parameter 'combinedSubmissionId' is set
-      if (combinedSubmissionId === undefined || combinedSubmissionId === null) {
-        throw new Error("Missing the required parameter 'combinedSubmissionId' when calling getCombinedSubmission");
+      // verify the required parameter 'combined_submission_id' is set
+      if (combined_submission_id === undefined || combined_submission_id === null) {
+        throw new Error("Missing the required parameter 'combined_submission_id' when calling getCombinedSubmission");
       }
 
       let pathParams = {
-        'combined_submission_id': combinedSubmissionId
+        'combined_submission_id': combined_submission_id
       };
       let queryParams = {
       };
@@ -973,7 +930,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the getDataRequest operation.
-     * @callback module:api/PDFApi~getDataRequestCallback
+     * @callback module:api/Client~getDataRequestCallback
      * @param {String} error Error message, if any.
      * @param {module:model/SubmissionDataRequestShow} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -981,19 +938,20 @@ export default class PDFApi {
 
     /**
      * Look up a submission data request
-     * @param {String} dataRequestId 
-     * @param {module:api/PDFApi~getDataRequestCallback} callback The callback function, accepting three arguments: error, data, response
+     * Retrieves the details and status of a data request. Returns information about the request state (pending, viewed, completed), authentication details, and metadata. Includes audit information like IP address, browseruser agent, and timestamps.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/) - Complete guide to data request workflow 
+     * @param {String} data_request_id 
+     * @param {module:api/Client~getDataRequestCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/SubmissionDataRequestShow}
      */
-    getDataRequest(dataRequestId, callback) {
+    getDataRequest(data_request_id, callback) {
       let postBody = null;
-      // verify the required parameter 'dataRequestId' is set
-      if (dataRequestId === undefined || dataRequestId === null) {
-        throw new Error("Missing the required parameter 'dataRequestId' when calling getDataRequest");
+      // verify the required parameter 'data_request_id' is set
+      if (data_request_id === undefined || data_request_id === null) {
+        throw new Error("Missing the required parameter 'data_request_id' when calling getDataRequest");
       }
 
       let pathParams = {
-        'data_request_id': dataRequestId
+        'data_request_id': data_request_id
       };
       let queryParams = {
       };
@@ -1015,7 +973,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the getFullTemplate operation.
-     * @callback module:api/PDFApi~getFullTemplateCallback
+     * @callback module:api/Client~getFullTemplateCallback
      * @param {String} error Error message, if any.
      * @param {module:model/Template} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1023,19 +981,20 @@ export default class PDFApi {
 
     /**
      * Fetch the full attributes for a PDF template
-     * @param {String} templateId 
-     * @param {module:api/PDFApi~getFullTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * Retrieves complete template information including fields, defaults, settings, and HTML/SCSS content. Use this to get all template data needed for automated updates or analysis. Returns more detailed information than the basic `getTemplate` endpoint. 
+     * @param {String} template_id 
+     * @param {module:api/Client~getFullTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Template}
      */
-    getFullTemplate(templateId, callback) {
+    getFullTemplate(template_id, callback) {
       let postBody = null;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling getFullTemplate");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling getFullTemplate");
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
       };
@@ -1057,15 +1016,16 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the getPresignUrl operation.
-     * @callback module:api/PDFApi~getPresignUrlCallback
+     * @callback module:api/Client~getPresignUrlCallback
      * @param {String} error Error message, if any.
      * @param {module:model/UploadPresignResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Get a presigned URL so that you can upload a file to our AWS S3 bucket
-     * @param {module:api/PDFApi~getPresignUrlCallback} callback The callback function, accepting three arguments: error, data, response
+     * Get a presigned S3 URL for direct file upload
+     * Returns a presigned S3 URL for uploading files directly to our S3 bucket. Use this endpoint to upload large files before creating templates or custom files. S3 will respond with a JSON object that you can include in your DocSpring API request.  Uploaded files can be used to: - [Create templates](https://docspring.com/docs/api/#tag/templates/post/templates?endpoint_variant=create_template_from_cached_upload) - [Update templates](https://docspring.com/docs/api/#tag/templates/put/templates/{template_id}?endpoint_variant=update_template_pdf_with_cached_upload) - [Create custom files](https://docspring.com/docs/api/#tag/custom-files/post/custom_files) and then [merge them with other PDFs](https://docspring.com/docs/api/#tag/combine-pdfs/post/combined_submissions) 
+     * @param {module:api/Client~getPresignUrlCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/UploadPresignResponse}
      */
     getPresignUrl(callback) {
@@ -1093,7 +1053,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the getSubmission operation.
-     * @callback module:api/PDFApi~getSubmissionCallback
+     * @callback module:api/Client~getSubmissionCallback
      * @param {String} error Error message, if any.
      * @param {module:model/Submission} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1101,25 +1061,26 @@ export default class PDFApi {
 
     /**
      * Check the status of a PDF
-     * @param {String} submissionId 
+     * Retrieves the details and status of a PDF submission. Returns processing state, download URL (if processed), metadata, submission data (optional), and information about any integrated actions. Use this to poll for completion when using asynchronous processing. 
+     * @param {String} submission_id 
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [includeData] 
-     * @param {module:api/PDFApi~getSubmissionCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {Boolean} [include_data] 
+     * @param {module:api/Client~getSubmissionCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Submission}
      */
-    getSubmission(submissionId, opts, callback) {
+    getSubmission(submission_id, opts, callback) {
       opts = opts || {};
       let postBody = null;
-      // verify the required parameter 'submissionId' is set
-      if (submissionId === undefined || submissionId === null) {
-        throw new Error("Missing the required parameter 'submissionId' when calling getSubmission");
+      // verify the required parameter 'submission_id' is set
+      if (submission_id === undefined || submission_id === null) {
+        throw new Error("Missing the required parameter 'submission_id' when calling getSubmission");
       }
 
       let pathParams = {
-        'submission_id': submissionId
+        'submission_id': submission_id
       };
       let queryParams = {
-        'include_data': opts['includeData']
+        'include_data': opts['include_data']
       };
       let headerParams = {
       };
@@ -1139,7 +1100,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the getSubmissionBatch operation.
-     * @callback module:api/PDFApi~getSubmissionBatchCallback
+     * @callback module:api/Client~getSubmissionBatchCallback
      * @param {String} error Error message, if any.
      * @param {module:model/SubmissionBatchWithSubmissions} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1147,25 +1108,26 @@ export default class PDFApi {
 
     /**
      * Check the status of a submission batch job
-     * @param {String} submissionBatchId 
+     * Retrieves the status and results of a batch PDF generation job. Returns processing state, completion statistics, and optionally includes all individual submission details. Use this to poll for completion when using asynchronous batch processing. 
+     * @param {String} submission_batch_id 
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [includeSubmissions] 
-     * @param {module:api/PDFApi~getSubmissionBatchCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {Boolean} [include_submissions] 
+     * @param {module:api/Client~getSubmissionBatchCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/SubmissionBatchWithSubmissions}
      */
-    getSubmissionBatch(submissionBatchId, opts, callback) {
+    getSubmissionBatch(submission_batch_id, opts, callback) {
       opts = opts || {};
       let postBody = null;
-      // verify the required parameter 'submissionBatchId' is set
-      if (submissionBatchId === undefined || submissionBatchId === null) {
-        throw new Error("Missing the required parameter 'submissionBatchId' when calling getSubmissionBatch");
+      // verify the required parameter 'submission_batch_id' is set
+      if (submission_batch_id === undefined || submission_batch_id === null) {
+        throw new Error("Missing the required parameter 'submission_batch_id' when calling getSubmissionBatch");
       }
 
       let pathParams = {
-        'submission_batch_id': submissionBatchId
+        'submission_batch_id': submission_batch_id
       };
       let queryParams = {
-        'include_submissions': opts['includeSubmissions']
+        'include_submissions': opts['include_submissions']
       };
       let headerParams = {
       };
@@ -1185,7 +1147,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the getTemplate operation.
-     * @callback module:api/PDFApi~getTemplateCallback
+     * @callback module:api/Client~getTemplateCallback
      * @param {String} error Error message, if any.
      * @param {module:model/TemplatePreview} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1193,19 +1155,20 @@ export default class PDFApi {
 
     /**
      * Check the status of an uploaded template
-     * @param {String} templateId 
-     * @param {module:api/PDFApi~getTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * Retrieves information about a template including processing status and document URL. Use this to check if template is ready to view in the template editor or generate PDFs. 
+     * @param {String} template_id 
+     * @param {module:api/Client~getTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/TemplatePreview}
      */
-    getTemplate(templateId, callback) {
+    getTemplate(template_id, callback) {
       let postBody = null;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling getTemplate");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling getTemplate");
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
       };
@@ -1227,7 +1190,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the getTemplateSchema operation.
-     * @callback module:api/PDFApi~getTemplateSchemaCallback
+     * @callback module:api/Client~getTemplateSchemaCallback
      * @param {String} error Error message, if any.
      * @param {module:model/JsonSchema} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1235,19 +1198,20 @@ export default class PDFApi {
 
     /**
      * Fetch the JSON schema for a template
-     * @param {String} templateId 
-     * @param {module:api/PDFApi~getTemplateSchemaCallback} callback The callback function, accepting three arguments: error, data, response
+     * Retrieves the JSON Schema definition for a template's fields. Use this to validate data before submitting it for PDF generation, or to build dynamic forms that match the template's field structure and validation requirements.  See also: - [Generate PDFs Guide](https://docspring.com/docs/api-guide/generate-pdfs/generate-pdfs-via-api/) - Use schema to validate submission data 
+     * @param {String} template_id 
+     * @param {module:api/Client~getTemplateSchemaCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/JsonSchema}
      */
-    getTemplateSchema(templateId, callback) {
+    getTemplateSchema(template_id, callback) {
       let postBody = null;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling getTemplateSchema");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling getTemplateSchema");
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
       };
@@ -1269,7 +1233,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the listCombinedSubmissions operation.
-     * @callback module:api/PDFApi~listCombinedSubmissionsCallback
+     * @callback module:api/Client~listCombinedSubmissionsCallback
      * @param {String} error Error message, if any.
      * @param {Array.<module:model/CombinedSubmission>} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1277,10 +1241,11 @@ export default class PDFApi {
 
     /**
      * Get a list of all combined submissions
+     * Returns a paginated list of combined submissions (merged PDFs) for your account. Includes processing status, expiration details, and download URLs for processed PDFs. 
      * @param {Object} opts Optional parameters
      * @param {Number} [page] Default: 1
-     * @param {Number} [perPage] Default: 50
-     * @param {module:api/PDFApi~listCombinedSubmissionsCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {Number} [per_page] Default: 50
+     * @param {module:api/Client~listCombinedSubmissionsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Array.<module:model/CombinedSubmission>}
      */
     listCombinedSubmissions(opts, callback) {
@@ -1291,7 +1256,7 @@ export default class PDFApi {
       };
       let queryParams = {
         'page': opts['page'],
-        'per_page': opts['perPage']
+        'per_page': opts['per_page']
       };
       let headerParams = {
       };
@@ -1311,7 +1276,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the listFolders operation.
-     * @callback module:api/PDFApi~listFoldersCallback
+     * @callback module:api/Client~listFoldersCallback
      * @param {String} error Error message, if any.
      * @param {Array.<module:model/Folder>} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1319,9 +1284,10 @@ export default class PDFApi {
 
     /**
      * Get a list of all folders
+     * Returns a list of folders in your account. Can be filtered by parent folder ID to retrieve subfolders. Folders help organize templates and maintain a hierarchical structure. 
      * @param {Object} opts Optional parameters
-     * @param {String} [parentFolderId] Filter By Folder Id
-     * @param {module:api/PDFApi~listFoldersCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {String} [parent_folder_id] Filter By Folder Id
+     * @param {module:api/Client~listFoldersCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Array.<module:model/Folder>}
      */
     listFolders(opts, callback) {
@@ -1331,7 +1297,7 @@ export default class PDFApi {
       let pathParams = {
       };
       let queryParams = {
-        'parent_folder_id': opts['parentFolderId']
+        'parent_folder_id': opts['parent_folder_id']
       };
       let headerParams = {
       };
@@ -1351,7 +1317,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the listSubmissions operation.
-     * @callback module:api/PDFApi~listSubmissionsCallback
+     * @callback module:api/Client~listSubmissionsCallback
      * @param {String} error Error message, if any.
      * @param {module:model/ListSubmissionsResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1359,14 +1325,15 @@ export default class PDFApi {
 
     /**
      * List all submissions
+     * Returns a paginated list of all PDF submissions across all templates in your account. Can be filtered by date range and submission type (test/live). Supports cursor-based pagination and optionally includes submission data for each result. 
      * @param {Object} opts Optional parameters
      * @param {String} [cursor] 
      * @param {Number} [limit] 
-     * @param {String} [createdAfter] 
-     * @param {String} [createdBefore] 
+     * @param {String} [created_after] 
+     * @param {String} [created_before] 
      * @param {String} [type] 
-     * @param {Boolean} [includeData] 
-     * @param {module:api/PDFApi~listSubmissionsCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {Boolean} [include_data] 
+     * @param {module:api/Client~listSubmissionsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/ListSubmissionsResponse}
      */
     listSubmissions(opts, callback) {
@@ -1378,10 +1345,10 @@ export default class PDFApi {
       let queryParams = {
         'cursor': opts['cursor'],
         'limit': opts['limit'],
-        'created_after': opts['createdAfter'],
-        'created_before': opts['createdBefore'],
+        'created_after': opts['created_after'],
+        'created_before': opts['created_before'],
         'type': opts['type'],
-        'include_data': opts['includeData']
+        'include_data': opts['include_data']
       };
       let headerParams = {
       };
@@ -1401,7 +1368,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the listTemplateSubmissions operation.
-     * @callback module:api/PDFApi~listTemplateSubmissionsCallback
+     * @callback module:api/Client~listTemplateSubmissionsCallback
      * @param {String} error Error message, if any.
      * @param {module:model/ListSubmissionsResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1409,35 +1376,36 @@ export default class PDFApi {
 
     /**
      * List all submissions for a given template
-     * @param {String} templateId 
+     * Returns a paginated list of all submissions for a specific template. Can be filtered by date range, submission type (test/live), and optionally include submission data. Supports cursor-based pagination for efficient retrieval of large result sets. 
+     * @param {String} template_id 
      * @param {Object} opts Optional parameters
      * @param {String} [cursor] 
      * @param {Number} [limit] 
-     * @param {String} [createdAfter] 
-     * @param {String} [createdBefore] 
+     * @param {String} [created_after] 
+     * @param {String} [created_before] 
      * @param {String} [type] 
-     * @param {Boolean} [includeData] 
-     * @param {module:api/PDFApi~listTemplateSubmissionsCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {Boolean} [include_data] 
+     * @param {module:api/Client~listTemplateSubmissionsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/ListSubmissionsResponse}
      */
-    listTemplateSubmissions(templateId, opts, callback) {
+    listTemplateSubmissions(template_id, opts, callback) {
       opts = opts || {};
       let postBody = null;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling listTemplateSubmissions");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling listTemplateSubmissions");
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
         'cursor': opts['cursor'],
         'limit': opts['limit'],
-        'created_after': opts['createdAfter'],
-        'created_before': opts['createdBefore'],
+        'created_after': opts['created_after'],
+        'created_before': opts['created_before'],
         'type': opts['type'],
-        'include_data': opts['includeData']
+        'include_data': opts['include_data']
       };
       let headerParams = {
       };
@@ -1457,7 +1425,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the listTemplates operation.
-     * @callback module:api/PDFApi~listTemplatesCallback
+     * @callback module:api/Client~listTemplatesCallback
      * @param {String} error Error message, if any.
      * @param {Array.<module:model/TemplatePreview>} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1465,12 +1433,13 @@ export default class PDFApi {
 
     /**
      * Get a list of all templates
+     * Retrieves a list of your templates with search, filtering, and pagination options. Returns basic template information including ID, name, type (PDF or HTML), and folder location. Supports text search by name and filtering by parent folder. 
      * @param {Object} opts Optional parameters
      * @param {String} [query] Search By Name
-     * @param {String} [parentFolderId] Filter By Folder Id
+     * @param {String} [parent_folder_id] Filter By Folder Id
      * @param {Number} [page] Default: 1
-     * @param {Number} [perPage] Default: 50
-     * @param {module:api/PDFApi~listTemplatesCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {Number} [per_page] Default: 50
+     * @param {module:api/Client~listTemplatesCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Array.<module:model/TemplatePreview>}
      */
     listTemplates(opts, callback) {
@@ -1481,9 +1450,9 @@ export default class PDFApi {
       };
       let queryParams = {
         'query': opts['query'],
-        'parent_folder_id': opts['parentFolderId'],
+        'parent_folder_id': opts['parent_folder_id'],
         'page': opts['page'],
-        'per_page': opts['perPage']
+        'per_page': opts['per_page']
       };
       let headerParams = {
       };
@@ -1503,7 +1472,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the moveFolderToFolder operation.
-     * @callback module:api/PDFApi~moveFolderToFolderCallback
+     * @callback module:api/Client~moveFolderToFolderCallback
      * @param {String} error Error message, if any.
      * @param {module:model/Folder} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1511,16 +1480,17 @@ export default class PDFApi {
 
     /**
      * Move a folder
-     * @param {String} folderId 
+     * Moves a folder to a new parent folder or to the root level. All templates and subfolders within the folder are moved together. Cannot move a folder into one of its own subfolders. 
+     * @param {String} folder_id 
      * @param {module:model/MoveFolderData} data 
-     * @param {module:api/PDFApi~moveFolderToFolderCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~moveFolderToFolderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Folder}
      */
-    moveFolderToFolder(folderId, data, callback) {
+    moveFolderToFolder(folder_id, data, callback) {
       let postBody = data;
-      // verify the required parameter 'folderId' is set
-      if (folderId === undefined || folderId === null) {
-        throw new Error("Missing the required parameter 'folderId' when calling moveFolderToFolder");
+      // verify the required parameter 'folder_id' is set
+      if (folder_id === undefined || folder_id === null) {
+        throw new Error("Missing the required parameter 'folder_id' when calling moveFolderToFolder");
       }
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
@@ -1528,7 +1498,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'folder_id': folderId
+        'folder_id': folder_id
       };
       let queryParams = {
       };
@@ -1550,7 +1520,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the moveTemplateToFolder operation.
-     * @callback module:api/PDFApi~moveTemplateToFolderCallback
+     * @callback module:api/Client~moveTemplateToFolderCallback
      * @param {String} error Error message, if any.
      * @param {module:model/TemplatePreview} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1558,16 +1528,17 @@ export default class PDFApi {
 
     /**
      * Move Template to folder
-     * @param {String} templateId 
+     * Moves a template to a different folder or to the root level. Use this to organize templates within your folders. Provide a folder ID to move to a specific folder, or `null` to move to the root level. 
+     * @param {String} template_id 
      * @param {module:model/MoveTemplateData} data 
-     * @param {module:api/PDFApi~moveTemplateToFolderCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~moveTemplateToFolderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/TemplatePreview}
      */
-    moveTemplateToFolder(templateId, data, callback) {
+    moveTemplateToFolder(template_id, data, callback) {
       let postBody = data;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling moveTemplateToFolder");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling moveTemplateToFolder");
       }
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
@@ -1575,7 +1546,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
       };
@@ -1597,7 +1568,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the publishTemplateVersion operation.
-     * @callback module:api/PDFApi~publishTemplateVersionCallback
+     * @callback module:api/Client~publishTemplateVersionCallback
      * @param {String} error Error message, if any.
      * @param {module:model/TemplatePublishVersionResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1605,16 +1576,17 @@ export default class PDFApi {
 
     /**
      * Publish a template version
-     * @param {String} templateId 
+     * Publishes the current draft version of a template and creates a new immutable version with semantic versioning (major.minor.patch). 
+     * @param {String} template_id 
      * @param {module:model/PublishVersionData} data 
-     * @param {module:api/PDFApi~publishTemplateVersionCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~publishTemplateVersionCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/TemplatePublishVersionResponse}
      */
-    publishTemplateVersion(templateId, data, callback) {
+    publishTemplateVersion(template_id, data, callback) {
       let postBody = data;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling publishTemplateVersion");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling publishTemplateVersion");
       }
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
@@ -1622,7 +1594,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
       };
@@ -1644,7 +1616,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the renameFolder operation.
-     * @callback module:api/PDFApi~renameFolderCallback
+     * @callback module:api/Client~renameFolderCallback
      * @param {String} error Error message, if any.
      * @param {module:model/Folder} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1652,16 +1624,17 @@ export default class PDFApi {
 
     /**
      * Rename a folder
-     * @param {String} folderId 
+     * Renames an existing folder. The new name must be unique within the same parent folder. This operation only changes the folder name, not its location or contents. 
+     * @param {String} folder_id 
      * @param {module:model/RenameFolderData} data 
-     * @param {module:api/PDFApi~renameFolderCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~renameFolderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Folder}
      */
-    renameFolder(folderId, data, callback) {
+    renameFolder(folder_id, data, callback) {
       let postBody = data;
-      // verify the required parameter 'folderId' is set
-      if (folderId === undefined || folderId === null) {
-        throw new Error("Missing the required parameter 'folderId' when calling renameFolder");
+      // verify the required parameter 'folder_id' is set
+      if (folder_id === undefined || folder_id === null) {
+        throw new Error("Missing the required parameter 'folder_id' when calling renameFolder");
       }
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
@@ -1669,7 +1642,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'folder_id': folderId
+        'folder_id': folder_id
       };
       let queryParams = {
       };
@@ -1691,7 +1664,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the restoreTemplateVersion operation.
-     * @callback module:api/PDFApi~restoreTemplateVersionCallback
+     * @callback module:api/Client~restoreTemplateVersionCallback
      * @param {String} error Error message, if any.
      * @param {module:model/SuccessErrorResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1699,16 +1672,17 @@ export default class PDFApi {
 
     /**
      * Restore a template version
-     * @param {String} templateId 
+     * Restores your template to a previously published version, copying that version's content and configuration to the current draft. Use this to revert changes or recover from an unwanted modification. 
+     * @param {String} template_id 
      * @param {module:model/RestoreVersionData} data 
-     * @param {module:api/PDFApi~restoreTemplateVersionCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~restoreTemplateVersionCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/SuccessErrorResponse}
      */
-    restoreTemplateVersion(templateId, data, callback) {
+    restoreTemplateVersion(template_id, data, callback) {
       let postBody = data;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling restoreTemplateVersion");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling restoreTemplateVersion");
       }
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
@@ -1716,7 +1690,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
       };
@@ -1738,15 +1712,16 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the testAuthentication operation.
-     * @callback module:api/PDFApi~testAuthenticationCallback
+     * @callback module:api/Client~testAuthenticationCallback
      * @param {String} error Error message, if any.
      * @param {module:model/SuccessErrorResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Test Authentication
-     * @param {module:api/PDFApi~testAuthenticationCallback} callback The callback function, accepting three arguments: error, data, response
+     * Test authentication
+     * Checks whether your API token is valid by making an authenticated request. Returns a success response if authentication passes. This endpoint is useful for verifying credentials during setup or troubleshooting issues. 
+     * @param {module:api/Client~testAuthenticationCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/SuccessErrorResponse}
      */
     testAuthentication(callback) {
@@ -1774,7 +1749,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the updateDataRequest operation.
-     * @callback module:api/PDFApi~updateDataRequestCallback
+     * @callback module:api/Client~updateDataRequestCallback
      * @param {String} error Error message, if any.
      * @param {module:model/CreateSubmissionDataRequestResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1782,16 +1757,17 @@ export default class PDFApi {
 
     /**
      * Update a submission data request
-     * @param {String} dataRequestId 
+     * Updates authentication details for a data request. Use this when a user logs in to record their authentication method, provider, session information, and hashed identifiers. Updates metadata and tracks authentication state changes for auditing and compliance. 
+     * @param {String} data_request_id 
      * @param {module:model/UpdateSubmissionDataRequestData} data 
-     * @param {module:api/PDFApi~updateDataRequestCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~updateDataRequestCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CreateSubmissionDataRequestResponse}
      */
-    updateDataRequest(dataRequestId, data, callback) {
+    updateDataRequest(data_request_id, data, callback) {
       let postBody = data;
-      // verify the required parameter 'dataRequestId' is set
-      if (dataRequestId === undefined || dataRequestId === null) {
-        throw new Error("Missing the required parameter 'dataRequestId' when calling updateDataRequest");
+      // verify the required parameter 'data_request_id' is set
+      if (data_request_id === undefined || data_request_id === null) {
+        throw new Error("Missing the required parameter 'data_request_id' when calling updateDataRequest");
       }
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
@@ -1799,7 +1775,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'data_request_id': dataRequestId
+        'data_request_id': data_request_id
       };
       let queryParams = {
       };
@@ -1821,7 +1797,7 @@ export default class PDFApi {
 
     /**
      * Callback function to receive the result of the updateTemplate operation.
-     * @callback module:api/PDFApi~updateTemplateCallback
+     * @callback module:api/Client~updateTemplateCallback
      * @param {String} error Error message, if any.
      * @param {module:model/SuccessMultipleErrorsResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -1829,16 +1805,17 @@ export default class PDFApi {
 
     /**
      * Update a Template
-     * @param {String} templateId 
+     * Updates template content and properties. For HTML templates, you can modify the HTML, SCSS, headers, footers, name, and description. Changes are applied to your draft template and do not affect published template versions. 
+     * @param {String} template_id 
      * @param {module:model/UpdateHtmlTemplate} data 
-     * @param {module:api/PDFApi~updateTemplateCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/Client~updateTemplateCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/SuccessMultipleErrorsResponse}
      */
-    updateTemplate(templateId, data, callback) {
+    updateTemplate(template_id, data, callback) {
       let postBody = data;
-      // verify the required parameter 'templateId' is set
-      if (templateId === undefined || templateId === null) {
-        throw new Error("Missing the required parameter 'templateId' when calling updateTemplate");
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling updateTemplate");
       }
       // verify the required parameter 'data' is set
       if (data === undefined || data === null) {
@@ -1846,7 +1823,7 @@ export default class PDFApi {
       }
 
       let pathParams = {
-        'template_id': templateId
+        'template_id': template_id
       };
       let queryParams = {
       };
@@ -1861,6 +1838,107 @@ export default class PDFApi {
       let returnType = SuccessMultipleErrorsResponse;
       return this.apiClient.callApi(
         '/templates/{template_id}', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the updateTemplateDocument operation.
+     * @callback module:api/Client~updateTemplateDocumentCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/SuccessMultipleErrorsResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Update a template's document with a form POST file upload
+     * Upload a new PDF file to update a PDF template's document. This replaces the template's PDF while preserving all of the existing fields. If you upload a PDF with fewer pages than the current document, any fields on the removed pages will be deleted. 
+     * @param {String} template_id 
+     * @param {File} template_document 
+     * @param {Object} opts Optional parameters
+     * @param {String} [template_name] 
+     * @param {module:api/Client~updateTemplateDocumentCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/SuccessMultipleErrorsResponse}
+     */
+    updateTemplateDocument(template_id, template_document, opts, callback) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling updateTemplateDocument");
+      }
+      // verify the required parameter 'template_document' is set
+      if (template_document === undefined || template_document === null) {
+        throw new Error("Missing the required parameter 'template_document' when calling updateTemplateDocument");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+        'template[document]': template_document,
+        'template[name]': opts['template_name']
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['multipart/form-data'];
+      let accepts = ['application/json'];
+      let returnType = SuccessMultipleErrorsResponse;
+      return this.apiClient.callApi(
+        '/templates/{template_id}?endpoint_variant=update_template_pdf_with_form_post', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the updateTemplateDocumentFromUpload operation.
+     * @callback module:api/Client~updateTemplateDocumentFromUploadCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/SuccessMultipleErrorsResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Update a template's document with a cached S3 file upload
+     * Updates a PDF template's document using a cached file upload. This is a three-step process: First, request a presigned URL to upload your PDF file to our S3 bucket. Then, use that URL to upload your PDF file. Finally, submit the ID of the uploaded file to replace the template's document. 
+     * @param {String} template_id 
+     * @param {module:model/UpdatePdfTemplate} data 
+     * @param {module:api/Client~updateTemplateDocumentFromUploadCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/SuccessMultipleErrorsResponse}
+     */
+    updateTemplateDocumentFromUpload(template_id, data, callback) {
+      let postBody = data;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling updateTemplateDocumentFromUpload");
+      }
+      // verify the required parameter 'data' is set
+      if (data === undefined || data === null) {
+        throw new Error("Missing the required parameter 'data' when calling updateTemplateDocumentFromUpload");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = SuccessMultipleErrorsResponse;
+      return this.apiClient.callApi(
+        '/templates/{template_id}?endpoint_variant=update_template_pdf_with_cached_upload', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

@@ -5,12 +5,12 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | 
-**submissionId** | **String** |  | 
-**submissionDataRequestId** | **String** |  | 
-**eventType** | **String** |  | 
-**messageType** | **String** |  | 
-**messageRecipient** | **String** |  | 
-**occurredAt** | **String** |  | 
+**submission_id** | **String** |  | 
+**submission_data_request_id** | **String** |  | 
+**event_type** | **String** |  | 
+**message_type** | **String** |  | 
+**message_recipient** | **String** |  | 
+**occurred_at** | **String** |  | 
 
 
 

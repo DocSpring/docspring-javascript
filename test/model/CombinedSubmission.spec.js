@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -72,38 +72,38 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property expiresIn (base name: "expires_in")', function() {
-      // uncomment below and update the code to test the property expiresIn
+    it('should have the property expires_in (base name: "expires_in")', function() {
+      // uncomment below and update the code to test the property expires_in
       //var instance = new DocSpring.CombinedSubmission();
       //expect(instance).to.be();
     });
 
-    it('should have the property expiresAt (base name: "expires_at")', function() {
-      // uncomment below and update the code to test the property expiresAt
+    it('should have the property expires_at (base name: "expires_at")', function() {
+      // uncomment below and update the code to test the property expires_at
       //var instance = new DocSpring.CombinedSubmission();
       //expect(instance).to.be();
     });
 
-    it('should have the property processedAt (base name: "processed_at")', function() {
-      // uncomment below and update the code to test the property processedAt
+    it('should have the property processed_at (base name: "processed_at")', function() {
+      // uncomment below and update the code to test the property processed_at
       //var instance = new DocSpring.CombinedSubmission();
       //expect(instance).to.be();
     });
 
-    it('should have the property errorMessage (base name: "error_message")', function() {
-      // uncomment below and update the code to test the property errorMessage
+    it('should have the property error_message (base name: "error_message")', function() {
+      // uncomment below and update the code to test the property error_message
       //var instance = new DocSpring.CombinedSubmission();
       //expect(instance).to.be();
     });
 
-    it('should have the property submissionIds (base name: "submission_ids")', function() {
-      // uncomment below and update the code to test the property submissionIds
+    it('should have the property submission_ids (base name: "submission_ids")', function() {
+      // uncomment below and update the code to test the property submission_ids
       //var instance = new DocSpring.CombinedSubmission();
       //expect(instance).to.be();
     });
 
-    it('should have the property sourcePdfs (base name: "source_pdfs")', function() {
-      // uncomment below and update the code to test the property sourcePdfs
+    it('should have the property source_pdfs (base name: "source_pdfs")', function() {
+      // uncomment below and update the code to test the property source_pdfs
       //var instance = new DocSpring.CombinedSubmission();
       //expect(instance).to.be();
     });
@@ -120,14 +120,14 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property pdfHash (base name: "pdf_hash")', function() {
-      // uncomment below and update the code to test the property pdfHash
+    it('should have the property pdf_hash (base name: "pdf_hash")', function() {
+      // uncomment below and update the code to test the property pdf_hash
       //var instance = new DocSpring.CombinedSubmission();
       //expect(instance).to.be();
     });
 
-    it('should have the property downloadUrl (base name: "download_url")', function() {
-      // uncomment below and update the code to test the property downloadUrl
+    it('should have the property download_url (base name: "download_url")', function() {
+      // uncomment below and update the code to test the property download_url
       //var instance = new DocSpring.CombinedSubmission();
       //expect(instance).to.be();
     });

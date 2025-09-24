@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The Folder model module.
  * @module model/Folder
- * @version 2.1.0
+ * @version 3.0.0
  */
 class Folder {
     /**
@@ -25,11 +25,11 @@ class Folder {
      * @param id {String} 
      * @param name {String} 
      * @param path {String} 
-     * @param parentFolderId {String} 
+     * @param parent_folder_id {String} 
      */
-    constructor(id, name, path, parentFolderId) { 
+    constructor(id, name, path, parent_folder_id) { 
         
-        Folder.initialize(this, id, name, path, parentFolderId);
+        Folder.initialize(this, id, name, path, parent_folder_id);
     }
 
     /**
@@ -37,11 +37,11 @@ class Folder {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, name, path, parentFolderId) { 
+    static initialize(obj, id, name, path, parent_folder_id) { 
         obj['id'] = id;
         obj['name'] = name;
         obj['path'] = path;
-        obj['parent_folder_id'] = parentFolderId;
+        obj['parent_folder_id'] = parent_folder_id;
     }
 
     /**

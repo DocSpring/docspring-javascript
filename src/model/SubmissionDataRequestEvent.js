@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,23 +16,23 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionDataRequestEvent model module.
  * @module model/SubmissionDataRequestEvent
- * @version 2.1.0
+ * @version 3.0.0
  */
 class SubmissionDataRequestEvent {
     /**
      * Constructs a new <code>SubmissionDataRequestEvent</code>.
      * @alias module:model/SubmissionDataRequestEvent
      * @param id {String} 
-     * @param submissionId {String} 
-     * @param submissionDataRequestId {String} 
-     * @param eventType {module:model/SubmissionDataRequestEvent.EventTypeEnum} 
-     * @param messageType {module:model/SubmissionDataRequestEvent.MessageTypeEnum} 
-     * @param messageRecipient {String} 
-     * @param occurredAt {String} 
+     * @param submission_id {String} 
+     * @param submission_data_request_id {String} 
+     * @param event_type {module:model/SubmissionDataRequestEvent.EventTypeEnum} 
+     * @param message_type {module:model/SubmissionDataRequestEvent.MessageTypeEnum} 
+     * @param message_recipient {String} 
+     * @param occurred_at {String} 
      */
-    constructor(id, submissionId, submissionDataRequestId, eventType, messageType, messageRecipient, occurredAt) { 
+    constructor(id, submission_id, submission_data_request_id, event_type, message_type, message_recipient, occurred_at) { 
         
-        SubmissionDataRequestEvent.initialize(this, id, submissionId, submissionDataRequestId, eventType, messageType, messageRecipient, occurredAt);
+        SubmissionDataRequestEvent.initialize(this, id, submission_id, submission_data_request_id, event_type, message_type, message_recipient, occurred_at);
     }
 
     /**
@@ -40,14 +40,14 @@ class SubmissionDataRequestEvent {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, submissionId, submissionDataRequestId, eventType, messageType, messageRecipient, occurredAt) { 
+    static initialize(obj, id, submission_id, submission_data_request_id, event_type, message_type, message_recipient, occurred_at) { 
         obj['id'] = id;
-        obj['submission_id'] = submissionId;
-        obj['submission_data_request_id'] = submissionDataRequestId;
-        obj['event_type'] = eventType;
-        obj['message_type'] = messageType;
-        obj['message_recipient'] = messageRecipient;
-        obj['occurred_at'] = occurredAt;
+        obj['submission_id'] = submission_id;
+        obj['submission_data_request_id'] = submission_data_request_id;
+        obj['event_type'] = event_type;
+        obj['message_type'] = message_type;
+        obj['message_recipient'] = message_recipient;
+        obj['occurred_at'] = occurred_at;
     }
 
     /**

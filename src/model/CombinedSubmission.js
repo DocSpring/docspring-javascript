@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,7 +17,7 @@ import CombinedSubmissionAction from './CombinedSubmissionAction';
 /**
  * The CombinedSubmission model module.
  * @module model/CombinedSubmission
- * @version 2.1.0
+ * @version 3.0.0
  */
 class CombinedSubmission {
     /**
@@ -26,21 +26,21 @@ class CombinedSubmission {
      * @param id {String} 
      * @param state {module:model/CombinedSubmission.StateEnum} 
      * @param expired {Boolean} 
-     * @param expiresIn {Number} 
-     * @param expiresAt {String} 
-     * @param processedAt {String} 
-     * @param errorMessage {String} 
-     * @param submissionIds {Array.<String>} 
-     * @param sourcePdfs {Array.<Object>} 
+     * @param expires_in {Number} 
+     * @param expires_at {String} 
+     * @param processed_at {String} 
+     * @param error_message {String} 
+     * @param submission_ids {Array.<String>} 
+     * @param source_pdfs {Array.<Object>} 
      * @param metadata {Object} 
      * @param password {String} 
-     * @param pdfHash {String} 
-     * @param downloadUrl {String} 
+     * @param pdf_hash {String} 
+     * @param download_url {String} 
      * @param actions {Array.<module:model/CombinedSubmissionAction>} 
      */
-    constructor(id, state, expired, expiresIn, expiresAt, processedAt, errorMessage, submissionIds, sourcePdfs, metadata, password, pdfHash, downloadUrl, actions) { 
+    constructor(id, state, expired, expires_in, expires_at, processed_at, error_message, submission_ids, source_pdfs, metadata, password, pdf_hash, download_url, actions) { 
         
-        CombinedSubmission.initialize(this, id, state, expired, expiresIn, expiresAt, processedAt, errorMessage, submissionIds, sourcePdfs, metadata, password, pdfHash, downloadUrl, actions);
+        CombinedSubmission.initialize(this, id, state, expired, expires_in, expires_at, processed_at, error_message, submission_ids, source_pdfs, metadata, password, pdf_hash, download_url, actions);
     }
 
     /**
@@ -48,20 +48,20 @@ class CombinedSubmission {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, state, expired, expiresIn, expiresAt, processedAt, errorMessage, submissionIds, sourcePdfs, metadata, password, pdfHash, downloadUrl, actions) { 
+    static initialize(obj, id, state, expired, expires_in, expires_at, processed_at, error_message, submission_ids, source_pdfs, metadata, password, pdf_hash, download_url, actions) { 
         obj['id'] = id;
         obj['state'] = state;
         obj['expired'] = expired;
-        obj['expires_in'] = expiresIn;
-        obj['expires_at'] = expiresAt;
-        obj['processed_at'] = processedAt;
-        obj['error_message'] = errorMessage;
-        obj['submission_ids'] = submissionIds;
-        obj['source_pdfs'] = sourcePdfs;
+        obj['expires_in'] = expires_in;
+        obj['expires_at'] = expires_at;
+        obj['processed_at'] = processed_at;
+        obj['error_message'] = error_message;
+        obj['submission_ids'] = submission_ids;
+        obj['source_pdfs'] = source_pdfs;
         obj['metadata'] = metadata;
         obj['password'] = password;
-        obj['pdf_hash'] = pdfHash;
-        obj['download_url'] = downloadUrl;
+        obj['pdf_hash'] = pdf_hash;
+        obj['download_url'] = download_url;
         obj['actions'] = actions;
     }
 

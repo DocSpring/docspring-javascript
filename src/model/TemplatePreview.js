@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,58 +16,58 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplatePreview model module.
  * @module model/TemplatePreview
- * @version 2.1.0
+ * @version 3.0.0
  */
 class TemplatePreview {
     /**
      * Constructs a new <code>TemplatePreview</code>.
      * @alias module:model/TemplatePreview
-     * @param addDataRequestSubmissionIdFooters {Boolean} 
-     * @param allowAdditionalProperties {Boolean} 
+     * @param add_data_request_submission_id_footers {Boolean} 
+     * @param allow_additional_properties {Boolean} 
      * @param description {String} 
-     * @param documentFilename {String} 
-     * @param documentMd5 {String} 
-     * @param documentParseError {Boolean} 
-     * @param documentProcessed {Boolean} 
-     * @param documentState {module:model/TemplatePreview.DocumentStateEnum} 
-     * @param documentUrl {String} 
-     * @param editableSubmissions {Boolean} 
-     * @param embedDomains {String} 
-     * @param encryptPdfsPassword {String} 
-     * @param encryptPdfs {Boolean} 
-     * @param expirationInterval {String} 
-     * @param expireAfter {Number} 
-     * @param expireSubmissions {Boolean} 
-     * @param externalPredefinedFieldsTemplateId {String} 
-     * @param externalPredefinedFieldsTemplateName {String} 
-     * @param firstTemplate {Boolean} 
+     * @param document_filename {String} 
+     * @param document_md5 {String} 
+     * @param document_parse_error {Boolean} 
+     * @param document_processed {Boolean} 
+     * @param document_state {module:model/TemplatePreview.DocumentStateEnum} 
+     * @param document_url {String} 
+     * @param editable_submissions {Boolean} 
+     * @param embed_domains {String} 
+     * @param encrypt_pdfs_password {String} 
+     * @param encrypt_pdfs {Boolean} 
+     * @param expiration_interval {String} 
+     * @param expire_after {Number} 
+     * @param expire_submissions {Boolean} 
+     * @param external_predefined_fields_template_id {String} 
+     * @param external_predefined_fields_template_name {String} 
+     * @param first_template {Boolean} 
      * @param id {String} 
      * @param locked {Boolean} 
-     * @param mergeAuditTrailPdf {Boolean} 
+     * @param merge_audit_trail_pdf {Boolean} 
      * @param name {String} 
-     * @param pageCount {Number} 
-     * @param pageDimensions {Array.<Array.<Number>>} 
-     * @param parentFolderId {String} 
+     * @param page_count {Number} 
+     * @param page_dimensions {Array.<Array.<Number>>} 
+     * @param parent_folder_id {String} 
      * @param path {String} 
-     * @param permanentDocumentUrl {String} 
-     * @param publicSubmissions {Boolean} 
-     * @param publicWebForm {Boolean} 
-     * @param redirectUrl {String} 
-     * @param slackWebhookUrl {String} 
-     * @param templateType {module:model/TemplatePreview.TemplateTypeEnum} 
-     * @param updatedAt {String} 
-     * @param versionPublishedAt {String} 
+     * @param permanent_document_url {String} 
+     * @param public_submissions {Boolean} 
+     * @param public_web_form {Boolean} 
+     * @param redirect_url {String} 
+     * @param slack_webhook_url {String} 
+     * @param template_type {module:model/TemplatePreview.TemplateTypeEnum} 
+     * @param updated_at {String} 
+     * @param version_published_at {String} 
      * @param version {String} 
-     * @param webhookUrl {String} 
+     * @param webhook_url {String} 
      * @param demo {Boolean} 
-     * @param latestVersion {String} 
-     * @param lastChangedAt {String} 
-     * @param lastChangedByType {module:model/TemplatePreview.LastChangedByTypeEnum} 
-     * @param lastChangedById {String} 
+     * @param latest_version {String} 
+     * @param last_changed_at {String} 
+     * @param last_changed_by_type {module:model/TemplatePreview.LastChangedByTypeEnum} 
+     * @param last_changed_by_id {String} 
      */
-    constructor(addDataRequestSubmissionIdFooters, allowAdditionalProperties, description, documentFilename, documentMd5, documentParseError, documentProcessed, documentState, documentUrl, editableSubmissions, embedDomains, encryptPdfsPassword, encryptPdfs, expirationInterval, expireAfter, expireSubmissions, externalPredefinedFieldsTemplateId, externalPredefinedFieldsTemplateName, firstTemplate, id, locked, mergeAuditTrailPdf, name, pageCount, pageDimensions, parentFolderId, path, permanentDocumentUrl, publicSubmissions, publicWebForm, redirectUrl, slackWebhookUrl, templateType, updatedAt, versionPublishedAt, version, webhookUrl, demo, latestVersion, lastChangedAt, lastChangedByType, lastChangedById) { 
+    constructor(add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id) { 
         
-        TemplatePreview.initialize(this, addDataRequestSubmissionIdFooters, allowAdditionalProperties, description, documentFilename, documentMd5, documentParseError, documentProcessed, documentState, documentUrl, editableSubmissions, embedDomains, encryptPdfsPassword, encryptPdfs, expirationInterval, expireAfter, expireSubmissions, externalPredefinedFieldsTemplateId, externalPredefinedFieldsTemplateName, firstTemplate, id, locked, mergeAuditTrailPdf, name, pageCount, pageDimensions, parentFolderId, path, permanentDocumentUrl, publicSubmissions, publicWebForm, redirectUrl, slackWebhookUrl, templateType, updatedAt, versionPublishedAt, version, webhookUrl, demo, latestVersion, lastChangedAt, lastChangedByType, lastChangedById);
+        TemplatePreview.initialize(this, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id);
     }
 
     /**
@@ -75,49 +75,49 @@ class TemplatePreview {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, addDataRequestSubmissionIdFooters, allowAdditionalProperties, description, documentFilename, documentMd5, documentParseError, documentProcessed, documentState, documentUrl, editableSubmissions, embedDomains, encryptPdfsPassword, encryptPdfs, expirationInterval, expireAfter, expireSubmissions, externalPredefinedFieldsTemplateId, externalPredefinedFieldsTemplateName, firstTemplate, id, locked, mergeAuditTrailPdf, name, pageCount, pageDimensions, parentFolderId, path, permanentDocumentUrl, publicSubmissions, publicWebForm, redirectUrl, slackWebhookUrl, templateType, updatedAt, versionPublishedAt, version, webhookUrl, demo, latestVersion, lastChangedAt, lastChangedByType, lastChangedById) { 
-        obj['add_data_request_submission_id_footers'] = addDataRequestSubmissionIdFooters;
-        obj['allow_additional_properties'] = allowAdditionalProperties;
+    static initialize(obj, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id) { 
+        obj['add_data_request_submission_id_footers'] = add_data_request_submission_id_footers;
+        obj['allow_additional_properties'] = allow_additional_properties;
         obj['description'] = description;
-        obj['document_filename'] = documentFilename;
-        obj['document_md5'] = documentMd5;
-        obj['document_parse_error'] = documentParseError;
-        obj['document_processed'] = documentProcessed;
-        obj['document_state'] = documentState;
-        obj['document_url'] = documentUrl;
-        obj['editable_submissions'] = editableSubmissions;
-        obj['embed_domains'] = embedDomains;
-        obj['encrypt_pdfs_password'] = encryptPdfsPassword;
-        obj['encrypt_pdfs'] = encryptPdfs;
-        obj['expiration_interval'] = expirationInterval;
-        obj['expire_after'] = expireAfter;
-        obj['expire_submissions'] = expireSubmissions;
-        obj['external_predefined_fields_template_id'] = externalPredefinedFieldsTemplateId;
-        obj['external_predefined_fields_template_name'] = externalPredefinedFieldsTemplateName;
-        obj['first_template'] = firstTemplate;
+        obj['document_filename'] = document_filename;
+        obj['document_md5'] = document_md5;
+        obj['document_parse_error'] = document_parse_error;
+        obj['document_processed'] = document_processed;
+        obj['document_state'] = document_state;
+        obj['document_url'] = document_url;
+        obj['editable_submissions'] = editable_submissions;
+        obj['embed_domains'] = embed_domains;
+        obj['encrypt_pdfs_password'] = encrypt_pdfs_password;
+        obj['encrypt_pdfs'] = encrypt_pdfs;
+        obj['expiration_interval'] = expiration_interval;
+        obj['expire_after'] = expire_after;
+        obj['expire_submissions'] = expire_submissions;
+        obj['external_predefined_fields_template_id'] = external_predefined_fields_template_id;
+        obj['external_predefined_fields_template_name'] = external_predefined_fields_template_name;
+        obj['first_template'] = first_template;
         obj['id'] = id;
         obj['locked'] = locked;
-        obj['merge_audit_trail_pdf'] = mergeAuditTrailPdf;
+        obj['merge_audit_trail_pdf'] = merge_audit_trail_pdf;
         obj['name'] = name;
-        obj['page_count'] = pageCount;
-        obj['page_dimensions'] = pageDimensions;
-        obj['parent_folder_id'] = parentFolderId;
+        obj['page_count'] = page_count;
+        obj['page_dimensions'] = page_dimensions;
+        obj['parent_folder_id'] = parent_folder_id;
         obj['path'] = path;
-        obj['permanent_document_url'] = permanentDocumentUrl;
-        obj['public_submissions'] = publicSubmissions;
-        obj['public_web_form'] = publicWebForm;
-        obj['redirect_url'] = redirectUrl;
-        obj['slack_webhook_url'] = slackWebhookUrl;
-        obj['template_type'] = templateType;
-        obj['updated_at'] = updatedAt;
-        obj['version_published_at'] = versionPublishedAt;
+        obj['permanent_document_url'] = permanent_document_url;
+        obj['public_submissions'] = public_submissions;
+        obj['public_web_form'] = public_web_form;
+        obj['redirect_url'] = redirect_url;
+        obj['slack_webhook_url'] = slack_webhook_url;
+        obj['template_type'] = template_type;
+        obj['updated_at'] = updated_at;
+        obj['version_published_at'] = version_published_at;
         obj['version'] = version;
-        obj['webhook_url'] = webhookUrl;
+        obj['webhook_url'] = webhook_url;
         obj['demo'] = demo;
-        obj['latest_version'] = latestVersion;
-        obj['last_changed_at'] = lastChangedAt;
-        obj['last_changed_by_type'] = lastChangedByType;
-        obj['last_changed_by_id'] = lastChangedById;
+        obj['latest_version'] = latest_version;
+        obj['last_changed_at'] = last_changed_at;
+        obj['last_changed_by_type'] = last_changed_by_type;
+        obj['last_changed_by_id'] = last_changed_by_id;
     }
 
     /**

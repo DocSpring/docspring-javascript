@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **String** |  | 
-**dataRequest** | [**SubmissionDataRequestShow**](SubmissionDataRequestShow.md) |  | 
+**data_request** | [**SubmissionDataRequestShow**](SubmissionDataRequestShow.md) |  | 
 **errors** | **[String]** |  | [optional] 
 
 

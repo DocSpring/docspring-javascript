@@ -4,6 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**parentFolderId** | **String** |  | [optional] 
+**parent_folder_id** | **String** |  | [optional] 
 
 

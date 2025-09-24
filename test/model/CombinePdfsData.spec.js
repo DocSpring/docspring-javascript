@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -54,14 +54,14 @@
       //expect(instance).to.be.a(DocSpring.CombinePdfsData);
     });
 
-    it('should have the property deleteCustomFiles (base name: "delete_custom_files")', function() {
-      // uncomment below and update the code to test the property deleteCustomFiles
+    it('should have the property delete_custom_files (base name: "delete_custom_files")', function() {
+      // uncomment below and update the code to test the property delete_custom_files
       //var instance = new DocSpring.CombinePdfsData();
       //expect(instance).to.be();
     });
 
-    it('should have the property expiresIn (base name: "expires_in")', function() {
-      // uncomment below and update the code to test the property expiresIn
+    it('should have the property expires_in (base name: "expires_in")', function() {
+      // uncomment below and update the code to test the property expires_in
       //var instance = new DocSpring.CombinePdfsData();
       //expect(instance).to.be();
     });
@@ -78,8 +78,8 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property sourcePdfs (base name: "source_pdfs")', function() {
-      // uncomment below and update the code to test the property sourcePdfs
+    it('should have the property source_pdfs (base name: "source_pdfs")', function() {
+      // uncomment below and update the code to test the property source_pdfs
       //var instance = new DocSpring.CombinePdfsData();
       //expect(instance).to.be();
     });

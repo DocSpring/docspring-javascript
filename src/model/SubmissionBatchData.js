@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionBatchData model module.
  * @module model/SubmissionBatchData
- * @version 2.1.0
+ * @version 3.0.0
  */
 class SubmissionBatchData {
     /**
@@ -55,6 +55,12 @@ class SubmissionBatchData {
             if (data.hasOwnProperty('submissions')) {
                 obj['submissions'] = ApiClient.convertToType(data['submissions'], [Object]);
             }
+            if (data.hasOwnProperty('template_id')) {
+                obj['template_id'] = ApiClient.convertToType(data['template_id'], 'String');
+            }
+            if (data.hasOwnProperty('template_version')) {
+                obj['template_version'] = ApiClient.convertToType(data['template_version'], 'String');
+            }
             if (data.hasOwnProperty('test')) {
                 obj['test'] = ApiClient.convertToType(data['test'], 'Boolean');
             }
@@ -78,6 +84,14 @@ class SubmissionBatchData {
         if (!Array.isArray(data['submissions'])) {
             throw new Error("Expected the field `submissions` to be an array in the JSON data but got " + data['submissions']);
         }
+        // ensure the json data is a string
+        if (data['template_id'] && !(typeof data['template_id'] === 'string' || data['template_id'] instanceof String)) {
+            throw new Error("Expected the field `template_id` to be a primitive type in the JSON string but got " + data['template_id']);
+        }
+        // ensure the json data is a string
+        if (data['template_version'] && !(typeof data['template_version'] === 'string' || data['template_version'] instanceof String)) {
+            throw new Error("Expected the field `template_version` to be a primitive type in the JSON string but got " + data['template_version']);
+        }
 
         return true;
     }
@@ -96,6 +110,16 @@ SubmissionBatchData.prototype['metadata'] = undefined;
  * @member {Array.<Object>} submissions
  */
 SubmissionBatchData.prototype['submissions'] = undefined;
+
+/**
+ * @member {String} template_id
+ */
+SubmissionBatchData.prototype['template_id'] = undefined;
+
+/**
+ * @member {String} template_version
+ */
+SubmissionBatchData.prototype['template_version'] = undefined;
 
 /**
  * @member {Boolean} test

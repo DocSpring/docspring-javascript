@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * DocSpring provides an API that helps you fill out and sign PDF templates.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v1
  * 
@@ -60,8 +60,8 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property integrationId (base name: "integration_id")', function() {
-      // uncomment below and update the code to test the property integrationId
+    it('should have the property integration_id (base name: "integration_id")', function() {
+      // uncomment below and update the code to test the property integration_id
       //var instance = new DocSpring.CombinedSubmissionAction();
       //expect(instance).to.be();
     });
@@ -72,20 +72,20 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property actionType (base name: "action_type")', function() {
-      // uncomment below and update the code to test the property actionType
+    it('should have the property action_type (base name: "action_type")', function() {
+      // uncomment below and update the code to test the property action_type
       //var instance = new DocSpring.CombinedSubmissionAction();
       //expect(instance).to.be();
     });
 
-    it('should have the property actionCategory (base name: "action_category")', function() {
-      // uncomment below and update the code to test the property actionCategory
+    it('should have the property action_category (base name: "action_category")', function() {
+      // uncomment below and update the code to test the property action_category
       //var instance = new DocSpring.CombinedSubmissionAction();
       //expect(instance).to.be();
     });
 
-    it('should have the property resultData (base name: "result_data")', function() {
-      // uncomment below and update the code to test the property resultData
+    it('should have the property result_data (base name: "result_data")', function() {
+      // uncomment below and update the code to test the property result_data
       //var instance = new DocSpring.CombinedSubmissionAction();
       //expect(instance).to.be();
     });
