@@ -15,6 +15,9 @@ Name | Type | Description | Notes
 **document_url** | **String** |  | 
 **editable_submissions** | **Boolean** |  | 
 **embed_domains** | **String** |  | 
+**embed_edit_allow_settings** | **Boolean** |  | 
+**embed_edit_allow_versioning** | **Boolean** |  | 
+**embed_edit_allow_document_replacement** | **Boolean** |  | 
 **encrypt_pdfs_password** | **String** |  | 
 **encrypt_pdfs** | **Boolean** |  | 
 **expiration_interval** | **String** |  | 
@@ -41,11 +44,15 @@ Name | Type | Description | Notes
 **version_published_at** | **String** |  | 
 **version** | **String** |  | 
 **webhook_url** | **String** |  | 
+**embed_edit_token** | **String** |  | [optional] 
 **demo** | **Boolean** |  | 
 **latest_version** | **String** |  | 
 **last_changed_at** | **String** |  | 
 **last_changed_by_type** | **String** |  | 
 **last_changed_by_id** | **String** |  | 
+**last_changed_by_external_name** | **String** |  | 
+**last_changed_by_external_email** | **String** |  | 
+**last_changed_by_external_id** | **String** |  | 
 
 
 
@@ -83,6 +90,8 @@ Name | Type | Description | Notes
 * `user` (value: `"user"`)
 
 * `api` (value: `"api"`)
+
+* `external_user` (value: `"external_user"`)
 
 
 

@@ -158,6 +158,16 @@
         done();
       });
     });
+    describe('createWebhook', function() {
+      it('should call createWebhook successfully', function(done) {
+        //uncomment below and update the code to test createWebhook
+        //instance.createWebhook(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('deleteFolder', function() {
       it('should call deleteFolder successfully', function(done) {
         //uncomment below and update the code to test deleteFolder
@@ -172,6 +182,16 @@
       it('should call deleteTemplate successfully', function(done) {
         //uncomment below and update the code to test deleteTemplate
         //instance.deleteTemplate(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('deleteWebhook', function() {
+      it('should call deleteWebhook successfully', function(done) {
+        //uncomment below and update the code to test deleteWebhook
+        //instance.deleteWebhook(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -288,10 +308,30 @@
         done();
       });
     });
+    describe('getTemplateModelCode', function() {
+      it('should call getTemplateModelCode successfully', function(done) {
+        //uncomment below and update the code to test getTemplateModelCode
+        //instance.getTemplateModelCode(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('getTemplateSchema', function() {
       it('should call getTemplateSchema successfully', function(done) {
         //uncomment below and update the code to test getTemplateSchema
         //instance.getTemplateSchema(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('getWebhook', function() {
+      it('should call getWebhook successfully', function(done) {
+        //uncomment below and update the code to test getWebhook
+        //instance.getWebhook(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -342,6 +382,16 @@
       it('should call listTemplates successfully', function(done) {
         //uncomment below and update the code to test listTemplates
         //instance.listTemplates(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('listWebhooks', function() {
+      it('should call listWebhooks successfully', function(done) {
+        //uncomment below and update the code to test listWebhooks
+        //instance.listWebhooks(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -442,6 +492,16 @@
       it('should call updateTemplateDocumentFromUpload successfully', function(done) {
         //uncomment below and update the code to test updateTemplateDocumentFromUpload
         //instance.updateTemplateDocumentFromUpload(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('updateWebhook', function() {
+      it('should call updateWebhook successfully', function(done) {
+        //uncomment below and update the code to test updateWebhook
+        //instance.updateWebhook(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

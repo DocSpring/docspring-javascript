@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionBatch model module.
  * @module model/SubmissionBatch
- * @version 3.0.0
+ * @version 3.1.0
  */
 class SubmissionBatch {
     /**

@@ -66,6 +66,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property id (base name: "$id")', function() {
+      // uncomment below and update the code to test the property id
+      //var instance = new DocSpring.JsonSchema();
+      //expect(instance).to.be();
+    });
+
     it('should have the property title (base name: "title")', function() {
       // uncomment below and update the code to test the property title
       //var instance = new DocSpring.JsonSchema();
@@ -104,6 +110,18 @@
 
     it('should have the property required (base name: "required")', function() {
       // uncomment below and update the code to test the property required
+      //var instance = new DocSpring.JsonSchema();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property dependencies (base name: "dependencies")', function() {
+      // uncomment below and update the code to test the property dependencies
+      //var instance = new DocSpring.JsonSchema();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property allOf (base name: "allOf")', function() {
+      // uncomment below and update the code to test the property allOf
       //var instance = new DocSpring.JsonSchema();
       //expect(instance).to.be();
     });

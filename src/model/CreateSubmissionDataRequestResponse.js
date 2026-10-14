@@ -17,7 +17,7 @@ import SubmissionDataRequestShow from './SubmissionDataRequestShow';
 /**
  * The CreateSubmissionDataRequestResponse model module.
  * @module model/CreateSubmissionDataRequestResponse
- * @version 3.0.0
+ * @version 3.1.0
  */
 class CreateSubmissionDataRequestResponse {
     /**

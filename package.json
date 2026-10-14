@@ -1,8 +1,8 @@
 {
   "name": "docspring",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "An API client for the DocSpring PDF generation service",
-  "license": "Unlicense",
+  "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src -d dist",

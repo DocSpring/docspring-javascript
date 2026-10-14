@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **batch_id** | **String** |  | 
 **data_requests** | [**[SubmissionDataRequest]**](SubmissionDataRequest.md) |  | 
 **editable** | **Boolean** |  | 
+**error_message** | **String** |  | 
 **expired** | **Boolean** |  | 
 **expires_at** | **String** |  | 
 **id** | **String** |  | 
@@ -54,6 +55,8 @@ Name | Type | Description | Notes
 * `license_revoked` (value: `"license_revoked"`)
 
 * `accidental` (value: `"accidental"`)
+
+* `declined` (value: `"declined"`)
 
 
 

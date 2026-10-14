@@ -32,6 +32,7 @@ import CreateSubmissionDataRequestEventResponse from './model/CreateSubmissionDa
 import CreateSubmissionDataRequestResponse from './model/CreateSubmissionDataRequestResponse';
 import CreateSubmissionDataRequestTokenResponse from './model/CreateSubmissionDataRequestTokenResponse';
 import CreateSubmissionResponse from './model/CreateSubmissionResponse';
+import CreateWebhookData from './model/CreateWebhookData';
 import CustomFile from './model/CustomFile';
 import ErrorOrMultipleErrorsResponse from './model/ErrorOrMultipleErrorsResponse';
 import ErrorResponse from './model/ErrorResponse';
@@ -60,12 +61,15 @@ import SuccessMultipleErrorsResponse from './model/SuccessMultipleErrorsResponse
 import Template from './model/Template';
 import TemplateAddFieldsResponse from './model/TemplateAddFieldsResponse';
 import TemplateDeleteResponse from './model/TemplateDeleteResponse';
+import TemplateModelCodeResponse from './model/TemplateModelCodeResponse';
 import TemplatePreview from './model/TemplatePreview';
 import TemplatePublishVersionResponse from './model/TemplatePublishVersionResponse';
 import UpdateHtmlTemplate from './model/UpdateHtmlTemplate';
 import UpdatePdfTemplate from './model/UpdatePdfTemplate';
 import UpdateSubmissionDataRequestData from './model/UpdateSubmissionDataRequestData';
+import UpdateWebhookData from './model/UpdateWebhookData';
 import UploadPresignResponse from './model/UploadPresignResponse';
+import Webhook from './model/Webhook';
 import Client from './api/Client';
 
 
@@ -98,7 +102,7 @@ import Client from './api/Client';
 * </pre>
 * </p>
 * @module index
-* @version 3.0.0
+* @version 3.1.0
 */
 export {
     /**
@@ -220,6 +224,12 @@ export {
      * @property {module:model/CreateSubmissionResponse}
      */
     CreateSubmissionResponse,
+
+    /**
+     * The CreateWebhookData model constructor.
+     * @property {module:model/CreateWebhookData}
+     */
+    CreateWebhookData,
 
     /**
      * The CustomFile model constructor.
@@ -390,6 +400,12 @@ export {
     TemplateDeleteResponse,
 
     /**
+     * The TemplateModelCodeResponse model constructor.
+     * @property {module:model/TemplateModelCodeResponse}
+     */
+    TemplateModelCodeResponse,
+
+    /**
      * The TemplatePreview model constructor.
      * @property {module:model/TemplatePreview}
      */
@@ -420,10 +436,22 @@ export {
     UpdateSubmissionDataRequestData,
 
     /**
+     * The UpdateWebhookData model constructor.
+     * @property {module:model/UpdateWebhookData}
+     */
+    UpdateWebhookData,
+
+    /**
      * The UploadPresignResponse model constructor.
      * @property {module:model/UploadPresignResponse}
      */
     UploadPresignResponse,
+
+    /**
+     * The Webhook model constructor.
+     * @property {module:model/Webhook}
+     */
+    Webhook,
 
     /**
     * The Client service constructor.

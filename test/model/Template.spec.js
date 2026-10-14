@@ -120,6 +120,24 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property embed_edit_allow_settings (base name: "embed_edit_allow_settings")', function() {
+      // uncomment below and update the code to test the property embed_edit_allow_settings
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property embed_edit_allow_versioning (base name: "embed_edit_allow_versioning")', function() {
+      // uncomment below and update the code to test the property embed_edit_allow_versioning
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property embed_edit_allow_document_replacement (base name: "embed_edit_allow_document_replacement")', function() {
+      // uncomment below and update the code to test the property embed_edit_allow_document_replacement
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
     it('should have the property encrypt_pdfs_password (base name: "encrypt_pdfs_password")', function() {
       // uncomment below and update the code to test the property encrypt_pdfs_password
       //var instance = new DocSpring.Template();
@@ -276,6 +294,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property embed_edit_token (base name: "embed_edit_token")', function() {
+      // uncomment below and update the code to test the property embed_edit_token
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
     it('should have the property demo (base name: "demo")', function() {
       // uncomment below and update the code to test the property demo
       //var instance = new DocSpring.Template();
@@ -306,8 +330,32 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property last_changed_by_external_name (base name: "last_changed_by_external_name")', function() {
+      // uncomment below and update the code to test the property last_changed_by_external_name
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property last_changed_by_external_email (base name: "last_changed_by_external_email")', function() {
+      // uncomment below and update the code to test the property last_changed_by_external_email
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property last_changed_by_external_id (base name: "last_changed_by_external_id")', function() {
+      // uncomment below and update the code to test the property last_changed_by_external_id
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
     it('should have the property defaults (base name: "defaults")', function() {
       // uncomment below and update the code to test the property defaults
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property field_dependencies (base name: "field_dependencies")', function() {
+      // uncomment below and update the code to test the property field_dependencies
       //var instance = new DocSpring.Template();
       //expect(instance).to.be();
     });
@@ -362,6 +410,12 @@
 
     it('should have the property shared_field_data (base name: "shared_field_data")', function() {
       // uncomment below and update the code to test the property shared_field_data
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property template_schema_version (base name: "template_schema_version")', function() {
+      // uncomment below and update the code to test the property template_schema_version
       //var instance = new DocSpring.Template();
       //expect(instance).to.be();
     });

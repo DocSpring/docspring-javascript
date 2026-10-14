@@ -17,7 +17,7 @@ import SubmissionPreview from './SubmissionPreview';
 /**
  * The Submission422Response model module.
  * @module model/Submission422Response
- * @version 3.0.0
+ * @version 3.1.0
  */
 class Submission422Response {
     /**

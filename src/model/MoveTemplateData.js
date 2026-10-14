@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The MoveTemplateData model module.
  * @module model/MoveTemplateData
- * @version 3.0.0
+ * @version 3.1.0
  */
 class MoveTemplateData {
     /**
@@ -52,6 +52,9 @@ class MoveTemplateData {
             if (data.hasOwnProperty('parent_folder_id')) {
                 obj['parent_folder_id'] = ApiClient.convertToType(data['parent_folder_id'], 'String');
             }
+            if (data.hasOwnProperty('version')) {
+                obj['version'] = ApiClient.convertToType(data['version'], 'String');
+            }
         }
         return obj;
     }
@@ -72,6 +75,10 @@ class MoveTemplateData {
         if (data['parent_folder_id'] && !(typeof data['parent_folder_id'] === 'string' || data['parent_folder_id'] instanceof String)) {
             throw new Error("Expected the field `parent_folder_id` to be a primitive type in the JSON string but got " + data['parent_folder_id']);
         }
+        // ensure the json data is a string
+        if (data['version'] && !(typeof data['version'] === 'string' || data['version'] instanceof String)) {
+            throw new Error("Expected the field `version` to be a primitive type in the JSON string but got " + data['version']);
+        }
 
         return true;
     }
@@ -85,6 +92,11 @@ MoveTemplateData.RequiredProperties = ["parent_folder_id"];
  * @member {String} parent_folder_id
  */
 MoveTemplateData.prototype['parent_folder_id'] = undefined;
+
+/**
+ * @member {String} version
+ */
+MoveTemplateData.prototype['version'] = undefined;
 
 
 

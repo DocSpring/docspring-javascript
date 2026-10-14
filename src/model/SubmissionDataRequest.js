@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionDataRequest model module.
  * @module model/SubmissionDataRequest
- * @version 3.0.0
+ * @version 3.1.0
  */
 class SubmissionDataRequest {
     /**
@@ -32,6 +32,7 @@ class SubmissionDataRequest {
      * @param state {module:model/SubmissionDataRequest.StateEnum} 
      * @param viewed_at {String} 
      * @param completed_at {String} 
+     * @param declined_at {String} 
      * @param data {Object} 
      * @param auth_type {module:model/SubmissionDataRequest.AuthTypeEnum} 
      * @param auth_second_factor_type {module:model/SubmissionDataRequest.AuthSecondFactorTypeEnum} 
@@ -44,9 +45,9 @@ class SubmissionDataRequest {
      * @param ip_address {String} 
      * @param user_agent {String} 
      */
-    constructor(id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent) { 
+    constructor(id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, declined_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent) { 
         
-        SubmissionDataRequest.initialize(this, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent);
+        SubmissionDataRequest.initialize(this, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, declined_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent);
     }
 
     /**
@@ -54,7 +55,7 @@ class SubmissionDataRequest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent) { 
+    static initialize(obj, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, declined_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent) { 
         obj['id'] = id;
         obj['email'] = email;
         obj['name'] = name;
@@ -65,6 +66,7 @@ class SubmissionDataRequest {
         obj['state'] = state;
         obj['viewed_at'] = viewed_at;
         obj['completed_at'] = completed_at;
+        obj['declined_at'] = declined_at;
         obj['data'] = data;
         obj['auth_type'] = auth_type;
         obj['auth_second_factor_type'] = auth_second_factor_type;
@@ -118,6 +120,9 @@ class SubmissionDataRequest {
             }
             if (data.hasOwnProperty('completed_at')) {
                 obj['completed_at'] = ApiClient.convertToType(data['completed_at'], 'String');
+            }
+            if (data.hasOwnProperty('declined_at')) {
+                obj['declined_at'] = ApiClient.convertToType(data['declined_at'], 'String');
             }
             if (data.hasOwnProperty('data')) {
                 obj['data'] = ApiClient.convertToType(data['data'], Object);
@@ -197,6 +202,10 @@ class SubmissionDataRequest {
             throw new Error("Expected the field `completed_at` to be a primitive type in the JSON string but got " + data['completed_at']);
         }
         // ensure the json data is a string
+        if (data['declined_at'] && !(typeof data['declined_at'] === 'string' || data['declined_at'] instanceof String)) {
+            throw new Error("Expected the field `declined_at` to be a primitive type in the JSON string but got " + data['declined_at']);
+        }
+        // ensure the json data is a string
         if (data['auth_type'] && !(typeof data['auth_type'] === 'string' || data['auth_type'] instanceof String)) {
             throw new Error("Expected the field `auth_type` to be a primitive type in the JSON string but got " + data['auth_type']);
         }
@@ -243,7 +252,7 @@ class SubmissionDataRequest {
 
 }
 
-SubmissionDataRequest.RequiredProperties = ["id", "email", "name", "order", "sort_order", "fields", "metadata", "state", "viewed_at", "completed_at", "data", "auth_type", "auth_second_factor_type", "auth_provider", "auth_session_started_at", "auth_session_id_hash", "auth_user_id_hash", "auth_username_hash", "auth_phone_number_hash", "ip_address", "user_agent"];
+SubmissionDataRequest.RequiredProperties = ["id", "email", "name", "order", "sort_order", "fields", "metadata", "state", "viewed_at", "completed_at", "declined_at", "data", "auth_type", "auth_second_factor_type", "auth_provider", "auth_session_started_at", "auth_session_id_hash", "auth_user_id_hash", "auth_username_hash", "auth_phone_number_hash", "ip_address", "user_agent"];
 
 /**
  * @member {String} id
@@ -294,6 +303,11 @@ SubmissionDataRequest.prototype['viewed_at'] = undefined;
  * @member {String} completed_at
  */
 SubmissionDataRequest.prototype['completed_at'] = undefined;
+
+/**
+ * @member {String} declined_at
+ */
+SubmissionDataRequest.prototype['declined_at'] = undefined;
 
 /**
  * @member {Object} data
@@ -371,7 +385,13 @@ SubmissionDataRequest['StateEnum'] = {
      * value: "completed"
      * @const
      */
-    "completed": "completed"
+    "completed": "completed",
+
+    /**
+     * value: "declined"
+     * @const
+     */
+    "declined": "declined"
 };
 
 

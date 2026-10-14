@@ -17,7 +17,7 @@ import SubmissionPreview from './SubmissionPreview';
 /**
  * The CreateSubmissionResponse model module.
  * @module model/CreateSubmissionResponse
- * @version 3.0.0
+ * @version 3.1.0
  */
 class CreateSubmissionResponse {
     /**

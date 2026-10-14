@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The Template model module.
  * @module model/Template
- * @version 3.0.0
+ * @version 3.1.0
  */
 class Template {
     /**
@@ -33,6 +33,9 @@ class Template {
      * @param document_url {String} 
      * @param editable_submissions {Boolean} 
      * @param embed_domains {String} 
+     * @param embed_edit_allow_settings {Boolean} 
+     * @param embed_edit_allow_versioning {Boolean} 
+     * @param embed_edit_allow_document_replacement {Boolean} 
      * @param encrypt_pdfs_password {String} 
      * @param encrypt_pdfs {Boolean} 
      * @param expiration_interval {String} 
@@ -64,7 +67,11 @@ class Template {
      * @param last_changed_at {String} 
      * @param last_changed_by_type {module:model/Template.LastChangedByTypeEnum} 
      * @param last_changed_by_id {String} 
+     * @param last_changed_by_external_name {String} 
+     * @param last_changed_by_external_email {String} 
+     * @param last_changed_by_external_id {String} 
      * @param defaults {Object} 
+     * @param field_dependencies {Array.<Object>} 
      * @param field_order {Array.<Array.<Number>>} 
      * @param fields {Object} 
      * @param footer_html {String} 
@@ -74,11 +81,12 @@ class Template {
      * @param predefined_fields {Array.<Object>} 
      * @param scss {String} 
      * @param shared_field_data {Object} 
+     * @param template_schema_version {Number} 
      * @param versions {Array.<Object>} 
      */
-    constructor(add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, defaults, field_order, fields, footer_html, header_html, html_engine_options, html, predefined_fields, scss, shared_field_data, versions) { 
+    constructor(add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, last_changed_by_external_name, last_changed_by_external_email, last_changed_by_external_id, defaults, field_dependencies, field_order, fields, footer_html, header_html, html_engine_options, html, predefined_fields, scss, shared_field_data, template_schema_version, versions) { 
         
-        Template.initialize(this, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, defaults, field_order, fields, footer_html, header_html, html_engine_options, html, predefined_fields, scss, shared_field_data, versions);
+        Template.initialize(this, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, last_changed_by_external_name, last_changed_by_external_email, last_changed_by_external_id, defaults, field_dependencies, field_order, fields, footer_html, header_html, html_engine_options, html, predefined_fields, scss, shared_field_data, template_schema_version, versions);
     }
 
     /**
@@ -86,7 +94,7 @@ class Template {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, defaults, field_order, fields, footer_html, header_html, html_engine_options, html, predefined_fields, scss, shared_field_data, versions) { 
+    static initialize(obj, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, last_changed_by_external_name, last_changed_by_external_email, last_changed_by_external_id, defaults, field_dependencies, field_order, fields, footer_html, header_html, html_engine_options, html, predefined_fields, scss, shared_field_data, template_schema_version, versions) { 
         obj['add_data_request_submission_id_footers'] = add_data_request_submission_id_footers;
         obj['allow_additional_properties'] = allow_additional_properties;
         obj['description'] = description;
@@ -98,6 +106,9 @@ class Template {
         obj['document_url'] = document_url;
         obj['editable_submissions'] = editable_submissions;
         obj['embed_domains'] = embed_domains;
+        obj['embed_edit_allow_settings'] = embed_edit_allow_settings;
+        obj['embed_edit_allow_versioning'] = embed_edit_allow_versioning;
+        obj['embed_edit_allow_document_replacement'] = embed_edit_allow_document_replacement;
         obj['encrypt_pdfs_password'] = encrypt_pdfs_password;
         obj['encrypt_pdfs'] = encrypt_pdfs;
         obj['expiration_interval'] = expiration_interval;
@@ -129,7 +140,11 @@ class Template {
         obj['last_changed_at'] = last_changed_at;
         obj['last_changed_by_type'] = last_changed_by_type;
         obj['last_changed_by_id'] = last_changed_by_id;
+        obj['last_changed_by_external_name'] = last_changed_by_external_name;
+        obj['last_changed_by_external_email'] = last_changed_by_external_email;
+        obj['last_changed_by_external_id'] = last_changed_by_external_id;
         obj['defaults'] = defaults;
+        obj['field_dependencies'] = field_dependencies;
         obj['field_order'] = field_order;
         obj['fields'] = fields;
         obj['footer_html'] = footer_html;
@@ -139,6 +154,7 @@ class Template {
         obj['predefined_fields'] = predefined_fields;
         obj['scss'] = scss;
         obj['shared_field_data'] = shared_field_data;
+        obj['template_schema_version'] = template_schema_version;
         obj['versions'] = versions;
     }
 
@@ -185,6 +201,15 @@ class Template {
             }
             if (data.hasOwnProperty('embed_domains')) {
                 obj['embed_domains'] = ApiClient.convertToType(data['embed_domains'], 'String');
+            }
+            if (data.hasOwnProperty('embed_edit_allow_settings')) {
+                obj['embed_edit_allow_settings'] = ApiClient.convertToType(data['embed_edit_allow_settings'], 'Boolean');
+            }
+            if (data.hasOwnProperty('embed_edit_allow_versioning')) {
+                obj['embed_edit_allow_versioning'] = ApiClient.convertToType(data['embed_edit_allow_versioning'], 'Boolean');
+            }
+            if (data.hasOwnProperty('embed_edit_allow_document_replacement')) {
+                obj['embed_edit_allow_document_replacement'] = ApiClient.convertToType(data['embed_edit_allow_document_replacement'], 'Boolean');
             }
             if (data.hasOwnProperty('encrypt_pdfs_password')) {
                 obj['encrypt_pdfs_password'] = ApiClient.convertToType(data['encrypt_pdfs_password'], 'String');
@@ -264,6 +289,9 @@ class Template {
             if (data.hasOwnProperty('webhook_url')) {
                 obj['webhook_url'] = ApiClient.convertToType(data['webhook_url'], 'String');
             }
+            if (data.hasOwnProperty('embed_edit_token')) {
+                obj['embed_edit_token'] = ApiClient.convertToType(data['embed_edit_token'], 'String');
+            }
             if (data.hasOwnProperty('demo')) {
                 obj['demo'] = ApiClient.convertToType(data['demo'], 'Boolean');
             }
@@ -279,8 +307,20 @@ class Template {
             if (data.hasOwnProperty('last_changed_by_id')) {
                 obj['last_changed_by_id'] = ApiClient.convertToType(data['last_changed_by_id'], 'String');
             }
+            if (data.hasOwnProperty('last_changed_by_external_name')) {
+                obj['last_changed_by_external_name'] = ApiClient.convertToType(data['last_changed_by_external_name'], 'String');
+            }
+            if (data.hasOwnProperty('last_changed_by_external_email')) {
+                obj['last_changed_by_external_email'] = ApiClient.convertToType(data['last_changed_by_external_email'], 'String');
+            }
+            if (data.hasOwnProperty('last_changed_by_external_id')) {
+                obj['last_changed_by_external_id'] = ApiClient.convertToType(data['last_changed_by_external_id'], 'String');
+            }
             if (data.hasOwnProperty('defaults')) {
                 obj['defaults'] = ApiClient.convertToType(data['defaults'], Object);
+            }
+            if (data.hasOwnProperty('field_dependencies')) {
+                obj['field_dependencies'] = ApiClient.convertToType(data['field_dependencies'], [Object]);
             }
             if (data.hasOwnProperty('field_order')) {
                 obj['field_order'] = ApiClient.convertToType(data['field_order'], [['Number']]);
@@ -308,6 +348,9 @@ class Template {
             }
             if (data.hasOwnProperty('shared_field_data')) {
                 obj['shared_field_data'] = ApiClient.convertToType(data['shared_field_data'], Object);
+            }
+            if (data.hasOwnProperty('template_schema_version')) {
+                obj['template_schema_version'] = ApiClient.convertToType(data['template_schema_version'], 'Number');
             }
             if (data.hasOwnProperty('versions')) {
                 obj['versions'] = ApiClient.convertToType(data['versions'], [Object]);
@@ -421,6 +464,10 @@ class Template {
             throw new Error("Expected the field `webhook_url` to be a primitive type in the JSON string but got " + data['webhook_url']);
         }
         // ensure the json data is a string
+        if (data['embed_edit_token'] && !(typeof data['embed_edit_token'] === 'string' || data['embed_edit_token'] instanceof String)) {
+            throw new Error("Expected the field `embed_edit_token` to be a primitive type in the JSON string but got " + data['embed_edit_token']);
+        }
+        // ensure the json data is a string
         if (data['latest_version'] && !(typeof data['latest_version'] === 'string' || data['latest_version'] instanceof String)) {
             throw new Error("Expected the field `latest_version` to be a primitive type in the JSON string but got " + data['latest_version']);
         }
@@ -435,6 +482,22 @@ class Template {
         // ensure the json data is a string
         if (data['last_changed_by_id'] && !(typeof data['last_changed_by_id'] === 'string' || data['last_changed_by_id'] instanceof String)) {
             throw new Error("Expected the field `last_changed_by_id` to be a primitive type in the JSON string but got " + data['last_changed_by_id']);
+        }
+        // ensure the json data is a string
+        if (data['last_changed_by_external_name'] && !(typeof data['last_changed_by_external_name'] === 'string' || data['last_changed_by_external_name'] instanceof String)) {
+            throw new Error("Expected the field `last_changed_by_external_name` to be a primitive type in the JSON string but got " + data['last_changed_by_external_name']);
+        }
+        // ensure the json data is a string
+        if (data['last_changed_by_external_email'] && !(typeof data['last_changed_by_external_email'] === 'string' || data['last_changed_by_external_email'] instanceof String)) {
+            throw new Error("Expected the field `last_changed_by_external_email` to be a primitive type in the JSON string but got " + data['last_changed_by_external_email']);
+        }
+        // ensure the json data is a string
+        if (data['last_changed_by_external_id'] && !(typeof data['last_changed_by_external_id'] === 'string' || data['last_changed_by_external_id'] instanceof String)) {
+            throw new Error("Expected the field `last_changed_by_external_id` to be a primitive type in the JSON string but got " + data['last_changed_by_external_id']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['field_dependencies'])) {
+            throw new Error("Expected the field `field_dependencies` to be an array in the JSON data but got " + data['field_dependencies']);
         }
         // ensure the json data is an array
         if (!Array.isArray(data['field_order'])) {
@@ -471,7 +534,7 @@ class Template {
 
 }
 
-Template.RequiredProperties = ["add_data_request_submission_id_footers", "allow_additional_properties", "description", "document_filename", "document_md5", "document_parse_error", "document_processed", "document_state", "document_url", "editable_submissions", "embed_domains", "encrypt_pdfs_password", "encrypt_pdfs", "expiration_interval", "expire_after", "expire_submissions", "external_predefined_fields_template_id", "external_predefined_fields_template_name", "first_template", "id", "locked", "merge_audit_trail_pdf", "name", "page_count", "page_dimensions", "parent_folder_id", "path", "permanent_document_url", "public_submissions", "public_web_form", "redirect_url", "slack_webhook_url", "template_type", "updated_at", "version_published_at", "version", "webhook_url", "demo", "latest_version", "last_changed_at", "last_changed_by_type", "last_changed_by_id", "defaults", "field_order", "fields", "footer_html", "header_html", "html_engine_options", "html", "predefined_fields", "scss", "shared_field_data", "versions"];
+Template.RequiredProperties = ["add_data_request_submission_id_footers", "allow_additional_properties", "description", "document_filename", "document_md5", "document_parse_error", "document_processed", "document_state", "document_url", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs_password", "encrypt_pdfs", "expiration_interval", "expire_after", "expire_submissions", "external_predefined_fields_template_id", "external_predefined_fields_template_name", "first_template", "id", "locked", "merge_audit_trail_pdf", "name", "page_count", "page_dimensions", "parent_folder_id", "path", "permanent_document_url", "public_submissions", "public_web_form", "redirect_url", "slack_webhook_url", "template_type", "updated_at", "version_published_at", "version", "webhook_url", "demo", "latest_version", "last_changed_at", "last_changed_by_type", "last_changed_by_id", "last_changed_by_external_name", "last_changed_by_external_email", "last_changed_by_external_id", "defaults", "field_dependencies", "field_order", "fields", "footer_html", "header_html", "html_engine_options", "html", "predefined_fields", "scss", "shared_field_data", "template_schema_version", "versions"];
 
 /**
  * @member {Boolean} add_data_request_submission_id_footers
@@ -527,6 +590,21 @@ Template.prototype['editable_submissions'] = undefined;
  * @member {String} embed_domains
  */
 Template.prototype['embed_domains'] = undefined;
+
+/**
+ * @member {Boolean} embed_edit_allow_settings
+ */
+Template.prototype['embed_edit_allow_settings'] = undefined;
+
+/**
+ * @member {Boolean} embed_edit_allow_versioning
+ */
+Template.prototype['embed_edit_allow_versioning'] = undefined;
+
+/**
+ * @member {Boolean} embed_edit_allow_document_replacement
+ */
+Template.prototype['embed_edit_allow_document_replacement'] = undefined;
 
 /**
  * @member {String} encrypt_pdfs_password
@@ -659,6 +737,11 @@ Template.prototype['version'] = undefined;
 Template.prototype['webhook_url'] = undefined;
 
 /**
+ * @member {String} embed_edit_token
+ */
+Template.prototype['embed_edit_token'] = undefined;
+
+/**
  * @member {Boolean} demo
  */
 Template.prototype['demo'] = undefined;
@@ -684,9 +767,29 @@ Template.prototype['last_changed_by_type'] = undefined;
 Template.prototype['last_changed_by_id'] = undefined;
 
 /**
+ * @member {String} last_changed_by_external_name
+ */
+Template.prototype['last_changed_by_external_name'] = undefined;
+
+/**
+ * @member {String} last_changed_by_external_email
+ */
+Template.prototype['last_changed_by_external_email'] = undefined;
+
+/**
+ * @member {String} last_changed_by_external_id
+ */
+Template.prototype['last_changed_by_external_id'] = undefined;
+
+/**
  * @member {Object} defaults
  */
 Template.prototype['defaults'] = undefined;
+
+/**
+ * @member {Array.<Object>} field_dependencies
+ */
+Template.prototype['field_dependencies'] = undefined;
 
 /**
  * @member {Array.<Array.<Number>>} field_order
@@ -732,6 +835,11 @@ Template.prototype['scss'] = undefined;
  * @member {Object} shared_field_data
  */
 Template.prototype['shared_field_data'] = undefined;
+
+/**
+ * @member {Number} template_schema_version
+ */
+Template.prototype['template_schema_version'] = undefined;
 
 /**
  * @member {Array.<Object>} versions
@@ -819,7 +927,13 @@ Template['LastChangedByTypeEnum'] = {
      * value: "api"
      * @const
      */
-    "api": "api"
+    "api": "api",
+
+    /**
+     * value: "external_user"
+     * @const
+     */
+    "external_user": "external_user"
 };
 
 

@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionDataRequestShow model module.
  * @module model/SubmissionDataRequestShow
- * @version 3.0.0
+ * @version 3.1.0
  */
 class SubmissionDataRequestShow {
     /**
@@ -32,6 +32,7 @@ class SubmissionDataRequestShow {
      * @param state {module:model/SubmissionDataRequestShow.StateEnum} 
      * @param viewed_at {String} 
      * @param completed_at {String} 
+     * @param declined_at {String} 
      * @param data {Object} 
      * @param auth_type {module:model/SubmissionDataRequestShow.AuthTypeEnum} 
      * @param auth_second_factor_type {module:model/SubmissionDataRequestShow.AuthSecondFactorTypeEnum} 
@@ -45,9 +46,9 @@ class SubmissionDataRequestShow {
      * @param user_agent {String} 
      * @param submission_id {String} 
      */
-    constructor(id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, submission_id) { 
+    constructor(id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, declined_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, submission_id) { 
         
-        SubmissionDataRequestShow.initialize(this, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, submission_id);
+        SubmissionDataRequestShow.initialize(this, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, declined_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, submission_id);
     }
 
     /**
@@ -55,7 +56,7 @@ class SubmissionDataRequestShow {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, submission_id) { 
+    static initialize(obj, id, email, name, order, sort_order, fields, metadata, state, viewed_at, completed_at, declined_at, data, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, submission_id) { 
         obj['id'] = id;
         obj['email'] = email;
         obj['name'] = name;
@@ -66,6 +67,7 @@ class SubmissionDataRequestShow {
         obj['state'] = state;
         obj['viewed_at'] = viewed_at;
         obj['completed_at'] = completed_at;
+        obj['declined_at'] = declined_at;
         obj['data'] = data;
         obj['auth_type'] = auth_type;
         obj['auth_second_factor_type'] = auth_second_factor_type;
@@ -120,6 +122,9 @@ class SubmissionDataRequestShow {
             }
             if (data.hasOwnProperty('completed_at')) {
                 obj['completed_at'] = ApiClient.convertToType(data['completed_at'], 'String');
+            }
+            if (data.hasOwnProperty('declined_at')) {
+                obj['declined_at'] = ApiClient.convertToType(data['declined_at'], 'String');
             }
             if (data.hasOwnProperty('data')) {
                 obj['data'] = ApiClient.convertToType(data['data'], Object);
@@ -202,6 +207,10 @@ class SubmissionDataRequestShow {
             throw new Error("Expected the field `completed_at` to be a primitive type in the JSON string but got " + data['completed_at']);
         }
         // ensure the json data is a string
+        if (data['declined_at'] && !(typeof data['declined_at'] === 'string' || data['declined_at'] instanceof String)) {
+            throw new Error("Expected the field `declined_at` to be a primitive type in the JSON string but got " + data['declined_at']);
+        }
+        // ensure the json data is a string
         if (data['auth_type'] && !(typeof data['auth_type'] === 'string' || data['auth_type'] instanceof String)) {
             throw new Error("Expected the field `auth_type` to be a primitive type in the JSON string but got " + data['auth_type']);
         }
@@ -252,7 +261,7 @@ class SubmissionDataRequestShow {
 
 }
 
-SubmissionDataRequestShow.RequiredProperties = ["id", "email", "name", "order", "sort_order", "fields", "metadata", "state", "viewed_at", "completed_at", "data", "auth_type", "auth_second_factor_type", "auth_provider", "auth_session_started_at", "auth_session_id_hash", "auth_user_id_hash", "auth_username_hash", "auth_phone_number_hash", "ip_address", "user_agent", "submission_id"];
+SubmissionDataRequestShow.RequiredProperties = ["id", "email", "name", "order", "sort_order", "fields", "metadata", "state", "viewed_at", "completed_at", "declined_at", "data", "auth_type", "auth_second_factor_type", "auth_provider", "auth_session_started_at", "auth_session_id_hash", "auth_user_id_hash", "auth_username_hash", "auth_phone_number_hash", "ip_address", "user_agent", "submission_id"];
 
 /**
  * @member {String} id
@@ -303,6 +312,11 @@ SubmissionDataRequestShow.prototype['viewed_at'] = undefined;
  * @member {String} completed_at
  */
 SubmissionDataRequestShow.prototype['completed_at'] = undefined;
+
+/**
+ * @member {String} declined_at
+ */
+SubmissionDataRequestShow.prototype['declined_at'] = undefined;
 
 /**
  * @member {Object} data
@@ -385,7 +399,13 @@ SubmissionDataRequestShow['StateEnum'] = {
      * value: "completed"
      * @const
      */
-    "completed": "completed"
+    "completed": "completed",
+
+    /**
+     * value: "declined"
+     * @const
+     */
+    "declined": "declined"
 };
 
 

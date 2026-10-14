@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **batch_id** | **String** |  | 
 **data_requests** | [**[SubmissionDataRequest]**](SubmissionDataRequest.md) |  | 
 **editable** | **Boolean** |  | 
+**error_message** | **String** |  | 
 **expired** | **Boolean** |  | 
 **expires_at** | **String** |  | 
 **id** | **String** |  | 
@@ -27,9 +28,9 @@ Name | Type | Description | Notes
 **preview_generated_at** | **String** |  | 
 **audit_trail_download_url** | **String** |  | 
 **actions** | [**[SubmissionAction]**](SubmissionAction.md) |  | 
-**source** | **String** |  | 
-**referrer** | **String** |  | 
-**data** | **Object** |  | 
+**source** | **String** |  | [optional] 
+**referrer** | **String** |  | [optional] 
+**data** | **Object** |  | [optional] 
 
 
 
@@ -57,6 +58,8 @@ Name | Type | Description | Notes
 * `license_revoked` (value: `"license_revoked"`)
 
 * `accidental` (value: `"accidental"`)
+
+* `declined` (value: `"declined"`)
 
 
 

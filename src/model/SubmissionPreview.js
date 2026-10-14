@@ -18,7 +18,7 @@ import SubmissionDataRequest from './SubmissionDataRequest';
 /**
  * The SubmissionPreview model module.
  * @module model/SubmissionPreview
- * @version 3.0.0
+ * @version 3.1.0
  */
 class SubmissionPreview {
     /**
@@ -27,6 +27,7 @@ class SubmissionPreview {
      * @param batch_id {String} 
      * @param data_requests {Array.<module:model/SubmissionDataRequest>} 
      * @param editable {Boolean} 
+     * @param error_message {String} 
      * @param expired {Boolean} 
      * @param expires_at {String} 
      * @param id {String} 
@@ -48,9 +49,9 @@ class SubmissionPreview {
      * @param audit_trail_download_url {String} 
      * @param actions {Array.<module:model/SubmissionAction>} 
      */
-    constructor(batch_id, data_requests, editable, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions) { 
+    constructor(batch_id, data_requests, editable, error_message, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions) { 
         
-        SubmissionPreview.initialize(this, batch_id, data_requests, editable, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions);
+        SubmissionPreview.initialize(this, batch_id, data_requests, editable, error_message, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions);
     }
 
     /**
@@ -58,10 +59,11 @@ class SubmissionPreview {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, batch_id, data_requests, editable, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions) { 
+    static initialize(obj, batch_id, data_requests, editable, error_message, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions) { 
         obj['batch_id'] = batch_id;
         obj['data_requests'] = data_requests;
         obj['editable'] = editable;
+        obj['error_message'] = error_message;
         obj['expired'] = expired;
         obj['expires_at'] = expires_at;
         obj['id'] = id;
@@ -103,6 +105,9 @@ class SubmissionPreview {
             }
             if (data.hasOwnProperty('editable')) {
                 obj['editable'] = ApiClient.convertToType(data['editable'], 'Boolean');
+            }
+            if (data.hasOwnProperty('error_message')) {
+                obj['error_message'] = ApiClient.convertToType(data['error_message'], 'String');
             }
             if (data.hasOwnProperty('expired')) {
                 obj['expired'] = ApiClient.convertToType(data['expired'], 'Boolean');
@@ -195,6 +200,10 @@ class SubmissionPreview {
             };
         }
         // ensure the json data is a string
+        if (data['error_message'] && !(typeof data['error_message'] === 'string' || data['error_message'] instanceof String)) {
+            throw new Error("Expected the field `error_message` to be a primitive type in the JSON string but got " + data['error_message']);
+        }
+        // ensure the json data is a string
         if (data['expires_at'] && !(typeof data['expires_at'] === 'string' || data['expires_at'] instanceof String)) {
             throw new Error("Expected the field `expires_at` to be a primitive type in the JSON string but got " + data['expires_at']);
         }
@@ -271,7 +280,7 @@ class SubmissionPreview {
 
 }
 
-SubmissionPreview.RequiredProperties = ["batch_id", "data_requests", "editable", "expired", "expires_at", "id", "json_schema_errors", "metadata", "password", "processed_at", "state", "template_id", "template_type", "template_version", "test", "truncated_text", "pdf_hash", "download_url", "permanent_download_url", "preview_download_url", "preview_generated_at", "audit_trail_download_url", "actions"];
+SubmissionPreview.RequiredProperties = ["batch_id", "data_requests", "editable", "error_message", "expired", "expires_at", "id", "json_schema_errors", "metadata", "password", "processed_at", "state", "template_id", "template_type", "template_version", "test", "truncated_text", "pdf_hash", "download_url", "permanent_download_url", "preview_download_url", "preview_generated_at", "audit_trail_download_url", "actions"];
 
 /**
  * @member {String} batch_id
@@ -287,6 +296,11 @@ SubmissionPreview.prototype['data_requests'] = undefined;
  * @member {Boolean} editable
  */
 SubmissionPreview.prototype['editable'] = undefined;
+
+/**
+ * @member {String} error_message
+ */
+SubmissionPreview.prototype['error_message'] = undefined;
 
 /**
  * @member {Boolean} expired
@@ -463,7 +477,13 @@ SubmissionPreview['StateEnum'] = {
      * value: "accidental"
      * @const
      */
-    "accidental": "accidental"
+    "accidental": "accidental",
+
+    /**
+     * value: "declined"
+     * @const
+     */
+    "declined": "declined"
 };
 
 

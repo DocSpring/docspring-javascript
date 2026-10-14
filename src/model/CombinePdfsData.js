@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CombinePdfsData model module.
  * @module model/CombinePdfsData
- * @version 3.0.0
+ * @version 3.1.0
  */
 class CombinePdfsData {
     /**
@@ -101,6 +101,7 @@ class CombinePdfsData {
 CombinePdfsData.RequiredProperties = ["source_pdfs"];
 
 /**
+ * Delete the custom files in source_pdfs once the combined PDF has been processed (they're kept if it fails). Other combined submissions can't use them after that. A test API token can't delete custom files.
  * @member {Boolean} delete_custom_files
  */
 CombinePdfsData.prototype['delete_custom_files'] = undefined;
@@ -126,6 +127,7 @@ CombinePdfsData.prototype['password'] = undefined;
 CombinePdfsData.prototype['source_pdfs'] = undefined;
 
 /**
+ * Deprecated, and has no effect. A combined PDF is a test or live document because of its source PDFs.
  * @member {Boolean} test
  */
 CombinePdfsData.prototype['test'] = undefined;

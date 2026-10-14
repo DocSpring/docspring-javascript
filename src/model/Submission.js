@@ -18,7 +18,7 @@ import SubmissionDataRequest from './SubmissionDataRequest';
 /**
  * The Submission model module.
  * @module model/Submission
- * @version 3.0.0
+ * @version 3.1.0
  */
 class Submission {
     /**
@@ -27,6 +27,7 @@ class Submission {
      * @param batch_id {String} 
      * @param data_requests {Array.<module:model/SubmissionDataRequest>} 
      * @param editable {Boolean} 
+     * @param error_message {String} 
      * @param expired {Boolean} 
      * @param expires_at {String} 
      * @param id {String} 
@@ -47,13 +48,10 @@ class Submission {
      * @param preview_generated_at {String} 
      * @param audit_trail_download_url {String} 
      * @param actions {Array.<module:model/SubmissionAction>} 
-     * @param source {module:model/Submission.SourceEnum} 
-     * @param referrer {String} 
-     * @param data {Object} 
      */
-    constructor(batch_id, data_requests, editable, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions, source, referrer, data) { 
+    constructor(batch_id, data_requests, editable, error_message, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions) { 
         
-        Submission.initialize(this, batch_id, data_requests, editable, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions, source, referrer, data);
+        Submission.initialize(this, batch_id, data_requests, editable, error_message, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions);
     }
 
     /**
@@ -61,10 +59,11 @@ class Submission {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, batch_id, data_requests, editable, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions, source, referrer, data) { 
+    static initialize(obj, batch_id, data_requests, editable, error_message, expired, expires_at, id, json_schema_errors, metadata, password, processed_at, state, template_id, template_type, template_version, test, truncated_text, pdf_hash, download_url, permanent_download_url, preview_download_url, preview_generated_at, audit_trail_download_url, actions) { 
         obj['batch_id'] = batch_id;
         obj['data_requests'] = data_requests;
         obj['editable'] = editable;
+        obj['error_message'] = error_message;
         obj['expired'] = expired;
         obj['expires_at'] = expires_at;
         obj['id'] = id;
@@ -85,9 +84,6 @@ class Submission {
         obj['preview_generated_at'] = preview_generated_at;
         obj['audit_trail_download_url'] = audit_trail_download_url;
         obj['actions'] = actions;
-        obj['source'] = source;
-        obj['referrer'] = referrer;
-        obj['data'] = data;
     }
 
     /**
@@ -109,6 +105,9 @@ class Submission {
             }
             if (data.hasOwnProperty('editable')) {
                 obj['editable'] = ApiClient.convertToType(data['editable'], 'Boolean');
+            }
+            if (data.hasOwnProperty('error_message')) {
+                obj['error_message'] = ApiClient.convertToType(data['error_message'], 'String');
             }
             if (data.hasOwnProperty('expired')) {
                 obj['expired'] = ApiClient.convertToType(data['expired'], 'Boolean');
@@ -210,6 +209,10 @@ class Submission {
             };
         }
         // ensure the json data is a string
+        if (data['error_message'] && !(typeof data['error_message'] === 'string' || data['error_message'] instanceof String)) {
+            throw new Error("Expected the field `error_message` to be a primitive type in the JSON string but got " + data['error_message']);
+        }
+        // ensure the json data is a string
         if (data['expires_at'] && !(typeof data['expires_at'] === 'string' || data['expires_at'] instanceof String)) {
             throw new Error("Expected the field `expires_at` to be a primitive type in the JSON string but got " + data['expires_at']);
         }
@@ -294,7 +297,7 @@ class Submission {
 
 }
 
-Submission.RequiredProperties = ["batch_id", "data_requests", "editable", "expired", "expires_at", "id", "json_schema_errors", "metadata", "password", "processed_at", "state", "template_id", "template_type", "template_version", "test", "truncated_text", "pdf_hash", "download_url", "permanent_download_url", "preview_download_url", "preview_generated_at", "audit_trail_download_url", "actions", "source", "referrer", "data"];
+Submission.RequiredProperties = ["batch_id", "data_requests", "editable", "error_message", "expired", "expires_at", "id", "json_schema_errors", "metadata", "password", "processed_at", "state", "template_id", "template_type", "template_version", "test", "truncated_text", "pdf_hash", "download_url", "permanent_download_url", "preview_download_url", "preview_generated_at", "audit_trail_download_url", "actions"];
 
 /**
  * @member {String} batch_id
@@ -310,6 +313,11 @@ Submission.prototype['data_requests'] = undefined;
  * @member {Boolean} editable
  */
 Submission.prototype['editable'] = undefined;
+
+/**
+ * @member {String} error_message
+ */
+Submission.prototype['error_message'] = undefined;
 
 /**
  * @member {Boolean} expired
@@ -501,7 +509,13 @@ Submission['StateEnum'] = {
      * value: "accidental"
      * @const
      */
-    "accidental": "accidental"
+    "accidental": "accidental",
+
+    /**
+     * value: "declined"
+     * @const
+     */
+    "declined": "declined"
 };
 
 

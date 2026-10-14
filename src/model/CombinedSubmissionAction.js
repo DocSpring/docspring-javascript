@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CombinedSubmissionAction model module.
  * @module model/CombinedSubmissionAction
- * @version 3.0.0
+ * @version 3.1.0
  */
 class CombinedSubmissionAction {
     /**
@@ -28,10 +28,11 @@ class CombinedSubmissionAction {
      * @param action_type {module:model/CombinedSubmissionAction.ActionTypeEnum} 
      * @param action_category {module:model/CombinedSubmissionAction.ActionCategoryEnum} 
      * @param result_data {Object} 
+     * @param error_message {String} 
      */
-    constructor(id, integration_id, state, action_type, action_category, result_data) { 
+    constructor(id, integration_id, state, action_type, action_category, result_data, error_message) { 
         
-        CombinedSubmissionAction.initialize(this, id, integration_id, state, action_type, action_category, result_data);
+        CombinedSubmissionAction.initialize(this, id, integration_id, state, action_type, action_category, result_data, error_message);
     }
 
     /**
@@ -39,13 +40,14 @@ class CombinedSubmissionAction {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, integration_id, state, action_type, action_category, result_data) { 
+    static initialize(obj, id, integration_id, state, action_type, action_category, result_data, error_message) { 
         obj['id'] = id;
         obj['integration_id'] = integration_id;
         obj['state'] = state;
         obj['action_type'] = action_type;
         obj['action_category'] = action_category;
         obj['result_data'] = result_data;
+        obj['error_message'] = error_message;
     }
 
     /**
@@ -76,6 +78,9 @@ class CombinedSubmissionAction {
             }
             if (data.hasOwnProperty('result_data')) {
                 obj['result_data'] = ApiClient.convertToType(data['result_data'], Object);
+            }
+            if (data.hasOwnProperty('error_message')) {
+                obj['error_message'] = ApiClient.convertToType(data['error_message'], 'String');
             }
         }
         return obj;
@@ -113,6 +118,10 @@ class CombinedSubmissionAction {
         if (data['action_category'] && !(typeof data['action_category'] === 'string' || data['action_category'] instanceof String)) {
             throw new Error("Expected the field `action_category` to be a primitive type in the JSON string but got " + data['action_category']);
         }
+        // ensure the json data is a string
+        if (data['error_message'] && !(typeof data['error_message'] === 'string' || data['error_message'] instanceof String)) {
+            throw new Error("Expected the field `error_message` to be a primitive type in the JSON string but got " + data['error_message']);
+        }
 
         return true;
     }
@@ -120,7 +129,7 @@ class CombinedSubmissionAction {
 
 }
 
-CombinedSubmissionAction.RequiredProperties = ["id", "integration_id", "state", "action_type", "action_category", "result_data"];
+CombinedSubmissionAction.RequiredProperties = ["id", "integration_id", "state", "action_type", "action_category", "result_data", "error_message"];
 
 /**
  * @member {String} id
@@ -151,6 +160,11 @@ CombinedSubmissionAction.prototype['action_category'] = undefined;
  * @member {Object} result_data
  */
 CombinedSubmissionAction.prototype['result_data'] = undefined;
+
+/**
+ * @member {String} error_message
+ */
+CombinedSubmissionAction.prototype['error_message'] = undefined;
 
 
 

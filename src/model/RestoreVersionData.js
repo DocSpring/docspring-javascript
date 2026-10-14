@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The RestoreVersionData model module.
  * @module model/RestoreVersionData
- * @version 3.0.0
+ * @version 3.1.0
  */
 class RestoreVersionData {
     /**

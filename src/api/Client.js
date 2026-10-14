@@ -30,6 +30,7 @@ import CreateSubmissionDataRequestEventResponse from '../model/CreateSubmissionD
 import CreateSubmissionDataRequestResponse from '../model/CreateSubmissionDataRequestResponse';
 import CreateSubmissionDataRequestTokenResponse from '../model/CreateSubmissionDataRequestTokenResponse';
 import CreateSubmissionResponse from '../model/CreateSubmissionResponse';
+import CreateWebhookData from '../model/CreateWebhookData';
 import ErrorOrMultipleErrorsResponse from '../model/ErrorOrMultipleErrorsResponse';
 import ErrorResponse from '../model/ErrorResponse';
 import Folder from '../model/Folder';
@@ -52,17 +53,20 @@ import SuccessMultipleErrorsResponse from '../model/SuccessMultipleErrorsRespons
 import Template from '../model/Template';
 import TemplateAddFieldsResponse from '../model/TemplateAddFieldsResponse';
 import TemplateDeleteResponse from '../model/TemplateDeleteResponse';
+import TemplateModelCodeResponse from '../model/TemplateModelCodeResponse';
 import TemplatePreview from '../model/TemplatePreview';
 import TemplatePublishVersionResponse from '../model/TemplatePublishVersionResponse';
 import UpdateHtmlTemplate from '../model/UpdateHtmlTemplate';
 import UpdatePdfTemplate from '../model/UpdatePdfTemplate';
 import UpdateSubmissionDataRequestData from '../model/UpdateSubmissionDataRequestData';
+import UpdateWebhookData from '../model/UpdateWebhookData';
 import UploadPresignResponse from '../model/UploadPresignResponse';
+import Webhook from '../model/Webhook';
 
 /**
 * Client service.
 * @module api/Client
-* @version 3.0.0
+* @version 3.1.0
 */
 export default class Client {
 
@@ -100,9 +104,10 @@ export default class Client {
         }
 
         if (host) {
-            let url = host;
+            let url = String(host).trim();
             if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
-            if (!/\/api\/v1\/?$/i.test(url)) url = `${url.replace(/\/$/, '')}/api/v1`;
+            url = url.replace(/\/+$/, '');
+            if (!/\/api\/v1$/i.test(url)) url = `${url}/api/v1`;
             apiClient.basePath = url;
         }
 
@@ -170,7 +175,7 @@ export default class Client {
 
     /**
      * Generate multiple PDFs
-     * Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  See also: - [Batch and Combine PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Generate and merge PDFs in one request 
+     * Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  See also: - [Batch Generate PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Request format, responses, and limits 
      * @param {module:model/SubmissionBatchData} data 
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait = true)] Wait for submission batch to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
@@ -394,7 +399,7 @@ export default class Client {
 
     /**
      * Create a new data request token for form authentication
-     * Creates an authentication token for accessing a data request form. Tokens can be created for API access (1 hour expiration) or email links (30 day expiration). Returns a token and a pre-authenticated URL for the data request form.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/) 
+     * Creates an authentication token for accessing a data request form. Returns a token and a pre-authenticated URL for the data request form. The token remains valid until the data request is completed.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/) 
      * @param {String} data_request_id 
      * @param {Object} opts Optional parameters
      * @param {module:model/String} [type] 
@@ -615,6 +620,48 @@ export default class Client {
     }
 
     /**
+     * Callback function to receive the result of the createWebhook operation.
+     * @callback module:api/Client~createWebhookCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Webhook} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Create a webhook
+     * Creates a webhook that delivers a POST request to your endpoint whenever a subscribed event occurs. Optionally scope the webhook to specific API tokens, templates, or folders. 
+     * @param {module:model/CreateWebhookData} data 
+     * @param {module:api/Client~createWebhookCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Webhook}
+     */
+    createWebhook(data, callback) {
+      let postBody = data;
+      // verify the required parameter 'data' is set
+      if (data === undefined || data === null) {
+        throw new Error("Missing the required parameter 'data' when calling createWebhook");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = Webhook;
+      return this.apiClient.callApi(
+        '/webhooks', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the deleteFolder operation.
      * @callback module:api/Client~deleteFolderCallback
      * @param {String} error Error message, if any.
@@ -699,6 +746,49 @@ export default class Client {
       let returnType = TemplateDeleteResponse;
       return this.apiClient.callApi(
         '/templates/{template_id}', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the deleteWebhook operation.
+     * @callback module:api/Client~deleteWebhookCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Webhook} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Delete a webhook
+     * Permanently deletes a webhook so it stops receiving events, and returns the deleted webhook.
+     * @param {String} webhook_id 
+     * @param {module:api/Client~deleteWebhookCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Webhook}
+     */
+    deleteWebhook(webhook_id, callback) {
+      let postBody = null;
+      // verify the required parameter 'webhook_id' is set
+      if (webhook_id === undefined || webhook_id === null) {
+        throw new Error("Missing the required parameter 'webhook_id' when calling deleteWebhook");
+      }
+
+      let pathParams = {
+        'webhook_id': webhook_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = Webhook;
+      return this.apiClient.callApi(
+        '/webhooks/{webhook_id}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );
@@ -800,7 +890,7 @@ export default class Client {
 
     /**
      * Generate a PDF
-     * Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Set `wait: false` to return immediately.  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn't fit in fields 
+     * Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Add the `wait=false` query parameter to return immediately.  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn't fit in fields 
      * @param {String} template_id 
      * @param {module:model/CreatePdfSubmissionData} submission 
      * @param {Object} opts Optional parameters
@@ -1189,6 +1279,55 @@ export default class Client {
     }
 
     /**
+     * Callback function to receive the result of the getTemplateModelCode operation.
+     * @callback module:api/Client~getTemplateModelCodeCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/TemplateModelCodeResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Generate typed model code for a template
+     * Generates typed model code for a template's submission data from its JSON schema, in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go. Build your submission data with the generated types so your app catches mistakes before it calls the API.  `root_type_name` is the type that describes the whole submission data object, qualified with its namespace or package where there is one. Java returns every class in `code`, each under a `// ClassName.java` comment: split them into one file per class.  A template with no named fields returns 422, since there are no types to generate.  See also: - [Generate Model Code](https://docspring.com/docs/template-editor/generate-model-code/) - Use the generated types 
+     * @param {String} template_id 
+     * @param {module:model/String} lang The language to generate code for
+     * @param {module:api/Client~getTemplateModelCodeCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/TemplateModelCodeResponse}
+     */
+    getTemplateModelCode(template_id, lang, callback) {
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling getTemplateModelCode");
+      }
+      // verify the required parameter 'lang' is set
+      if (lang === undefined || lang === null) {
+        throw new Error("Missing the required parameter 'lang' when calling getTemplateModelCode");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+        'lang': lang
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = TemplateModelCodeResponse;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/model_code', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the getTemplateSchema operation.
      * @callback module:api/Client~getTemplateSchemaCallback
      * @param {String} error Error message, if any.
@@ -1226,6 +1365,49 @@ export default class Client {
       let returnType = JsonSchema;
       return this.apiClient.callApi(
         '/templates/{template_id}/schema', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the getWebhook operation.
+     * @callback module:api/Client~getWebhookCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Webhook} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Get a webhook
+     * Retrieves a single webhook by its ID.
+     * @param {String} webhook_id 
+     * @param {module:api/Client~getWebhookCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Webhook}
+     */
+    getWebhook(webhook_id, callback) {
+      let postBody = null;
+      // verify the required parameter 'webhook_id' is set
+      if (webhook_id === undefined || webhook_id === null) {
+        throw new Error("Missing the required parameter 'webhook_id' when calling getWebhook");
+      }
+
+      let pathParams = {
+        'webhook_id': webhook_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = Webhook;
+      return this.apiClient.callApi(
+        '/webhooks/{webhook_id}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );
@@ -1465,6 +1647,59 @@ export default class Client {
       let returnType = [TemplatePreview];
       return this.apiClient.callApi(
         '/templates', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the listWebhooks operation.
+     * @callback module:api/Client~listWebhooksCallback
+     * @param {String} error Error message, if any.
+     * @param {Array.<module:model/Webhook>} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Get a list of all webhooks
+     * Returns a list of the webhooks configured for your account. Supports pagination and filtering by event type, mode, and the API token, template, or folder a webhook is scoped to. 
+     * @param {Object} opts Optional parameters
+     * @param {Number} [page] Default: 1
+     * @param {Number} [per_page] Default: 50
+     * @param {String} [event_type] Filter by a subscribed event type
+     * @param {String} [mode] Filter by mode (test or live)
+     * @param {String} [template_id] Filter by a scoped template ID
+     * @param {String} [folder_id] Filter by a scoped folder ID
+     * @param {String} [api_token_id] Filter by a scoped API token ID
+     * @param {module:api/Client~listWebhooksCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Array.<module:model/Webhook>}
+     */
+    listWebhooks(opts, callback) {
+      opts = opts || {};
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'page': opts['page'],
+        'per_page': opts['per_page'],
+        'event_type': opts['event_type'],
+        'mode': opts['mode'],
+        'template_id': opts['template_id'],
+        'folder_id': opts['folder_id'],
+        'api_token_id': opts['api_token_id']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = [Webhook];
+      return this.apiClient.callApi(
+        '/webhooks', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );
@@ -1805,7 +2040,7 @@ export default class Client {
 
     /**
      * Update a Template
-     * Updates template content and properties. For HTML templates, you can modify the HTML, SCSS, headers, footers, name, and description. Changes are applied to your draft template and do not affect published template versions. 
+     * Updates template content and properties. For HTML templates, you can modify the HTML, SCSS, headers, footers, name, and description. Changes are applied to your draft template and do not affect published template versions. The exception is `parent_folder_id`: moving the template to another folder moves its published versions too. 
      * @param {String} template_id 
      * @param {module:model/UpdateHtmlTemplate} data 
      * @param {module:api/Client~updateTemplateCallback} callback The callback function, accepting three arguments: error, data, response
@@ -1939,6 +2174,54 @@ export default class Client {
       let returnType = SuccessMultipleErrorsResponse;
       return this.apiClient.callApi(
         '/templates/{template_id}?endpoint_variant=update_template_pdf_with_cached_upload', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the updateWebhook operation.
+     * @callback module:api/Client~updateWebhookCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Webhook} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Update a webhook
+     * Updates the configuration of an existing webhook.
+     * @param {String} webhook_id 
+     * @param {module:model/UpdateWebhookData} data 
+     * @param {module:api/Client~updateWebhookCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Webhook}
+     */
+    updateWebhook(webhook_id, data, callback) {
+      let postBody = data;
+      // verify the required parameter 'webhook_id' is set
+      if (webhook_id === undefined || webhook_id === null) {
+        throw new Error("Missing the required parameter 'webhook_id' when calling updateWebhook");
+      }
+      // verify the required parameter 'data' is set
+      if (data === undefined || data === null) {
+        throw new Error("Missing the required parameter 'data' when calling updateWebhook");
+      }
+
+      let pathParams = {
+        'webhook_id': webhook_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = Webhook;
+      return this.apiClient.callApi(
+        '/webhooks/{webhook_id}', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

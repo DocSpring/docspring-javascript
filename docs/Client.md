@@ -15,8 +15,10 @@ Method | HTTP request | Description
 [**createHtmlTemplate**](Client.md#createHtmlTemplate) | **POST** /templates?endpoint_variant&#x3D;create_html_template | Create a new HTML template
 [**createPdfTemplate**](Client.md#createPdfTemplate) | **POST** /templates | Create a new PDF template with a form POST file upload
 [**createPdfTemplateFromUpload**](Client.md#createPdfTemplateFromUpload) | **POST** /templates?endpoint_variant&#x3D;create_template_from_cached_upload | Create a new PDF template from a cached S3 file upload
+[**createWebhook**](Client.md#createWebhook) | **POST** /webhooks | Create a webhook
 [**deleteFolder**](Client.md#deleteFolder) | **DELETE** /folders/{folder_id} | Delete a folder
 [**deleteTemplate**](Client.md#deleteTemplate) | **DELETE** /templates/{template_id} | Delete a template
+[**deleteWebhook**](Client.md#deleteWebhook) | **DELETE** /webhooks/{webhook_id} | Delete a webhook
 [**expireCombinedSubmission**](Client.md#expireCombinedSubmission) | **DELETE** /combined_submissions/{combined_submission_id} | Expire a combined submission
 [**expireSubmission**](Client.md#expireSubmission) | **DELETE** /submissions/{submission_id} | Expire a PDF submission
 [**generatePdf**](Client.md#generatePdf) | **POST** /templates/{template_id}/submissions | Generate a PDF
@@ -28,12 +30,15 @@ Method | HTTP request | Description
 [**getSubmission**](Client.md#getSubmission) | **GET** /submissions/{submission_id} | Check the status of a PDF
 [**getSubmissionBatch**](Client.md#getSubmissionBatch) | **GET** /submissions/batches/{submission_batch_id} | Check the status of a submission batch job
 [**getTemplate**](Client.md#getTemplate) | **GET** /templates/{template_id} | Check the status of an uploaded template
+[**getTemplateModelCode**](Client.md#getTemplateModelCode) | **GET** /templates/{template_id}/model_code | Generate typed model code for a template
 [**getTemplateSchema**](Client.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Fetch the JSON schema for a template
+[**getWebhook**](Client.md#getWebhook) | **GET** /webhooks/{webhook_id} | Get a webhook
 [**listCombinedSubmissions**](Client.md#listCombinedSubmissions) | **GET** /combined_submissions | Get a list of all combined submissions
 [**listFolders**](Client.md#listFolders) | **GET** /folders/ | Get a list of all folders
 [**listSubmissions**](Client.md#listSubmissions) | **GET** /submissions | List all submissions
 [**listTemplateSubmissions**](Client.md#listTemplateSubmissions) | **GET** /templates/{template_id}/submissions | List all submissions for a given template
 [**listTemplates**](Client.md#listTemplates) | **GET** /templates | Get a list of all templates
+[**listWebhooks**](Client.md#listWebhooks) | **GET** /webhooks | Get a list of all webhooks
 [**moveFolderToFolder**](Client.md#moveFolderToFolder) | **POST** /folders/{folder_id}/move | Move a folder
 [**moveTemplateToFolder**](Client.md#moveTemplateToFolder) | **POST** /templates/{template_id}/move | Move Template to folder
 [**publishTemplateVersion**](Client.md#publishTemplateVersion) | **POST** /templates/{template_id}/publish_version | Publish a template version
@@ -44,6 +49,7 @@ Method | HTTP request | Description
 [**updateTemplate**](Client.md#updateTemplate) | **PUT** /templates/{template_id} | Update a Template
 [**updateTemplateDocument**](Client.md#updateTemplateDocument) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_form_post | Update a template&#39;s document with a form POST file upload
 [**updateTemplateDocumentFromUpload**](Client.md#updateTemplateDocumentFromUpload) | **PUT** /templates/{template_id}?endpoint_variant&#x3D;update_template_pdf_with_cached_upload | Update a template&#39;s document with a cached S3 file upload
+[**updateWebhook**](Client.md#updateWebhook) | **PUT** /webhooks/{webhook_id} | Update a webhook
 
 
 
@@ -105,7 +111,7 @@ Name | Type | Description  | Notes
 
 Generate multiple PDFs
 
-Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  See also: - [Batch and Combine PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Generate and merge PDFs in one request 
+Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  See also: - [Batch Generate PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Request format, responses, and limits 
 
 ### Example
 
@@ -365,7 +371,7 @@ Name | Type | Description  | Notes
 
 Create a new data request token for form authentication
 
-Creates an authentication token for accessing a data request form. Tokens can be created for API access (1 hour expiration) or email links (30 day expiration). Returns a token and a pre-authenticated URL for the data request form.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/) 
+Creates an authentication token for accessing a data request form. Returns a token and a pre-authenticated URL for the data request form. The token remains valid until the data request is completed.  See also: - [Embedded Data Requests Guide](https://docspring.com/docs/guides/embedded-forms/embedded-data-requests/) 
 
 ### Example
 
@@ -623,6 +629,56 @@ Name | Type | Description  | Notes
 - **Accept**: application/json
 
 
+## createWebhook
+
+> Webhook createWebhook(data)
+
+Create a webhook
+
+Creates a webhook that delivers a POST request to your endpoint whenever a subscribed event occurs. Optionally scope the webhook to specific API tokens, templates, or folders. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let data = new DocSpring.CreateWebhookData(); // CreateWebhookData | 
+apiInstance.createWebhook(data, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **data** | [**CreateWebhookData**](CreateWebhookData.md)|  | 
+
+### Return type
+
+[**Webhook**](Webhook.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
 ## deleteFolder
 
 > Folder deleteFolder(folder_id)
@@ -716,6 +772,56 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**TemplateDeleteResponse**](TemplateDeleteResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## deleteWebhook
+
+> Webhook deleteWebhook(webhook_id)
+
+Delete a webhook
+
+Permanently deletes a webhook so it stops receiving events, and returns the deleted webhook.
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let webhook_id = "whk_1234567890abcdef01"; // String | 
+apiInstance.deleteWebhook(webhook_id, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **webhook_id** | **String**|  | 
+
+### Return type
+
+[**Webhook**](Webhook.md)
 
 ### Authorization
 
@@ -833,7 +939,7 @@ Name | Type | Description  | Notes
 
 Generate a PDF
 
-Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Set &#x60;wait: false&#x60; to return immediately.  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn&#39;t fit in fields 
+Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Add the &#x60;wait&#x3D;false&#x60; query parameter to return immediately.  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn&#39;t fit in fields 
 
 ### Example
 
@@ -1287,6 +1393,58 @@ Name | Type | Description  | Notes
 - **Accept**: application/json
 
 
+## getTemplateModelCode
+
+> TemplateModelCodeResponse getTemplateModelCode(template_id, lang)
+
+Generate typed model code for a template
+
+Generates typed model code for a template&#39;s submission data from its JSON schema, in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go. Build your submission data with the generated types so your app catches mistakes before it calls the API.  &#x60;root_type_name&#x60; is the type that describes the whole submission data object, qualified with its namespace or package where there is one. Java returns every class in &#x60;code&#x60;, each under a &#x60;// ClassName.java&#x60; comment: split them into one file per class.  A template with no named fields returns 422, since there are no types to generate.  See also: - [Generate Model Code](https://docspring.com/docs/template-editor/generate-model-code/) - Use the generated types 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef01"; // String | 
+let lang = "typescript"; // String | The language to generate code for
+apiInstance.getTemplateModelCode(template_id, lang, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**|  | 
+ **lang** | **String**| The language to generate code for | 
+
+### Return type
+
+[**TemplateModelCodeResponse**](TemplateModelCodeResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
 ## getTemplateSchema
 
 > JsonSchema getTemplateSchema(template_id)
@@ -1326,6 +1484,56 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**JsonSchema**](JsonSchema.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## getWebhook
+
+> Webhook getWebhook(webhook_id)
+
+Get a webhook
+
+Retrieves a single webhook by its ID.
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let webhook_id = "whk_1234567890abcdef01"; // String | 
+apiInstance.getWebhook(webhook_id, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **webhook_id** | **String**|  | 
+
+### Return type
+
+[**Webhook**](Webhook.md)
 
 ### Authorization
 
@@ -1616,6 +1824,70 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**[TemplatePreview]**](TemplatePreview.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## listWebhooks
+
+> [Webhook] listWebhooks(opts)
+
+Get a list of all webhooks
+
+Returns a list of the webhooks configured for your account. Supports pagination and filtering by event type, mode, and the API token, template, or folder a webhook is scoped to. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let opts = {
+  'page': 56, // Number | Default: 1
+  'per_page': 56, // Number | Default: 50
+  'event_type': "submission.processed", // String | Filter by a subscribed event type
+  'mode': "live", // String | Filter by mode (test or live)
+  'template_id': "tpl_1234567890abcdef01", // String | Filter by a scoped template ID
+  'folder_id': "folder_id_example", // String | Filter by a scoped folder ID
+  'api_token_id': "api_token_id_example" // String | Filter by a scoped API token ID
+};
+apiInstance.listWebhooks(opts, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **page** | **Number**| Default: 1 | [optional] 
+ **per_page** | **Number**| Default: 50 | [optional] 
+ **event_type** | **String**| Filter by a subscribed event type | [optional] 
+ **mode** | **String**| Filter by mode (test or live) | [optional] 
+ **template_id** | **String**| Filter by a scoped template ID | [optional] 
+ **folder_id** | **String**| Filter by a scoped folder ID | [optional] 
+ **api_token_id** | **String**| Filter by a scoped API token ID | [optional] 
+
+### Return type
+
+[**[Webhook]**](Webhook.md)
 
 ### Authorization
 
@@ -1991,7 +2263,7 @@ Name | Type | Description  | Notes
 
 Update a Template
 
-Updates template content and properties. For HTML templates, you can modify the HTML, SCSS, headers, footers, name, and description. Changes are applied to your draft template and do not affect published template versions. 
+Updates template content and properties. For HTML templates, you can modify the HTML, SCSS, headers, footers, name, and description. Changes are applied to your draft template and do not affect published template versions. The exception is &#x60;parent_folder_id&#x60;: moving the template to another folder moves its published versions too. 
 
 ### Example
 
@@ -2134,6 +2406,58 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**SuccessMultipleErrorsResponse**](SuccessMultipleErrorsResponse.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## updateWebhook
+
+> Webhook updateWebhook(webhook_id, data)
+
+Update a webhook
+
+Updates the configuration of an existing webhook.
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let webhook_id = "whk_1234567890abcdef01"; // String | 
+let data = new DocSpring.UpdateWebhookData(); // UpdateWebhookData | 
+apiInstance.updateWebhook(webhook_id, data, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **webhook_id** | **String**|  | 
+ **data** | [**UpdateWebhookData**](UpdateWebhookData.md)|  | 
+
+### Return type
+
+[**Webhook**](Webhook.md)
 
 ### Authorization
 

@@ -16,17 +16,16 @@ import ApiClient from '../ApiClient';
 /**
  * The CopyTemplateOptions model module.
  * @module model/CopyTemplateOptions
- * @version 3.0.0
+ * @version 3.1.0
  */
 class CopyTemplateOptions {
     /**
      * Constructs a new <code>CopyTemplateOptions</code>.
      * @alias module:model/CopyTemplateOptions
-     * @param parent_folder_id {String} 
      */
-    constructor(parent_folder_id) { 
+    constructor() { 
         
-        CopyTemplateOptions.initialize(this, parent_folder_id);
+        CopyTemplateOptions.initialize(this);
     }
 
     /**
@@ -34,8 +33,7 @@ class CopyTemplateOptions {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, parent_folder_id) { 
-        obj['parent_folder_id'] = parent_folder_id;
+    static initialize(obj) { 
     }
 
     /**
@@ -55,6 +53,9 @@ class CopyTemplateOptions {
             if (data.hasOwnProperty('parent_folder_id')) {
                 obj['parent_folder_id'] = ApiClient.convertToType(data['parent_folder_id'], 'String');
             }
+            if (data.hasOwnProperty('version')) {
+                obj['version'] = ApiClient.convertToType(data['version'], 'String');
+            }
         }
         return obj;
     }
@@ -65,12 +66,6 @@ class CopyTemplateOptions {
      * @return {boolean} to indicate whether the JSON data is valid with respect to <code>CopyTemplateOptions</code>.
      */
     static validateJSON(data) {
-        // check to make sure all required properties are present in the JSON string
-        for (const property of CopyTemplateOptions.RequiredProperties) {
-            if (!data.hasOwnProperty(property)) {
-                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
-            }
-        }
         // ensure the json data is a string
         if (data['name'] && !(typeof data['name'] === 'string' || data['name'] instanceof String)) {
             throw new Error("Expected the field `name` to be a primitive type in the JSON string but got " + data['name']);
@@ -79,6 +74,10 @@ class CopyTemplateOptions {
         if (data['parent_folder_id'] && !(typeof data['parent_folder_id'] === 'string' || data['parent_folder_id'] instanceof String)) {
             throw new Error("Expected the field `parent_folder_id` to be a primitive type in the JSON string but got " + data['parent_folder_id']);
         }
+        // ensure the json data is a string
+        if (data['version'] && !(typeof data['version'] === 'string' || data['version'] instanceof String)) {
+            throw new Error("Expected the field `version` to be a primitive type in the JSON string but got " + data['version']);
+        }
 
         return true;
     }
@@ -86,7 +85,7 @@ class CopyTemplateOptions {
 
 }
 
-CopyTemplateOptions.RequiredProperties = ["parent_folder_id"];
+
 
 /**
  * @member {String} name
@@ -97,6 +96,11 @@ CopyTemplateOptions.prototype['name'] = undefined;
  * @member {String} parent_folder_id
  */
 CopyTemplateOptions.prototype['parent_folder_id'] = undefined;
+
+/**
+ * @member {String} version
+ */
+CopyTemplateOptions.prototype['version'] = undefined;
 
 
 

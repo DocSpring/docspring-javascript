@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **state** | **String** |  | 
 **viewed_at** | **String** |  | 
 **completed_at** | **String** |  | 
+**declined_at** | **String** |  | 
 **data** | **Object** |  | 
 **auth_type** | **String** |  | 
 **auth_second_factor_type** | **String** |  | 
@@ -35,6 +36,8 @@ Name | Type | Description | Notes
 * `pending` (value: `"pending"`)
 
 * `completed` (value: `"completed"`)
+
+* `declined` (value: `"declined"`)
 
 
 

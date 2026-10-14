@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **action_type** | **String** |  | 
 **action_category** | **String** |  | 
 **result_data** | **Object** |  | 
+**error_message** | **String** |  | 
 
 
 

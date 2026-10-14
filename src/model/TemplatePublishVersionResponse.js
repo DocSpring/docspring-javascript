@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplatePublishVersionResponse model module.
  * @module model/TemplatePublishVersionResponse
- * @version 3.0.0
+ * @version 3.1.0
  */
 class TemplatePublishVersionResponse {
     /**

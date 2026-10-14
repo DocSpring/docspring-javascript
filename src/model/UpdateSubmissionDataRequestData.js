@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The UpdateSubmissionDataRequestData model module.
  * @module model/UpdateSubmissionDataRequestData
- * @version 3.0.0
+ * @version 3.1.0
  */
 class UpdateSubmissionDataRequestData {
     /**

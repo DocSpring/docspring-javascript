@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **schema** | **String** |  | [optional] 
 **id** | **String** |  | [optional] 
+**id** | **String** |  | [optional] 
 **title** | **String** |  | [optional] 
 **description** | **String** |  | [optional] 
 **definitions** | **Object** |  | [optional] 
@@ -13,5 +14,7 @@ Name | Type | Description | Notes
 **properties** | **Object** |  | [optional] 
 **additionalProperties** | **Boolean** |  | [optional] 
 **required** | **[String]** |  | [optional] 
+**dependencies** | **Object** |  | [optional] 
+**allOf** | **[Object]** |  | [optional] 
 
 

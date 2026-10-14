@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionDataRequestToken model module.
  * @module model/SubmissionDataRequestToken
- * @version 3.0.0
+ * @version 3.1.0
  */
 class SubmissionDataRequestToken {
     /**

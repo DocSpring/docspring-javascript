@@ -16,7 +16,7 @@ import superagent from "superagent";
 
 /**
 * @module ApiClient
-* @version 3.0.0
+* @version 3.1.0
 */
 
 /**
@@ -54,7 +54,7 @@ class ApiClient {
          * @default {}
          */
         this.defaultHeaders = {
-            'User-Agent': 'docspring-javascript-3.0.0'
+            'User-Agent': 'docspring-javascript-3.1.0'
         };
 
         /**

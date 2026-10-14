@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The JsonSchema model module.
  * @module model/JsonSchema
- * @version 3.0.0
+ * @version 3.1.0
  */
 class JsonSchema {
     /**
@@ -53,6 +53,9 @@ class JsonSchema {
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');
             }
+            if (data.hasOwnProperty('$id')) {
+                obj['$id'] = ApiClient.convertToType(data['$id'], 'String');
+            }
             if (data.hasOwnProperty('title')) {
                 obj['title'] = ApiClient.convertToType(data['title'], 'String');
             }
@@ -74,6 +77,12 @@ class JsonSchema {
             if (data.hasOwnProperty('required')) {
                 obj['required'] = ApiClient.convertToType(data['required'], ['String']);
             }
+            if (data.hasOwnProperty('dependencies')) {
+                obj['dependencies'] = ApiClient.convertToType(data['dependencies'], Object);
+            }
+            if (data.hasOwnProperty('allOf')) {
+                obj['allOf'] = ApiClient.convertToType(data['allOf'], [Object]);
+            }
         }
         return obj;
     }
@@ -93,6 +102,10 @@ class JsonSchema {
             throw new Error("Expected the field `id` to be a primitive type in the JSON string but got " + data['id']);
         }
         // ensure the json data is a string
+        if (data['$id'] && !(typeof data['$id'] === 'string' || data['$id'] instanceof String)) {
+            throw new Error("Expected the field `$id` to be a primitive type in the JSON string but got " + data['$id']);
+        }
+        // ensure the json data is a string
         if (data['title'] && !(typeof data['title'] === 'string' || data['title'] instanceof String)) {
             throw new Error("Expected the field `title` to be a primitive type in the JSON string but got " + data['title']);
         }
@@ -107,6 +120,10 @@ class JsonSchema {
         // ensure the json data is an array
         if (!Array.isArray(data['required'])) {
             throw new Error("Expected the field `required` to be an array in the JSON data but got " + data['required']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['allOf'])) {
+            throw new Error("Expected the field `allOf` to be an array in the JSON data but got " + data['allOf']);
         }
 
         return true;
@@ -126,6 +143,11 @@ JsonSchema.prototype['$schema'] = undefined;
  * @member {String} id
  */
 JsonSchema.prototype['id'] = undefined;
+
+/**
+ * @member {String} $id
+ */
+JsonSchema.prototype['$id'] = undefined;
 
 /**
  * @member {String} title
@@ -161,6 +183,16 @@ JsonSchema.prototype['additionalProperties'] = undefined;
  * @member {Array.<String>} required
  */
 JsonSchema.prototype['required'] = undefined;
+
+/**
+ * @member {Object} dependencies
+ */
+JsonSchema.prototype['dependencies'] = undefined;
+
+/**
+ * @member {Array.<Object>} allOf
+ */
+JsonSchema.prototype['allOf'] = undefined;
 
 
 

@@ -114,6 +114,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property declined_at (base name: "declined_at")', function() {
+      // uncomment below and update the code to test the property declined_at
+      //var instance = new DocSpring.SubmissionDataRequestShow();
+      //expect(instance).to.be();
+    });
+
     it('should have the property data (base name: "data")', function() {
       // uncomment below and update the code to test the property data
       //var instance = new DocSpring.SubmissionDataRequestShow();

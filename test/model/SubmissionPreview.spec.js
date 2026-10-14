@@ -72,6 +72,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property error_message (base name: "error_message")', function() {
+      // uncomment below and update the code to test the property error_message
+      //var instance = new DocSpring.SubmissionPreview();
+      //expect(instance).to.be();
+    });
+
     it('should have the property expired (base name: "expired")', function() {
       // uncomment below and update the code to test the property expired
       //var instance = new DocSpring.SubmissionPreview();
