@@ -6,7 +6,7 @@ templates with your data, generates PDFs from HTML templates, combines PDFs and 
 [Documentation](https://docspring.com/docs/) · [API reference](https://docspring.com/docs/api/) ·
 [npm](https://www.npmjs.com/package/docspring) · [Changelog](https://github.com/DocSpring/docspring-javascript/blob/main/CHANGELOG.md)
 
-Version 3.2.0. 
+Version 3.3.0. 
 
 ## Install and configure
 

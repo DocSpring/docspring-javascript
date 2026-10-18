@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures. Requests are rate limited per account, and live PDFs use credits: a request over the limit returns 429 with a Retry-After header, and one your credits can't cover returns 402. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).
  *
  * The version of the OpenAPI document: v1
  * 
@@ -34,6 +34,7 @@ import CreateWebhookData from '../model/CreateWebhookData';
 import ErrorOrMultipleErrorsResponse from '../model/ErrorOrMultipleErrorsResponse';
 import ErrorResponse from '../model/ErrorResponse';
 import Folder from '../model/Folder';
+import ForbiddenErrorResponse from '../model/ForbiddenErrorResponse';
 import JsonSchema from '../model/JsonSchema';
 import ListSubmissionsResponse from '../model/ListSubmissionsResponse';
 import MoveFolderData from '../model/MoveFolderData';
@@ -66,7 +67,7 @@ import Webhook from '../model/Webhook';
 /**
 * Client service.
 * @module api/Client
-* @version 3.2.0
+* @version 3.3.0
 */
 export default class Client {
 
@@ -175,7 +176,7 @@ export default class Client {
 
     /**
      * Generate multiple PDFs
-     * Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  See also: - [Batch Generate PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Request format, responses, and limits 
+     * Generates up to 50 PDFs in a single request. Each submission can use a different template and data. Supports both synchronous (wait for all PDFs) and asynchronous processing. More efficient than individual requests when creating multiple PDFs.  Live PDFs use credits. If any live submission is waiting for credits, the API returns 402 and the others are still processed: check each submission's `state`. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).  See also: - [Batch Generate PDFs](https://docspring.com/docs/api-guide/generate-pdfs/batch-generate-pdfs/) - Request format, responses, and limits 
      * @param {module:model/SubmissionBatchData} data 
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait = true)] Wait for submission batch to be processed before returning. Set to false to return immediately. Default: true (on sync.* subdomain)
@@ -221,7 +222,7 @@ export default class Client {
 
     /**
      * Merge submission PDFs, template PDFs, or custom files
-     * Combines multiple PDFs from various sources into a single PDF file. Supports merging submission PDFs, template PDFs, custom files, other merged PDFs, and PDFs from URLs. Merges the PDFs in the order provided. 
+     * Combines multiple PDFs from various sources into a single PDF file. Supports merging submission PDFs, template PDFs, custom files, other merged PDFs, and PDFs from URLs. Merges the PDFs in the order provided.  Combining uses credits (4 per source PDF, plus 4 per unit of the combined PDF), even with a test API token or watermarked source PDFs. If your balance can't cover it, the API returns 402 and the combined submission waits in the `insufficient_credits` state until you add credits. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/). 
      * @param {module:model/CombinePdfsData} data 
      * @param {module:api/Client~combinePdfsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CreateCombinedSubmissionResponse}
@@ -890,7 +891,7 @@ export default class Client {
 
     /**
      * Generate a PDF
-     * Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Add the `wait=false` query parameter to return immediately.  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn't fit in fields 
+     * Creates a PDF submission by filling in a template with data. Supports both synchronous (default) and asynchronous processing. Add the `wait=false` query parameter to return immediately.  Live PDFs use credits; test PDFs (`test: true`) are free and watermarked. If your balance can't cover a live PDF, the API returns 402 and the submission waits in the `insufficient_credits` state until you add credits. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).  See also: - [Customize the PDF Title and Filename](https://docspring.com/docs/api-guide/generate-pdfs/customize-pdf-title-and-filename/) - Set custom metadata - [Handling Truncated Text](https://docspring.com/docs/api-guide/generate-pdfs/handle-truncated-text/) - Handle text that doesn't fit in fields 
      * @param {String} template_id 
      * @param {module:model/CreatePdfSubmissionData} submission 
      * @param {Object} opts Optional parameters
@@ -985,7 +986,7 @@ export default class Client {
 
     /**
      * Check the status of a combined submission (merged PDFs)
-     * Retrieves the details and status of a combined submission. Returns processing state, download URL (if processed), metadata, and information about any integrated actions (e.g., S3 uploads). 
+     * Retrieves the details and status of a combined submission. Returns processing state, download URL (if processed), metadata, and information about any integrated actions (e.g., S3 uploads).  `insufficient_credits` means the combined submission is waiting for credits and is processed once you add them. If it's still waiting after 30 days, it moves to `error`. 
      * @param {String} combined_submission_id 
      * @param {module:api/Client~getCombinedSubmissionCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/CombinedSubmission}
@@ -1151,7 +1152,7 @@ export default class Client {
 
     /**
      * Check the status of a PDF
-     * Retrieves the details and status of a PDF submission. Returns processing state, download URL (if processed), metadata, submission data (optional), and information about any integrated actions. Use this to poll for completion when using asynchronous processing. 
+     * Retrieves the details and status of a PDF submission. Returns processing state, download URL (if processed), metadata, submission data (optional), and information about any integrated actions. Use this to poll for completion when using asynchronous processing.  `insufficient_credits` means the submission is waiting for credits and is processed once you add them. If it's still waiting after 30 days, it moves to `error`. 
      * @param {String} submission_id 
      * @param {Object} opts Optional parameters
      * @param {Boolean} [include_data] 
@@ -1198,7 +1199,7 @@ export default class Client {
 
     /**
      * Check the status of a submission batch job
-     * Retrieves the status and results of a batch PDF generation job. Returns processing state, completion statistics, and optionally includes all individual submission details. Use this to poll for completion when using asynchronous batch processing. 
+     * Retrieves the status and results of a batch PDF generation job. Returns processing state, completion statistics, and optionally includes all individual submission details. Use this to poll for completion when using asynchronous batch processing.  Submissions waiting for credits are in the `insufficient_credits` state and count as pending, so the batch stays `pending` until you add credits or they stop waiting after 30 days. 
      * @param {String} submission_batch_id 
      * @param {Object} opts Optional parameters
      * @param {Boolean} [include_submissions] 

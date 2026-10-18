@@ -53,6 +53,8 @@ Name | Type | Description | Notes
 
 * `syntax_error` (value: `"syntax_error"`)
 
+* `insufficient_credits` (value: `"insufficient_credits"`)
+
 * `account_suspended` (value: `"account_suspended"`)
 
 * `license_revoked` (value: `"license_revoked"`)

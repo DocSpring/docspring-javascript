@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **String** |  | 
 **custom_file** | [**CustomFile**](CustomFile.md) |  | 
+**error** | **String** |  | [optional] 
 **errors** | **[String]** |  | [optional] 
 
 

@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures. Requests are rate limited per account, and live PDFs use credits: a request over the limit returns 429 with a Retry-After header, and one your credits can't cover returns 402. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).
  *
  * The version of the OpenAPI document: v1
  * 
@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionBatchData model module.
  * @module model/SubmissionBatchData
- * @version 3.2.0
+ * @version 3.3.0
  */
 class SubmissionBatchData {
     /**
@@ -122,6 +122,7 @@ SubmissionBatchData.prototype['template_id'] = undefined;
 SubmissionBatchData.prototype['template_version'] = undefined;
 
 /**
+ * Generate a watermarked test PDF. Test PDFs are free; live PDFs (the default) use credits.
  * @member {Boolean} test
  */
 SubmissionBatchData.prototype['test'] = undefined;

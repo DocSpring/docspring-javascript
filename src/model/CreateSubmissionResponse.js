@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures. Requests are rate limited per account, and live PDFs use credits: a request over the limit returns 429 with a Retry-After header, and one your credits can't cover returns 402. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,7 +17,7 @@ import SubmissionPreview from './SubmissionPreview';
 /**
  * The CreateSubmissionResponse model module.
  * @module model/CreateSubmissionResponse
- * @version 3.2.0
+ * @version 3.3.0
  */
 class CreateSubmissionResponse {
     /**
@@ -62,8 +62,14 @@ class CreateSubmissionResponse {
             if (data.hasOwnProperty('submission')) {
                 obj['submission'] = SubmissionPreview.constructFromObject(data['submission']);
             }
+            if (data.hasOwnProperty('error')) {
+                obj['error'] = ApiClient.convertToType(data['error'], 'String');
+            }
             if (data.hasOwnProperty('errors')) {
                 obj['errors'] = ApiClient.convertToType(data['errors'], ['String']);
+            }
+            if (data.hasOwnProperty('code')) {
+                obj['code'] = ApiClient.convertToType(data['code'], 'String');
             }
         }
         return obj;
@@ -85,9 +91,17 @@ class CreateSubmissionResponse {
         if (data['status'] && !(typeof data['status'] === 'string' || data['status'] instanceof String)) {
             throw new Error("Expected the field `status` to be a primitive type in the JSON string but got " + data['status']);
         }
+        // ensure the json data is a string
+        if (data['error'] && !(typeof data['error'] === 'string' || data['error'] instanceof String)) {
+            throw new Error("Expected the field `error` to be a primitive type in the JSON string but got " + data['error']);
+        }
         // ensure the json data is an array
         if (!Array.isArray(data['errors'])) {
             throw new Error("Expected the field `errors` to be an array in the JSON data but got " + data['errors']);
+        }
+        // ensure the json data is a string
+        if (data['code'] && !(typeof data['code'] === 'string' || data['code'] instanceof String)) {
+            throw new Error("Expected the field `code` to be a primitive type in the JSON string but got " + data['code']);
         }
 
         return true;
@@ -109,9 +123,20 @@ CreateSubmissionResponse.prototype['status'] = undefined;
 CreateSubmissionResponse.prototype['submission'] = undefined;
 
 /**
+ * @member {String} error
+ */
+CreateSubmissionResponse.prototype['error'] = undefined;
+
+/**
  * @member {Array.<String>} errors
  */
 CreateSubmissionResponse.prototype['errors'] = undefined;
+
+/**
+ * `insufficient_credits` when the response is a 402.
+ * @member {String} code
+ */
+CreateSubmissionResponse.prototype['code'] = undefined;
 
 
 

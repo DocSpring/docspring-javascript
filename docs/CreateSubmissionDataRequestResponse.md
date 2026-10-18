@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **String** |  | 
 **data_request** | [**SubmissionDataRequestShow**](SubmissionDataRequestShow.md) |  | 
+**error** | **String** |  | [optional] 
 **errors** | **[String]** |  | [optional] 
 
 

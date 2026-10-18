@@ -9,6 +9,6 @@ Name | Type | Description | Notes
 **metadata** | **Object** |  | [optional] 
 **password** | **String** |  | [optional] 
 **source_pdfs** | **[Object]** |  | 
-**test** | **Boolean** | Deprecated, and has no effect. A combined PDF is a test or live document because of its source PDFs. | [optional] 
+**test** | **Boolean** | Deprecated, and has no effect. Combining always uses credits, even with a test API token or watermarked source PDFs. | [optional] 
 
 

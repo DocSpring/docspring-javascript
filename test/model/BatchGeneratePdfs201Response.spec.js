@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures. Requests are rate limited per account, and live PDFs use credits: a request over the limit returns 429 with a Retry-After header, and one your credits can't cover returns 402. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).
  *
  * The version of the OpenAPI document: v1
  * 
@@ -80,6 +80,12 @@
 
     it('should have the property submissions (base name: "submissions")', function() {
       // uncomment below and update the code to test the property submissions
+      //var instance = new DocSpring.BatchGeneratePdfs201Response();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property code (base name: "code")', function() {
+      // uncomment below and update the code to test the property code
       //var instance = new DocSpring.BatchGeneratePdfs201Response();
       //expect(instance).to.be();
     });

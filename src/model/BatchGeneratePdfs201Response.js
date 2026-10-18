@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures. Requests are rate limited per account, and live PDFs use credits: a request over the limit returns 429 with a Retry-After header, and one your credits can't cover returns 402. See [Credits & Rate Limits](https://docspring.com/docs/api-guide/credits-and-rate-limits/).
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,7 +17,7 @@ import SubmissionBatch from './SubmissionBatch';
 /**
  * The BatchGeneratePdfs201Response model module.
  * @module model/BatchGeneratePdfs201Response
- * @version 3.2.0
+ * @version 3.3.0
  */
 class BatchGeneratePdfs201Response {
     /**
@@ -73,6 +73,9 @@ class BatchGeneratePdfs201Response {
             if (data.hasOwnProperty('submissions')) {
                 obj['submissions'] = ApiClient.convertToType(data['submissions'], [Object]);
             }
+            if (data.hasOwnProperty('code')) {
+                obj['code'] = ApiClient.convertToType(data['code'], 'String');
+            }
         }
         return obj;
     }
@@ -104,6 +107,10 @@ class BatchGeneratePdfs201Response {
         // ensure the json data is an array
         if (!Array.isArray(data['submissions'])) {
             throw new Error("Expected the field `submissions` to be an array in the JSON data but got " + data['submissions']);
+        }
+        // ensure the json data is a string
+        if (data['code'] && !(typeof data['code'] === 'string' || data['code'] instanceof String)) {
+            throw new Error("Expected the field `code` to be a primitive type in the JSON string but got " + data['code']);
         }
 
         return true;
@@ -138,6 +145,12 @@ BatchGeneratePdfs201Response.prototype['submission_batch'] = undefined;
  * @member {Array.<Object>} submissions
  */
 BatchGeneratePdfs201Response.prototype['submissions'] = undefined;
+
+/**
+ * `insufficient_credits` when the response is a 402.
+ * @member {String} code
+ */
+BatchGeneratePdfs201Response.prototype['code'] = undefined;
 
 
 

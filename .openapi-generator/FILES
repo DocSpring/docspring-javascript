@@ -27,6 +27,7 @@ docs/CustomFile.md
 docs/ErrorOrMultipleErrorsResponse.md
 docs/ErrorResponse.md
 docs/Folder.md
+docs/ForbiddenErrorResponse.md
 docs/JsonSchema.md
 docs/ListSubmissionsResponse.md
 docs/MoveFolderData.md
@@ -90,6 +91,7 @@ src/model/CustomFile.js
 src/model/ErrorOrMultipleErrorsResponse.js
 src/model/ErrorResponse.js
 src/model/Folder.js
+src/model/ForbiddenErrorResponse.js
 src/model/JsonSchema.js
 src/model/ListSubmissionsResponse.js
 src/model/MoveFolderData.js
@@ -148,6 +150,7 @@ test/model/CustomFile.spec.js
 test/model/ErrorOrMultipleErrorsResponse.spec.js
 test/model/ErrorResponse.spec.js
 test/model/Folder.spec.js
+test/model/ForbiddenErrorResponse.spec.js
 test/model/JsonSchema.spec.js
 test/model/ListSubmissionsResponse.spec.js
 test/model/MoveFolderData.spec.js

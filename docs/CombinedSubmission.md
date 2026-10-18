@@ -30,6 +30,8 @@ Name | Type | Description | Notes
 
 * `error` (value: `"error"`)
 
+* `insufficient_credits` (value: `"insufficient_credits"`)
+
 
 
 
