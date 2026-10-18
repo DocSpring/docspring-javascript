@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The Folder model module.
  * @module model/Folder
- * @version 3.1.0
+ * @version 3.2.0
  */
 class Folder {
     /**
      * Constructs a new <code>Folder</code>.
      * @alias module:model/Folder
+     * @extends Object
      * @param id {String} 
      * @param name {String} 
      * @param path {String} 
@@ -54,6 +55,9 @@ class Folder {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new Folder();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');

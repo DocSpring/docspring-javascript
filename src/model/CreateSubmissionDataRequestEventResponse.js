@@ -17,12 +17,13 @@ import SubmissionDataRequestEvent from './SubmissionDataRequestEvent';
 /**
  * The CreateSubmissionDataRequestEventResponse model module.
  * @module model/CreateSubmissionDataRequestEventResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class CreateSubmissionDataRequestEventResponse {
     /**
      * Constructs a new <code>CreateSubmissionDataRequestEventResponse</code>.
      * @alias module:model/CreateSubmissionDataRequestEventResponse
+     * @extends Object
      * @param status {module:model/CreateSubmissionDataRequestEventResponse.StatusEnum} 
      * @param event {module:model/SubmissionDataRequestEvent} 
      */
@@ -52,6 +53,9 @@ class CreateSubmissionDataRequestEventResponse {
         if (data) {
             obj = obj || new CreateSubmissionDataRequestEventResponse();
 
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
+
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');
             }
@@ -80,10 +84,6 @@ class CreateSubmissionDataRequestEventResponse {
         // ensure the json data is a string
         if (data['status'] && !(typeof data['status'] === 'string' || data['status'] instanceof String)) {
             throw new Error("Expected the field `status` to be a primitive type in the JSON string but got " + data['status']);
-        }
-        // validate the optional field `event`
-        if (data['event']) { // data not null
-          SubmissionDataRequestEvent.validateJSON(data['event']);
         }
         // ensure the json data is an array
         if (!Array.isArray(data['errors'])) {

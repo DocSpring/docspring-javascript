@@ -17,12 +17,13 @@ import Submission from './Submission';
 /**
  * The ListSubmissionsResponse model module.
  * @module model/ListSubmissionsResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class ListSubmissionsResponse {
     /**
      * Constructs a new <code>ListSubmissionsResponse</code>.
      * @alias module:model/ListSubmissionsResponse
+     * @extends Object
      * @param submissions {Array.<module:model/Submission>} 
      * @param limit {Number} 
      * @param next_cursor {String} 
@@ -54,6 +55,9 @@ class ListSubmissionsResponse {
         if (data) {
             obj = obj || new ListSubmissionsResponse();
 
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
+
             if (data.hasOwnProperty('submissions')) {
                 obj['submissions'] = ApiClient.convertToType(data['submissions'], [Submission]);
             }
@@ -79,15 +83,9 @@ class ListSubmissionsResponse {
                 throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
             }
         }
-        if (data['submissions']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['submissions'])) {
-                throw new Error("Expected the field `submissions` to be an array in the JSON data but got " + data['submissions']);
-            }
-            // validate the optional field `submissions` (array)
-            for (const item of data['submissions']) {
-                Submission.validateJSON(item);
-            };
+        // ensure the json data is an array
+        if (!Array.isArray(data['submissions'])) {
+            throw new Error("Expected the field `submissions` to be an array in the JSON data but got " + data['submissions']);
         }
         // ensure the json data is a string
         if (data['next_cursor'] && !(typeof data['next_cursor'] === 'string' || data['next_cursor'] instanceof String)) {

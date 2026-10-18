@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionDataRequestToken model module.
  * @module model/SubmissionDataRequestToken
- * @version 3.1.0
+ * @version 3.2.0
  */
 class SubmissionDataRequestToken {
     /**
      * Constructs a new <code>SubmissionDataRequestToken</code>.
      * @alias module:model/SubmissionDataRequestToken
+     * @extends Object
      * @param id {String} 
      * @param secret {String} 
      * @param expires_at {String} 
@@ -54,6 +55,9 @@ class SubmissionDataRequestToken {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new SubmissionDataRequestToken();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');

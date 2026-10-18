@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplatePublishVersionResponse model module.
  * @module model/TemplatePublishVersionResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class TemplatePublishVersionResponse {
     /**
      * Constructs a new <code>TemplatePublishVersionResponse</code>.
      * @alias module:model/TemplatePublishVersionResponse
+     * @extends Object
      * @param status {module:model/TemplatePublishVersionResponse.StatusEnum} 
      * @param result {Object} 
      */
@@ -50,6 +51,9 @@ class TemplatePublishVersionResponse {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new TemplatePublishVersionResponse();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');

@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The CustomFile model module.
  * @module model/CustomFile
- * @version 3.1.0
+ * @version 3.2.0
  */
 class CustomFile {
     /**
      * Constructs a new <code>CustomFile</code>.
      * @alias module:model/CustomFile
+     * @extends Object
      * @param id {String} 
      * @param url {String} 
      */
@@ -50,6 +51,9 @@ class CustomFile {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new CustomFile();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');

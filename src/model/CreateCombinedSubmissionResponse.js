@@ -17,12 +17,13 @@ import CombinedSubmission from './CombinedSubmission';
 /**
  * The CreateCombinedSubmissionResponse model module.
  * @module model/CreateCombinedSubmissionResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class CreateCombinedSubmissionResponse {
     /**
      * Constructs a new <code>CreateCombinedSubmissionResponse</code>.
      * @alias module:model/CreateCombinedSubmissionResponse
+     * @extends Object
      * @param status {module:model/CreateCombinedSubmissionResponse.StatusEnum} 
      * @param combined_submission {module:model/CombinedSubmission} 
      */
@@ -52,6 +53,9 @@ class CreateCombinedSubmissionResponse {
         if (data) {
             obj = obj || new CreateCombinedSubmissionResponse();
 
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
+
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');
             }
@@ -80,10 +84,6 @@ class CreateCombinedSubmissionResponse {
         // ensure the json data is a string
         if (data['status'] && !(typeof data['status'] === 'string' || data['status'] instanceof String)) {
             throw new Error("Expected the field `status` to be a primitive type in the JSON string but got " + data['status']);
-        }
-        // validate the optional field `combined_submission`
-        if (data['combined_submission']) { // data not null
-          CombinedSubmission.validateJSON(data['combined_submission']);
         }
         // ensure the json data is an array
         if (!Array.isArray(data['errors'])) {

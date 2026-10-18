@@ -18,12 +18,13 @@ import SubmissionDataRequest from './SubmissionDataRequest';
 /**
  * The SubmissionPreview model module.
  * @module model/SubmissionPreview
- * @version 3.1.0
+ * @version 3.2.0
  */
 class SubmissionPreview {
     /**
      * Constructs a new <code>SubmissionPreview</code>.
      * @alias module:model/SubmissionPreview
+     * @extends Object
      * @param batch_id {String} 
      * @param data_requests {Array.<module:model/SubmissionDataRequest>} 
      * @param editable {Boolean} 
@@ -96,6 +97,9 @@ class SubmissionPreview {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new SubmissionPreview();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('batch_id')) {
                 obj['batch_id'] = ApiClient.convertToType(data['batch_id'], 'String');
@@ -189,15 +193,9 @@ class SubmissionPreview {
         if (data['batch_id'] && !(typeof data['batch_id'] === 'string' || data['batch_id'] instanceof String)) {
             throw new Error("Expected the field `batch_id` to be a primitive type in the JSON string but got " + data['batch_id']);
         }
-        if (data['data_requests']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['data_requests'])) {
-                throw new Error("Expected the field `data_requests` to be an array in the JSON data but got " + data['data_requests']);
-            }
-            // validate the optional field `data_requests` (array)
-            for (const item of data['data_requests']) {
-                SubmissionDataRequest.validateJSON(item);
-            };
+        // ensure the json data is an array
+        if (!Array.isArray(data['data_requests'])) {
+            throw new Error("Expected the field `data_requests` to be an array in the JSON data but got " + data['data_requests']);
         }
         // ensure the json data is a string
         if (data['error_message'] && !(typeof data['error_message'] === 'string' || data['error_message'] instanceof String)) {
@@ -263,15 +261,9 @@ class SubmissionPreview {
         if (data['audit_trail_download_url'] && !(typeof data['audit_trail_download_url'] === 'string' || data['audit_trail_download_url'] instanceof String)) {
             throw new Error("Expected the field `audit_trail_download_url` to be a primitive type in the JSON string but got " + data['audit_trail_download_url']);
         }
-        if (data['actions']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['actions'])) {
-                throw new Error("Expected the field `actions` to be an array in the JSON data but got " + data['actions']);
-            }
-            // validate the optional field `actions` (array)
-            for (const item of data['actions']) {
-                SubmissionAction.validateJSON(item);
-            };
+        // ensure the json data is an array
+        if (!Array.isArray(data['actions'])) {
+            throw new Error("Expected the field `actions` to be an array in the JSON data but got " + data['actions']);
         }
 
         return true;

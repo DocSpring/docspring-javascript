@@ -17,12 +17,13 @@ import CustomFile from './CustomFile';
 /**
  * The CreateCustomFileResponse model module.
  * @module model/CreateCustomFileResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class CreateCustomFileResponse {
     /**
      * Constructs a new <code>CreateCustomFileResponse</code>.
      * @alias module:model/CreateCustomFileResponse
+     * @extends Object
      * @param status {module:model/CreateCustomFileResponse.StatusEnum} 
      * @param custom_file {module:model/CustomFile} 
      */
@@ -52,6 +53,9 @@ class CreateCustomFileResponse {
         if (data) {
             obj = obj || new CreateCustomFileResponse();
 
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
+
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');
             }
@@ -80,10 +84,6 @@ class CreateCustomFileResponse {
         // ensure the json data is a string
         if (data['status'] && !(typeof data['status'] === 'string' || data['status'] instanceof String)) {
             throw new Error("Expected the field `status` to be a primitive type in the JSON string but got " + data['status']);
-        }
-        // validate the optional field `custom_file`
-        if (data['custom_file']) { // data not null
-          CustomFile.validateJSON(data['custom_file']);
         }
         // ensure the json data is an array
         if (!Array.isArray(data['errors'])) {

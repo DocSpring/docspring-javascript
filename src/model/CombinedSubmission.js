@@ -17,12 +17,13 @@ import CombinedSubmissionAction from './CombinedSubmissionAction';
 /**
  * The CombinedSubmission model module.
  * @module model/CombinedSubmission
- * @version 3.1.0
+ * @version 3.2.0
  */
 class CombinedSubmission {
     /**
      * Constructs a new <code>CombinedSubmission</code>.
      * @alias module:model/CombinedSubmission
+     * @extends Object
      * @param id {String} 
      * @param state {module:model/CombinedSubmission.StateEnum} 
      * @param expired {Boolean} 
@@ -75,6 +76,9 @@ class CombinedSubmission {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new CombinedSubmission();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');
@@ -174,15 +178,9 @@ class CombinedSubmission {
         if (data['download_url'] && !(typeof data['download_url'] === 'string' || data['download_url'] instanceof String)) {
             throw new Error("Expected the field `download_url` to be a primitive type in the JSON string but got " + data['download_url']);
         }
-        if (data['actions']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['actions'])) {
-                throw new Error("Expected the field `actions` to be an array in the JSON data but got " + data['actions']);
-            }
-            // validate the optional field `actions` (array)
-            for (const item of data['actions']) {
-                CombinedSubmissionAction.validateJSON(item);
-            };
+        // ensure the json data is an array
+        if (!Array.isArray(data['actions'])) {
+            throw new Error("Expected the field `actions` to be an array in the JSON data but got " + data['actions']);
         }
 
         return true;

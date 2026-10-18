@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionBatch model module.
  * @module model/SubmissionBatch
- * @version 3.1.0
+ * @version 3.2.0
  */
 class SubmissionBatch {
     /**
      * Constructs a new <code>SubmissionBatch</code>.
      * @alias module:model/SubmissionBatch
+     * @extends Object
      * @param id {String} 
      * @param state {module:model/SubmissionBatch.StateEnum} 
      * @param metadata {Object} 
@@ -62,6 +63,9 @@ class SubmissionBatch {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new SubmissionBatch();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');

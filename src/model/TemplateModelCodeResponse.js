@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplateModelCodeResponse model module.
  * @module model/TemplateModelCodeResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class TemplateModelCodeResponse {
     /**
      * Constructs a new <code>TemplateModelCodeResponse</code>.
      * @alias module:model/TemplateModelCodeResponse
+     * @extends Object
      * @param lang {module:model/TemplateModelCodeResponse.LangEnum} 
      * @param root_type_name {String} 
      * @param code {String} 
@@ -52,6 +53,9 @@ class TemplateModelCodeResponse {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new TemplateModelCodeResponse();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('lang')) {
                 obj['lang'] = ApiClient.convertToType(data['lang'], 'String');

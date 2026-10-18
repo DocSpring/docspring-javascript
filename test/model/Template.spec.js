@@ -228,6 +228,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property parse_dates_using_template_date_format (base name: "parse_dates_using_template_date_format")', function() {
+      // uncomment below and update the code to test the property parse_dates_using_template_date_format
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
     it('should have the property path (base name: "path")', function() {
       // uncomment below and update the code to test the property path
       //var instance = new DocSpring.Template();

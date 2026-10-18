@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The MultipleErrorsResponse model module.
  * @module model/MultipleErrorsResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class MultipleErrorsResponse {
     /**
      * Constructs a new <code>MultipleErrorsResponse</code>.
      * @alias module:model/MultipleErrorsResponse
+     * @extends Object
      * @param status {module:model/MultipleErrorsResponse.StatusEnum} 
      * @param errors {Array.<String>} 
      */
@@ -50,6 +51,9 @@ class MultipleErrorsResponse {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new MultipleErrorsResponse();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');

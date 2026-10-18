@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The SuccessErrorResponse model module.
  * @module model/SuccessErrorResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class SuccessErrorResponse {
     /**
      * Constructs a new <code>SuccessErrorResponse</code>.
      * @alias module:model/SuccessErrorResponse
+     * @extends Object
      * @param status {module:model/SuccessErrorResponse.StatusEnum} 
      */
     constructor(status) { 
@@ -48,6 +49,9 @@ class SuccessErrorResponse {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new SuccessErrorResponse();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');

@@ -17,12 +17,13 @@ import SubmissionDataRequestToken from './SubmissionDataRequestToken';
 /**
  * The CreateSubmissionDataRequestTokenResponse model module.
  * @module model/CreateSubmissionDataRequestTokenResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class CreateSubmissionDataRequestTokenResponse {
     /**
      * Constructs a new <code>CreateSubmissionDataRequestTokenResponse</code>.
      * @alias module:model/CreateSubmissionDataRequestTokenResponse
+     * @extends Object
      * @param status {module:model/CreateSubmissionDataRequestTokenResponse.StatusEnum} 
      * @param token {module:model/SubmissionDataRequestToken} 
      */
@@ -52,6 +53,9 @@ class CreateSubmissionDataRequestTokenResponse {
         if (data) {
             obj = obj || new CreateSubmissionDataRequestTokenResponse();
 
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
+
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');
             }
@@ -80,10 +84,6 @@ class CreateSubmissionDataRequestTokenResponse {
         // ensure the json data is a string
         if (data['status'] && !(typeof data['status'] === 'string' || data['status'] instanceof String)) {
             throw new Error("Expected the field `status` to be a primitive type in the JSON string but got " + data['status']);
-        }
-        // validate the optional field `token`
-        if (data['token']) { // data not null
-          SubmissionDataRequestToken.validateJSON(data['token']);
         }
         // ensure the json data is an array
         if (!Array.isArray(data['errors'])) {

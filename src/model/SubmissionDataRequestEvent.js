@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionDataRequestEvent model module.
  * @module model/SubmissionDataRequestEvent
- * @version 3.1.0
+ * @version 3.2.0
  */
 class SubmissionDataRequestEvent {
     /**
      * Constructs a new <code>SubmissionDataRequestEvent</code>.
      * @alias module:model/SubmissionDataRequestEvent
+     * @extends Object
      * @param id {String} 
      * @param submission_id {String} 
      * @param submission_data_request_id {String} 
@@ -60,6 +61,9 @@ class SubmissionDataRequestEvent {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new SubmissionDataRequestEvent();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');

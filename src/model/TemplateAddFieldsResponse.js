@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplateAddFieldsResponse model module.
  * @module model/TemplateAddFieldsResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class TemplateAddFieldsResponse {
     /**
      * Constructs a new <code>TemplateAddFieldsResponse</code>.
      * @alias module:model/TemplateAddFieldsResponse
+     * @extends Object
      * @param status {module:model/TemplateAddFieldsResponse.StatusEnum} 
      */
     constructor(status) { 
@@ -48,6 +49,9 @@ class TemplateAddFieldsResponse {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new TemplateAddFieldsResponse();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');

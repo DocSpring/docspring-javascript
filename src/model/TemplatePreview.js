@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplatePreview model module.
  * @module model/TemplatePreview
- * @version 3.1.0
+ * @version 3.2.0
  */
 class TemplatePreview {
     /**
      * Constructs a new <code>TemplatePreview</code>.
      * @alias module:model/TemplatePreview
+     * @extends Object
      * @param add_data_request_submission_id_footers {Boolean} 
      * @param allow_additional_properties {Boolean} 
      * @param description {String} 
@@ -51,6 +52,7 @@ class TemplatePreview {
      * @param page_count {Number} 
      * @param page_dimensions {Array.<Array.<Number>>} 
      * @param parent_folder_id {String} 
+     * @param parse_dates_using_template_date_format {Boolean} 
      * @param path {String} 
      * @param permanent_document_url {String} 
      * @param public_submissions {Boolean} 
@@ -71,9 +73,9 @@ class TemplatePreview {
      * @param last_changed_by_external_email {String} 
      * @param last_changed_by_external_id {String} 
      */
-    constructor(add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, last_changed_by_external_name, last_changed_by_external_email, last_changed_by_external_id) { 
+    constructor(add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, parse_dates_using_template_date_format, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, last_changed_by_external_name, last_changed_by_external_email, last_changed_by_external_id) { 
         
-        TemplatePreview.initialize(this, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, last_changed_by_external_name, last_changed_by_external_email, last_changed_by_external_id);
+        TemplatePreview.initialize(this, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, parse_dates_using_template_date_format, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, last_changed_by_external_name, last_changed_by_external_email, last_changed_by_external_id);
     }
 
     /**
@@ -81,7 +83,7 @@ class TemplatePreview {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, last_changed_by_external_name, last_changed_by_external_email, last_changed_by_external_id) { 
+    static initialize(obj, add_data_request_submission_id_footers, allow_additional_properties, description, document_filename, document_md5, document_parse_error, document_processed, document_state, document_url, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs_password, encrypt_pdfs, expiration_interval, expire_after, expire_submissions, external_predefined_fields_template_id, external_predefined_fields_template_name, first_template, id, locked, merge_audit_trail_pdf, name, page_count, page_dimensions, parent_folder_id, parse_dates_using_template_date_format, path, permanent_document_url, public_submissions, public_web_form, redirect_url, slack_webhook_url, template_type, updated_at, version_published_at, version, webhook_url, demo, latest_version, last_changed_at, last_changed_by_type, last_changed_by_id, last_changed_by_external_name, last_changed_by_external_email, last_changed_by_external_id) { 
         obj['add_data_request_submission_id_footers'] = add_data_request_submission_id_footers;
         obj['allow_additional_properties'] = allow_additional_properties;
         obj['description'] = description;
@@ -111,6 +113,7 @@ class TemplatePreview {
         obj['page_count'] = page_count;
         obj['page_dimensions'] = page_dimensions;
         obj['parent_folder_id'] = parent_folder_id;
+        obj['parse_dates_using_template_date_format'] = parse_dates_using_template_date_format;
         obj['path'] = path;
         obj['permanent_document_url'] = permanent_document_url;
         obj['public_submissions'] = public_submissions;
@@ -142,6 +145,9 @@ class TemplatePreview {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new TemplatePreview();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('add_data_request_submission_id_footers')) {
                 obj['add_data_request_submission_id_footers'] = ApiClient.convertToType(data['add_data_request_submission_id_footers'], 'Boolean');
@@ -229,6 +235,9 @@ class TemplatePreview {
             }
             if (data.hasOwnProperty('parent_folder_id')) {
                 obj['parent_folder_id'] = ApiClient.convertToType(data['parent_folder_id'], 'String');
+            }
+            if (data.hasOwnProperty('parse_dates_using_template_date_format')) {
+                obj['parse_dates_using_template_date_format'] = ApiClient.convertToType(data['parse_dates_using_template_date_format'], 'Boolean');
             }
             if (data.hasOwnProperty('path')) {
                 obj['path'] = ApiClient.convertToType(data['path'], 'String');
@@ -437,7 +446,7 @@ class TemplatePreview {
 
 }
 
-TemplatePreview.RequiredProperties = ["add_data_request_submission_id_footers", "allow_additional_properties", "description", "document_filename", "document_md5", "document_parse_error", "document_processed", "document_state", "document_url", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs_password", "encrypt_pdfs", "expiration_interval", "expire_after", "expire_submissions", "external_predefined_fields_template_id", "external_predefined_fields_template_name", "first_template", "id", "locked", "merge_audit_trail_pdf", "name", "page_count", "page_dimensions", "parent_folder_id", "path", "permanent_document_url", "public_submissions", "public_web_form", "redirect_url", "slack_webhook_url", "template_type", "updated_at", "version_published_at", "version", "webhook_url", "demo", "latest_version", "last_changed_at", "last_changed_by_type", "last_changed_by_id", "last_changed_by_external_name", "last_changed_by_external_email", "last_changed_by_external_id"];
+TemplatePreview.RequiredProperties = ["add_data_request_submission_id_footers", "allow_additional_properties", "description", "document_filename", "document_md5", "document_parse_error", "document_processed", "document_state", "document_url", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs_password", "encrypt_pdfs", "expiration_interval", "expire_after", "expire_submissions", "external_predefined_fields_template_id", "external_predefined_fields_template_name", "first_template", "id", "locked", "merge_audit_trail_pdf", "name", "page_count", "page_dimensions", "parent_folder_id", "parse_dates_using_template_date_format", "path", "permanent_document_url", "public_submissions", "public_web_form", "redirect_url", "slack_webhook_url", "template_type", "updated_at", "version_published_at", "version", "webhook_url", "demo", "latest_version", "last_changed_at", "last_changed_by_type", "last_changed_by_id", "last_changed_by_external_name", "last_changed_by_external_email", "last_changed_by_external_id"];
 
 /**
  * @member {Boolean} add_data_request_submission_id_footers
@@ -583,6 +592,11 @@ TemplatePreview.prototype['page_dimensions'] = undefined;
  * @member {String} parent_folder_id
  */
 TemplatePreview.prototype['parent_folder_id'] = undefined;
+
+/**
+ * @member {Boolean} parse_dates_using_template_date_format
+ */
+TemplatePreview.prototype['parse_dates_using_template_date_format'] = undefined;
 
 /**
  * @member {String} path

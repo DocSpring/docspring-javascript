@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionDataRequestShow model module.
  * @module model/SubmissionDataRequestShow
- * @version 3.1.0
+ * @version 3.2.0
  */
 class SubmissionDataRequestShow {
     /**
      * Constructs a new <code>SubmissionDataRequestShow</code>.
      * @alias module:model/SubmissionDataRequestShow
+     * @extends Object
      * @param id {String} 
      * @param email {String} 
      * @param name {String} 
@@ -92,6 +93,9 @@ class SubmissionDataRequestShow {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new SubmissionDataRequestShow();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');

@@ -17,12 +17,13 @@ import SubmissionPreview from './SubmissionPreview';
 /**
  * The CreateSubmissionResponse model module.
  * @module model/CreateSubmissionResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class CreateSubmissionResponse {
     /**
      * Constructs a new <code>CreateSubmissionResponse</code>.
      * @alias module:model/CreateSubmissionResponse
+     * @extends Object
      * @param status {module:model/CreateSubmissionResponse.StatusEnum} 
      * @param submission {module:model/SubmissionPreview} 
      */
@@ -52,6 +53,9 @@ class CreateSubmissionResponse {
         if (data) {
             obj = obj || new CreateSubmissionResponse();
 
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
+
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');
             }
@@ -80,10 +84,6 @@ class CreateSubmissionResponse {
         // ensure the json data is a string
         if (data['status'] && !(typeof data['status'] === 'string' || data['status'] instanceof String)) {
             throw new Error("Expected the field `status` to be a primitive type in the JSON string but got " + data['status']);
-        }
-        // validate the optional field `submission`
-        if (data['submission']) { // data not null
-          SubmissionPreview.validateJSON(data['submission']);
         }
         // ensure the json data is an array
         if (!Array.isArray(data['errors'])) {

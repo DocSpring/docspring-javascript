@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The ErrorResponse model module.
  * @module model/ErrorResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class ErrorResponse {
     /**
      * Constructs a new <code>ErrorResponse</code>.
      * @alias module:model/ErrorResponse
+     * @extends Object
      * @param status {module:model/ErrorResponse.StatusEnum} 
      * @param error {String} 
      */
@@ -50,6 +51,9 @@ class ErrorResponse {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new ErrorResponse();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');

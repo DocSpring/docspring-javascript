@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The UpdateWebhookData model module.
  * @module model/UpdateWebhookData
- * @version 3.1.0
+ * @version 3.2.0
  */
 class UpdateWebhookData {
     /**

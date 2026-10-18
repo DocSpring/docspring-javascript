@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The Webhook model module.
  * @module model/Webhook
- * @version 3.1.0
+ * @version 3.2.0
  */
 class Webhook {
     /**
      * Constructs a new <code>Webhook</code>.
      * @alias module:model/Webhook
+     * @extends Object
      * @param id {String} 
      * @param name {String} 
      * @param url {String} 
@@ -86,6 +87,9 @@ class Webhook {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new Webhook();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');

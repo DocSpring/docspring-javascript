@@ -17,12 +17,13 @@ import SubmissionPreview from './SubmissionPreview';
 /**
  * The SubmissionBatchWithSubmissions model module.
  * @module model/SubmissionBatchWithSubmissions
- * @version 3.1.0
+ * @version 3.2.0
  */
 class SubmissionBatchWithSubmissions {
     /**
      * Constructs a new <code>SubmissionBatchWithSubmissions</code>.
      * @alias module:model/SubmissionBatchWithSubmissions
+     * @extends Object
      * @param id {String} 
      * @param state {module:model/SubmissionBatchWithSubmissions.StateEnum} 
      * @param metadata {Object} 
@@ -63,6 +64,9 @@ class SubmissionBatchWithSubmissions {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new SubmissionBatchWithSubmissions();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');
@@ -119,15 +123,9 @@ class SubmissionBatchWithSubmissions {
         if (data['processed_at'] && !(typeof data['processed_at'] === 'string' || data['processed_at'] instanceof String)) {
             throw new Error("Expected the field `processed_at` to be a primitive type in the JSON string but got " + data['processed_at']);
         }
-        if (data['submissions']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['submissions'])) {
-                throw new Error("Expected the field `submissions` to be an array in the JSON data but got " + data['submissions']);
-            }
-            // validate the optional field `submissions` (array)
-            for (const item of data['submissions']) {
-                SubmissionPreview.validateJSON(item);
-            };
+        // ensure the json data is an array
+        if (!Array.isArray(data['submissions'])) {
+            throw new Error("Expected the field `submissions` to be an array in the JSON data but got " + data['submissions']);
         }
 
         return true;

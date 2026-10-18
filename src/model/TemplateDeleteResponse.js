@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplateDeleteResponse model module.
  * @module model/TemplateDeleteResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class TemplateDeleteResponse {
     /**
      * Constructs a new <code>TemplateDeleteResponse</code>.
      * @alias module:model/TemplateDeleteResponse
+     * @extends Object
      * @param status {module:model/TemplateDeleteResponse.StatusEnum} 
      */
     constructor(status) { 
@@ -48,6 +49,9 @@ class TemplateDeleteResponse {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new TemplateDeleteResponse();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');

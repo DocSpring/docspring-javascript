@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The SuccessMultipleErrorsResponse model module.
  * @module model/SuccessMultipleErrorsResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class SuccessMultipleErrorsResponse {
     /**
      * Constructs a new <code>SuccessMultipleErrorsResponse</code>.
      * @alias module:model/SuccessMultipleErrorsResponse
+     * @extends Object
      * @param status {module:model/SuccessMultipleErrorsResponse.StatusEnum} 
      */
     constructor(status) { 
@@ -48,6 +49,9 @@ class SuccessMultipleErrorsResponse {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new SuccessMultipleErrorsResponse();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');

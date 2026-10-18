@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The CombinedSubmissionAction model module.
  * @module model/CombinedSubmissionAction
- * @version 3.1.0
+ * @version 3.2.0
  */
 class CombinedSubmissionAction {
     /**
      * Constructs a new <code>CombinedSubmissionAction</code>.
      * @alias module:model/CombinedSubmissionAction
+     * @extends Object
      * @param id {String} 
      * @param integration_id {String} 
      * @param state {module:model/CombinedSubmissionAction.StateEnum} 
@@ -60,6 +61,9 @@ class CombinedSubmissionAction {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new CombinedSubmissionAction();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');

@@ -17,12 +17,13 @@ import SubmissionPreview from './SubmissionPreview';
 /**
  * The Submission422Response model module.
  * @module model/Submission422Response
- * @version 3.1.0
+ * @version 3.2.0
  */
 class Submission422Response {
     /**
      * Constructs a new <code>Submission422Response</code>.
      * @alias module:model/Submission422Response
+     * @extends Object
      * @param status {module:model/Submission422Response.StatusEnum} 
      */
     constructor(status) { 
@@ -49,6 +50,9 @@ class Submission422Response {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new Submission422Response();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');
@@ -85,10 +89,6 @@ class Submission422Response {
         // ensure the json data is a string
         if (data['error'] && !(typeof data['error'] === 'string' || data['error'] instanceof String)) {
             throw new Error("Expected the field `error` to be a primitive type in the JSON string but got " + data['error']);
-        }
-        // validate the optional field `submission`
-        if (data['submission']) { // data not null
-          SubmissionPreview.validateJSON(data['submission']);
         }
         // ensure the json data is an array
         if (!Array.isArray(data['errors'])) {

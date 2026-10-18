@@ -17,12 +17,13 @@ import SubmissionBatch from './SubmissionBatch';
 /**
  * The BatchGeneratePdfs201Response model module.
  * @module model/BatchGeneratePdfs201Response
- * @version 3.1.0
+ * @version 3.2.0
  */
 class BatchGeneratePdfs201Response {
     /**
      * Constructs a new <code>BatchGeneratePdfs201Response</code>.
      * @alias module:model/BatchGeneratePdfs201Response
+     * @extends Object
      * @param status {module:model/BatchGeneratePdfs201Response.StatusEnum} 
      * @param submission_batch {module:model/SubmissionBatch} 
      * @param submissions {Array.<Object>} 
@@ -53,6 +54,9 @@ class BatchGeneratePdfs201Response {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new BatchGeneratePdfs201Response();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('status')) {
                 obj['status'] = ApiClient.convertToType(data['status'], 'String');
@@ -96,10 +100,6 @@ class BatchGeneratePdfs201Response {
         // ensure the json data is an array
         if (!Array.isArray(data['errors'])) {
             throw new Error("Expected the field `errors` to be an array in the JSON data but got " + data['errors']);
-        }
-        // validate the optional field `submission_batch`
-        if (data['submission_batch']) { // data not null
-          SubmissionBatch.validateJSON(data['submission_batch']);
         }
         // ensure the json data is an array
         if (!Array.isArray(data['submissions'])) {

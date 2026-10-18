@@ -16,12 +16,13 @@ import ApiClient from '../ApiClient';
 /**
  * The UploadPresignResponse model module.
  * @module model/UploadPresignResponse
- * @version 3.1.0
+ * @version 3.2.0
  */
 class UploadPresignResponse {
     /**
      * Constructs a new <code>UploadPresignResponse</code>.
      * @alias module:model/UploadPresignResponse
+     * @extends Object
      * @param fields {Object} 
      * @param headers {Object} 
      * @param url {String} 
@@ -52,6 +53,9 @@ class UploadPresignResponse {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new UploadPresignResponse();
+
+            ApiClient.constructFromObject(data, obj, 'Object');
+            
 
             if (data.hasOwnProperty('fields')) {
                 obj['fields'] = ApiClient.convertToType(data['fields'], Object);

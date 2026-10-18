@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CreateCustomFileData model module.
  * @module model/CreateCustomFileData
- * @version 3.1.0
+ * @version 3.2.0
  */
 class CreateCustomFileData {
     /**
