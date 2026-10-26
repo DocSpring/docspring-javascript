@@ -18,6 +18,7 @@ import FieldSetupLogic from './FieldSetupLogic';
 import FieldSetupNaming from './FieldSetupNaming';
 import FieldSetupSource from './FieldSetupSource';
 import HtmlEngineOptionsInput from './HtmlEngineOptionsInput';
+import PredefinedFieldInput from './PredefinedFieldInput';
 import TemplateDefaultsInput from './TemplateDefaultsInput';
 import TemplateFieldDependencyInput from './TemplateFieldDependencyInput';
 import TemplateFormMode from './TemplateFormMode';
@@ -26,7 +27,7 @@ import TemplateType from './TemplateType';
 /**
  * The CreateTemplateRequest model module.
  * @module model/CreateTemplateRequest
- * @version 4.0.0
+ * @version 4.1.0
  */
 class CreateTemplateRequest {
     /**
@@ -144,6 +145,12 @@ class CreateTemplateRequest {
             if (data.hasOwnProperty('field_dependencies')) {
                 obj['field_dependencies'] = ApiClient.convertToType(data['field_dependencies'], [TemplateFieldDependencyInput]);
             }
+            if (data.hasOwnProperty('predefined_fields')) {
+                obj['predefined_fields'] = ApiClient.convertToType(data['predefined_fields'], [PredefinedFieldInput]);
+            }
+            if (data.hasOwnProperty('predefined_fields_sample_data')) {
+                obj['predefined_fields_sample_data'] = ApiClient.convertToType(data['predefined_fields_sample_data'], {'String': Object});
+            }
             if (data.hasOwnProperty('html')) {
                 obj['html'] = ApiClient.convertToType(data['html'], 'String');
             }
@@ -161,6 +168,12 @@ class CreateTemplateRequest {
             }
             if (data.hasOwnProperty('cache_id')) {
                 obj['cache_id'] = ApiClient.convertToType(data['cache_id'], 'String');
+            }
+            if (data.hasOwnProperty('document_url')) {
+                obj['document_url'] = ApiClient.convertToType(data['document_url'], 'String');
+            }
+            if (data.hasOwnProperty('document_base64')) {
+                obj['document_base64'] = ApiClient.convertToType(data['document_base64'], 'String');
             }
             if (data.hasOwnProperty('filename')) {
                 obj['filename'] = ApiClient.convertToType(data['filename'], 'String');
@@ -235,6 +248,16 @@ class CreateTemplateRequest {
                 TemplateFieldDependencyInput.validateJSON(item);
             };
         }
+        if (data['predefined_fields']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['predefined_fields'])) {
+                throw new Error("Expected the field `predefined_fields` to be an array in the JSON data but got " + data['predefined_fields']);
+            }
+            // validate the optional field `predefined_fields` (array)
+            for (const item of data['predefined_fields']) {
+                PredefinedFieldInput.validateJSON(item);
+            };
+        }
         // ensure the json data is a string
         if (data['html'] && !(typeof data['html'] === 'string' || data['html'] instanceof String)) {
             throw new Error("Expected the field `html` to be a primitive type in the JSON string but got " + data['html']);
@@ -258,6 +281,14 @@ class CreateTemplateRequest {
         // ensure the json data is a string
         if (data['cache_id'] && !(typeof data['cache_id'] === 'string' || data['cache_id'] instanceof String)) {
             throw new Error("Expected the field `cache_id` to be a primitive type in the JSON string but got " + data['cache_id']);
+        }
+        // ensure the json data is a string
+        if (data['document_url'] && !(typeof data['document_url'] === 'string' || data['document_url'] instanceof String)) {
+            throw new Error("Expected the field `document_url` to be a primitive type in the JSON string but got " + data['document_url']);
+        }
+        // ensure the json data is a string
+        if (data['document_base64'] && !(typeof data['document_base64'] === 'string' || data['document_base64'] instanceof String)) {
+            throw new Error("Expected the field `document_base64` to be a primitive type in the JSON string but got " + data['document_base64']);
         }
         // ensure the json data is a string
         if (data['filename'] && !(typeof data['filename'] === 'string' || data['filename'] instanceof String)) {
@@ -441,6 +472,18 @@ CreateTemplateRequest.prototype['defaults'] = undefined;
 CreateTemplateRequest.prototype['field_dependencies'] = undefined;
 
 /**
+ * The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
+ * @member {Array.<module:model/PredefinedFieldInput>} predefined_fields
+ */
+CreateTemplateRequest.prototype['predefined_fields'] = undefined;
+
+/**
+ * Sample submission data that sets `predefined_fields`: each value becomes a predefined field, with a type that fits it (`string`, `number`, `boolean`, `date`, `email` or `url`) and `required_in_template` true. Nested objects and arrays become names with `/`, such as `customer/email`. Without `predefined_fields` in the same request, it replaces them; with them, it adds to them and sets the types of the ones it has values for.
+ * @member {Object.<String, Object>} predefined_fields_sample_data
+ */
+CreateTemplateRequest.prototype['predefined_fields_sample_data'] = undefined;
+
+/**
  * The HTML of an HTML template, as a Liquid template. Null for PDF templates.
  * @member {String} html
  */
@@ -471,13 +514,25 @@ CreateTemplateRequest.prototype['footer_html'] = undefined;
 CreateTemplateRequest.prototype['html_engine_options'] = undefined;
 
 /**
- * A PDF template's document: the `fields.key` of a file you uploaded with the presigned upload (GET /uploads/presign). Required for a PDF template. To upload the PDF with the request, use POST /templates/upload.
+ * A PDF template's document: the `fields.key` of a file you uploaded with the presigned upload (GET /uploads/presign). A PDF template needs one of `cache_id`, `document_url` and `document_base64`. To upload the PDF with the request, use POST /templates/upload.
  * @member {String} cache_id
  */
 CreateTemplateRequest.prototype['cache_id'] = undefined;
 
 /**
- * The PDF's file name, for a `cache_id` (presigned uploads don't send one).
+ * An https:// link to the template's PDF (up to 100 MB), instead of `cache_id`. DocSpring downloads it after responding, following redirects to other https:// links: the template's `document.state` is `downloading` until then (sync.api hosts wait for it). If it can't be downloaded, the state is `download_failed` and `document.error_message` says why.
+ * @member {String} document_url
+ */
+CreateTemplateRequest.prototype['document_url'] = undefined;
+
+/**
+ * The template's PDF, encoded as base64 (a `data:` URI works too), instead of `cache_id`. Up to 7 MB before it's encoded: send a larger file with `cache_id` or `document_url`.
+ * @member {String} document_base64
+ */
+CreateTemplateRequest.prototype['document_base64'] = undefined;
+
+/**
+ * The PDF's file name, for a `cache_id` (presigned uploads don't send one) or `document_base64`. A `document_url`'s is the last part of its path unless you set it.
  * @member {String} filename
  */
 CreateTemplateRequest.prototype['filename'] = undefined;

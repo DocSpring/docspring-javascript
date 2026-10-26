@@ -222,6 +222,18 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property predefined_fields (base name: "predefined_fields")', function() {
+      // uncomment below and update the code to test the property predefined_fields
+      //var instance = new DocSpring.CreateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property predefined_fields_sample_data (base name: "predefined_fields_sample_data")', function() {
+      // uncomment below and update the code to test the property predefined_fields_sample_data
+      //var instance = new DocSpring.CreateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property html (base name: "html")', function() {
       // uncomment below and update the code to test the property html
       //var instance = new DocSpring.CreateTemplateRequest();
@@ -254,6 +266,18 @@
 
     it('should have the property cache_id (base name: "cache_id")', function() {
       // uncomment below and update the code to test the property cache_id
+      //var instance = new DocSpring.CreateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property document_url (base name: "document_url")', function() {
+      // uncomment below and update the code to test the property document_url
+      //var instance = new DocSpring.CreateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property document_base64 (base name: "document_base64")', function() {
+      // uncomment below and update the code to test the property document_base64
       //var instance = new DocSpring.CreateTemplateRequest();
       //expect(instance).to.be();
     });

@@ -20,7 +20,7 @@ import TemplatePageImageStatus from './TemplatePageImageStatus';
 /**
  * The TemplatePageProcessingStatus model module.
  * @module model/TemplatePageProcessingStatus
- * @version 4.0.0
+ * @version 4.1.0
  */
 class TemplatePageProcessingStatus {
     /**

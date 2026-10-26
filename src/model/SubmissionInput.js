@@ -13,11 +13,12 @@
 
 import ApiClient from '../ApiClient';
 import FieldOverride from './FieldOverride';
+import OutputFormat from './OutputFormat';
 
 /**
  * The SubmissionInput model module.
  * @module model/SubmissionInput
- * @version 4.0.0
+ * @version 4.1.0
  */
 class SubmissionInput {
     /**
@@ -64,6 +65,9 @@ class SubmissionInput {
             if (data.hasOwnProperty('password')) {
                 obj['password'] = ApiClient.convertToType(data['password'], 'String');
             }
+            if (data.hasOwnProperty('output_formats')) {
+                obj['output_formats'] = ApiClient.convertToType(data['output_formats'], [OutputFormat]);
+            }
             if (data.hasOwnProperty('expires_in')) {
                 obj['expires_in'] = ApiClient.convertToType(data['expires_in'], 'Number');
             }
@@ -95,6 +99,10 @@ class SubmissionInput {
         // ensure the json data is a string
         if (data['password'] && !(typeof data['password'] === 'string' || data['password'] instanceof String)) {
             throw new Error("Expected the field `password` to be a primitive type in the JSON string but got " + data['password']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['output_formats'])) {
+            throw new Error("Expected the field `output_formats` to be an array in the JSON data but got " + data['output_formats']);
         }
         // ensure the json data is a string
         if (data['html'] && !(typeof data['html'] === 'string' || data['html'] instanceof String)) {
@@ -150,6 +158,12 @@ SubmissionInput.prototype['metadata'] = undefined;
  * @member {String} password
  */
 SubmissionInput.prototype['password'] = undefined;
+
+/**
+ * What the submission makes: `pdf`, and `png` (an image of each page of the PDF, up to 100 pages) when you ask for it. Default `["pdf"]`. POST /submissions/{submission_id}/generate_files adds `png` to a processed submission.
+ * @member {Array.<module:model/OutputFormat>} output_formats
+ */
+SubmissionInput.prototype['output_formats'] = undefined;
 
 /**
  * Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours.

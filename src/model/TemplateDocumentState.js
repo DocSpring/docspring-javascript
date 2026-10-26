@@ -54,6 +54,20 @@ export default class TemplateDocumentState {
         static "unknown_error" = "unknown_error";
 
     
+        /**
+         * value: "downloading"
+         * @const
+         */
+        static "downloading" = "downloading";
+
+    
+        /**
+         * value: "download_failed"
+         * @const
+         */
+        static "download_failed" = "download_failed";
+
+    
 
     /**
     * Returns a <code>TemplateDocumentState</code> enum value from a Javascript object name.

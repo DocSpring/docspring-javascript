@@ -14,6 +14,7 @@
 
 import ApiClient from './ApiClient';
 import { ValidationError } from './RequestValidator';
+import AddTemplateFieldsRequest from './model/AddTemplateFieldsRequest';
 import AiFieldNamingLanguage from './model/AiFieldNamingLanguage';
 import AuthenticationCheck from './model/AuthenticationCheck';
 import BarcodeSymbology from './model/BarcodeSymbology';
@@ -45,12 +46,19 @@ import ErrorDetail from './model/ErrorDetail';
 import ErrorInfo from './model/ErrorInfo';
 import ErrorResponse from './model/ErrorResponse';
 import ExpirationInterval from './model/ExpirationInterval';
+import Field from './model/Field';
 import FieldComparisonCondition from './model/FieldComparisonCondition';
 import FieldComparisonOperator from './model/FieldComparisonOperator';
+import FieldDependency from './model/FieldDependency';
+import FieldDependencyInput from './model/FieldDependencyInput';
 import FieldDisplayType from './model/FieldDisplayType';
 import FieldEqualsCondition from './model/FieldEqualsCondition';
 import FieldEqualsOperator from './model/FieldEqualsOperator';
+import FieldGroup from './model/FieldGroup';
+import FieldGroupInput from './model/FieldGroupInput';
+import FieldGroupType from './model/FieldGroupType';
 import FieldInCondition from './model/FieldInCondition';
+import FieldInput from './model/FieldInput';
 import FieldOverride from './model/FieldOverride';
 import FieldPresenceCondition from './model/FieldPresenceCondition';
 import FieldPresenceOperator from './model/FieldPresenceOperator';
@@ -59,8 +67,11 @@ import FieldReimportState from './model/FieldReimportState';
 import FieldSetupLogic from './model/FieldSetupLogic';
 import FieldSetupNaming from './model/FieldSetupNaming';
 import FieldSetupSource from './model/FieldSetupSource';
+import FieldType from './model/FieldType';
 import Folder from './model/Folder';
 import FolderList from './model/FolderList';
+import GenerateFilesFormat from './model/GenerateFilesFormat';
+import GenerateSubmissionFilesRequest from './model/GenerateSubmissionFilesRequest';
 import GeneratedFile from './model/GeneratedFile';
 import GeneratedFileState from './model/GeneratedFileState';
 import HtmlEngineOptions from './model/HtmlEngineOptions';
@@ -71,9 +82,16 @@ import ModelCodeLanguage from './model/ModelCodeLanguage';
 import MoveFolderRequest from './model/MoveFolderRequest';
 import MoveTemplateRequest from './model/MoveTemplateRequest';
 import NumberConditionType from './model/NumberConditionType';
+import OutputFormat from './model/OutputFormat';
 import PageFormat from './model/PageFormat';
+import PageImage from './model/PageImage';
+import PageImages from './model/PageImages';
+import PredefinedField from './model/PredefinedField';
+import PredefinedFieldInput from './model/PredefinedFieldInput';
 import PublishTemplateVersionRequest from './model/PublishTemplateVersionRequest';
+import RemoveTemplateFieldsRequest from './model/RemoveTemplateFieldsRequest';
 import RenameFolderRequest from './model/RenameFolderRequest';
+import ReorderTemplateFieldsRequest from './model/ReorderTemplateFieldsRequest';
 import RestoreTemplateVersionRequest from './model/RestoreTemplateVersionRequest';
 import ShapeType from './model/ShapeType';
 import SignatureRequest from './model/SignatureRequest';
@@ -99,13 +117,18 @@ import SubmissionList from './model/SubmissionList';
 import SubmissionSource from './model/SubmissionSource';
 import SubmissionSourcePdf from './model/SubmissionSourcePdf';
 import SubmissionState from './model/SubmissionState';
+import SubmissionValidation from './model/SubmissionValidation';
 import Template from './model/Template';
 import TemplateActor from './model/TemplateActor';
 import TemplateActorType from './model/TemplateActorType';
 import TemplateDefaults from './model/TemplateDefaults';
 import TemplateDefaultsInput from './model/TemplateDefaultsInput';
+import TemplateDiff from './model/TemplateDiff';
+import TemplateDiffSummary from './model/TemplateDiffSummary';
 import TemplateDocument from './model/TemplateDocument';
 import TemplateDocumentState from './model/TemplateDocumentState';
+import TemplateFieldChange from './model/TemplateFieldChange';
+import TemplateFieldChanges from './model/TemplateFieldChanges';
 import TemplateFieldDependency from './model/TemplateFieldDependency';
 import TemplateFieldDependencyAction from './model/TemplateFieldDependencyAction';
 import TemplateFieldDependencyCondition from './model/TemplateFieldDependencyCondition';
@@ -114,12 +137,15 @@ import TemplateFieldDependencyInput from './model/TemplateFieldDependencyInput';
 import TemplateFieldDependencyMatch from './model/TemplateFieldDependencyMatch';
 import TemplateFieldDependencyOperator from './model/TemplateFieldDependencyOperator';
 import TemplateFieldLogicStatus from './model/TemplateFieldLogicStatus';
+import TemplateFieldMove from './model/TemplateFieldMove';
+import TemplateFields from './model/TemplateFields';
 import TemplateFormMode from './model/TemplateFormMode';
 import TemplateModelCode from './model/TemplateModelCode';
 import TemplatePageAiError from './model/TemplatePageAiError';
 import TemplatePageAiNamingStatus from './model/TemplatePageAiNamingStatus';
 import TemplatePageFieldsStatus from './model/TemplatePageFieldsStatus';
 import TemplatePageImageStatus from './model/TemplatePageImageStatus';
+import TemplatePageImages from './model/TemplatePageImages';
 import TemplatePageProcessingStatus from './model/TemplatePageProcessingStatus';
 import TemplateSourcePdf from './model/TemplateSourcePdf';
 import TemplateSummary from './model/TemplateSummary';
@@ -133,11 +159,13 @@ import TextVerticalAlignment from './model/TextVerticalAlignment';
 import Typeface from './model/Typeface';
 import UpdateSignatureRequestRequest from './model/UpdateSignatureRequestRequest';
 import UpdateTemplateDocumentRequest from './model/UpdateTemplateDocumentRequest';
+import UpdateTemplateFieldsRequest from './model/UpdateTemplateFieldsRequest';
 import UpdateTemplateRequest from './model/UpdateTemplateRequest';
 import UpdateWebhookRequest from './model/UpdateWebhookRequest';
 import UploadMethod from './model/UploadMethod';
 import UploadPresign from './model/UploadPresign';
 import UrlSourcePdf from './model/UrlSourcePdf';
+import ValidateSubmissionRequest from './model/ValidateSubmissionRequest';
 import Webhook from './model/Webhook';
 import WebhookEventType from './model/WebhookEventType';
 import WebhookList from './model/WebhookList';
@@ -174,7 +202,7 @@ import Client from './api/Client';
 * </pre>
 * </p>
 * @module index
-* @version 4.0.0
+* @version 4.1.0
 */
 export {
     /**
@@ -182,6 +210,12 @@ export {
      * @property {module:ApiClient}
      */
     ApiClient,
+
+    /**
+     * The AddTemplateFieldsRequest model constructor.
+     * @property {module:model/AddTemplateFieldsRequest}
+     */
+    AddTemplateFieldsRequest,
 
     /**
      * The AiFieldNamingLanguage model constructor.
@@ -370,6 +404,12 @@ export {
     ExpirationInterval,
 
     /**
+     * The Field model constructor.
+     * @property {module:model/Field}
+     */
+    Field,
+
+    /**
      * The FieldComparisonCondition model constructor.
      * @property {module:model/FieldComparisonCondition}
      */
@@ -380,6 +420,18 @@ export {
      * @property {module:model/FieldComparisonOperator}
      */
     FieldComparisonOperator,
+
+    /**
+     * The FieldDependency model constructor.
+     * @property {module:model/FieldDependency}
+     */
+    FieldDependency,
+
+    /**
+     * The FieldDependencyInput model constructor.
+     * @property {module:model/FieldDependencyInput}
+     */
+    FieldDependencyInput,
 
     /**
      * The FieldDisplayType model constructor.
@@ -400,10 +452,34 @@ export {
     FieldEqualsOperator,
 
     /**
+     * The FieldGroup model constructor.
+     * @property {module:model/FieldGroup}
+     */
+    FieldGroup,
+
+    /**
+     * The FieldGroupInput model constructor.
+     * @property {module:model/FieldGroupInput}
+     */
+    FieldGroupInput,
+
+    /**
+     * The FieldGroupType model constructor.
+     * @property {module:model/FieldGroupType}
+     */
+    FieldGroupType,
+
+    /**
      * The FieldInCondition model constructor.
      * @property {module:model/FieldInCondition}
      */
     FieldInCondition,
+
+    /**
+     * The FieldInput model constructor.
+     * @property {module:model/FieldInput}
+     */
+    FieldInput,
 
     /**
      * The FieldOverride model constructor.
@@ -454,6 +530,12 @@ export {
     FieldSetupSource,
 
     /**
+     * The FieldType model constructor.
+     * @property {module:model/FieldType}
+     */
+    FieldType,
+
+    /**
      * The Folder model constructor.
      * @property {module:model/Folder}
      */
@@ -464,6 +546,18 @@ export {
      * @property {module:model/FolderList}
      */
     FolderList,
+
+    /**
+     * The GenerateFilesFormat model constructor.
+     * @property {module:model/GenerateFilesFormat}
+     */
+    GenerateFilesFormat,
+
+    /**
+     * The GenerateSubmissionFilesRequest model constructor.
+     * @property {module:model/GenerateSubmissionFilesRequest}
+     */
+    GenerateSubmissionFilesRequest,
 
     /**
      * The GeneratedFile model constructor.
@@ -526,10 +620,40 @@ export {
     NumberConditionType,
 
     /**
+     * The OutputFormat model constructor.
+     * @property {module:model/OutputFormat}
+     */
+    OutputFormat,
+
+    /**
      * The PageFormat model constructor.
      * @property {module:model/PageFormat}
      */
     PageFormat,
+
+    /**
+     * The PageImage model constructor.
+     * @property {module:model/PageImage}
+     */
+    PageImage,
+
+    /**
+     * The PageImages model constructor.
+     * @property {module:model/PageImages}
+     */
+    PageImages,
+
+    /**
+     * The PredefinedField model constructor.
+     * @property {module:model/PredefinedField}
+     */
+    PredefinedField,
+
+    /**
+     * The PredefinedFieldInput model constructor.
+     * @property {module:model/PredefinedFieldInput}
+     */
+    PredefinedFieldInput,
 
     /**
      * The PublishTemplateVersionRequest model constructor.
@@ -538,10 +662,22 @@ export {
     PublishTemplateVersionRequest,
 
     /**
+     * The RemoveTemplateFieldsRequest model constructor.
+     * @property {module:model/RemoveTemplateFieldsRequest}
+     */
+    RemoveTemplateFieldsRequest,
+
+    /**
      * The RenameFolderRequest model constructor.
      * @property {module:model/RenameFolderRequest}
      */
     RenameFolderRequest,
+
+    /**
+     * The ReorderTemplateFieldsRequest model constructor.
+     * @property {module:model/ReorderTemplateFieldsRequest}
+     */
+    ReorderTemplateFieldsRequest,
 
     /**
      * The RestoreTemplateVersionRequest model constructor.
@@ -694,6 +830,12 @@ export {
     SubmissionState,
 
     /**
+     * The SubmissionValidation model constructor.
+     * @property {module:model/SubmissionValidation}
+     */
+    SubmissionValidation,
+
+    /**
      * The Template model constructor.
      * @property {module:model/Template}
      */
@@ -724,6 +866,18 @@ export {
     TemplateDefaultsInput,
 
     /**
+     * The TemplateDiff model constructor.
+     * @property {module:model/TemplateDiff}
+     */
+    TemplateDiff,
+
+    /**
+     * The TemplateDiffSummary model constructor.
+     * @property {module:model/TemplateDiffSummary}
+     */
+    TemplateDiffSummary,
+
+    /**
      * The TemplateDocument model constructor.
      * @property {module:model/TemplateDocument}
      */
@@ -734,6 +888,18 @@ export {
      * @property {module:model/TemplateDocumentState}
      */
     TemplateDocumentState,
+
+    /**
+     * The TemplateFieldChange model constructor.
+     * @property {module:model/TemplateFieldChange}
+     */
+    TemplateFieldChange,
+
+    /**
+     * The TemplateFieldChanges model constructor.
+     * @property {module:model/TemplateFieldChanges}
+     */
+    TemplateFieldChanges,
 
     /**
      * The TemplateFieldDependency model constructor.
@@ -784,6 +950,18 @@ export {
     TemplateFieldLogicStatus,
 
     /**
+     * The TemplateFieldMove model constructor.
+     * @property {module:model/TemplateFieldMove}
+     */
+    TemplateFieldMove,
+
+    /**
+     * The TemplateFields model constructor.
+     * @property {module:model/TemplateFields}
+     */
+    TemplateFields,
+
+    /**
      * The TemplateFormMode model constructor.
      * @property {module:model/TemplateFormMode}
      */
@@ -818,6 +996,12 @@ export {
      * @property {module:model/TemplatePageImageStatus}
      */
     TemplatePageImageStatus,
+
+    /**
+     * The TemplatePageImages model constructor.
+     * @property {module:model/TemplatePageImages}
+     */
+    TemplatePageImages,
 
     /**
      * The TemplatePageProcessingStatus model constructor.
@@ -898,6 +1082,12 @@ export {
     UpdateTemplateDocumentRequest,
 
     /**
+     * The UpdateTemplateFieldsRequest model constructor.
+     * @property {module:model/UpdateTemplateFieldsRequest}
+     */
+    UpdateTemplateFieldsRequest,
+
+    /**
      * The UpdateTemplateRequest model constructor.
      * @property {module:model/UpdateTemplateRequest}
      */
@@ -926,6 +1116,12 @@ export {
      * @property {module:model/UrlSourcePdf}
      */
     UrlSourcePdf,
+
+    /**
+     * The ValidateSubmissionRequest model constructor.
+     * @property {module:model/ValidateSubmissionRequest}
+     */
+    ValidateSubmissionRequest,
 
     /**
      * The Webhook model constructor.

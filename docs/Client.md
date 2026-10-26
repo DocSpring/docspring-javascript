@@ -4,6 +4,7 @@ All URIs are relative to *https://sync.api.docspring.com/api/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**addTemplateFields**](Client.md#addTemplateFields) | **POST** /templates/{template_id}/fields | Add fields to a template
 [**copyTemplate**](Client.md#copyTemplate) | **POST** /templates/{template_id}/copy | Copy a template
 [**createCombinedPdf**](Client.md#createCombinedPdf) | **POST** /combined_pdfs | Combine PDFs
 [**createCustomFileFromUpload**](Client.md#createCustomFileFromUpload) | **POST** /custom_files | Create a custom file from an upload
@@ -20,6 +21,7 @@ Method | HTTP request | Description
 [**deleteWebhook**](Client.md#deleteWebhook) | **DELETE** /webhooks/{webhook_id} | Delete a webhook
 [**expireCombinedPdf**](Client.md#expireCombinedPdf) | **DELETE** /combined_pdfs/{combined_pdf_id} | Expire a combined PDF
 [**expireSubmission**](Client.md#expireSubmission) | **DELETE** /submissions/{submission_id} | Expire a submission
+[**generateSubmissionFiles**](Client.md#generateSubmissionFiles) | **POST** /submissions/{submission_id}/generate_files | Generate more files
 [**generateSubmissionPreview**](Client.md#generateSubmissionPreview) | **POST** /submissions/{submission_id}/generate_preview | Generate a preview PDF
 [**getCombinedPdf**](Client.md#getCombinedPdf) | **GET** /combined_pdfs/{combined_pdf_id} | Get a combined PDF
 [**getCustomFile**](Client.md#getCustomFile) | **GET** /custom_files/{custom_file_id} | Get a custom file
@@ -29,29 +31,87 @@ Method | HTTP request | Description
 [**getSubmission**](Client.md#getSubmission) | **GET** /submissions/{submission_id} | Get a submission
 [**getSubmissionBatch**](Client.md#getSubmissionBatch) | **GET** /submissions/batches/{submission_batch_id} | Get a batch
 [**getTemplate**](Client.md#getTemplate) | **GET** /templates/{template_id} | Get a template
+[**getTemplateDiff**](Client.md#getTemplateDiff) | **GET** /templates/{template_id}/diff | Compare a version of a template with the one before it
 [**getTemplateModelCode**](Client.md#getTemplateModelCode) | **GET** /templates/{template_id}/model_code | Generate typed code for a template's submission data
+[**getTemplatePageImages**](Client.md#getTemplatePageImages) | **GET** /templates/{template_id}/page_images | Get images of a template's pages
 [**getTemplateSchema**](Client.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Get the JSON Schema of a template's submission data
 [**getWebhook**](Client.md#getWebhook) | **GET** /webhooks/{webhook_id} | Get a webhook
 [**listCombinedPdfs**](Client.md#listCombinedPdfs) | **GET** /combined_pdfs | List combined PDFs
 [**listCustomFiles**](Client.md#listCustomFiles) | **GET** /custom_files | List custom files
 [**listFolders**](Client.md#listFolders) | **GET** /folders | List folders
 [**listSubmissions**](Client.md#listSubmissions) | **GET** /submissions | List submissions
+[**listTemplateFields**](Client.md#listTemplateFields) | **GET** /templates/{template_id}/fields | List a template's fields
 [**listTemplateSubmissions**](Client.md#listTemplateSubmissions) | **GET** /templates/{template_id}/submissions | List a template's submissions
 [**listTemplates**](Client.md#listTemplates) | **GET** /templates | List templates
 [**listWebhooks**](Client.md#listWebhooks) | **GET** /webhooks | List webhooks
 [**moveFolder**](Client.md#moveFolder) | **POST** /folders/{folder_id}/move | Move a folder
 [**moveTemplate**](Client.md#moveTemplate) | **POST** /templates/{template_id}/move | Move a template to a folder
 [**publishTemplateVersion**](Client.md#publishTemplateVersion) | **POST** /templates/{template_id}/publish_version | Publish a template version
+[**removeTemplateFields**](Client.md#removeTemplateFields) | **POST** /templates/{template_id}/fields/remove | Remove fields from a template
 [**renameFolder**](Client.md#renameFolder) | **POST** /folders/{folder_id}/rename | Rename a folder
+[**reorderTemplateFields**](Client.md#reorderTemplateFields) | **POST** /templates/{template_id}/fields/reorder | Reorder a template's fields
 [**restoreTemplateVersion**](Client.md#restoreTemplateVersion) | **POST** /templates/{template_id}/restore_version | Restore a template version
 [**testAuthentication**](Client.md#testAuthentication) | **GET** /authentication | Test authentication
 [**updateSignatureRequest**](Client.md#updateSignatureRequest) | **PUT** /signature_requests/{signature_request_id} | Update a signature request
 [**updateTemplate**](Client.md#updateTemplate) | **PUT** /templates/{template_id} | Update a template
 [**updateTemplateDocument**](Client.md#updateTemplateDocument) | **PUT** /templates/{template_id}/document | Replace a template's PDF
+[**updateTemplateFields**](Client.md#updateTemplateFields) | **PUT** /templates/{template_id}/fields | Update a template's fields
 [**updateWebhook**](Client.md#updateWebhook) | **PUT** /webhooks/{webhook_id} | Update a webhook
 [**uploadTemplate**](Client.md#uploadTemplate) | **POST** /templates/upload | Create a PDF template from an uploaded PDF
 [**uploadTemplateDocument**](Client.md#uploadTemplateDocument) | **PUT** /templates/{template_id}/document/upload | Replace a template's PDF with an uploaded PDF
+[**validateSubmission**](Client.md#validateSubmission) | **POST** /templates/{template_id}/submissions/validate | Check a submission without creating it
 
+
+
+## addTemplateFields
+
+> TemplateFields addTemplateFields(template_id, body)
+
+Add fields to a template
+
+Adds fields to a template's draft and returns all of its fields. Publish a version for submissions of published versions to have them. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
+let body = {"fields":[{"name":"email","page":1,"x":100,"y":300,"width":600,"height":80,"type":"email","required":true},{"name":"signature","page":1,"x":100,"y":400,"width":600,"height":150,"type":"signature","display_type":"image"}]}; // AddTemplateFieldsRequest | The fields to add to the template's draft.
+apiInstance.addTemplateFields(template_id, body).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **body** | [**AddTemplateFieldsRequest**](AddTemplateFieldsRequest.md)| The fields to add to the template's draft. | 
+
+### Return type
+
+[**TemplateFields**](TemplateFields.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 
 ## copyTemplate
@@ -385,7 +445,7 @@ let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
 let body = {"data":{"first_name":"John","last_name":"Smith","phone_number":"+11234567890"},"metadata":{"user_id":42},"test":true}; // CreateSubmissionRequest | The submission's data and settings.
 let opts = {
   'version': "version_example", // String | The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
-  'wait': true // Boolean | Wait until the PDF has been generated before responding. Default true on sync.api hosts.
+  'wait': true // Boolean | Wait until the files have been generated before responding. Default true on sync.api hosts.
 };
 apiInstance.createSubmission(template_id, body, opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -403,7 +463,7 @@ Name | Type | Description  | Notes
  **template_id** | **String**| The template's ID. | 
  **body** | [**CreateSubmissionRequest**](CreateSubmissionRequest.md)| The submission's data and settings. | 
  **version** | **String**| The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). | [optional] 
- **wait** | **Boolean**| Wait until the PDF has been generated before responding. Default true on sync.api hosts. | [optional] 
+ **wait** | **Boolean**| Wait until the files have been generated before responding. Default true on sync.api hosts. | [optional] 
 
 ### Return type
 
@@ -493,7 +553,7 @@ api_token_basic.password = 'YOUR PASSWORD';
 let apiInstance = new DocSpring.Client();
 let body = {"template_type":"html","name":"Receipt","html":"<h1>Receipt for {{ name }}</h1>","scss":"h1 { font-size: 24px; }","html_engine_options":{"format":"A4","landscape":true},"parent_folder_id":"fld_1234567890abcdef01"}; // CreateTemplateRequest | The template to create.
 let opts = {
-  'wait': true // Boolean | Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+  'wait': true // Boolean | Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
 };
 apiInstance.createTemplate(body, opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -509,7 +569,7 @@ apiInstance.createTemplate(body, opts).then((data) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**CreateTemplateRequest**](CreateTemplateRequest.md)| The template to create. | 
- **wait** | **Boolean**| Wait until the PDF has been processed before responding. Default true on sync.api hosts. | [optional] 
+ **wait** | **Boolean**| Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts. | [optional] 
 
 ### Return type
 
@@ -869,6 +929,61 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## generateSubmissionFiles
+
+> Submission generateSubmissionFiles(submission_id, body, opts)
+
+Generate more files
+
+Adds formats to a processed submission's files, in the background: `png`, a PNG image of each page of the PDF (up to 100 pages). To make them with the submission, add them to `output_formats` when you create it.  Each new file is listed in `files` while it's made: on sync.api hosts the request waits for them (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until none of their `state` is `pending`. A file that couldn't be made has the state `error` and an `error_message`, and the submission stays processed. Asking for a format the submission already has (or is making) changes nothing. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let submission_id = "sub_1234567890abcdef01"; // String | The submission's ID.
+let body = {"formats":["png"]}; // GenerateSubmissionFilesRequest | The formats to make.
+let opts = {
+  'wait': true // Boolean | Wait until the files have been generated before responding. Default true on sync.api hosts.
+};
+apiInstance.generateSubmissionFiles(submission_id, body, opts).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **submission_id** | **String**| The submission's ID. | 
+ **body** | [**GenerateSubmissionFilesRequest**](GenerateSubmissionFilesRequest.md)| The formats to make. | 
+ **wait** | **Boolean**| Wait until the files have been generated before responding. Default true on sync.api hosts. | [optional] 
+
+### Return type
+
+[**Submission**](Submission.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 
@@ -1317,6 +1432,59 @@ Name | Type | Description  | Notes
 - **Accept**: application/json
 
 
+## getTemplateDiff
+
+> TemplateDiff getTemplateDiff(template_id, opts)
+
+Compare a version of a template with the one before it
+
+Returns what changed in the template's draft since its latest published version (or in a published version since the one before it): fields added, removed, changed and moved, the settings that changed, and whether the document was replaced. Check it before you publish a version. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
+let opts = {
+  'version': "0.1.0" // String | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+};
+apiInstance.getTemplateDiff(template_id, opts).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **version** | **String**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] 
+
+### Return type
+
+[**TemplateDiff**](TemplateDiff.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
 ## getTemplateModelCode
 
 > TemplateModelCode getTemplateModelCode(template_id, lang, opts)
@@ -1361,6 +1529,59 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**TemplateModelCode**](TemplateModelCode.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## getTemplatePageImages
+
+> TemplatePageImages getTemplatePageImages(template_id, opts)
+
+Get images of a template's pages
+
+Returns a JPEG image of each page of a PDF template's PDF, with temporary links to download them: the draft's PDF, or a published version's. Use them to see the pages that fields are placed on. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
+let opts = {
+  'version': "latest" // String | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+};
+apiInstance.getTemplatePageImages(template_id, opts).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **version** | **String**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] 
+
+### Return type
+
+[**TemplatePageImages**](TemplatePageImages.md)
 
 ### Authorization
 
@@ -1698,6 +1919,59 @@ Name | Type | Description  | Notes
 - **Accept**: application/json
 
 
+## listTemplateFields
+
+> TemplateFields listTemplateFields(template_id, opts)
+
+List a template's fields
+
+Returns a template's fields with all of their settings, page by page: the draft's fields, or a published version's. A PDF template's fields are placed on its pages: GET /templates/{template_id}/page_images has images of the pages. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
+let opts = {
+  'version': "latest" // String | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+};
+apiInstance.listTemplateFields(template_id, opts).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **version** | **String**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] 
+
+### Return type
+
+[**TemplateFields**](TemplateFields.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
 ## listTemplateSubmissions
 
 > SubmissionList listTemplateSubmissions(template_id, opts)
@@ -1989,7 +2263,7 @@ Name | Type | Description  | Notes
 
 Publish a template version
 
-Publishes the template's draft as a new version that doesn't change. `version_type` says which part of the latest version number goes up. 
+Publishes the template's draft as a new version that doesn't change. `version_type` says which part of the latest version number goes up. While the template's PDF is downloading or being processed, or DocSpring is setting up its fields, it returns a 409 that says so. 
 
 ### Example
 
@@ -2023,6 +2297,57 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**TemplateVersion**](TemplateVersion.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## removeTemplateFields
+
+> TemplateFields removeTemplateFields(template_id, body)
+
+Remove fields from a template
+
+Removes fields from a template's draft and returns the fields that are left. Conditional logic that used only the removed fields is removed too. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
+let body = {"field_ids":[3]}; // RemoveTemplateFieldsRequest | The fields to remove from the template's draft.
+apiInstance.removeTemplateFields(template_id, body).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **body** | [**RemoveTemplateFieldsRequest**](RemoveTemplateFieldsRequest.md)| The fields to remove from the template's draft. | 
+
+### Return type
+
+[**TemplateFields**](TemplateFields.md)
 
 ### Authorization
 
@@ -2074,6 +2399,57 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Folder**](Folder.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## reorderTemplateFields
+
+> TemplateFields reorderTemplateFields(template_id, body)
+
+Reorder a template's fields
+
+Changes the order of the fields in a template's draft and returns them in their new order. Send every field's ID: each field stays on its page, and a page's fields are printed in this order, so a later field prints over an earlier one where they overlap. Their values are in this order in the template's data schema and forms. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
+let body = {"field_ids":[3,1,2]}; // ReorderTemplateFieldsRequest | The new order of the fields in the template's draft.
+apiInstance.reorderTemplateFields(template_id, body).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **body** | [**ReorderTemplateFieldsRequest**](ReorderTemplateFieldsRequest.md)| The new order of the fields in the template's draft. | 
+
+### Return type
+
+[**TemplateFields**](TemplateFields.md)
 
 ### Authorization
 
@@ -2238,7 +2614,7 @@ Name | Type | Description  | Notes
 
 Update a template
 
-Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object. Setting `parent_folder_id` moves the template and all of its published versions. 
+Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Setting `parent_folder_id` moves the template and all of its published versions. 
 
 ### Example
 
@@ -2289,7 +2665,7 @@ Name | Type | Description  | Notes
 
 Replace a template's PDF
 
-Replaces a PDF template's PDF with one you uploaded with the presigned upload (GET /uploads/presign). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. To send the PDF with the request instead, use PUT /templates/{template_id}/document/upload. 
+Replaces a PDF template's PDF with one you uploaded with the presigned upload (GET /uploads/presign) (`cache_id`), a link to download it from (`document_url`), or the file in base64 (`document_base64`). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. To send the PDF as `multipart/form-data` instead, use PUT /templates/{template_id}/document/upload. 
 
 ### Example
 
@@ -2303,9 +2679,9 @@ api_token_basic.password = 'YOUR PASSWORD';
 
 let apiInstance = new DocSpring.Client();
 let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
-let body = {"cache_id":"cache/original-0000000000","filename":"fw8ben.pdf","reimport_fields":true}; // UpdateTemplateDocumentRequest | The new PDF.
+let body = {"cache_id":"cache/original-0000000000","filename":"fw8ben.pdf","reimport_fields":true}; // UpdateTemplateDocumentRequest | The new PDF, as one of `cache_id`, `document_url` and `document_base64`.
 let opts = {
-  'wait': true // Boolean | Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+  'wait': true // Boolean | Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
 };
 apiInstance.updateTemplateDocument(template_id, body, opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -2321,12 +2697,63 @@ apiInstance.updateTemplateDocument(template_id, body, opts).then((data) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **template_id** | **String**| The template's ID. | 
- **body** | [**UpdateTemplateDocumentRequest**](UpdateTemplateDocumentRequest.md)| The new PDF. | 
- **wait** | **Boolean**| Wait until the PDF has been processed before responding. Default true on sync.api hosts. | [optional] 
+ **body** | [**UpdateTemplateDocumentRequest**](UpdateTemplateDocumentRequest.md)| The new PDF, as one of `cache_id`, `document_url` and `document_base64`. | 
+ **wait** | **Boolean**| Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts. | [optional] 
 
 ### Return type
 
 [**Template**](Template.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## updateTemplateFields
+
+> TemplateFields updateTemplateFields(template_id, body)
+
+Update a template's fields
+
+Changes fields of a template's draft and returns all of its fields. Settings left out keep their values. A shared setting (`type`, `required`, `default`, ...) changes for every field with the same name. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
+let body = {"fields":[{"id":0,"x":5}]}; // UpdateTemplateFieldsRequest | The fields to change in the template's draft.
+apiInstance.updateTemplateFields(template_id, body).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **body** | [**UpdateTemplateFieldsRequest**](UpdateTemplateFieldsRequest.md)| The fields to change in the template's draft. | 
+
+### Return type
+
+[**TemplateFields**](TemplateFields.md)
 
 ### Authorization
 
@@ -2410,7 +2837,7 @@ api_token_basic.password = 'YOUR PASSWORD';
 let apiInstance = new DocSpring.Client();
 let document = "/path/to/file"; // File | The PDF.
 let opts = {
-  'wait': true, // Boolean | Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+  'wait': true, // Boolean | Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
   'name': "name_example", // String | The template's name.
   'description': "description_example", // String | The template's description.
   'parent_folder_id': "parent_folder_id_example", // String | The folder to put the template in. Left out, it's created at the root.
@@ -2434,7 +2861,7 @@ apiInstance.uploadTemplate(document, opts).then((data) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **document** | **File**| The PDF. | 
- **wait** | **Boolean**| Wait until the PDF has been processed before responding. Default true on sync.api hosts. | [optional] 
+ **wait** | **Boolean**| Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts. | [optional] 
  **name** | **String**| The template's name. | [optional] 
  **description** | **String**| The template's description. | [optional] 
  **parent_folder_id** | **String**| The folder to put the template in. Left out, it's created at the root. | [optional] 
@@ -2480,7 +2907,7 @@ let apiInstance = new DocSpring.Client();
 let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
 let document = "/path/to/file"; // File | The new PDF.
 let opts = {
-  'wait': true, // Boolean | Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+  'wait': true, // Boolean | Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
   'reimport_fields': true // Boolean | Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields.
 };
 apiInstance.uploadTemplateDocument(template_id, document, opts).then((data) => {
@@ -2498,7 +2925,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **template_id** | **String**| The template's ID. | 
  **document** | **File**| The new PDF. | 
- **wait** | **Boolean**| Wait until the PDF has been processed before responding. Default true on sync.api hosts. | [optional] 
+ **wait** | **Boolean**| Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts. | [optional] 
  **reimport_fields** | **Boolean**| Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. | [optional] 
 
 ### Return type
@@ -2512,5 +2939,60 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: multipart/form-data
+- **Accept**: application/json
+
+
+## validateSubmission
+
+> SubmissionValidation validateSubmission(template_id, body, opts)
+
+Check a submission without creating it
+
+Checks a submission as creating it would (its data against the template's fields, its settings and signature requests) without saving it, generating anything or using credits. It doesn't check your account's credits. The response says whether the submission is valid, and if not, has the error that creating it would return. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
+let body = {"data":{"first_name":"John","last_name":"Smith","phone_number":"+11234567890"}}; // ValidateSubmissionRequest | The submission's data and settings.
+let opts = {
+  'version': "latest" // String | The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+};
+apiInstance.validateSubmission(template_id, body, opts).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **body** | [**ValidateSubmissionRequest**](ValidateSubmissionRequest.md)| The submission's data and settings. | 
+ **version** | **String**| The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). | [optional] 
+
+### Return type
+
+[**SubmissionValidation**](SubmissionValidation.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 

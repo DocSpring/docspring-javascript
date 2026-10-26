@@ -17,7 +17,7 @@ import FieldEqualsOperator from './FieldEqualsOperator';
 /**
  * The FieldEqualsCondition model module.
  * @module model/FieldEqualsCondition
- * @version 4.0.0
+ * @version 4.1.0
  */
 class FieldEqualsCondition {
     /**

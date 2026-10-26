@@ -48,6 +48,16 @@
   }
 
   describe('Client', function() {
+    describe('addTemplateFields', function() {
+      it('should call addTemplateFields successfully', function(done) {
+        //uncomment below and update the code to test addTemplateFields
+        //instance.addTemplateFields(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('copyTemplate', function() {
       it('should call copyTemplate successfully', function(done) {
         //uncomment below and update the code to test copyTemplate
@@ -208,6 +218,16 @@
         done();
       });
     });
+    describe('generateSubmissionFiles', function() {
+      it('should call generateSubmissionFiles successfully', function(done) {
+        //uncomment below and update the code to test generateSubmissionFiles
+        //instance.generateSubmissionFiles(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('generateSubmissionPreview', function() {
       it('should call generateSubmissionPreview successfully', function(done) {
         //uncomment below and update the code to test generateSubmissionPreview
@@ -298,10 +318,30 @@
         done();
       });
     });
+    describe('getTemplateDiff', function() {
+      it('should call getTemplateDiff successfully', function(done) {
+        //uncomment below and update the code to test getTemplateDiff
+        //instance.getTemplateDiff(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('getTemplateModelCode', function() {
       it('should call getTemplateModelCode successfully', function(done) {
         //uncomment below and update the code to test getTemplateModelCode
         //instance.getTemplateModelCode(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('getTemplatePageImages', function() {
+      it('should call getTemplatePageImages successfully', function(done) {
+        //uncomment below and update the code to test getTemplatePageImages
+        //instance.getTemplatePageImages(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -368,6 +408,16 @@
         done();
       });
     });
+    describe('listTemplateFields', function() {
+      it('should call listTemplateFields successfully', function(done) {
+        //uncomment below and update the code to test listTemplateFields
+        //instance.listTemplateFields(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('listTemplateSubmissions', function() {
       it('should call listTemplateSubmissions successfully', function(done) {
         //uncomment below and update the code to test listTemplateSubmissions
@@ -428,10 +478,30 @@
         done();
       });
     });
+    describe('removeTemplateFields', function() {
+      it('should call removeTemplateFields successfully', function(done) {
+        //uncomment below and update the code to test removeTemplateFields
+        //instance.removeTemplateFields(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('renameFolder', function() {
       it('should call renameFolder successfully', function(done) {
         //uncomment below and update the code to test renameFolder
         //instance.renameFolder(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('reorderTemplateFields', function() {
+      it('should call reorderTemplateFields successfully', function(done) {
+        //uncomment below and update the code to test reorderTemplateFields
+        //instance.reorderTemplateFields(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -488,6 +558,16 @@
         done();
       });
     });
+    describe('updateTemplateFields', function() {
+      it('should call updateTemplateFields successfully', function(done) {
+        //uncomment below and update the code to test updateTemplateFields
+        //instance.updateTemplateFields(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('updateWebhook', function() {
       it('should call updateWebhook successfully', function(done) {
         //uncomment below and update the code to test updateWebhook
@@ -512,6 +592,16 @@
       it('should call uploadTemplateDocument successfully', function(done) {
         //uncomment below and update the code to test uploadTemplateDocument
         //instance.uploadTemplateDocument(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('validateSubmission', function() {
+      it('should call validateSubmission successfully', function(done) {
+        //uncomment below and update the code to test validateSubmission
+        //instance.validateSubmission(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

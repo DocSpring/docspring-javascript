@@ -13,6 +13,7 @@
 
 
 import ApiClient from "../ApiClient";
+import AddTemplateFieldsRequest from '../model/AddTemplateFieldsRequest';
 import AiFieldNamingLanguage from '../model/AiFieldNamingLanguage';
 import AuthenticationCheck from '../model/AuthenticationCheck';
 import CombinedPdf from '../model/CombinedPdf';
@@ -35,11 +36,14 @@ import FieldSetupNaming from '../model/FieldSetupNaming';
 import FieldSetupSource from '../model/FieldSetupSource';
 import Folder from '../model/Folder';
 import FolderList from '../model/FolderList';
+import GenerateSubmissionFilesRequest from '../model/GenerateSubmissionFilesRequest';
 import ModelCodeLanguage from '../model/ModelCodeLanguage';
 import MoveFolderRequest from '../model/MoveFolderRequest';
 import MoveTemplateRequest from '../model/MoveTemplateRequest';
 import PublishTemplateVersionRequest from '../model/PublishTemplateVersionRequest';
+import RemoveTemplateFieldsRequest from '../model/RemoveTemplateFieldsRequest';
 import RenameFolderRequest from '../model/RenameFolderRequest';
+import ReorderTemplateFieldsRequest from '../model/ReorderTemplateFieldsRequest';
 import RestoreTemplateVersionRequest from '../model/RestoreTemplateVersionRequest';
 import SignatureRequest from '../model/SignatureRequest';
 import SignatureRequestEvent from '../model/SignatureRequestEvent';
@@ -47,15 +51,21 @@ import SignatureRequestToken from '../model/SignatureRequestToken';
 import Submission from '../model/Submission';
 import SubmissionBatch from '../model/SubmissionBatch';
 import SubmissionList from '../model/SubmissionList';
+import SubmissionValidation from '../model/SubmissionValidation';
 import Template from '../model/Template';
+import TemplateDiff from '../model/TemplateDiff';
+import TemplateFields from '../model/TemplateFields';
 import TemplateModelCode from '../model/TemplateModelCode';
+import TemplatePageImages from '../model/TemplatePageImages';
 import TemplateSummaryList from '../model/TemplateSummaryList';
 import TemplateVersion from '../model/TemplateVersion';
 import UpdateSignatureRequestRequest from '../model/UpdateSignatureRequestRequest';
 import UpdateTemplateDocumentRequest from '../model/UpdateTemplateDocumentRequest';
+import UpdateTemplateFieldsRequest from '../model/UpdateTemplateFieldsRequest';
 import UpdateTemplateRequest from '../model/UpdateTemplateRequest';
 import UpdateWebhookRequest from '../model/UpdateWebhookRequest';
 import UploadPresign from '../model/UploadPresign';
+import ValidateSubmissionRequest from '../model/ValidateSubmissionRequest';
 import Webhook from '../model/Webhook';
 import WebhookEventType from '../model/WebhookEventType';
 import WebhookList from '../model/WebhookList';
@@ -64,7 +74,7 @@ import WebhookMode from '../model/WebhookMode';
 /**
 * Client service.
 * @module api/Client
-* @version 4.0.0
+* @version 4.1.0
 */
 export default class Client {
 
@@ -122,6 +132,60 @@ export default class Client {
 }
 
 
+
+
+    /**
+     * Add fields to a template
+     * Adds fields to a template's draft and returns all of its fields. Publish a version for submissions of published versions to have them. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/AddTemplateFieldsRequest} body The fields to add to the template's draft.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
+     */
+    addTemplateFieldsWithHttpInfo(template_id, body) {
+      let postBody = body;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling addTemplateFields");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling addTemplateFields");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = TemplateFields;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/fields', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Add fields to a template
+     * Adds fields to a template's draft and returns all of its fields. Publish a version for submissions of published versions to have them. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/AddTemplateFieldsRequest} body The fields to add to the template's draft.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
+     */
+    addTemplateFields(template_id, body) {
+      return this.addTemplateFieldsWithHttpInfo(template_id, body)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
 
 
     /**
@@ -438,7 +502,7 @@ export default class Client {
      * @param {module:model/CreateSubmissionRequest} body The submission's data and settings.
      * @param {Object} opts Optional parameters
      * @param {String} [version] The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
-     * @param {Boolean} [wait] Wait until the PDF has been generated before responding. Default true on sync.api hosts.
+     * @param {Boolean} [wait] Wait until the files have been generated before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Submission} and HTTP response
      */
     createSubmissionWithHttpInfo(template_id, body, opts) {
@@ -483,7 +547,7 @@ export default class Client {
      * @param {module:model/CreateSubmissionRequest} body The submission's data and settings.
      * @param {Object} opts Optional parameters
      * @param {String} opts.version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
-     * @param {Boolean} opts.wait Wait until the PDF has been generated before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.wait Wait until the files have been generated before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Submission}
      */
     createSubmission(template_id, body, opts) {
@@ -552,7 +616,7 @@ export default class Client {
      * Creates an HTML template, or a PDF template from a PDF you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. To send the PDF with the request instead, use POST /templates/upload.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
      * @param {module:model/CreateTemplateRequest} body The template to create.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait] Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+     * @param {Boolean} [wait] Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     createTemplateWithHttpInfo(body, opts) {
@@ -589,7 +653,7 @@ export default class Client {
      * Creates an HTML template, or a PDF template from a PDF you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. To send the PDF with the request instead, use POST /templates/upload.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
      * @param {module:model/CreateTemplateRequest} body The template to create.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.wait Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.wait Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     createTemplate(body, opts) {
@@ -935,6 +999,66 @@ export default class Client {
      */
     expireSubmission(submission_id) {
       return this.expireSubmissionWithHttpInfo(submission_id)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Generate more files
+     * Adds formats to a processed submission's files, in the background: `png`, a PNG image of each page of the PDF (up to 100 pages). To make them with the submission, add them to `output_formats` when you create it.  Each new file is listed in `files` while it's made: on sync.api hosts the request waits for them (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until none of their `state` is `pending`. A file that couldn't be made has the state `error` and an `error_message`, and the submission stays processed. Asking for a format the submission already has (or is making) changes nothing. 
+     * @param {String} submission_id The submission's ID.
+     * @param {module:model/GenerateSubmissionFilesRequest} body The formats to make.
+     * @param {Object} opts Optional parameters
+     * @param {Boolean} [wait] Wait until the files have been generated before responding. Default true on sync.api hosts.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Submission} and HTTP response
+     */
+    generateSubmissionFilesWithHttpInfo(submission_id, body, opts) {
+      opts = opts || {};
+      let postBody = body;
+      // verify the required parameter 'submission_id' is set
+      if (submission_id === undefined || submission_id === null) {
+        throw new Error("Missing the required parameter 'submission_id' when calling generateSubmissionFiles");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling generateSubmissionFiles");
+      }
+
+      let pathParams = {
+        'submission_id': submission_id
+      };
+      let queryParams = {
+        'wait': opts['wait']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = Submission;
+      return this.apiClient.callApi(
+        '/submissions/{submission_id}/generate_files', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Generate more files
+     * Adds formats to a processed submission's files, in the background: `png`, a PNG image of each page of the PDF (up to 100 pages). To make them with the submission, add them to `output_formats` when you create it.  Each new file is listed in `files` while it's made: on sync.api hosts the request waits for them (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until none of their `state` is `pending`. A file that couldn't be made has the state `error` and an `error_message`, and the submission stays processed. Asking for a format the submission already has (or is making) changes nothing. 
+     * @param {String} submission_id The submission's ID.
+     * @param {module:model/GenerateSubmissionFilesRequest} body The formats to make.
+     * @param {Object} opts Optional parameters
+     * @param {Boolean} opts.wait Wait until the files have been generated before responding. Default true on sync.api hosts.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Submission}
+     */
+    generateSubmissionFiles(submission_id, body, opts) {
+      return this.generateSubmissionFilesWithHttpInfo(submission_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -1379,6 +1503,60 @@ export default class Client {
 
 
     /**
+     * Compare a version of a template with the one before it
+     * Returns what changed in the template's draft since its latest published version (or in a published version since the one before it): fields added, removed, changed and moved, the settings that changed, and whether the document was replaced. Check it before you publish a version. 
+     * @param {String} template_id The template's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateDiff} and HTTP response
+     */
+    getTemplateDiffWithHttpInfo(template_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling getTemplateDiff");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+        'version': opts['version']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = TemplateDiff;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/diff', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Compare a version of a template with the one before it
+     * Returns what changed in the template's draft since its latest published version (or in a published version since the one before it): fields added, removed, changed and moved, the settings that changed, and whether the document was replaced. Check it before you publish a version. 
+     * @param {String} template_id The template's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateDiff}
+     */
+    getTemplateDiff(template_id, opts) {
+      return this.getTemplateDiffWithHttpInfo(template_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * Generate typed code for a template's submission data
      * Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
      * @param {String} template_id The template's ID.
@@ -1433,6 +1611,60 @@ export default class Client {
      */
     getTemplateModelCode(template_id, lang, opts) {
       return this.getTemplateModelCodeWithHttpInfo(template_id, lang, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Get images of a template's pages
+     * Returns a JPEG image of each page of a PDF template's PDF, with temporary links to download them: the draft's PDF, or a published version's. Use them to see the pages that fields are placed on. 
+     * @param {String} template_id The template's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplatePageImages} and HTTP response
+     */
+    getTemplatePageImagesWithHttpInfo(template_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling getTemplatePageImages");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+        'version': opts['version']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = TemplatePageImages;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/page_images', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Get images of a template's pages
+     * Returns a JPEG image of each page of a PDF template's PDF, with temporary links to download them: the draft's PDF, or a published version's. Use them to see the pages that fields are placed on. 
+     * @param {String} template_id The template's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplatePageImages}
+     */
+    getTemplatePageImages(template_id, opts) {
+      return this.getTemplatePageImagesWithHttpInfo(template_id, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -1760,6 +1992,60 @@ export default class Client {
 
 
     /**
+     * List a template's fields
+     * Returns a template's fields with all of their settings, page by page: the draft's fields, or a published version's. A PDF template's fields are placed on its pages: GET /templates/{template_id}/page_images has images of the pages. 
+     * @param {String} template_id The template's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
+     */
+    listTemplateFieldsWithHttpInfo(template_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling listTemplateFields");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+        'version': opts['version']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = TemplateFields;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/fields', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * List a template's fields
+     * Returns a template's fields with all of their settings, page by page: the draft's fields, or a published version's. A PDF template's fields are placed on its pages: GET /templates/{template_id}/page_images has images of the pages. 
+     * @param {String} template_id The template's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
+     */
+    listTemplateFields(template_id, opts) {
+      return this.listTemplateFieldsWithHttpInfo(template_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * List a template's submissions
      * Returns a template's submissions (from every version of the template), newest first.
      * @param {String} template_id The template's ID.
@@ -2059,7 +2345,7 @@ export default class Client {
 
     /**
      * Publish a template version
-     * Publishes the template's draft as a new version that doesn't change. `version_type` says which part of the latest version number goes up. 
+     * Publishes the template's draft as a new version that doesn't change. `version_type` says which part of the latest version number goes up. While the template's PDF is downloading or being processed, or DocSpring is setting up its fields, it returns a 409 that says so. 
      * @param {String} template_id The template's ID.
      * @param {module:model/PublishTemplateVersionRequest} body The version to publish.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateVersion} and HTTP response
@@ -2098,13 +2384,67 @@ export default class Client {
 
     /**
      * Publish a template version
-     * Publishes the template's draft as a new version that doesn't change. `version_type` says which part of the latest version number goes up. 
+     * Publishes the template's draft as a new version that doesn't change. `version_type` says which part of the latest version number goes up. While the template's PDF is downloading or being processed, or DocSpring is setting up its fields, it returns a 409 that says so. 
      * @param {String} template_id The template's ID.
      * @param {module:model/PublishTemplateVersionRequest} body The version to publish.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateVersion}
      */
     publishTemplateVersion(template_id, body) {
       return this.publishTemplateVersionWithHttpInfo(template_id, body)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Remove fields from a template
+     * Removes fields from a template's draft and returns the fields that are left. Conditional logic that used only the removed fields is removed too. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/RemoveTemplateFieldsRequest} body The fields to remove from the template's draft.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
+     */
+    removeTemplateFieldsWithHttpInfo(template_id, body) {
+      let postBody = body;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling removeTemplateFields");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling removeTemplateFields");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = TemplateFields;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/fields/remove', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Remove fields from a template
+     * Removes fields from a template's draft and returns the fields that are left. Conditional logic that used only the removed fields is removed too. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/RemoveTemplateFieldsRequest} body The fields to remove from the template's draft.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
+     */
+    removeTemplateFields(template_id, body) {
+      return this.removeTemplateFieldsWithHttpInfo(template_id, body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2159,6 +2499,60 @@ export default class Client {
      */
     renameFolder(folder_id, body) {
       return this.renameFolderWithHttpInfo(folder_id, body)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Reorder a template's fields
+     * Changes the order of the fields in a template's draft and returns them in their new order. Send every field's ID: each field stays on its page, and a page's fields are printed in this order, so a later field prints over an earlier one where they overlap. Their values are in this order in the template's data schema and forms. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/ReorderTemplateFieldsRequest} body The new order of the fields in the template's draft.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
+     */
+    reorderTemplateFieldsWithHttpInfo(template_id, body) {
+      let postBody = body;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling reorderTemplateFields");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling reorderTemplateFields");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = TemplateFields;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/fields/reorder', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Reorder a template's fields
+     * Changes the order of the fields in a template's draft and returns them in their new order. Send every field's ID: each field stays on its page, and a page's fields are printed in this order, so a later field prints over an earlier one where they overlap. Their values are in this order in the template's data schema and forms. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/ReorderTemplateFieldsRequest} body The new order of the fields in the template's draft.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
+     */
+    reorderTemplateFields(template_id, body) {
+      return this.reorderTemplateFieldsWithHttpInfo(template_id, body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2316,7 +2710,7 @@ export default class Client {
 
     /**
      * Update a template
-     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object. Setting `parent_folder_id` moves the template and all of its published versions. 
+     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Setting `parent_folder_id` moves the template and all of its published versions. 
      * @param {String} template_id The template's ID.
      * @param {module:model/UpdateTemplateRequest} body The settings to change. Properties left out keep their values.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
@@ -2355,7 +2749,7 @@ export default class Client {
 
     /**
      * Update a template
-     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object. Setting `parent_folder_id` moves the template and all of its published versions. 
+     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Setting `parent_folder_id` moves the template and all of its published versions. 
      * @param {String} template_id The template's ID.
      * @param {module:model/UpdateTemplateRequest} body The settings to change. Properties left out keep their values.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
@@ -2370,11 +2764,11 @@ export default class Client {
 
     /**
      * Replace a template's PDF
-     * Replaces a PDF template's PDF with one you uploaded with the presigned upload (GET /uploads/presign). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. To send the PDF with the request instead, use PUT /templates/{template_id}/document/upload. 
+     * Replaces a PDF template's PDF with one you uploaded with the presigned upload (GET /uploads/presign) (`cache_id`), a link to download it from (`document_url`), or the file in base64 (`document_base64`). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. To send the PDF as `multipart/form-data` instead, use PUT /templates/{template_id}/document/upload. 
      * @param {String} template_id The template's ID.
-     * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF.
+     * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF, as one of `cache_id`, `document_url` and `document_base64`.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait] Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+     * @param {Boolean} [wait] Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     updateTemplateDocumentWithHttpInfo(template_id, body, opts) {
@@ -2413,15 +2807,69 @@ export default class Client {
 
     /**
      * Replace a template's PDF
-     * Replaces a PDF template's PDF with one you uploaded with the presigned upload (GET /uploads/presign). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. To send the PDF with the request instead, use PUT /templates/{template_id}/document/upload. 
+     * Replaces a PDF template's PDF with one you uploaded with the presigned upload (GET /uploads/presign) (`cache_id`), a link to download it from (`document_url`), or the file in base64 (`document_base64`). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. To send the PDF as `multipart/form-data` instead, use PUT /templates/{template_id}/document/upload. 
      * @param {String} template_id The template's ID.
-     * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF.
+     * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF, as one of `cache_id`, `document_url` and `document_base64`.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.wait Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.wait Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     updateTemplateDocument(template_id, body, opts) {
       return this.updateTemplateDocumentWithHttpInfo(template_id, body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Update a template's fields
+     * Changes fields of a template's draft and returns all of its fields. Settings left out keep their values. A shared setting (`type`, `required`, `default`, ...) changes for every field with the same name. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/UpdateTemplateFieldsRequest} body The fields to change in the template's draft.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
+     */
+    updateTemplateFieldsWithHttpInfo(template_id, body) {
+      let postBody = body;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling updateTemplateFields");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updateTemplateFields");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = TemplateFields;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/fields', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Update a template's fields
+     * Changes fields of a template's draft and returns all of its fields. Settings left out keep their values. A shared setting (`type`, `required`, `default`, ...) changes for every field with the same name. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/UpdateTemplateFieldsRequest} body The fields to change in the template's draft.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
+     */
+    updateTemplateFields(template_id, body) {
+      return this.updateTemplateFieldsWithHttpInfo(template_id, body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2487,7 +2935,7 @@ export default class Client {
      * Creates a PDF template from a PDF sent with the request (`multipart/form-data`). For large files, upload the PDF with the presigned upload (GET /uploads/presign) and create the template with POST /templates. 
      * @param {File} document The PDF.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait] Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+     * @param {Boolean} [wait] Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
      * @param {String} [name] The template's name.
      * @param {String} [description] The template's description.
      * @param {String} [parent_folder_id] The folder to put the template in. Left out, it's created at the root.
@@ -2541,7 +2989,7 @@ export default class Client {
      * Creates a PDF template from a PDF sent with the request (`multipart/form-data`). For large files, upload the PDF with the presigned upload (GET /uploads/presign) and create the template with POST /templates. 
      * @param {File} document The PDF.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.wait Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.wait Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
      * @param {String} opts.name The template's name.
      * @param {String} opts.description The template's description.
      * @param {String} opts.parent_folder_id The folder to put the template in. Left out, it's created at the root.
@@ -2566,7 +3014,7 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {File} document The new PDF.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait] Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+     * @param {Boolean} [wait] Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
      * @param {Boolean} [reimport_fields] Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
@@ -2612,12 +3060,72 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {File} document The new PDF.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.wait Wait until the PDF has been processed before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.wait Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
      * @param {Boolean} opts.reimport_fields Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     uploadTemplateDocument(template_id, document, opts) {
       return this.uploadTemplateDocumentWithHttpInfo(template_id, document, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Check a submission without creating it
+     * Checks a submission as creating it would (its data against the template's fields, its settings and signature requests) without saving it, generating anything or using credits. It doesn't check your account's credits. The response says whether the submission is valid, and if not, has the error that creating it would return. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/ValidateSubmissionRequest} body The submission's data and settings.
+     * @param {Object} opts Optional parameters
+     * @param {String} [version] The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SubmissionValidation} and HTTP response
+     */
+    validateSubmissionWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
+      let postBody = body;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling validateSubmission");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling validateSubmission");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+        'version': opts['version']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = SubmissionValidation;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/submissions/validate', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Check a submission without creating it
+     * Checks a submission as creating it would (its data against the template's fields, its settings and signature requests) without saving it, generating anything or using credits. It doesn't check your account's credits. The response says whether the submission is valid, and if not, has the error that creating it would return. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/ValidateSubmissionRequest} body The submission's data and settings.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SubmissionValidation}
+     */
+    validateSubmission(template_id, body, opts) {
+      return this.validateSubmissionWithHttpInfo(template_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

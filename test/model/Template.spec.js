@@ -288,6 +288,24 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property field_groups (base name: "field_groups")', function() {
+      // uncomment below and update the code to test the property field_groups
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property predefined_fields (base name: "predefined_fields")', function() {
+      // uncomment below and update the code to test the property predefined_fields
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property predefined_fields_sample_data (base name: "predefined_fields_sample_data")', function() {
+      // uncomment below and update the code to test the property predefined_fields_sample_data
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
     it('should have the property html (base name: "html")', function() {
       // uncomment below and update the code to test the property html
       //var instance = new DocSpring.Template();

@@ -78,6 +78,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property output_formats (base name: "output_formats")', function() {
+      // uncomment below and update the code to test the property output_formats
+      //var instance = new DocSpring.CreateSubmissionBatchRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property submissions (base name: "submissions")', function() {
       // uncomment below and update the code to test the property submissions
       //var instance = new DocSpring.CreateSubmissionBatchRequest();

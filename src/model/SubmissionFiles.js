@@ -13,11 +13,12 @@
 
 import ApiClient from '../ApiClient';
 import GeneratedFile from './GeneratedFile';
+import PageImages from './PageImages';
 
 /**
  * The SubmissionFiles model module.
  * @module model/SubmissionFiles
- * @version 4.0.0
+ * @version 4.1.0
  */
 class SubmissionFiles {
     /**
@@ -62,6 +63,9 @@ class SubmissionFiles {
             if (data.hasOwnProperty('preview')) {
                 obj['preview'] = ApiClient.convertToType(data['preview'], GeneratedFile);
             }
+            if (data.hasOwnProperty('png')) {
+                obj['png'] = data['png'] === null ? null : PageImages.constructFromObject(data['png']);
+            }
         }
         return obj;
     }
@@ -98,6 +102,11 @@ SubmissionFiles.prototype['audit_trail'] = undefined;
  * @member {module:model/GeneratedFile} preview
  */
 SubmissionFiles.prototype['preview'] = undefined;
+
+/**
+ * @member {module:model/PageImages} png
+ */
+SubmissionFiles.prototype['png'] = undefined;
 
 
 

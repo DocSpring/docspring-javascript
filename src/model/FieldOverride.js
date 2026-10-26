@@ -29,7 +29,7 @@ import Typeface from './Typeface';
 /**
  * The FieldOverride model module.
  * @module model/FieldOverride
- * @version 4.0.0
+ * @version 4.1.0
  */
 class FieldOverride {
     /**

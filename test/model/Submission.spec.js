@@ -156,6 +156,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property output_formats (base name: "output_formats")', function() {
+      // uncomment below and update the code to test the property output_formats
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
     it('should have the property files (base name: "files")', function() {
       // uncomment below and update the code to test the property files
       //var instance = new DocSpring.Submission();

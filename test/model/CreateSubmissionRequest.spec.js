@@ -84,6 +84,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property output_formats (base name: "output_formats")', function() {
+      // uncomment below and update the code to test the property output_formats
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property expires_in (base name: "expires_in")', function() {
       // uncomment below and update the code to test the property expires_in
       //var instance = new DocSpring.CreateSubmissionRequest();

@@ -14,7 +14,9 @@
 import ApiClient from '../ApiClient';
 import AiFieldNamingLanguage from './AiFieldNamingLanguage';
 import ExpirationInterval from './ExpirationInterval';
+import FieldGroupInput from './FieldGroupInput';
 import HtmlEngineOptionsInput from './HtmlEngineOptionsInput';
+import PredefinedFieldInput from './PredefinedFieldInput';
 import TemplateDefaultsInput from './TemplateDefaultsInput';
 import TemplateFieldDependencyInput from './TemplateFieldDependencyInput';
 import TemplateFormMode from './TemplateFormMode';
@@ -22,7 +24,7 @@ import TemplateFormMode from './TemplateFormMode';
 /**
  * The UpdateTemplateRequest model module.
  * @module model/UpdateTemplateRequest
- * @version 4.0.0
+ * @version 4.1.0
  */
 class UpdateTemplateRequest {
     /**
@@ -135,6 +137,15 @@ class UpdateTemplateRequest {
             if (data.hasOwnProperty('field_dependencies')) {
                 obj['field_dependencies'] = ApiClient.convertToType(data['field_dependencies'], [TemplateFieldDependencyInput]);
             }
+            if (data.hasOwnProperty('field_groups')) {
+                obj['field_groups'] = ApiClient.convertToType(data['field_groups'], [FieldGroupInput]);
+            }
+            if (data.hasOwnProperty('predefined_fields')) {
+                obj['predefined_fields'] = ApiClient.convertToType(data['predefined_fields'], [PredefinedFieldInput]);
+            }
+            if (data.hasOwnProperty('predefined_fields_sample_data')) {
+                obj['predefined_fields_sample_data'] = ApiClient.convertToType(data['predefined_fields_sample_data'], {'String': Object});
+            }
             if (data.hasOwnProperty('html')) {
                 obj['html'] = ApiClient.convertToType(data['html'], 'String');
             }
@@ -200,6 +211,26 @@ class UpdateTemplateRequest {
             // validate the optional field `field_dependencies` (array)
             for (const item of data['field_dependencies']) {
                 TemplateFieldDependencyInput.validateJSON(item);
+            };
+        }
+        if (data['field_groups']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['field_groups'])) {
+                throw new Error("Expected the field `field_groups` to be an array in the JSON data but got " + data['field_groups']);
+            }
+            // validate the optional field `field_groups` (array)
+            for (const item of data['field_groups']) {
+                FieldGroupInput.validateJSON(item);
+            };
+        }
+        if (data['predefined_fields']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['predefined_fields'])) {
+                throw new Error("Expected the field `predefined_fields` to be an array in the JSON data but got " + data['predefined_fields']);
+            }
+            // validate the optional field `predefined_fields` (array)
+            for (const item of data['predefined_fields']) {
+                PredefinedFieldInput.validateJSON(item);
             };
         }
         // ensure the json data is a string
@@ -392,6 +423,24 @@ UpdateTemplateRequest.prototype['defaults'] = undefined;
  * @member {Array.<module:model/TemplateFieldDependencyInput>} field_dependencies
  */
 UpdateTemplateRequest.prototype['field_dependencies'] = undefined;
+
+/**
+ * Changes to the settings of the template's field groups, each with the `name` of the group it changes. Settings left out keep their values, and groups left out are unchanged.
+ * @member {Array.<module:model/FieldGroupInput>} field_groups
+ */
+UpdateTemplateRequest.prototype['field_groups'] = undefined;
+
+/**
+ * The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
+ * @member {Array.<module:model/PredefinedFieldInput>} predefined_fields
+ */
+UpdateTemplateRequest.prototype['predefined_fields'] = undefined;
+
+/**
+ * Sample submission data that sets `predefined_fields`: each value becomes a predefined field, with a type that fits it (`string`, `number`, `boolean`, `date`, `email` or `url`) and `required_in_template` true. Nested objects and arrays become names with `/`, such as `customer/email`. Without `predefined_fields` in the same request, it replaces them; with them, it adds to them and sets the types of the ones it has values for.
+ * @member {Object.<String, Object>} predefined_fields_sample_data
+ */
+UpdateTemplateRequest.prototype['predefined_fields_sample_data'] = undefined;
 
 /**
  * The HTML of an HTML template, as a Liquid template. Null for PDF templates.

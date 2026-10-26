@@ -16,18 +16,17 @@ import ApiClient from '../ApiClient';
 /**
  * The UpdateTemplateDocumentRequest model module.
  * @module model/UpdateTemplateDocumentRequest
- * @version 4.0.0
+ * @version 4.1.0
  */
 class UpdateTemplateDocumentRequest {
     /**
      * Constructs a new <code>UpdateTemplateDocumentRequest</code>.
-     * The new PDF.
+     * The new PDF, as one of `cache_id`, `document_url` and `document_base64`.
      * @alias module:model/UpdateTemplateDocumentRequest
-     * @param cache_id {String} The `fields.key` of the new PDF, uploaded with the presigned upload (GET /uploads/presign).
      */
-    constructor(cache_id) { 
+    constructor() { 
         
-        UpdateTemplateDocumentRequest.initialize(this, cache_id);
+        UpdateTemplateDocumentRequest.initialize(this);
     }
 
     /**
@@ -35,8 +34,7 @@ class UpdateTemplateDocumentRequest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, cache_id) { 
-        obj['cache_id'] = cache_id;
+    static initialize(obj) { 
     }
 
     /**
@@ -52,6 +50,12 @@ class UpdateTemplateDocumentRequest {
 
             if (data.hasOwnProperty('cache_id')) {
                 obj['cache_id'] = ApiClient.convertToType(data['cache_id'], 'String');
+            }
+            if (data.hasOwnProperty('document_url')) {
+                obj['document_url'] = ApiClient.convertToType(data['document_url'], 'String');
+            }
+            if (data.hasOwnProperty('document_base64')) {
+                obj['document_base64'] = ApiClient.convertToType(data['document_base64'], 'String');
             }
             if (data.hasOwnProperty('filename')) {
                 obj['filename'] = ApiClient.convertToType(data['filename'], 'String');
@@ -69,15 +73,17 @@ class UpdateTemplateDocumentRequest {
      * @return {boolean} to indicate whether the JSON data is valid with respect to <code>UpdateTemplateDocumentRequest</code>.
      */
     static validateJSON(data) {
-        // check to make sure all required properties are present in the JSON string
-        for (const property of UpdateTemplateDocumentRequest.RequiredProperties) {
-            if (!data.hasOwnProperty(property)) {
-                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
-            }
-        }
         // ensure the json data is a string
         if (data['cache_id'] && !(typeof data['cache_id'] === 'string' || data['cache_id'] instanceof String)) {
             throw new Error("Expected the field `cache_id` to be a primitive type in the JSON string but got " + data['cache_id']);
+        }
+        // ensure the json data is a string
+        if (data['document_url'] && !(typeof data['document_url'] === 'string' || data['document_url'] instanceof String)) {
+            throw new Error("Expected the field `document_url` to be a primitive type in the JSON string but got " + data['document_url']);
+        }
+        // ensure the json data is a string
+        if (data['document_base64'] && !(typeof data['document_base64'] === 'string' || data['document_base64'] instanceof String)) {
+            throw new Error("Expected the field `document_base64` to be a primitive type in the JSON string but got " + data['document_base64']);
         }
         // ensure the json data is a string
         if (data['filename'] && !(typeof data['filename'] === 'string' || data['filename'] instanceof String)) {
@@ -90,7 +96,7 @@ class UpdateTemplateDocumentRequest {
 
 }
 
-UpdateTemplateDocumentRequest.RequiredProperties = ["cache_id"];
+
 
 /**
  * The `fields.key` of the new PDF, uploaded with the presigned upload (GET /uploads/presign).
@@ -99,7 +105,19 @@ UpdateTemplateDocumentRequest.RequiredProperties = ["cache_id"];
 UpdateTemplateDocumentRequest.prototype['cache_id'] = undefined;
 
 /**
- * The PDF's file name, for a `cache_id` (presigned uploads don't send one).
+ * An https:// link to the template's PDF (up to 100 MB), instead of `cache_id`. DocSpring downloads it after responding, following redirects to other https:// links: the template's `document.state` is `downloading` until then (sync.api hosts wait for it). If it can't be downloaded, the state is `download_failed` and `document.error_message` says why.
+ * @member {String} document_url
+ */
+UpdateTemplateDocumentRequest.prototype['document_url'] = undefined;
+
+/**
+ * The template's PDF, encoded as base64 (a `data:` URI works too), instead of `cache_id`. Up to 7 MB before it's encoded: send a larger file with `cache_id` or `document_url`.
+ * @member {String} document_base64
+ */
+UpdateTemplateDocumentRequest.prototype['document_base64'] = undefined;
+
+/**
+ * The PDF's file name, for a `cache_id` (presigned uploads don't send one) or `document_base64`. A `document_url`'s is the last part of its path unless you set it.
  * @member {String} filename
  */
 UpdateTemplateDocumentRequest.prototype['filename'] = undefined;

@@ -19,7 +19,7 @@ import TemplateFieldDependencyMatch from './TemplateFieldDependencyMatch';
 /**
  * The TemplateFieldDependency model module.
  * @module model/TemplateFieldDependency
- * @version 4.0.0
+ * @version 4.1.0
  */
 class TemplateFieldDependency {
     /**
@@ -27,7 +27,7 @@ class TemplateFieldDependency {
      * A conditional logic rule: when other fields' values meet its conditions, it shows its target fields, makes them required, or both.
      * @alias module:model/TemplateFieldDependency
      * @extends Object
-     * @param action {module:model/TemplateFieldDependencyAction} What the rule does to its targets when its conditions are met.
+     * @param action {module:model/TemplateFieldDependencyAction} What the rule does to the fields it applies to when its conditions are met.
      * @param conditions {Array.<module:model/TemplateFieldDependencyCondition>} The conditions on other fields' values.
      * @param targets {Array.<String>} The names of the fields the rule shows or makes required.
      */
@@ -120,7 +120,7 @@ class TemplateFieldDependency {
 TemplateFieldDependency.RequiredProperties = ["action", "conditions", "targets"];
 
 /**
- * What the rule does to its targets when its conditions are met.
+ * What the rule does to the fields it applies to when its conditions are met.
  * @member {module:model/TemplateFieldDependencyAction} action
  */
 TemplateFieldDependency.prototype['action'] = undefined;

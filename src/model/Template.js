@@ -14,7 +14,9 @@
 import ApiClient from '../ApiClient';
 import AiFieldNamingLanguage from './AiFieldNamingLanguage';
 import ExpirationInterval from './ExpirationInterval';
+import FieldGroup from './FieldGroup';
 import HtmlEngineOptions from './HtmlEngineOptions';
+import PredefinedField from './PredefinedField';
 import TemplateActor from './TemplateActor';
 import TemplateDefaults from './TemplateDefaults';
 import TemplateDocument from './TemplateDocument';
@@ -26,7 +28,7 @@ import TemplateVersion from './TemplateVersion';
 /**
  * The Template model module.
  * @module model/Template
- * @version 4.0.0
+ * @version 4.1.0
  */
 class Template {
     /**
@@ -73,6 +75,9 @@ class Template {
      * @param updated_at {Date} When the template was last updated.
      * @param defaults {module:model/TemplateDefaults} 
      * @param field_dependencies {Array.<module:model/TemplateFieldDependency>} Conditional logic: each rule shows or hides its target fields, or makes them required, depending on the values of other fields.
+     * @param field_groups {Array.<module:model/FieldGroup>} The groups of the template's fields, with their settings. A field's name puts it in groups: `address/city` is in the group `address`, and `items/0/price` is in the list `items` and its items' group `items/~`.
+     * @param predefined_fields {Array.<module:model/PredefinedField>} The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
+     * @param predefined_fields_sample_data {Object.<String, Object>} Sample submission data that sets `predefined_fields`: each value becomes a predefined field, with a type that fits it (`string`, `number`, `boolean`, `date`, `email` or `url`) and `required_in_template` true. Nested objects and arrays become names with `/`, such as `customer/email`. Without `predefined_fields` in the same request, it replaces them; with them, it adds to them and sets the types of the ones it has values for.
      * @param html {String} The HTML of an HTML template, as a Liquid template. Null for PDF templates.
      * @param scss {String} The SCSS of an HTML template.
      * @param header_html {String} The HTML printed at the top of each page of an HTML template.
@@ -81,9 +86,9 @@ class Template {
      * @param embed_edit_token {String} The token that opens the template in the embedded template editor.
      * @param versions {Array.<module:model/TemplateVersion>} The template's published versions, newest first (up to 100).
      */
-    constructor(id, name, description, template_type, ready, document, parent_folder_id, path, version, latest_version, version_published_at, locked, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_at, last_changed_by, created_at, updated_at, defaults, field_dependencies, html, scss, header_html, footer_html, html_engine_options, embed_edit_token, versions) { 
+    constructor(id, name, description, template_type, ready, document, parent_folder_id, path, version, latest_version, version_published_at, locked, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_at, last_changed_by, created_at, updated_at, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, embed_edit_token, versions) { 
         
-        Template.initialize(this, id, name, description, template_type, ready, document, parent_folder_id, path, version, latest_version, version_published_at, locked, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_at, last_changed_by, created_at, updated_at, defaults, field_dependencies, html, scss, header_html, footer_html, html_engine_options, embed_edit_token, versions);
+        Template.initialize(this, id, name, description, template_type, ready, document, parent_folder_id, path, version, latest_version, version_published_at, locked, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_at, last_changed_by, created_at, updated_at, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, embed_edit_token, versions);
     }
 
     /**
@@ -91,7 +96,7 @@ class Template {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, name, description, template_type, ready, document, parent_folder_id, path, version, latest_version, version_published_at, locked, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_at, last_changed_by, created_at, updated_at, defaults, field_dependencies, html, scss, header_html, footer_html, html_engine_options, embed_edit_token, versions) { 
+    static initialize(obj, id, name, description, template_type, ready, document, parent_folder_id, path, version, latest_version, version_published_at, locked, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_at, last_changed_by, created_at, updated_at, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, embed_edit_token, versions) { 
         obj['id'] = id;
         obj['name'] = name;
         obj['description'] = description;
@@ -131,6 +136,9 @@ class Template {
         obj['updated_at'] = updated_at;
         obj['defaults'] = defaults;
         obj['field_dependencies'] = field_dependencies;
+        obj['field_groups'] = field_groups;
+        obj['predefined_fields'] = predefined_fields;
+        obj['predefined_fields_sample_data'] = predefined_fields_sample_data;
         obj['html'] = html;
         obj['scss'] = scss;
         obj['header_html'] = header_html;
@@ -271,6 +279,15 @@ class Template {
             if (data.hasOwnProperty('field_dependencies')) {
                 obj['field_dependencies'] = ApiClient.convertToType(data['field_dependencies'], [TemplateFieldDependency]);
             }
+            if (data.hasOwnProperty('field_groups')) {
+                obj['field_groups'] = ApiClient.convertToType(data['field_groups'], [FieldGroup]);
+            }
+            if (data.hasOwnProperty('predefined_fields')) {
+                obj['predefined_fields'] = ApiClient.convertToType(data['predefined_fields'], [PredefinedField]);
+            }
+            if (data.hasOwnProperty('predefined_fields_sample_data')) {
+                obj['predefined_fields_sample_data'] = ApiClient.convertToType(data['predefined_fields_sample_data'], {'String': Object});
+            }
             if (data.hasOwnProperty('html')) {
                 obj['html'] = ApiClient.convertToType(data['html'], 'String');
             }
@@ -356,6 +373,20 @@ class Template {
         if (!Array.isArray(data['field_dependencies'])) {
             throw new Error("Expected the field `field_dependencies` to be an array in the JSON data but got " + data['field_dependencies']);
         }
+        // ensure the json data is an array
+        if (!Array.isArray(data['field_groups'])) {
+            throw new Error("Expected the field `field_groups` to be an array in the JSON data but got " + data['field_groups']);
+        }
+        if (data['predefined_fields']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['predefined_fields'])) {
+                throw new Error("Expected the field `predefined_fields` to be an array in the JSON data but got " + data['predefined_fields']);
+            }
+            // validate the optional field `predefined_fields` (array)
+            for (const item of data['predefined_fields']) {
+                PredefinedField.validateJSON(item);
+            };
+        }
         // ensure the json data is a string
         if (data['html'] && !(typeof data['html'] === 'string' || data['html'] instanceof String)) {
             throw new Error("Expected the field `html` to be a primitive type in the JSON string but got " + data['html']);
@@ -391,7 +422,7 @@ class Template {
 
 }
 
-Template.RequiredProperties = ["id", "name", "description", "template_type", "ready", "document", "parent_folder_id", "path", "version", "latest_version", "version_published_at", "locked", "add_signature_request_submission_id_footers", "ai_field_naming_language", "allow_additional_properties", "allow_skipping_optional_fields", "default_form_mode", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs", "has_encrypt_pdfs_password", "expire_submissions", "expire_after", "expiration_interval", "merge_audit_trail_pdf", "parse_dates_using_template_date_format", "public_submissions", "public_web_form", "redirect_url", "has_slack_webhook_url", "last_changed_at", "last_changed_by", "created_at", "updated_at", "defaults", "field_dependencies", "html", "scss", "header_html", "footer_html", "html_engine_options", "embed_edit_token", "versions"];
+Template.RequiredProperties = ["id", "name", "description", "template_type", "ready", "document", "parent_folder_id", "path", "version", "latest_version", "version_published_at", "locked", "add_signature_request_submission_id_footers", "ai_field_naming_language", "allow_additional_properties", "allow_skipping_optional_fields", "default_form_mode", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs", "has_encrypt_pdfs_password", "expire_submissions", "expire_after", "expiration_interval", "merge_audit_trail_pdf", "parse_dates_using_template_date_format", "public_submissions", "public_web_form", "redirect_url", "has_slack_webhook_url", "last_changed_at", "last_changed_by", "created_at", "updated_at", "defaults", "field_dependencies", "field_groups", "predefined_fields", "predefined_fields_sample_data", "html", "scss", "header_html", "footer_html", "html_engine_options", "embed_edit_token", "versions"];
 
 /**
  * The template's ID.
@@ -625,6 +656,24 @@ Template.prototype['defaults'] = undefined;
  * @member {Array.<module:model/TemplateFieldDependency>} field_dependencies
  */
 Template.prototype['field_dependencies'] = undefined;
+
+/**
+ * The groups of the template's fields, with their settings. A field's name puts it in groups: `address/city` is in the group `address`, and `items/0/price` is in the list `items` and its items' group `items/~`.
+ * @member {Array.<module:model/FieldGroup>} field_groups
+ */
+Template.prototype['field_groups'] = undefined;
+
+/**
+ * The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
+ * @member {Array.<module:model/PredefinedField>} predefined_fields
+ */
+Template.prototype['predefined_fields'] = undefined;
+
+/**
+ * Sample submission data that sets `predefined_fields`: each value becomes a predefined field, with a type that fits it (`string`, `number`, `boolean`, `date`, `email` or `url`) and `required_in_template` true. Nested objects and arrays become names with `/`, such as `customer/email`. Without `predefined_fields` in the same request, it replaces them; with them, it adds to them and sets the types of the ones it has values for.
+ * @member {Object.<String, Object>} predefined_fields_sample_data
+ */
+Template.prototype['predefined_fields_sample_data'] = undefined;
 
 /**
  * The HTML of an HTML template, as a Liquid template. Null for PDF templates.

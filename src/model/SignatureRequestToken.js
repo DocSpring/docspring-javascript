@@ -17,7 +17,7 @@ import SignatureRequestTokenType from './SignatureRequestTokenType';
 /**
  * The SignatureRequestToken model module.
  * @module model/SignatureRequestToken
- * @version 4.0.0
+ * @version 4.1.0
  */
 class SignatureRequestToken {
     /**

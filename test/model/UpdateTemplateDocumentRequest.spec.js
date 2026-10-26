@@ -60,6 +60,18 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property document_url (base name: "document_url")', function() {
+      // uncomment below and update the code to test the property document_url
+      //var instance = new DocSpring.UpdateTemplateDocumentRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property document_base64 (base name: "document_base64")', function() {
+      // uncomment below and update the code to test the property document_base64
+      //var instance = new DocSpring.UpdateTemplateDocumentRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property filename (base name: "filename")', function() {
       // uncomment below and update the code to test the property filename
       //var instance = new DocSpring.UpdateTemplateDocumentRequest();

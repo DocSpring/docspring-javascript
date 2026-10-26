@@ -20,17 +20,17 @@ import TemplatePageProcessingStatus from './TemplatePageProcessingStatus';
 /**
  * The TemplateDocument model module.
  * @module model/TemplateDocument
- * @version 4.0.0
+ * @version 4.1.0
  */
 class TemplateDocument {
     /**
      * Constructs a new <code>TemplateDocument</code>.
      * A PDF template's PDF.
      * @alias module:model/TemplateDocument
-     * @param filename {String} The PDF's file name.
+     * @param filename {String} The PDF's file name. Null until a `document_url` has been downloaded.
      * @param md5 {String} The MD5 hash of the PDF.
-     * @param state {module:model/TemplateDocumentState} `pending` while DocSpring processes the PDF, then `processed`. `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one.
-     * @param error_message {String} Why the PDF couldn't be processed, and how to fix it. Null unless `state` is an error.
+     * @param state {module:model/TemplateDocumentState} `pending` while DocSpring processes the PDF, then `processed`. `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
+     * @param error_message {String} Why the PDF couldn't be processed or downloaded, and how to fix it. Null unless `state` is an error.
      * @param field_reimport_state {module:model/FieldReimportState} Whether the fields are being re-imported from this PDF (`reimport_fields` when the PDF was replaced): `requested` while DocSpring processes the PDF, then `imported`, or `no_fields` when the PDF had no fillable fields and the template kept its fields. `none` when no re-import was asked for, or when it couldn't run (the PDF couldn't be processed, or the template was locked or published while it was).
      * @param page_count {Number} 0 until the PDF has been processed.
      * @param page_dimensions {Array.<Array.<Number>>} Each page's width and height in PDF points. Null until the PDF has been processed.
@@ -172,7 +172,7 @@ class TemplateDocument {
 TemplateDocument.RequiredProperties = ["filename", "md5", "state", "error_message", "field_reimport_state", "page_count", "page_dimensions", "has_fillable_fields", "page_processing_statuses", "field_logic_status", "download_url", "permanent_url"];
 
 /**
- * The PDF's file name.
+ * The PDF's file name. Null until a `document_url` has been downloaded.
  * @member {String} filename
  */
 TemplateDocument.prototype['filename'] = undefined;
@@ -184,13 +184,13 @@ TemplateDocument.prototype['filename'] = undefined;
 TemplateDocument.prototype['md5'] = undefined;
 
 /**
- * `pending` while DocSpring processes the PDF, then `processed`. `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one.
+ * `pending` while DocSpring processes the PDF, then `processed`. `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
  * @member {module:model/TemplateDocumentState} state
  */
 TemplateDocument.prototype['state'] = undefined;
 
 /**
- * Why the PDF couldn't be processed, and how to fix it. Null unless `state` is an error.
+ * Why the PDF couldn't be processed or downloaded, and how to fix it. Null unless `state` is an error.
  * @member {String} error_message
  */
 TemplateDocument.prototype['error_message'] = undefined;

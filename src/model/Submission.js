@@ -13,6 +13,7 @@
 
 import ApiClient from '../ApiClient';
 import ErrorDetail from './ErrorDetail';
+import OutputFormat from './OutputFormat';
 import SignatureRequest from './SignatureRequest';
 import SubmissionAction from './SubmissionAction';
 import SubmissionFiles from './SubmissionFiles';
@@ -23,7 +24,7 @@ import TemplateType from './TemplateType';
 /**
  * The Submission model module.
  * @module model/Submission
- * @version 4.0.0
+ * @version 4.1.0
  */
 class Submission {
     /**
@@ -48,7 +49,8 @@ class Submission {
      * @param signature_requests {Array.<module:model/SignatureRequest>} The people asked to sign the submission (and fill in their fields), in order.
      * @param actions {Array.<module:model/SubmissionAction>} The uploads of the submission's PDF to your storage (account integrations).
      * @param truncated_text {Object.<String, Array.<String>>} The text of each field that didn't fit in it, by field name. Left out (null) with `data`, and empty once the submission has expired.
-     * @param files {module:model/SubmissionFiles} The generated files: `pdf` once the submission has been processed, `audit_trail` once its signature requests are completed, and `preview` once a preview PDF has been generated. Empty once the submission has expired.
+     * @param output_formats {Array.<module:model/OutputFormat>} What the submission makes: `pdf`, and `png` (an image of each page of the PDF, up to 100 pages) when you ask for it. Default `["pdf"]`. POST /submissions/{submission_id}/generate_files adds `png` to a processed submission.
+     * @param files {module:model/SubmissionFiles} The generated files: `pdf` once the submission has been processed, `png` (the images of the PDF's pages, when `output_formats` has it: `files.png.pages[0]` is page 1), `audit_trail` once its signature requests are completed, and `preview` once a preview PDF has been generated. Empty once the submission has expired.
      * @param preview_generated_at {Date} When the preview PDF was generated. Null if there is no preview.
      * @param expired {Boolean} An expired submission's data, metadata, password and PDF have been deleted.
      * @param expires_at {Date} When the submission expires. Null if it's kept until you delete it.
@@ -56,9 +58,9 @@ class Submission {
      * @param created_at {Date} When the submission was created.
      * @param updated_at {Date} When the submission was last updated.
      */
-    constructor(id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, has_password, signature_requests, actions, truncated_text, files, preview_generated_at, expired, expires_at, processed_at, created_at, updated_at) { 
+    constructor(id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, has_password, signature_requests, actions, truncated_text, output_formats, files, preview_generated_at, expired, expires_at, processed_at, created_at, updated_at) { 
         
-        Submission.initialize(this, id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, has_password, signature_requests, actions, truncated_text, files, preview_generated_at, expired, expires_at, processed_at, created_at, updated_at);
+        Submission.initialize(this, id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, has_password, signature_requests, actions, truncated_text, output_formats, files, preview_generated_at, expired, expires_at, processed_at, created_at, updated_at);
     }
 
     /**
@@ -66,7 +68,7 @@ class Submission {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, has_password, signature_requests, actions, truncated_text, files, preview_generated_at, expired, expires_at, processed_at, created_at, updated_at) { 
+    static initialize(obj, id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, has_password, signature_requests, actions, truncated_text, output_formats, files, preview_generated_at, expired, expires_at, processed_at, created_at, updated_at) { 
         obj['id'] = id;
         obj['template_id'] = template_id;
         obj['template_type'] = template_type;
@@ -84,6 +86,7 @@ class Submission {
         obj['signature_requests'] = signature_requests;
         obj['actions'] = actions;
         obj['truncated_text'] = truncated_text;
+        obj['output_formats'] = output_formats;
         obj['files'] = files;
         obj['preview_generated_at'] = preview_generated_at;
         obj['expired'] = expired;
@@ -158,6 +161,9 @@ class Submission {
             if (data.hasOwnProperty('truncated_text')) {
                 obj['truncated_text'] = ApiClient.convertToType(data['truncated_text'], {'String': ['String']});
             }
+            if (data.hasOwnProperty('output_formats')) {
+                obj['output_formats'] = ApiClient.convertToType(data['output_formats'], [OutputFormat]);
+            }
             if (data.hasOwnProperty('files')) {
                 obj['files'] = ApiClient.convertToType(data['files'], SubmissionFiles);
             }
@@ -227,6 +233,10 @@ class Submission {
         if (!Array.isArray(data['actions'])) {
             throw new Error("Expected the field `actions` to be an array in the JSON data but got " + data['actions']);
         }
+        // ensure the json data is an array
+        if (!Array.isArray(data['output_formats'])) {
+            throw new Error("Expected the field `output_formats` to be an array in the JSON data but got " + data['output_formats']);
+        }
 
         return true;
     }
@@ -234,7 +244,7 @@ class Submission {
 
 }
 
-Submission.RequiredProperties = ["id", "template_id", "template_type", "template_version", "batch_id", "source", "state", "test", "editable", "data", "data_errors", "error_message", "metadata", "has_password", "signature_requests", "actions", "truncated_text", "files", "preview_generated_at", "expired", "expires_at", "processed_at", "created_at", "updated_at"];
+Submission.RequiredProperties = ["id", "template_id", "template_type", "template_version", "batch_id", "source", "state", "test", "editable", "data", "data_errors", "error_message", "metadata", "has_password", "signature_requests", "actions", "truncated_text", "output_formats", "files", "preview_generated_at", "expired", "expires_at", "processed_at", "created_at", "updated_at"];
 
 /**
  * The submission's ID.
@@ -339,7 +349,13 @@ Submission.prototype['actions'] = undefined;
 Submission.prototype['truncated_text'] = undefined;
 
 /**
- * The generated files: `pdf` once the submission has been processed, `audit_trail` once its signature requests are completed, and `preview` once a preview PDF has been generated. Empty once the submission has expired.
+ * What the submission makes: `pdf`, and `png` (an image of each page of the PDF, up to 100 pages) when you ask for it. Default `["pdf"]`. POST /submissions/{submission_id}/generate_files adds `png` to a processed submission.
+ * @member {Array.<module:model/OutputFormat>} output_formats
+ */
+Submission.prototype['output_formats'] = undefined;
+
+/**
+ * The generated files: `pdf` once the submission has been processed, `png` (the images of the PDF's pages, when `output_formats` has it: `files.png.pages[0]` is page 1), `audit_trail` once its signature requests are completed, and `preview` once a preview PDF has been generated. Empty once the submission has expired.
  * @member {module:model/SubmissionFiles} files
  */
 Submission.prototype['files'] = undefined;

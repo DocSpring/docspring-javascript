@@ -12,12 +12,13 @@
  */
 
 import ApiClient from '../ApiClient';
+import OutputFormat from './OutputFormat';
 import SubmissionInput from './SubmissionInput';
 
 /**
  * The CreateSubmissionBatchRequest model module.
  * @module model/CreateSubmissionBatchRequest
- * @version 4.0.0
+ * @version 4.1.0
  */
 class CreateSubmissionBatchRequest {
     /**
@@ -63,6 +64,9 @@ class CreateSubmissionBatchRequest {
             if (data.hasOwnProperty('test')) {
                 obj['test'] = ApiClient.convertToType(data['test'], 'Boolean');
             }
+            if (data.hasOwnProperty('output_formats')) {
+                obj['output_formats'] = ApiClient.convertToType(data['output_formats'], [OutputFormat]);
+            }
             if (data.hasOwnProperty('submissions')) {
                 obj['submissions'] = ApiClient.convertToType(data['submissions'], [SubmissionInput]);
             }
@@ -89,6 +93,10 @@ class CreateSubmissionBatchRequest {
         // ensure the json data is a string
         if (data['template_version'] && !(typeof data['template_version'] === 'string' || data['template_version'] instanceof String)) {
             throw new Error("Expected the field `template_version` to be a primitive type in the JSON string but got " + data['template_version']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['output_formats'])) {
+            throw new Error("Expected the field `output_formats` to be an array in the JSON data but got " + data['output_formats']);
         }
         if (data['submissions']) { // data not null
             // ensure the json data is an array
@@ -132,6 +140,12 @@ CreateSubmissionBatchRequest.prototype['template_version'] = undefined;
  * @member {Boolean} test
  */
 CreateSubmissionBatchRequest.prototype['test'] = undefined;
+
+/**
+ * The default `output_formats` for each submission that doesn't set its own.
+ * @member {Array.<module:model/OutputFormat>} output_formats
+ */
+CreateSubmissionBatchRequest.prototype['output_formats'] = undefined;
 
 /**
  * Up to 50 submissions. Each one takes the properties of POST /templates/{template_id}/submissions except `signature_requests`, plus `template_id` and `template_version` when it uses a different template from the batch.

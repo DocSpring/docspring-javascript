@@ -17,7 +17,7 @@ import TemplateSummary from './TemplateSummary';
 /**
  * The TemplateSummaryList model module.
  * @module model/TemplateSummaryList
- * @version 4.0.0
+ * @version 4.1.0
  */
 class TemplateSummaryList {
     /**

@@ -72,6 +72,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property png (base name: "png")', function() {
+      // uncomment below and update the code to test the property png
+      //var instance = new DocSpring.SubmissionFiles();
+      //expect(instance).to.be();
+    });
+
   });
 
 }));

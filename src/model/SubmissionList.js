@@ -17,7 +17,7 @@ import Submission from './Submission';
 /**
  * The SubmissionList model module.
  * @module model/SubmissionList
- * @version 4.0.0
+ * @version 4.1.0
  */
 class SubmissionList {
     /**
