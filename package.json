@@ -1,6 +1,6 @@
 {
   "name": "docspring",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "An API client for the DocSpring PDF generation service",
   "license": "MIT",
   "main": "dist/index.js",

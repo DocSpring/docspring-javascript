@@ -4,53 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** |  | 
-**integration_id** | **String** |  | 
-**state** | **String** |  | 
-**action_type** | **String** |  | 
-**action_category** | **String** |  | 
-**result_data** | **Object** |  | 
-**error_message** | **String** |  | 
-
-
-
-## Enum: StateEnum
-
-
-* `pending` (value: `"pending"`)
-
-* `processed` (value: `"processed"`)
-
-* `failed` (value: `"failed"`)
-
-* `error` (value: `"error"`)
-
-
-
-
-
-## Enum: ActionTypeEnum
-
-
-* `webhook` (value: `"webhook"`)
-
-* `slack_webhook` (value: `"slack_webhook"`)
-
-* `email` (value: `"email"`)
-
-* `aws_s3_upload` (value: `"aws_s3_upload"`)
-
-
-
-
-
-## Enum: ActionCategoryEnum
-
-
-* `notification` (value: `"notification"`)
-
-* `file_upload` (value: `"file_upload"`)
-
-
+**id** | **String** | The upload's ID. | 
+**integration_id** | **String** | The ID of the account integration it used. | 
+**state** | [**SubmissionActionState**](SubmissionActionState.md) | `pending` until the upload has run, then `processed`. `failed`: your storage rejected it. `error`: it failed in DocSpring. | 
+**action_type** | [**SubmissionActionType**](SubmissionActionType.md) | The kind of storage, such as `aws_s3_upload` for an S3 bucket. | 
+**result_data** | **{String: Object}** | Where the PDF was uploaded, such as the S3 bucket and key. | 
+**error_message** | **String** | Why the upload failed, when `state` is `failed` or `error`. | 
 
 
