@@ -636,7 +636,7 @@ export default {
             "name": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 512
             },
             "parent_folder_id": {
               "type": [
@@ -945,7 +945,7 @@ export default {
                       "string",
                       "null"
                     ],
-                    "maxLength": 255
+                    "maxLength": 254
                   },
                   "fields": {
                     "type": "array",
@@ -1173,7 +1173,7 @@ export default {
             "name": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 512
             },
             "description": {
               "type": [
@@ -1712,6 +1712,9 @@ export default {
               },
               "additionalProperties": false
             },
+            "html_escape_data": {
+              "type": "boolean"
+            },
             "cache_id": {
               "type": "string",
               "minLength": 1,
@@ -1766,6 +1769,34 @@ export default {
         }
       }
     },
+    "createTemplatePreview": {
+      "query": {
+        "version": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "pattern": "^(\\d+(\\.\\d+(\\.\\d+)?)?|latest|draft)$",
+            "x-pattern-message": "must be a version like 1.2.3 or 1, or latest or draft"
+          }
+        }
+      },
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "required": [
+            "data"
+          ],
+          "properties": {
+            "data": {
+              "type": "object"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
     "createWebhook": {
       "body": {
         "mediaType": "application/json",
@@ -1778,7 +1809,7 @@ export default {
                 "string",
                 "null"
               ],
-              "maxLength": 255
+              "maxLength": 512
             },
             "url": {
               "type": "string",
@@ -1996,6 +2027,12 @@ export default {
               "go"
             ]
           }
+        },
+        "just_types": {
+          "required": false,
+          "schema": {
+            "type": "boolean"
+          }
         }
       }
     },
@@ -2011,6 +2048,7 @@ export default {
         }
       }
     },
+    "getTemplatePreview": {},
     "getTemplateSchema": {
       "query": {
         "version": {
@@ -2131,6 +2169,33 @@ export default {
           "schema": {
             "type": "string"
           }
+        },
+        "state": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processed",
+              "invalid_data",
+              "error",
+              "image_download_failed",
+              "image_processing_failed",
+              "waiting_for_signature_requests",
+              "syntax_error",
+              "insufficient_credits",
+              "account_suspended",
+              "license_revoked",
+              "accidental",
+              "declined"
+            ]
+          }
+        },
+        "include_files": {
+          "required": false,
+          "schema": {
+            "type": "boolean"
+          }
         }
       }
     },
@@ -2186,6 +2251,33 @@ export default {
           "required": false,
           "schema": {
             "type": "string"
+          }
+        },
+        "state": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processed",
+              "invalid_data",
+              "error",
+              "image_download_failed",
+              "image_processing_failed",
+              "waiting_for_signature_requests",
+              "syntax_error",
+              "insufficient_credits",
+              "account_suspended",
+              "license_revoked",
+              "accidental",
+              "declined"
+            ]
+          }
+        },
+        "include_files": {
+          "required": false,
+          "schema": {
+            "type": "boolean"
           }
         }
       }
@@ -2543,7 +2635,7 @@ export default {
             "name": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 512
             },
             "description": {
               "type": [
@@ -3116,6 +3208,9 @@ export default {
                 }
               },
               "additionalProperties": false
+            },
+            "html_escape_data": {
+              "type": "boolean"
             }
           },
           "additionalProperties": false
@@ -3803,7 +3898,7 @@ export default {
                 "string",
                 "null"
               ],
-              "maxLength": 255
+              "maxLength": 512
             },
             "url": {
               "type": "string",
@@ -3924,7 +4019,7 @@ export default {
             "name": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 255
+              "maxLength": 512
             },
             "description": {
               "type": "string"
@@ -4081,7 +4176,7 @@ export default {
                       "string",
                       "null"
                     ],
-                    "maxLength": 255
+                    "maxLength": 254
                   },
                   "fields": {
                     "type": "array",
@@ -4203,6 +4298,7 @@ export default {
     "GET /templates/{template_id}/fields": "listTemplateFields",
     "GET /templates/{template_id}/model_code": "getTemplateModelCode",
     "GET /templates/{template_id}/page_images": "getTemplatePageImages",
+    "GET /templates/{template_id}/previews/{preview_id}": "getTemplatePreview",
     "GET /templates/{template_id}/schema": "getTemplateSchema",
     "GET /templates/{template_id}/submissions": "listTemplateSubmissions",
     "GET /uploads/presign": "getPresignUrl",
@@ -4225,6 +4321,7 @@ export default {
     "POST /templates/{template_id}/fields/remove": "removeTemplateFields",
     "POST /templates/{template_id}/fields/reorder": "reorderTemplateFields",
     "POST /templates/{template_id}/move": "moveTemplate",
+    "POST /templates/{template_id}/previews": "createTemplatePreview",
     "POST /templates/{template_id}/publish_version": "publishTemplateVersion",
     "POST /templates/{template_id}/restore_version": "restoreTemplateVersion",
     "POST /templates/{template_id}/submissions": "createSubmission",

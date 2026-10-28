@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The FieldInCondition model module.
  * @module model/FieldInCondition
- * @version 4.1.0
+ * @version 4.2.0
  */
 class FieldInCondition {
     /**

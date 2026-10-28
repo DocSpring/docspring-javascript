@@ -45,4 +45,8 @@
 
 * `polling_timeout` (value: `"polling_timeout"`)
 
+* `idempotency_key_in_use` (value: `"idempotency_key_in_use"`)
+
+* `idempotency_key_reused` (value: `"idempotency_key_reused"`)
+
 

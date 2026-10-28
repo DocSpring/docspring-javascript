@@ -26,6 +26,7 @@ import CreateSignatureRequestEventRequest from '../model/CreateSignatureRequestE
 import CreateSignatureRequestTokenRequest from '../model/CreateSignatureRequestTokenRequest';
 import CreateSubmissionBatchRequest from '../model/CreateSubmissionBatchRequest';
 import CreateSubmissionRequest from '../model/CreateSubmissionRequest';
+import CreateTemplatePreviewRequest from '../model/CreateTemplatePreviewRequest';
 import CreateTemplateRequest from '../model/CreateTemplateRequest';
 import CreateWebhookRequest from '../model/CreateWebhookRequest';
 import CustomFile from '../model/CustomFile';
@@ -51,12 +52,14 @@ import SignatureRequestToken from '../model/SignatureRequestToken';
 import Submission from '../model/Submission';
 import SubmissionBatch from '../model/SubmissionBatch';
 import SubmissionList from '../model/SubmissionList';
+import SubmissionState from '../model/SubmissionState';
 import SubmissionValidation from '../model/SubmissionValidation';
 import Template from '../model/Template';
 import TemplateDiff from '../model/TemplateDiff';
 import TemplateFields from '../model/TemplateFields';
 import TemplateModelCode from '../model/TemplateModelCode';
 import TemplatePageImages from '../model/TemplatePageImages';
+import TemplatePreview from '../model/TemplatePreview';
 import TemplateSummaryList from '../model/TemplateSummaryList';
 import TemplateVersion from '../model/TemplateVersion';
 import UpdateSignatureRequestRequest from '../model/UpdateSignatureRequestRequest';
@@ -74,7 +77,7 @@ import WebhookMode from '../model/WebhookMode';
 /**
 * Client service.
 * @module api/Client
-* @version 4.1.0
+* @version 4.2.0
 */
 export default class Client {
 
@@ -247,6 +250,7 @@ export default class Client {
      * @param {module:model/CreateCombinedPdfRequest} body The PDFs to merge, and the combined PDF's settings.
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait] Wait until the PDF has been generated before responding. Default true on sync.api hosts.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/CombinedPdf} and HTTP response
      */
     createCombinedPdfWithHttpInfo(body, opts) {
@@ -263,6 +267,7 @@ export default class Client {
         'wait': opts['wait']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -284,6 +289,7 @@ export default class Client {
      * @param {module:model/CreateCombinedPdfRequest} body The PDFs to merge, and the combined PDF's settings.
      * @param {Object} opts Optional parameters
      * @param {Boolean} opts.wait Wait until the PDF has been generated before responding. Default true on sync.api hosts.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/CombinedPdf}
      */
     createCombinedPdf(body, opts) {
@@ -390,7 +396,7 @@ export default class Client {
 
     /**
      * Record a signature request event
-     * Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account. 
+     * Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account. A finished (completed, declined or expired) signature request's audit trail takes no more events, and a test API token can't record one for a live signature request. 
      * @param {String} signature_request_id The signature request's ID.
      * @param {module:model/CreateSignatureRequestEventRequest} body The event to record.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SignatureRequestEvent} and HTTP response
@@ -429,7 +435,7 @@ export default class Client {
 
     /**
      * Record a signature request event
-     * Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account. 
+     * Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account. A finished (completed, declined or expired) signature request's audit trail takes no more events, and a test API token can't record one for a live signature request. 
      * @param {String} signature_request_id The signature request's ID.
      * @param {module:model/CreateSignatureRequestEventRequest} body The event to record.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SignatureRequestEvent}
@@ -503,6 +509,7 @@ export default class Client {
      * @param {Object} opts Optional parameters
      * @param {String} [version] The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
      * @param {Boolean} [wait] Wait until the files have been generated before responding. Default true on sync.api hosts.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Submission} and HTTP response
      */
     createSubmissionWithHttpInfo(template_id, body, opts) {
@@ -525,6 +532,7 @@ export default class Client {
         'wait': opts['wait']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -548,6 +556,7 @@ export default class Client {
      * @param {Object} opts Optional parameters
      * @param {String} opts.version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
      * @param {Boolean} opts.wait Wait until the files have been generated before responding. Default true on sync.api hosts.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Submission}
      */
     createSubmission(template_id, body, opts) {
@@ -564,6 +573,7 @@ export default class Client {
      * @param {module:model/CreateSubmissionBatchRequest} body The submissions to create, and the settings they share.
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait] Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SubmissionBatch} and HTTP response
      */
     createSubmissionBatchWithHttpInfo(body, opts) {
@@ -580,6 +590,7 @@ export default class Client {
         'wait': opts['wait']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -601,6 +612,7 @@ export default class Client {
      * @param {module:model/CreateSubmissionBatchRequest} body The submissions to create, and the settings they share.
      * @param {Object} opts Optional parameters
      * @param {Boolean} opts.wait Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SubmissionBatch}
      */
     createSubmissionBatch(body, opts) {
@@ -658,6 +670,66 @@ export default class Client {
      */
     createTemplate(body, opts) {
       return this.createTemplateWithHttpInfo(body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Preview a template with data
+     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML or PDF template prints with your data before you publish a version or send live data. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/CreateTemplatePreviewRequest} body The data to render the template with.
+     * @param {Object} opts Optional parameters
+     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplatePreview} and HTTP response
+     */
+    createTemplatePreviewWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
+      let postBody = body;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling createTemplatePreview");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createTemplatePreview");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+        'version': opts['version']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = TemplatePreview;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/previews', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Preview a template with data
+     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML or PDF template prints with your data before you publish a version or send live data. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/CreateTemplatePreviewRequest} body The data to render the template with.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplatePreview}
+     */
+    createTemplatePreview(template_id, body, opts) {
+      return this.createTemplatePreviewWithHttpInfo(template_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -1558,11 +1630,12 @@ export default class Client {
 
     /**
      * Generate typed code for a template's submission data
-     * Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
+     * Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object, and `just_types=true` leaves out the code that converts JSON to and from the types. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
      * @param {String} template_id The template's ID.
      * @param {module:model/ModelCodeLanguage} lang The language to generate the code in.
      * @param {Object} opts Optional parameters
      * @param {String} [version] The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+     * @param {Boolean} [just_types] Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateModelCode} and HTTP response
      */
     getTemplateModelCodeWithHttpInfo(template_id, lang, opts) {
@@ -1582,7 +1655,8 @@ export default class Client {
       };
       let queryParams = {
         'version': opts['version'],
-        'lang': lang
+        'lang': lang,
+        'just_types': opts['just_types']
       };
       let headerParams = {
       };
@@ -1602,11 +1676,12 @@ export default class Client {
 
     /**
      * Generate typed code for a template's submission data
-     * Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
+     * Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object, and `just_types=true` leaves out the code that converts JSON to and from the types. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
      * @param {String} template_id The template's ID.
      * @param {module:model/ModelCodeLanguage} lang The language to generate the code in.
      * @param {Object} opts Optional parameters
      * @param {String} opts.version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+     * @param {Boolean} opts.just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateModelCode}
      */
     getTemplateModelCode(template_id, lang, opts) {
@@ -1665,6 +1740,61 @@ export default class Client {
      */
     getTemplatePageImages(template_id, opts) {
       return this.getTemplatePageImagesWithHttpInfo(template_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Get a template preview
+     * Returns a preview made with POST /templates/{template_id}/previews. Once it's `processed`, `pages` has a PNG image of each page with a temporary link to download it: a preview has no PDF. Previews are deleted an hour after they're created. 
+     * @param {String} template_id The template's ID.
+     * @param {String} preview_id The preview's ID.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplatePreview} and HTTP response
+     */
+    getTemplatePreviewWithHttpInfo(template_id, preview_id) {
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling getTemplatePreview");
+      }
+      // verify the required parameter 'preview_id' is set
+      if (preview_id === undefined || preview_id === null) {
+        throw new Error("Missing the required parameter 'preview_id' when calling getTemplatePreview");
+      }
+
+      let pathParams = {
+        'template_id': template_id,
+        'preview_id': preview_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = TemplatePreview;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/previews/{preview_id}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Get a template preview
+     * Returns a preview made with POST /templates/{template_id}/previews. Once it's `processed`, `pages` has a PNG image of each page with a temporary link to download it: a preview has no PDF. Previews are deleted an hour after they're created. 
+     * @param {String} template_id The template's ID.
+     * @param {String} preview_id The preview's ID.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplatePreview}
+     */
+    getTemplatePreview(template_id, preview_id) {
+      return this.getTemplatePreviewWithHttpInfo(template_id, preview_id)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -1928,7 +2058,7 @@ export default class Client {
 
     /**
      * List submissions
-     * Returns the submissions in your account, newest first, one page at a time. Lists leave out each submission's `data` unless you pass `include_data=true`. 
+     * Returns the submissions in your account, newest first, one page at a time. Each one is a summary: its `data` is null unless you pass `include_data=true`, and its `files` are empty unless you pass `include_files=true`. Get a submission by its ID for its signature requests, uploads and page images. 
      * @param {Object} opts Optional parameters
      * @param {String} [template_id] Only list this template's submissions.
      * @param {Boolean} [test] Only list test submissions (true) or live submissions (false).
@@ -1937,6 +2067,8 @@ export default class Client {
      * @param {Boolean} [include_data] Include each submission's `data` (null without it).
      * @param {Number} [limit = 50)] How many items to return (1-100, default 50).
      * @param {String} [cursor] The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @param {module:model/SubmissionState} [state] Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck.
+     * @param {Boolean} [include_files] Include each submission's generated files and their download links (`files`, empty without it), without the page images' links.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SubmissionList} and HTTP response
      */
     listSubmissionsWithHttpInfo(opts) {
@@ -1952,7 +2084,9 @@ export default class Client {
         'created_before': opts['created_before'],
         'include_data': opts['include_data'],
         'limit': opts['limit'],
-        'cursor': opts['cursor']
+        'cursor': opts['cursor'],
+        'state': opts['state'],
+        'include_files': opts['include_files']
       };
       let headerParams = {
       };
@@ -1972,7 +2106,7 @@ export default class Client {
 
     /**
      * List submissions
-     * Returns the submissions in your account, newest first, one page at a time. Lists leave out each submission's `data` unless you pass `include_data=true`. 
+     * Returns the submissions in your account, newest first, one page at a time. Each one is a summary: its `data` is null unless you pass `include_data=true`, and its `files` are empty unless you pass `include_files=true`. Get a submission by its ID for its signature requests, uploads and page images. 
      * @param {Object} opts Optional parameters
      * @param {String} opts.template_id Only list this template's submissions.
      * @param {Boolean} opts.test Only list test submissions (true) or live submissions (false).
@@ -1981,6 +2115,8 @@ export default class Client {
      * @param {Boolean} opts.include_data Include each submission's `data` (null without it).
      * @param {Number} opts.limit How many items to return (1-100, default 50). (default to 50)
      * @param {String} opts.cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @param {module:model/SubmissionState} opts.state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck.
+     * @param {Boolean} opts.include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SubmissionList}
      */
     listSubmissions(opts) {
@@ -2056,6 +2192,8 @@ export default class Client {
      * @param {Boolean} [include_data] Include each submission's `data` (null without it).
      * @param {Number} [limit = 50)] How many items to return (1-100, default 50).
      * @param {String} [cursor] The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @param {module:model/SubmissionState} [state] Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck.
+     * @param {Boolean} [include_files] Include each submission's generated files and their download links (`files`, empty without it), without the page images' links.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SubmissionList} and HTTP response
      */
     listTemplateSubmissionsWithHttpInfo(template_id, opts) {
@@ -2075,7 +2213,9 @@ export default class Client {
         'created_before': opts['created_before'],
         'include_data': opts['include_data'],
         'limit': opts['limit'],
-        'cursor': opts['cursor']
+        'cursor': opts['cursor'],
+        'state': opts['state'],
+        'include_files': opts['include_files']
       };
       let headerParams = {
       };
@@ -2104,6 +2244,8 @@ export default class Client {
      * @param {Boolean} opts.include_data Include each submission's `data` (null without it).
      * @param {Number} opts.limit How many items to return (1-100, default 50). (default to 50)
      * @param {String} opts.cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @param {module:model/SubmissionState} opts.state Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck.
+     * @param {Boolean} opts.include_files Include each submission's generated files and their download links (`files`, empty without it), without the page images' links.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SubmissionList}
      */
     listTemplateSubmissions(template_id, opts) {
@@ -2116,7 +2258,7 @@ export default class Client {
 
     /**
      * List templates
-     * Returns the templates in your account (their drafts), newest first, one page at a time. Get a template by its ID for its HTML, defaults and published versions. 
+     * Returns the templates in your account (their drafts), newest first, one page at a time. Each one is a summary: get a template by its ID for its settings, its PDF in full, its HTML, defaults and published versions. 
      * @param {Object} opts Optional parameters
      * @param {String} [query] Only list templates whose name contains this text (ignoring case).
      * @param {String} [parent_folder_id] Only list the templates in this folder (not in its subfolders).
@@ -2154,7 +2296,7 @@ export default class Client {
 
     /**
      * List templates
-     * Returns the templates in your account (their drafts), newest first, one page at a time. Get a template by its ID for its HTML, defaults and published versions. 
+     * Returns the templates in your account (their drafts), newest first, one page at a time. Each one is a summary: get a template by its ID for its settings, its PDF in full, its HTML, defaults and published versions. 
      * @param {Object} opts Optional parameters
      * @param {String} opts.query Only list templates whose name contains this text (ignoring case).
      * @param {String} opts.parent_folder_id Only list the templates in this folder (not in its subfolders).

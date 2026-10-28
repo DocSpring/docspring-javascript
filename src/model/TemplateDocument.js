@@ -20,7 +20,7 @@ import TemplatePageProcessingStatus from './TemplatePageProcessingStatus';
 /**
  * The TemplateDocument model module.
  * @module model/TemplateDocument
- * @version 4.1.0
+ * @version 4.2.0
  */
 class TemplateDocument {
     /**
@@ -28,11 +28,11 @@ class TemplateDocument {
      * A PDF template's PDF.
      * @alias module:model/TemplateDocument
      * @param filename {String} The PDF's file name. Null until a `document_url` has been downloaded.
-     * @param md5 {String} The MD5 hash of the PDF.
-     * @param state {module:model/TemplateDocumentState} `pending` while DocSpring processes the PDF, then `processed`. `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
+     * @param state {module:model/TemplateDocumentState} `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
      * @param error_message {String} Why the PDF couldn't be processed or downloaded, and how to fix it. Null unless `state` is an error.
-     * @param field_reimport_state {module:model/FieldReimportState} Whether the fields are being re-imported from this PDF (`reimport_fields` when the PDF was replaced): `requested` while DocSpring processes the PDF, then `imported`, or `no_fields` when the PDF had no fillable fields and the template kept its fields. `none` when no re-import was asked for, or when it couldn't run (the PDF couldn't be processed, or the template was locked or published while it was).
      * @param page_count {Number} 0 until the PDF has been processed.
+     * @param md5 {String} The MD5 hash of the PDF.
+     * @param field_reimport_state {module:model/FieldReimportState} Whether the fields are being re-imported from this PDF (`reimport_fields` when the PDF was replaced): `requested` while DocSpring processes the PDF, then `imported`, or `no_fields` when the PDF had no fillable fields and the template kept its fields. `none` when no re-import was asked for, or when it couldn't run (the PDF couldn't be processed, or the template was locked or published while it was).
      * @param page_dimensions {Array.<Array.<Number>>} Each page's width and height in PDF points. Null until the PDF has been processed.
      * @param has_fillable_fields {Boolean} Whether the PDF has fillable form fields. Null until DocSpring has read the PDF.
      * @param page_processing_statuses {Array.<module:model/TemplatePageProcessingStatus>} How processing is going on each page, in page order: its image, and its fields when DocSpring sets them up (`detect_fields` when the template was created). `state` becomes `processed` once every page is done. Empty until DocSpring has read the PDF, and for PDFs uploaded before DocSpring recorded page statuses.
@@ -40,9 +40,9 @@ class TemplateDocument {
      * @param download_url {String} A temporary link to download the PDF.
      * @param permanent_url {String} A link to download the PDF that doesn't expire. Null until the PDF has been processed.
      */
-    constructor(filename, md5, state, error_message, field_reimport_state, page_count, page_dimensions, has_fillable_fields, page_processing_statuses, field_logic_status, download_url, permanent_url) { 
+    constructor(filename, state, error_message, page_count, md5, field_reimport_state, page_dimensions, has_fillable_fields, page_processing_statuses, field_logic_status, download_url, permanent_url) { 
         
-        TemplateDocument.initialize(this, filename, md5, state, error_message, field_reimport_state, page_count, page_dimensions, has_fillable_fields, page_processing_statuses, field_logic_status, download_url, permanent_url);
+        TemplateDocument.initialize(this, filename, state, error_message, page_count, md5, field_reimport_state, page_dimensions, has_fillable_fields, page_processing_statuses, field_logic_status, download_url, permanent_url);
     }
 
     /**
@@ -50,13 +50,13 @@ class TemplateDocument {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, filename, md5, state, error_message, field_reimport_state, page_count, page_dimensions, has_fillable_fields, page_processing_statuses, field_logic_status, download_url, permanent_url) { 
+    static initialize(obj, filename, state, error_message, page_count, md5, field_reimport_state, page_dimensions, has_fillable_fields, page_processing_statuses, field_logic_status, download_url, permanent_url) { 
         obj['filename'] = filename;
-        obj['md5'] = md5;
         obj['state'] = state;
         obj['error_message'] = error_message;
-        obj['field_reimport_state'] = field_reimport_state;
         obj['page_count'] = page_count;
+        obj['md5'] = md5;
+        obj['field_reimport_state'] = field_reimport_state;
         obj['page_dimensions'] = page_dimensions;
         obj['has_fillable_fields'] = has_fillable_fields;
         obj['page_processing_statuses'] = page_processing_statuses;
@@ -79,20 +79,20 @@ class TemplateDocument {
             if (data.hasOwnProperty('filename')) {
                 obj['filename'] = ApiClient.convertToType(data['filename'], 'String');
             }
-            if (data.hasOwnProperty('md5')) {
-                obj['md5'] = ApiClient.convertToType(data['md5'], 'String');
-            }
             if (data.hasOwnProperty('state')) {
                 obj['state'] = ApiClient.convertToType(data['state'], TemplateDocumentState);
             }
             if (data.hasOwnProperty('error_message')) {
                 obj['error_message'] = ApiClient.convertToType(data['error_message'], 'String');
             }
-            if (data.hasOwnProperty('field_reimport_state')) {
-                obj['field_reimport_state'] = ApiClient.convertToType(data['field_reimport_state'], FieldReimportState);
-            }
             if (data.hasOwnProperty('page_count')) {
                 obj['page_count'] = ApiClient.convertToType(data['page_count'], 'Number');
+            }
+            if (data.hasOwnProperty('md5')) {
+                obj['md5'] = ApiClient.convertToType(data['md5'], 'String');
+            }
+            if (data.hasOwnProperty('field_reimport_state')) {
+                obj['field_reimport_state'] = ApiClient.convertToType(data['field_reimport_state'], FieldReimportState);
             }
             if (data.hasOwnProperty('page_dimensions')) {
                 obj['page_dimensions'] = ApiClient.convertToType(data['page_dimensions'], [['Number']]);
@@ -133,12 +133,12 @@ class TemplateDocument {
             throw new Error("Expected the field `filename` to be a primitive type in the JSON string but got " + data['filename']);
         }
         // ensure the json data is a string
-        if (data['md5'] && !(typeof data['md5'] === 'string' || data['md5'] instanceof String)) {
-            throw new Error("Expected the field `md5` to be a primitive type in the JSON string but got " + data['md5']);
-        }
-        // ensure the json data is a string
         if (data['error_message'] && !(typeof data['error_message'] === 'string' || data['error_message'] instanceof String)) {
             throw new Error("Expected the field `error_message` to be a primitive type in the JSON string but got " + data['error_message']);
+        }
+        // ensure the json data is a string
+        if (data['md5'] && !(typeof data['md5'] === 'string' || data['md5'] instanceof String)) {
+            throw new Error("Expected the field `md5` to be a primitive type in the JSON string but got " + data['md5']);
         }
         // ensure the json data is an array
         if (!Array.isArray(data['page_dimensions'])) {
@@ -169,7 +169,7 @@ class TemplateDocument {
 
 }
 
-TemplateDocument.RequiredProperties = ["filename", "md5", "state", "error_message", "field_reimport_state", "page_count", "page_dimensions", "has_fillable_fields", "page_processing_statuses", "field_logic_status", "download_url", "permanent_url"];
+TemplateDocument.RequiredProperties = ["filename", "state", "error_message", "page_count", "md5", "field_reimport_state", "page_dimensions", "has_fillable_fields", "page_processing_statuses", "field_logic_status", "download_url", "permanent_url"];
 
 /**
  * The PDF's file name. Null until a `document_url` has been downloaded.
@@ -178,13 +178,7 @@ TemplateDocument.RequiredProperties = ["filename", "md5", "state", "error_messag
 TemplateDocument.prototype['filename'] = undefined;
 
 /**
- * The MD5 hash of the PDF.
- * @member {String} md5
- */
-TemplateDocument.prototype['md5'] = undefined;
-
-/**
- * `pending` while DocSpring processes the PDF, then `processed`. `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
+ * `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
  * @member {module:model/TemplateDocumentState} state
  */
 TemplateDocument.prototype['state'] = undefined;
@@ -196,16 +190,22 @@ TemplateDocument.prototype['state'] = undefined;
 TemplateDocument.prototype['error_message'] = undefined;
 
 /**
- * Whether the fields are being re-imported from this PDF (`reimport_fields` when the PDF was replaced): `requested` while DocSpring processes the PDF, then `imported`, or `no_fields` when the PDF had no fillable fields and the template kept its fields. `none` when no re-import was asked for, or when it couldn't run (the PDF couldn't be processed, or the template was locked or published while it was).
- * @member {module:model/FieldReimportState} field_reimport_state
- */
-TemplateDocument.prototype['field_reimport_state'] = undefined;
-
-/**
  * 0 until the PDF has been processed.
  * @member {Number} page_count
  */
 TemplateDocument.prototype['page_count'] = undefined;
+
+/**
+ * The MD5 hash of the PDF.
+ * @member {String} md5
+ */
+TemplateDocument.prototype['md5'] = undefined;
+
+/**
+ * Whether the fields are being re-imported from this PDF (`reimport_fields` when the PDF was replaced): `requested` while DocSpring processes the PDF, then `imported`, or `no_fields` when the PDF had no fillable fields and the template kept its fields. `none` when no re-import was asked for, or when it couldn't run (the PDF couldn't be processed, or the template was locked or published while it was).
+ * @member {module:model/FieldReimportState} field_reimport_state
+ */
+TemplateDocument.prototype['field_reimport_state'] = undefined;
 
 /**
  * Each page's width and height in PDF points. Null until the PDF has been processed.

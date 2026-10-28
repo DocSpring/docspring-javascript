@@ -17,7 +17,7 @@ import CombinedPdfSourceInput from './CombinedPdfSourceInput';
 /**
  * The CreateCombinedPdfRequest model module.
  * @module model/CreateCombinedPdfRequest
- * @version 4.1.0
+ * @version 4.2.0
  */
 class CreateCombinedPdfRequest {
     /**
@@ -112,7 +112,7 @@ CreateCombinedPdfRequest.RequiredProperties = ["source_pdfs"];
 CreateCombinedPdfRequest.prototype['source_pdfs'] = undefined;
 
 /**
- * Your own data about the combined PDF, such as an ID from your app.
+ * Your own data about the combined PDF, such as an ID from your app. Its `pdf_filename` key names the PDF's file (`files.pdf.filename`, and its download): a `.pdf` ending is removed, each run of characters other than letters, digits, `-`, `_` and `.` becomes one `_`, and the first 128 characters are kept, then `.pdf` is added. Without it, the file is named after the combined PDF's ID (`com_1234567890abcdef01.pdf`).
  * @member {Object.<String, Object>} metadata
  */
 CreateCombinedPdfRequest.prototype['metadata'] = undefined;

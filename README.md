@@ -9,7 +9,7 @@ templates with your data, generates PDFs from HTML templates, combines PDFs and 
 The code in this repository is generated from DocSpring's OpenAPI spec ([About this SDK](#about-this-sdk)). Issues and
 pull requests are welcome.
 
-Version 4.1.0. 
+Version 4.2.0. 
 
 ## Install and configure
 
@@ -99,6 +99,7 @@ JavaScript code for every method.
 | [`createSubmission`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#createsubmission) | Generate a PDF |
 | [`createSubmissionBatch`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#createsubmissionbatch) | Generate PDFs in a batch |
 | [`createTemplate`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#createtemplate) | Create a template |
+| [`createTemplatePreview`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#createtemplatepreview) | Preview a template with data |
 | [`createWebhook`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#createwebhook) | Create a webhook |
 | [`deleteCustomFile`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#deletecustomfile) | Delete a custom file |
 | [`deleteFolder`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#deletefolder) | Delete a folder |
@@ -119,6 +120,7 @@ JavaScript code for every method.
 | [`getTemplateDiff`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#gettemplatediff) | Compare a version of a template with the one before it |
 | [`getTemplateModelCode`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#gettemplatemodelcode) | Generate typed code for a template's submission data |
 | [`getTemplatePageImages`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#gettemplatepageimages) | Get images of a template's pages |
+| [`getTemplatePreview`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#gettemplatepreview) | Get a template preview |
 | [`getTemplateSchema`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#gettemplateschema) | Get the JSON Schema of a template's submission data |
 | [`getWebhook`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#getwebhook) | Get a webhook |
 | [`listCombinedPdfs`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#listcombinedpdfs) | List combined PDFs |
@@ -179,6 +181,7 @@ On top of the generated code, we add:
 - A client constructor that reads your credentials, region and host from the environment.
 - A nested object that's null in a response is `null` (stock OpenAPI Generator makes it `undefined`).
 - A rejected call's `response` is an object with the response's status, headers and body. Stock OpenAPI Generator attaches superagent's response, which holds the request's `Authorization` header, so logging the error printed the API token.
+- `verifyWebhookSignature(payload, signatureHeader, secret)` checks a webhook request's `X-DocSpring-Signature` header, with a `{ tolerance, now }` options object.
 
 Each release regenerates every file, so a change made only here would be lost in the next one. Issues and pull
 requests are welcome all the same: [open an issue](https://github.com/DocSpring/docspring-javascript/issues) or a pull request, or email

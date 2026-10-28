@@ -132,44 +132,8 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property has_password (base name: "has_password")', function() {
-      // uncomment below and update the code to test the property has_password
-      //var instance = new DocSpring.Submission();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property signature_requests (base name: "signature_requests")', function() {
-      // uncomment below and update the code to test the property signature_requests
-      //var instance = new DocSpring.Submission();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property actions (base name: "actions")', function() {
-      // uncomment below and update the code to test the property actions
-      //var instance = new DocSpring.Submission();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property truncated_text (base name: "truncated_text")', function() {
-      // uncomment below and update the code to test the property truncated_text
-      //var instance = new DocSpring.Submission();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property output_formats (base name: "output_formats")', function() {
-      // uncomment below and update the code to test the property output_formats
-      //var instance = new DocSpring.Submission();
-      //expect(instance).to.be();
-    });
-
     it('should have the property files (base name: "files")', function() {
       // uncomment below and update the code to test the property files
-      //var instance = new DocSpring.Submission();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property preview_generated_at (base name: "preview_generated_at")', function() {
-      // uncomment below and update the code to test the property preview_generated_at
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });
@@ -200,6 +164,42 @@
 
     it('should have the property updated_at (base name: "updated_at")', function() {
       // uncomment below and update the code to test the property updated_at
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property has_password (base name: "has_password")', function() {
+      // uncomment below and update the code to test the property has_password
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signature_requests (base name: "signature_requests")', function() {
+      // uncomment below and update the code to test the property signature_requests
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property actions (base name: "actions")', function() {
+      // uncomment below and update the code to test the property actions
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property truncated_text (base name: "truncated_text")', function() {
+      // uncomment below and update the code to test the property truncated_text
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property output_formats (base name: "output_formats")', function() {
+      // uncomment below and update the code to test the property output_formats
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property preview_generated_at (base name: "preview_generated_at")', function() {
+      // uncomment below and update the code to test the property preview_generated_at
       //var instance = new DocSpring.Submission();
       //expect(instance).to.be();
     });

@@ -20,7 +20,7 @@ import SubmissionAction from './SubmissionAction';
 /**
  * The CombinedPdf model module.
  * @module model/CombinedPdf
- * @version 4.1.0
+ * @version 4.2.0
  */
 class CombinedPdf {
     /**
@@ -31,7 +31,7 @@ class CombinedPdf {
      * @param id {String} The combined PDF's ID.
      * @param state {module:model/CombinedPdfState} `pending` until the PDF has been generated, then `processed`. `insufficient_credits`: waiting for credits; `error_message` says whether the PDF is generated once you add them. `account_suspended`: waiting for the account to be reactivated, for up to 30 days. `error`: the PDFs couldn't be merged (see `error_message`). Waiting ends in `error` if it's discarded or takes over 30 days.
      * @param source_pdfs {Array.<module:model/CombinedPdfSource>} The PDFs to merge, in order.
-     * @param metadata {Object.<String, Object>} Your own data about the combined PDF, such as an ID from your app.
+     * @param metadata {Object.<String, Object>} Your own data about the combined PDF, such as an ID from your app. Its `pdf_filename` key names the PDF's file (`files.pdf.filename`, and its download): a `.pdf` ending is removed, each run of characters other than letters, digits, `-`, `_` and `.` becomes one `_`, and the first 128 characters are kept, then `.pdf` is added. Without it, the file is named after the combined PDF's ID (`com_1234567890abcdef01.pdf`).
      * @param has_password {Boolean} Whether the PDF needs a password to open (`password`).
      * @param delete_custom_files {Boolean} Delete the custom files in `source_pdfs` once the combined PDF has been generated (they're kept if it fails). Other combined PDFs can't use them after that. A test API token can't delete custom files.
      * @param error_message {String} Why the PDFs couldn't be merged, when `state` is `error`.
@@ -192,7 +192,7 @@ CombinedPdf.prototype['state'] = undefined;
 CombinedPdf.prototype['source_pdfs'] = undefined;
 
 /**
- * Your own data about the combined PDF, such as an ID from your app.
+ * Your own data about the combined PDF, such as an ID from your app. Its `pdf_filename` key names the PDF's file (`files.pdf.filename`, and its download): a `.pdf` ending is removed, each run of characters other than letters, digits, `-`, `_` and `.` becomes one `_`, and the first 128 characters are kept, then `.pdf` is added. Without it, the file is named after the combined PDF's ID (`com_1234567890abcdef01.pdf`).
  * @member {Object.<String, Object>} metadata
  */
 CombinedPdf.prototype['metadata'] = undefined;

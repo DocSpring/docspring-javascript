@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The MoveTemplateRequest model module.
  * @module model/MoveTemplateRequest
- * @version 4.1.0
+ * @version 4.2.0
  */
 class MoveTemplateRequest {
     /**

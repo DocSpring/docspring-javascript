@@ -102,12 +102,6 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property version (base name: "version")', function() {
-      // uncomment below and update the code to test the property version
-      //var instance = new DocSpring.Template();
-      //expect(instance).to.be();
-    });
-
     it('should have the property latest_version (base name: "latest_version")', function() {
       // uncomment below and update the code to test the property latest_version
       //var instance = new DocSpring.Template();
@@ -122,6 +116,30 @@
 
     it('should have the property locked (base name: "locked")', function() {
       // uncomment below and update the code to test the property locked
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property last_changed_at (base name: "last_changed_at")', function() {
+      // uncomment below and update the code to test the property last_changed_at
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property created_at (base name: "created_at")', function() {
+      // uncomment below and update the code to test the property created_at
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property updated_at (base name: "updated_at")', function() {
+      // uncomment below and update the code to test the property updated_at
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property version (base name: "version")', function() {
+      // uncomment below and update the code to test the property version
       //var instance = new DocSpring.Template();
       //expect(instance).to.be();
     });
@@ -252,26 +270,8 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property last_changed_at (base name: "last_changed_at")', function() {
-      // uncomment below and update the code to test the property last_changed_at
-      //var instance = new DocSpring.Template();
-      //expect(instance).to.be();
-    });
-
     it('should have the property last_changed_by (base name: "last_changed_by")', function() {
       // uncomment below and update the code to test the property last_changed_by
-      //var instance = new DocSpring.Template();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property created_at (base name: "created_at")', function() {
-      // uncomment below and update the code to test the property created_at
-      //var instance = new DocSpring.Template();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property updated_at (base name: "updated_at")', function() {
-      // uncomment below and update the code to test the property updated_at
       //var instance = new DocSpring.Template();
       //expect(instance).to.be();
     });
@@ -332,6 +332,12 @@
 
     it('should have the property html_engine_options (base name: "html_engine_options")', function() {
       // uncomment below and update the code to test the property html_engine_options
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property html_escape_data (base name: "html_escape_data")', function() {
+      // uncomment below and update the code to test the property html_escape_data
       //var instance = new DocSpring.Template();
       //expect(instance).to.be();
     });

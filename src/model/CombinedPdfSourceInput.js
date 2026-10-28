@@ -21,7 +21,7 @@ import UrlSourcePdf from './UrlSourcePdf';
 /**
  * The CombinedPdfSourceInput model module.
  * @module model/CombinedPdfSourceInput
- * @version 4.1.0
+ * @version 4.2.0
  */
 class CombinedPdfSourceInput {
     /**

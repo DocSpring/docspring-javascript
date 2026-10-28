@@ -148,6 +148,16 @@
         done();
       });
     });
+    describe('createTemplatePreview', function() {
+      it('should call createTemplatePreview successfully', function(done) {
+        //uncomment below and update the code to test createTemplatePreview
+        //instance.createTemplatePreview(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('createWebhook', function() {
       it('should call createWebhook successfully', function(done) {
         //uncomment below and update the code to test createWebhook
@@ -342,6 +352,16 @@
       it('should call getTemplatePageImages successfully', function(done) {
         //uncomment below and update the code to test getTemplatePageImages
         //instance.getTemplatePageImages(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('getTemplatePreview', function() {
+      it('should call getTemplatePreview successfully', function(done) {
+        //uncomment below and update the code to test getTemplatePreview
+        //instance.getTemplatePreview(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

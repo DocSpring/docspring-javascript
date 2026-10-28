@@ -17,7 +17,7 @@ import UploadMethod from './UploadMethod';
 /**
  * The UploadPresign model module.
  * @module model/UploadPresign
- * @version 4.1.0
+ * @version 4.2.0
  */
 class UploadPresign {
     /**

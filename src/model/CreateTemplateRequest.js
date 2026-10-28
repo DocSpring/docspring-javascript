@@ -27,7 +27,7 @@ import TemplateType from './TemplateType';
 /**
  * The CreateTemplateRequest model module.
  * @module model/CreateTemplateRequest
- * @version 4.1.0
+ * @version 4.2.0
  */
 class CreateTemplateRequest {
     /**
@@ -165,6 +165,9 @@ class CreateTemplateRequest {
             }
             if (data.hasOwnProperty('html_engine_options')) {
                 obj['html_engine_options'] = ApiClient.convertToType(data['html_engine_options'], HtmlEngineOptionsInput);
+            }
+            if (data.hasOwnProperty('html_escape_data')) {
+                obj['html_escape_data'] = ApiClient.convertToType(data['html_escape_data'], 'Boolean');
             }
             if (data.hasOwnProperty('cache_id')) {
                 obj['cache_id'] = ApiClient.convertToType(data['cache_id'], 'String');
@@ -370,7 +373,7 @@ CreateTemplateRequest.prototype['default_form_mode'] = undefined;
 CreateTemplateRequest.prototype['editable_submissions'] = undefined;
 
 /**
- * The sites where the template's signature requests, forms and embedded template editor can be loaded: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). When it's empty, live signature requests don't load on any site, and the embedded template editor loads on every site.
+ * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
  * @member {Array.<String>} embed_domains
  */
 CreateTemplateRequest.prototype['embed_domains'] = undefined;
@@ -512,6 +515,12 @@ CreateTemplateRequest.prototype['footer_html'] = undefined;
  * @member {module:model/HtmlEngineOptionsInput} html_engine_options
  */
 CreateTemplateRequest.prototype['html_engine_options'] = undefined;
+
+/**
+ * Whether an HTML template HTML-escapes the values it prints. When true, `{{ value }}` prints a value as text, so a `<` or `&` in it is printed as that character, and `{{ value | raw }}` prints a value as HTML. New HTML templates default to true. Templates created before October 2026, or with API v1, default to false, which prints every value as HTML. Null for PDF templates.
+ * @member {Boolean} html_escape_data
+ */
+CreateTemplateRequest.prototype['html_escape_data'] = undefined;
 
 /**
  * A PDF template's document: the `fields.key` of a file you uploaded with the presigned upload (GET /uploads/presign). A PDF template needs one of `cache_id`, `document_url` and `document_base64`. To upload the PDF with the request, use POST /templates/upload.

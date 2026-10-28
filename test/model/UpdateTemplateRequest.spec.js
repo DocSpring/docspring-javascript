@@ -264,6 +264,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property html_escape_data (base name: "html_escape_data")', function() {
+      // uncomment below and update the code to test the property html_escape_data
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
   });
 
 }));

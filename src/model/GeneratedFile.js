@@ -17,7 +17,7 @@ import GeneratedFileState from './GeneratedFileState';
 /**
  * The GeneratedFile model module.
  * @module model/GeneratedFile
- * @version 4.1.0
+ * @version 4.2.0
  */
 class GeneratedFile {
     /**

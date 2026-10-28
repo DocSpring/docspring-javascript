@@ -17,14 +17,14 @@ import TemplateActorType from './TemplateActorType';
 /**
  * The TemplateActor model module.
  * @module model/TemplateActor
- * @version 4.1.0
+ * @version 4.2.0
  */
 class TemplateActor {
     /**
      * Constructs a new <code>TemplateActor</code>.
      * A user in your account, an API token, or someone using the embedded template editor.
      * @alias module:model/TemplateActor
-     * @param type {module:model/TemplateActorType} `user`: a user in your account. `api`: an API token. `external_user`: someone using the embedded template editor, as identified by your app.
+     * @param type {module:model/TemplateActorType} `user`: a user in your account, also when they make the change with an app they connected (an OAuth access token). `api`: an API token. `external_user`: someone using the embedded template editor, as identified by your app.
      * @param user_id {String} The user's ID, for `user`.
      * @param external_id {String} The ID your app gave the embedded editor's user, for `external_user`.
      * @param name {String} The user's name, or the name your app gave the embedded editor's user.
@@ -116,7 +116,7 @@ class TemplateActor {
 TemplateActor.RequiredProperties = ["type", "user_id", "external_id", "name", "email"];
 
 /**
- * `user`: a user in your account. `api`: an API token. `external_user`: someone using the embedded template editor, as identified by your app.
+ * `user`: a user in your account, also when they make the change with an app they connected (an OAuth access token). `api`: an API token. `external_user`: someone using the embedded template editor, as identified by your app.
  * @member {module:model/TemplateActorType} type
  */
 TemplateActor.prototype['type'] = undefined;

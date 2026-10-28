@@ -24,7 +24,7 @@ import TemplateType from './TemplateType';
 /**
  * The Submission model module.
  * @module model/Submission
- * @version 4.1.0
+ * @version 4.2.0
  */
 class Submission {
     /**
@@ -41,26 +41,26 @@ class Submission {
      * @param state {module:model/SubmissionState} `pending` until the PDF has been generated, then `processed`. `waiting_for_signature_requests` until every signature request is completed. `insufficient_credits`: waiting for credits; `error_message` says whether the PDF is generated once you add them. `account_suspended`: waiting for the account to be reactivated, for up to 30 days. Waiting ends in `error` if it's discarded or takes over 30 days. Every other state is final, with no PDF: `invalid_data` (the data doesn't match the template's fields: see `data_errors`), `declined` (a signature request was declined), and the states where generating the PDF failed, which have an `error_message`: `syntax_error` (a mistake in an HTML template's Liquid or SCSS), `image_download_failed` or `image_processing_failed` (an image in the data or the template couldn't be downloaded or read) and `error` (anything else). Older submissions can also be `license_revoked` or `accidental`.
      * @param test {Boolean} Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions.
      * @param editable {Boolean} `true` keeps the PDF's text and check fields fillable, and `false` flattens every field. Left out, the template decides: its `editable_submissions` setting, or each field's own Editable option. A response shows the template's setting when the request left this out. Can't be `true` with `signature_requests`.
-     * @param data {Object.<String, Object>} The submission's data, with the values entered in completed signature requests. Lists leave it out (null) unless you pass `include_data=true`. Empty once the submission has expired.
+     * @param data {Object.<String, Object>} The submission's data, with the values entered in completed signature requests. Empty once the submission has expired. Null in a batch's submissions unless you pass `include_data=true`, and in the events of a webhook that leaves out submission data.
      * @param data_errors {Array.<module:model/ErrorDetail>} Why the data doesn't match the template's fields, when `state` is `invalid_data`: the same details as the 422 response that recorded it, with pointers into the request that created the submission (`/data/name`). Cleared once the submission has expired.
      * @param error_message {String} Why the PDF couldn't be generated, when `state` is `error`.
-     * @param metadata {Object.<String, Object>} Your own data about the submission, such as an ID from your app. It isn't printed on the PDF.
-     * @param has_password {Boolean} Whether the PDF needs a password to open (`password`).
-     * @param signature_requests {Array.<module:model/SignatureRequest>} The people asked to sign the submission (and fill in their fields), in order.
-     * @param actions {Array.<module:model/SubmissionAction>} The uploads of the submission's PDF to your storage (account integrations).
-     * @param truncated_text {Object.<String, Array.<String>>} The text of each field that didn't fit in it, by field name. Left out (null) with `data`, and empty once the submission has expired.
-     * @param output_formats {Array.<module:model/OutputFormat>} What the submission makes: `pdf`, and `png` (an image of each page of the PDF, up to 100 pages) when you ask for it. Default `["pdf"]`. POST /submissions/{submission_id}/generate_files adds `png` to a processed submission.
+     * @param metadata {Object.<String, Object>} Your own data about the submission, such as an ID from your app. It isn't printed on the PDF. Two keys also change the PDF: `pdf_filename` names its file (`files.pdf.filename`, and its download), and `pdf_title` is its title in the PDF's document properties (and an HTML template's `<title>`, unless its HTML has one). Without `pdf_title`, the title is the template's name. In `pdf_filename`, a `.pdf` ending is removed, each run of characters other than letters, digits, `-`, `_` and `.` becomes one `_`, and the first 128 characters are kept, then `.pdf` is added. Without it, the file is named after the submission's ID (`sub_1234567890abcdef01.pdf`).
      * @param files {module:model/SubmissionFiles} The generated files: `pdf` once the submission has been processed, `png` (the images of the PDF's pages, when `output_formats` has it: `files.png.pages[0]` is page 1), `audit_trail` once its signature requests are completed, and `preview` once a preview PDF has been generated. Empty once the submission has expired.
-     * @param preview_generated_at {Date} When the preview PDF was generated. Null if there is no preview.
      * @param expired {Boolean} An expired submission's data, metadata, password and PDF have been deleted.
      * @param expires_at {Date} When the submission expires. Null if it's kept until you delete it.
      * @param processed_at {Date} When the PDF was generated. Null until then.
      * @param created_at {Date} When the submission was created.
      * @param updated_at {Date} When the submission was last updated.
+     * @param has_password {Boolean} Whether the PDF needs a password to open (`password`).
+     * @param signature_requests {Array.<module:model/SignatureRequest>} The people asked to sign the submission (and fill in their fields), in order.
+     * @param actions {Array.<module:model/SubmissionAction>} The uploads of the submission's PDF to your storage (account integrations).
+     * @param truncated_text {Object.<String, Array.<String>>} The text of each field that didn't fit in it, by field name. Left out (null) with `data`, and empty once the submission has expired.
+     * @param output_formats {Array.<module:model/OutputFormat>} What the submission makes: `pdf`, and `png` (an image of each page of the PDF, up to 100 pages) when you ask for it. Default `["pdf"]`. POST /submissions/{submission_id}/generate_files adds `png` to a processed submission.
+     * @param preview_generated_at {Date} When the preview PDF was generated. Null if there is no preview.
      */
-    constructor(id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, has_password, signature_requests, actions, truncated_text, output_formats, files, preview_generated_at, expired, expires_at, processed_at, created_at, updated_at) { 
+    constructor(id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, files, expired, expires_at, processed_at, created_at, updated_at, has_password, signature_requests, actions, truncated_text, output_formats, preview_generated_at) { 
         
-        Submission.initialize(this, id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, has_password, signature_requests, actions, truncated_text, output_formats, files, preview_generated_at, expired, expires_at, processed_at, created_at, updated_at);
+        Submission.initialize(this, id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, files, expired, expires_at, processed_at, created_at, updated_at, has_password, signature_requests, actions, truncated_text, output_formats, preview_generated_at);
     }
 
     /**
@@ -68,7 +68,7 @@ class Submission {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, has_password, signature_requests, actions, truncated_text, output_formats, files, preview_generated_at, expired, expires_at, processed_at, created_at, updated_at) { 
+    static initialize(obj, id, template_id, template_type, template_version, batch_id, source, state, test, editable, data, data_errors, error_message, metadata, files, expired, expires_at, processed_at, created_at, updated_at, has_password, signature_requests, actions, truncated_text, output_formats, preview_generated_at) { 
         obj['id'] = id;
         obj['template_id'] = template_id;
         obj['template_type'] = template_type;
@@ -82,18 +82,18 @@ class Submission {
         obj['data_errors'] = data_errors;
         obj['error_message'] = error_message;
         obj['metadata'] = metadata;
-        obj['has_password'] = has_password;
-        obj['signature_requests'] = signature_requests;
-        obj['actions'] = actions;
-        obj['truncated_text'] = truncated_text;
-        obj['output_formats'] = output_formats;
         obj['files'] = files;
-        obj['preview_generated_at'] = preview_generated_at;
         obj['expired'] = expired;
         obj['expires_at'] = expires_at;
         obj['processed_at'] = processed_at;
         obj['created_at'] = created_at;
         obj['updated_at'] = updated_at;
+        obj['has_password'] = has_password;
+        obj['signature_requests'] = signature_requests;
+        obj['actions'] = actions;
+        obj['truncated_text'] = truncated_text;
+        obj['output_formats'] = output_formats;
+        obj['preview_generated_at'] = preview_generated_at;
     }
 
     /**
@@ -149,26 +149,8 @@ class Submission {
             if (data.hasOwnProperty('metadata')) {
                 obj['metadata'] = ApiClient.convertToType(data['metadata'], {'String': Object});
             }
-            if (data.hasOwnProperty('has_password')) {
-                obj['has_password'] = ApiClient.convertToType(data['has_password'], 'Boolean');
-            }
-            if (data.hasOwnProperty('signature_requests')) {
-                obj['signature_requests'] = ApiClient.convertToType(data['signature_requests'], [SignatureRequest]);
-            }
-            if (data.hasOwnProperty('actions')) {
-                obj['actions'] = ApiClient.convertToType(data['actions'], [SubmissionAction]);
-            }
-            if (data.hasOwnProperty('truncated_text')) {
-                obj['truncated_text'] = ApiClient.convertToType(data['truncated_text'], {'String': ['String']});
-            }
-            if (data.hasOwnProperty('output_formats')) {
-                obj['output_formats'] = ApiClient.convertToType(data['output_formats'], [OutputFormat]);
-            }
             if (data.hasOwnProperty('files')) {
                 obj['files'] = ApiClient.convertToType(data['files'], SubmissionFiles);
-            }
-            if (data.hasOwnProperty('preview_generated_at')) {
-                obj['preview_generated_at'] = ApiClient.convertToType(data['preview_generated_at'], 'Date');
             }
             if (data.hasOwnProperty('expired')) {
                 obj['expired'] = ApiClient.convertToType(data['expired'], 'Boolean');
@@ -184,6 +166,24 @@ class Submission {
             }
             if (data.hasOwnProperty('updated_at')) {
                 obj['updated_at'] = ApiClient.convertToType(data['updated_at'], 'Date');
+            }
+            if (data.hasOwnProperty('has_password')) {
+                obj['has_password'] = ApiClient.convertToType(data['has_password'], 'Boolean');
+            }
+            if (data.hasOwnProperty('signature_requests')) {
+                obj['signature_requests'] = ApiClient.convertToType(data['signature_requests'], [SignatureRequest]);
+            }
+            if (data.hasOwnProperty('actions')) {
+                obj['actions'] = ApiClient.convertToType(data['actions'], [SubmissionAction]);
+            }
+            if (data.hasOwnProperty('truncated_text')) {
+                obj['truncated_text'] = ApiClient.convertToType(data['truncated_text'], {'String': ['String']});
+            }
+            if (data.hasOwnProperty('output_formats')) {
+                obj['output_formats'] = ApiClient.convertToType(data['output_formats'], [OutputFormat]);
+            }
+            if (data.hasOwnProperty('preview_generated_at')) {
+                obj['preview_generated_at'] = ApiClient.convertToType(data['preview_generated_at'], 'Date');
             }
         }
         return obj;
@@ -244,7 +244,7 @@ class Submission {
 
 }
 
-Submission.RequiredProperties = ["id", "template_id", "template_type", "template_version", "batch_id", "source", "state", "test", "editable", "data", "data_errors", "error_message", "metadata", "has_password", "signature_requests", "actions", "truncated_text", "output_formats", "files", "preview_generated_at", "expired", "expires_at", "processed_at", "created_at", "updated_at"];
+Submission.RequiredProperties = ["id", "template_id", "template_type", "template_version", "batch_id", "source", "state", "test", "editable", "data", "data_errors", "error_message", "metadata", "files", "expired", "expires_at", "processed_at", "created_at", "updated_at", "has_password", "signature_requests", "actions", "truncated_text", "output_formats", "preview_generated_at"];
 
 /**
  * The submission's ID.
@@ -301,7 +301,7 @@ Submission.prototype['test'] = undefined;
 Submission.prototype['editable'] = undefined;
 
 /**
- * The submission's data, with the values entered in completed signature requests. Lists leave it out (null) unless you pass `include_data=true`. Empty once the submission has expired.
+ * The submission's data, with the values entered in completed signature requests. Empty once the submission has expired. Null in a batch's submissions unless you pass `include_data=true`, and in the events of a webhook that leaves out submission data.
  * @member {Object.<String, Object>} data
  */
 Submission.prototype['data'] = undefined;
@@ -319,10 +319,46 @@ Submission.prototype['data_errors'] = undefined;
 Submission.prototype['error_message'] = undefined;
 
 /**
- * Your own data about the submission, such as an ID from your app. It isn't printed on the PDF.
+ * Your own data about the submission, such as an ID from your app. It isn't printed on the PDF. Two keys also change the PDF: `pdf_filename` names its file (`files.pdf.filename`, and its download), and `pdf_title` is its title in the PDF's document properties (and an HTML template's `<title>`, unless its HTML has one). Without `pdf_title`, the title is the template's name. In `pdf_filename`, a `.pdf` ending is removed, each run of characters other than letters, digits, `-`, `_` and `.` becomes one `_`, and the first 128 characters are kept, then `.pdf` is added. Without it, the file is named after the submission's ID (`sub_1234567890abcdef01.pdf`).
  * @member {Object.<String, Object>} metadata
  */
 Submission.prototype['metadata'] = undefined;
+
+/**
+ * The generated files: `pdf` once the submission has been processed, `png` (the images of the PDF's pages, when `output_formats` has it: `files.png.pages[0]` is page 1), `audit_trail` once its signature requests are completed, and `preview` once a preview PDF has been generated. Empty once the submission has expired.
+ * @member {module:model/SubmissionFiles} files
+ */
+Submission.prototype['files'] = undefined;
+
+/**
+ * An expired submission's data, metadata, password and PDF have been deleted.
+ * @member {Boolean} expired
+ */
+Submission.prototype['expired'] = undefined;
+
+/**
+ * When the submission expires. Null if it's kept until you delete it.
+ * @member {Date} expires_at
+ */
+Submission.prototype['expires_at'] = undefined;
+
+/**
+ * When the PDF was generated. Null until then.
+ * @member {Date} processed_at
+ */
+Submission.prototype['processed_at'] = undefined;
+
+/**
+ * When the submission was created.
+ * @member {Date} created_at
+ */
+Submission.prototype['created_at'] = undefined;
+
+/**
+ * When the submission was last updated.
+ * @member {Date} updated_at
+ */
+Submission.prototype['updated_at'] = undefined;
 
 /**
  * Whether the PDF needs a password to open (`password`).
@@ -355,46 +391,10 @@ Submission.prototype['truncated_text'] = undefined;
 Submission.prototype['output_formats'] = undefined;
 
 /**
- * The generated files: `pdf` once the submission has been processed, `png` (the images of the PDF's pages, when `output_formats` has it: `files.png.pages[0]` is page 1), `audit_trail` once its signature requests are completed, and `preview` once a preview PDF has been generated. Empty once the submission has expired.
- * @member {module:model/SubmissionFiles} files
- */
-Submission.prototype['files'] = undefined;
-
-/**
  * When the preview PDF was generated. Null if there is no preview.
  * @member {Date} preview_generated_at
  */
 Submission.prototype['preview_generated_at'] = undefined;
-
-/**
- * An expired submission's data, metadata, password and PDF have been deleted.
- * @member {Boolean} expired
- */
-Submission.prototype['expired'] = undefined;
-
-/**
- * When the submission expires. Null if it's kept until you delete it.
- * @member {Date} expires_at
- */
-Submission.prototype['expires_at'] = undefined;
-
-/**
- * When the PDF was generated. Null until then.
- * @member {Date} processed_at
- */
-Submission.prototype['processed_at'] = undefined;
-
-/**
- * When the submission was created.
- * @member {Date} created_at
- */
-Submission.prototype['created_at'] = undefined;
-
-/**
- * When the submission was last updated.
- * @member {Date} updated_at
- */
-Submission.prototype['updated_at'] = undefined;
 
 
 

@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The ErrorDetail model module.
  * @module model/ErrorDetail
- * @version 4.1.0
+ * @version 4.2.0
  */
 class ErrorDetail {
     /**
@@ -135,7 +135,7 @@ ErrorDetail.prototype['message'] = undefined;
 ErrorDetail.prototype['pointer'] = undefined;
 
 /**
- * The query parameter the detail is about.
+ * The query parameter or header the detail is about.
  * @member {String} parameter
  */
 ErrorDetail.prototype['parameter'] = undefined;

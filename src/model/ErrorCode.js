@@ -166,6 +166,20 @@ export default class ErrorCode {
         static "polling_timeout" = "polling_timeout";
 
     
+        /**
+         * value: "idempotency_key_in_use"
+         * @const
+         */
+        static "idempotency_key_in_use" = "idempotency_key_in_use";
+
+    
+        /**
+         * value: "idempotency_key_reused"
+         * @const
+         */
+        static "idempotency_key_reused" = "idempotency_key_reused";
+
+    
 
     /**
     * Returns a <code>ErrorCode</code> enum value from a Javascript object name.

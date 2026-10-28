@@ -18,7 +18,7 @@ import SignatureRequestMessageType from './SignatureRequestMessageType';
 /**
  * The CreateSignatureRequestEventRequest model module.
  * @module model/CreateSignatureRequestEventRequest
- * @version 4.1.0
+ * @version 4.2.0
  */
 class CreateSignatureRequestEventRequest {
     /**

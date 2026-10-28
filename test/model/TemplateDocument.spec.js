@@ -60,12 +60,6 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property md5 (base name: "md5")', function() {
-      // uncomment below and update the code to test the property md5
-      //var instance = new DocSpring.TemplateDocument();
-      //expect(instance).to.be();
-    });
-
     it('should have the property state (base name: "state")', function() {
       // uncomment below and update the code to test the property state
       //var instance = new DocSpring.TemplateDocument();
@@ -78,14 +72,20 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property field_reimport_state (base name: "field_reimport_state")', function() {
-      // uncomment below and update the code to test the property field_reimport_state
+    it('should have the property page_count (base name: "page_count")', function() {
+      // uncomment below and update the code to test the property page_count
       //var instance = new DocSpring.TemplateDocument();
       //expect(instance).to.be();
     });
 
-    it('should have the property page_count (base name: "page_count")', function() {
-      // uncomment below and update the code to test the property page_count
+    it('should have the property md5 (base name: "md5")', function() {
+      // uncomment below and update the code to test the property md5
+      //var instance = new DocSpring.TemplateDocument();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property field_reimport_state (base name: "field_reimport_state")', function() {
+      // uncomment below and update the code to test the property field_reimport_state
       //var instance = new DocSpring.TemplateDocument();
       //expect(instance).to.be();
     });

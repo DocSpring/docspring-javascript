@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The AuthenticationCheck model module.
  * @module model/AuthenticationCheck
- * @version 4.1.0
+ * @version 4.2.0
  */
 class AuthenticationCheck {
     /**

@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The MoveFolderRequest model module.
  * @module model/MoveFolderRequest
- * @version 4.1.0
+ * @version 4.2.0
  */
 class MoveFolderRequest {
     /**

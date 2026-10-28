@@ -25,6 +25,7 @@ docs/CreateSignatureRequestEventRequest.md
 docs/CreateSignatureRequestTokenRequest.md
 docs/CreateSubmissionBatchRequest.md
 docs/CreateSubmissionRequest.md
+docs/CreateTemplatePreviewRequest.md
 docs/CreateTemplateRequest.md
 docs/CreateWebhookRequest.md
 docs/CustomFile.md
@@ -106,6 +107,7 @@ docs/SubmissionList.md
 docs/SubmissionSource.md
 docs/SubmissionSourcePdf.md
 docs/SubmissionState.md
+docs/SubmissionSummary.md
 docs/SubmissionValidation.md
 docs/Template.md
 docs/TemplateActor.md
@@ -116,6 +118,7 @@ docs/TemplateDiff.md
 docs/TemplateDiffSummary.md
 docs/TemplateDocument.md
 docs/TemplateDocumentState.md
+docs/TemplateDocumentSummary.md
 docs/TemplateFieldChange.md
 docs/TemplateFieldChanges.md
 docs/TemplateFieldDependency.md
@@ -136,6 +139,8 @@ docs/TemplatePageFieldsStatus.md
 docs/TemplatePageImageStatus.md
 docs/TemplatePageImages.md
 docs/TemplatePageProcessingStatus.md
+docs/TemplatePreview.md
+docs/TemplatePreviewState.md
 docs/TemplateSourcePdf.md
 docs/TemplateSummary.md
 docs/TemplateSummaryList.md
@@ -187,6 +192,7 @@ src/model/CreateSignatureRequestEventRequest.js
 src/model/CreateSignatureRequestTokenRequest.js
 src/model/CreateSubmissionBatchRequest.js
 src/model/CreateSubmissionRequest.js
+src/model/CreateTemplatePreviewRequest.js
 src/model/CreateTemplateRequest.js
 src/model/CreateWebhookRequest.js
 src/model/CustomFile.js
@@ -268,6 +274,7 @@ src/model/SubmissionList.js
 src/model/SubmissionSource.js
 src/model/SubmissionSourcePdf.js
 src/model/SubmissionState.js
+src/model/SubmissionSummary.js
 src/model/SubmissionValidation.js
 src/model/Template.js
 src/model/TemplateActor.js
@@ -278,6 +285,7 @@ src/model/TemplateDiff.js
 src/model/TemplateDiffSummary.js
 src/model/TemplateDocument.js
 src/model/TemplateDocumentState.js
+src/model/TemplateDocumentSummary.js
 src/model/TemplateFieldChange.js
 src/model/TemplateFieldChanges.js
 src/model/TemplateFieldDependency.js
@@ -298,6 +306,8 @@ src/model/TemplatePageFieldsStatus.js
 src/model/TemplatePageImageStatus.js
 src/model/TemplatePageImages.js
 src/model/TemplatePageProcessingStatus.js
+src/model/TemplatePreview.js
+src/model/TemplatePreviewState.js
 src/model/TemplateSourcePdf.js
 src/model/TemplateSummary.js
 src/model/TemplateSummaryList.js
@@ -344,6 +354,7 @@ test/model/CreateSignatureRequestEventRequest.spec.js
 test/model/CreateSignatureRequestTokenRequest.spec.js
 test/model/CreateSubmissionBatchRequest.spec.js
 test/model/CreateSubmissionRequest.spec.js
+test/model/CreateTemplatePreviewRequest.spec.js
 test/model/CreateTemplateRequest.spec.js
 test/model/CreateWebhookRequest.spec.js
 test/model/CustomFile.spec.js
@@ -425,6 +436,7 @@ test/model/SubmissionList.spec.js
 test/model/SubmissionSource.spec.js
 test/model/SubmissionSourcePdf.spec.js
 test/model/SubmissionState.spec.js
+test/model/SubmissionSummary.spec.js
 test/model/SubmissionValidation.spec.js
 test/model/Template.spec.js
 test/model/TemplateActor.spec.js
@@ -435,6 +447,7 @@ test/model/TemplateDiff.spec.js
 test/model/TemplateDiffSummary.spec.js
 test/model/TemplateDocument.spec.js
 test/model/TemplateDocumentState.spec.js
+test/model/TemplateDocumentSummary.spec.js
 test/model/TemplateFieldChange.spec.js
 test/model/TemplateFieldChanges.spec.js
 test/model/TemplateFieldDependency.spec.js
@@ -455,6 +468,8 @@ test/model/TemplatePageFieldsStatus.spec.js
 test/model/TemplatePageImageStatus.spec.js
 test/model/TemplatePageImages.spec.js
 test/model/TemplatePageProcessingStatus.spec.js
+test/model/TemplatePreview.spec.js
+test/model/TemplatePreviewState.spec.js
 test/model/TemplateSourcePdf.spec.js
 test/model/TemplateSummary.spec.js
 test/model/TemplateSummaryList.spec.js

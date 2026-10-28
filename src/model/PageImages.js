@@ -18,7 +18,7 @@ import PageImage from './PageImage';
 /**
  * The PageImages model module.
  * @module model/PageImages
- * @version 4.1.0
+ * @version 4.2.0
  */
 class PageImages {
     /**

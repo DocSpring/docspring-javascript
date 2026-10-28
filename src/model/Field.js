@@ -31,7 +31,7 @@ import Typeface from './Typeface';
 /**
  * The Field model module.
  * @module model/Field
- * @version 4.1.0
+ * @version 4.2.0
  */
 class Field {
     /**

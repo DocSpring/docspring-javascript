@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplateDiffSummary model module.
  * @module model/TemplateDiffSummary
- * @version 4.1.0
+ * @version 4.2.0
  */
 class TemplateDiffSummary {
     /**

@@ -18,7 +18,7 @@ import SignatureRequestAuthType from './SignatureRequestAuthType';
 /**
  * The SignatureRequestInput model module.
  * @module model/SignatureRequestInput
- * @version 4.1.0
+ * @version 4.2.0
  */
 class SignatureRequestInput {
     /**

@@ -14,6 +14,7 @@
 
 import ApiClient from './ApiClient';
 import { ValidationError } from './RequestValidator';
+import { verifyWebhookSignature } from './WebhookSignature';
 import AddTemplateFieldsRequest from './model/AddTemplateFieldsRequest';
 import AiFieldNamingLanguage from './model/AiFieldNamingLanguage';
 import AuthenticationCheck from './model/AuthenticationCheck';
@@ -36,6 +37,7 @@ import CreateSignatureRequestEventRequest from './model/CreateSignatureRequestEv
 import CreateSignatureRequestTokenRequest from './model/CreateSignatureRequestTokenRequest';
 import CreateSubmissionBatchRequest from './model/CreateSubmissionBatchRequest';
 import CreateSubmissionRequest from './model/CreateSubmissionRequest';
+import CreateTemplatePreviewRequest from './model/CreateTemplatePreviewRequest';
 import CreateTemplateRequest from './model/CreateTemplateRequest';
 import CreateWebhookRequest from './model/CreateWebhookRequest';
 import CustomFile from './model/CustomFile';
@@ -117,6 +119,7 @@ import SubmissionList from './model/SubmissionList';
 import SubmissionSource from './model/SubmissionSource';
 import SubmissionSourcePdf from './model/SubmissionSourcePdf';
 import SubmissionState from './model/SubmissionState';
+import SubmissionSummary from './model/SubmissionSummary';
 import SubmissionValidation from './model/SubmissionValidation';
 import Template from './model/Template';
 import TemplateActor from './model/TemplateActor';
@@ -127,6 +130,7 @@ import TemplateDiff from './model/TemplateDiff';
 import TemplateDiffSummary from './model/TemplateDiffSummary';
 import TemplateDocument from './model/TemplateDocument';
 import TemplateDocumentState from './model/TemplateDocumentState';
+import TemplateDocumentSummary from './model/TemplateDocumentSummary';
 import TemplateFieldChange from './model/TemplateFieldChange';
 import TemplateFieldChanges from './model/TemplateFieldChanges';
 import TemplateFieldDependency from './model/TemplateFieldDependency';
@@ -147,6 +151,8 @@ import TemplatePageFieldsStatus from './model/TemplatePageFieldsStatus';
 import TemplatePageImageStatus from './model/TemplatePageImageStatus';
 import TemplatePageImages from './model/TemplatePageImages';
 import TemplatePageProcessingStatus from './model/TemplatePageProcessingStatus';
+import TemplatePreview from './model/TemplatePreview';
+import TemplatePreviewState from './model/TemplatePreviewState';
 import TemplateSourcePdf from './model/TemplateSourcePdf';
 import TemplateSummary from './model/TemplateSummary';
 import TemplateSummaryList from './model/TemplateSummaryList';
@@ -202,7 +208,7 @@ import Client from './api/Client';
 * </pre>
 * </p>
 * @module index
-* @version 4.1.0
+* @version 4.2.0
 */
 export {
     /**
@@ -342,6 +348,12 @@ export {
      * @property {module:model/CreateSubmissionRequest}
      */
     CreateSubmissionRequest,
+
+    /**
+     * The CreateTemplatePreviewRequest model constructor.
+     * @property {module:model/CreateTemplatePreviewRequest}
+     */
+    CreateTemplatePreviewRequest,
 
     /**
      * The CreateTemplateRequest model constructor.
@@ -830,6 +842,12 @@ export {
     SubmissionState,
 
     /**
+     * The SubmissionSummary model constructor.
+     * @property {module:model/SubmissionSummary}
+     */
+    SubmissionSummary,
+
+    /**
      * The SubmissionValidation model constructor.
      * @property {module:model/SubmissionValidation}
      */
@@ -888,6 +906,12 @@ export {
      * @property {module:model/TemplateDocumentState}
      */
     TemplateDocumentState,
+
+    /**
+     * The TemplateDocumentSummary model constructor.
+     * @property {module:model/TemplateDocumentSummary}
+     */
+    TemplateDocumentSummary,
 
     /**
      * The TemplateFieldChange model constructor.
@@ -1008,6 +1032,18 @@ export {
      * @property {module:model/TemplatePageProcessingStatus}
      */
     TemplatePageProcessingStatus,
+
+    /**
+     * The TemplatePreview model constructor.
+     * @property {module:model/TemplatePreview}
+     */
+    TemplatePreview,
+
+    /**
+     * The TemplatePreviewState model constructor.
+     * @property {module:model/TemplatePreviewState}
+     */
+    TemplatePreviewState,
 
     /**
      * The TemplateSourcePdf model constructor.
@@ -1152,6 +1188,12 @@ export {
      * @property {module:RequestValidator.ValidationError}
      */
     ValidationError,
+
+    /**
+     * Checks a webhook request's X-DocSpring-Signature header.
+     * @property {module:WebhookSignature.verifyWebhookSignature}
+     */
+    verifyWebhookSignature,
 
     /**
     * The Client service constructor.

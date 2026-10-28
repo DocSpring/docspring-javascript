@@ -264,6 +264,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property html_escape_data (base name: "html_escape_data")', function() {
+      // uncomment below and update the code to test the property html_escape_data
+      //var instance = new DocSpring.CreateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property cache_id (base name: "cache_id")', function() {
       // uncomment below and update the code to test the property cache_id
       //var instance = new DocSpring.CreateTemplateRequest();

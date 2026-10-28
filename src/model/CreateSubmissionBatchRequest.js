@@ -18,7 +18,7 @@ import SubmissionInput from './SubmissionInput';
 /**
  * The CreateSubmissionBatchRequest model module.
  * @module model/CreateSubmissionBatchRequest
- * @version 4.1.0
+ * @version 4.2.0
  */
 class CreateSubmissionBatchRequest {
     /**

@@ -12,65 +12,38 @@
  */
 
 import ApiClient from '../ApiClient';
-import AiFieldNamingLanguage from './AiFieldNamingLanguage';
-import ExpirationInterval from './ExpirationInterval';
-import TemplateActor from './TemplateActor';
-import TemplateDocument from './TemplateDocument';
-import TemplateFormMode from './TemplateFormMode';
+import TemplateDocumentSummary from './TemplateDocumentSummary';
 import TemplateType from './TemplateType';
 
 /**
  * The TemplateSummary model module.
  * @module model/TemplateSummary
- * @version 4.1.0
+ * @version 4.2.0
  */
 class TemplateSummary {
     /**
      * Constructs a new <code>TemplateSummary</code>.
-     * A template in a list. Get a template by its ID for its HTML, defaults, field dependency rules and published versions.
+     * A template in a list: its name, type, folder, latest published version and whether it's ready. Get a template by its ID for its settings, its PDF in full, its HTML, defaults, field dependency rules and published versions.
      * @alias module:model/TemplateSummary
      * @extends Object
      * @param id {String} The template's ID.
      * @param name {String} The template's name.
      * @param description {String} Shown under the template's name at the top of its hosted forms, and used as their meta description. Not shown on embedded forms or signature requests.
      * @param template_type {module:model/TemplateType} `pdf`: fields placed on an uploaded PDF. `html`: a PDF rendered from HTML and SCSS. It can't be changed after the template is created.
-     * @param ready {Boolean} Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once its document has been processed (`document.state` is `processed`).
-     * @param document {module:model/TemplateDocument} The PDF of a PDF template. Null for HTML templates, and for a PDF template that has no PDF yet.
+     * @param ready {Boolean} Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once DocSpring has stored its PDF, made an image of each page and finished looking for fields on each page, which can be after `document.state` becomes `processed`. A PDF template with no PDF (`document` is null) isn't ready.
+     * @param document {module:model/TemplateDocumentSummary} The PDF of a PDF template: its file name, page count and processing state. Null for HTML templates, and for a PDF template that has no PDF yet.
      * @param parent_folder_id {String} The ID of the folder the template is in. Null for a template at the root. Setting it moves the template and all of its published versions.
      * @param path {String} The path of the folder the template is in, such as `/Contracts`. `/` for a template at the root.
-     * @param version {String} The published version this is, such as `1.2.0`. Null for the draft.
      * @param latest_version {String} The template's latest published version. Null if no version has been published.
      * @param version_published_at {Date} When this version was published. Null for the draft.
      * @param locked {Boolean} A locked template can't be changed or deleted until it's unlocked (`locked` can always be changed).
-     * @param add_signature_request_submission_id_footers {Boolean} Print the submission ID in the footer of each page of PDFs signed through signature requests.
-     * @param ai_field_naming_language {module:model/AiFieldNamingLanguage} The language AI field setup names fields in: `auto` uses the form's language when it's written in the Latin alphabet without accents, and English otherwise; `english` always uses English; `form_language` uses the form's language and script. New templates take it from your account's template settings. Null for HTML templates.
-     * @param allow_additional_properties {Boolean} Accept submission data with properties that aren't fields of the template.
-     * @param allow_skipping_optional_fields {Boolean} Visual forms and signature request forms show the Continue button as soon as the required fields are filled in, without visiting each optional field. The `allowSkippingOptionalFields` embed option overrides it.
-     * @param default_form_mode {module:model/TemplateFormMode} The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). HTML templates have no visual form, so `web` is the only value they accept.
-     * @param editable_submissions {Boolean} Generate PDFs whose text and check fields stay fillable ("Generate Editable PDFs"). A submission's `editable` overrides it.
-     * @param embed_domains {Array.<String>} The sites where the template's signature requests, forms and embedded template editor can be loaded: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). When it's empty, live signature requests don't load on any site, and the embedded template editor loads on every site.
-     * @param embed_edit_allow_settings {Boolean} Allow the embedded template editor to change sensitive template settings (webhooks, redirect URL, encryption, public access, expiration and so on).
-     * @param embed_edit_allow_versioning {Boolean} Allow the embedded template editor to publish, restore, compare and delete published versions.
-     * @param embed_edit_allow_document_replacement {Boolean} Allow the embedded template editor to replace the template's PDF.
-     * @param encrypt_pdfs {Boolean} Encrypt generated PDFs with `encrypt_pdfs_password`.
-     * @param has_encrypt_pdfs_password {Boolean} Whether `encrypt_pdfs_password` is set.
-     * @param expire_submissions {Boolean} Delete each submission's data and PDF after `expire_after` `expiration_interval`.
-     * @param expire_after {Number} How many `expiration_interval`s a submission's data and PDF are kept for, when `expire_submissions` is on. At most 5256000 (10 years in minutes).
-     * @param expiration_interval {module:model/ExpirationInterval} The unit of `expire_after`.
-     * @param merge_audit_trail_pdf {Boolean} Add the audit trail to the end of PDFs signed through signature requests.
-     * @param parse_dates_using_template_date_format {Boolean} Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
-     * @param public_submissions {Boolean} Allow anyone with a submission's ID to download its PDF.
-     * @param public_web_form {Boolean} Allow anyone to fill in the template's web form.
-     * @param redirect_url {String} Where the web form sends people after they submit it.
-     * @param has_slack_webhook_url {Boolean} Whether `slack_webhook_url` is set.
      * @param last_changed_at {Date} When the draft was last changed.
-     * @param last_changed_by {module:model/TemplateActor} Who last changed the draft: a user in your account, an API token, or someone using the embedded template editor. Null if no change has been recorded.
      * @param created_at {Date} When the template was created.
      * @param updated_at {Date} When the template was last updated.
      */
-    constructor(id, name, description, template_type, ready, document, parent_folder_id, path, version, latest_version, version_published_at, locked, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_at, last_changed_by, created_at, updated_at) { 
+    constructor(id, name, description, template_type, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at) { 
         
-        TemplateSummary.initialize(this, id, name, description, template_type, ready, document, parent_folder_id, path, version, latest_version, version_published_at, locked, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_at, last_changed_by, created_at, updated_at);
+        TemplateSummary.initialize(this, id, name, description, template_type, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at);
     }
 
     /**
@@ -78,7 +51,7 @@ class TemplateSummary {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, name, description, template_type, ready, document, parent_folder_id, path, version, latest_version, version_published_at, locked, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_at, last_changed_by, created_at, updated_at) { 
+    static initialize(obj, id, name, description, template_type, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at) { 
         obj['id'] = id;
         obj['name'] = name;
         obj['description'] = description;
@@ -87,33 +60,10 @@ class TemplateSummary {
         obj['document'] = document;
         obj['parent_folder_id'] = parent_folder_id;
         obj['path'] = path;
-        obj['version'] = version;
         obj['latest_version'] = latest_version;
         obj['version_published_at'] = version_published_at;
         obj['locked'] = locked;
-        obj['add_signature_request_submission_id_footers'] = add_signature_request_submission_id_footers;
-        obj['ai_field_naming_language'] = ai_field_naming_language;
-        obj['allow_additional_properties'] = allow_additional_properties;
-        obj['allow_skipping_optional_fields'] = allow_skipping_optional_fields;
-        obj['default_form_mode'] = default_form_mode;
-        obj['editable_submissions'] = editable_submissions;
-        obj['embed_domains'] = embed_domains;
-        obj['embed_edit_allow_settings'] = embed_edit_allow_settings;
-        obj['embed_edit_allow_versioning'] = embed_edit_allow_versioning;
-        obj['embed_edit_allow_document_replacement'] = embed_edit_allow_document_replacement;
-        obj['encrypt_pdfs'] = encrypt_pdfs;
-        obj['has_encrypt_pdfs_password'] = has_encrypt_pdfs_password;
-        obj['expire_submissions'] = expire_submissions;
-        obj['expire_after'] = expire_after;
-        obj['expiration_interval'] = expiration_interval;
-        obj['merge_audit_trail_pdf'] = merge_audit_trail_pdf;
-        obj['parse_dates_using_template_date_format'] = parse_dates_using_template_date_format;
-        obj['public_submissions'] = public_submissions;
-        obj['public_web_form'] = public_web_form;
-        obj['redirect_url'] = redirect_url;
-        obj['has_slack_webhook_url'] = has_slack_webhook_url;
         obj['last_changed_at'] = last_changed_at;
-        obj['last_changed_by'] = last_changed_by;
         obj['created_at'] = created_at;
         obj['updated_at'] = updated_at;
     }
@@ -148,16 +98,13 @@ class TemplateSummary {
                 obj['ready'] = ApiClient.convertToType(data['ready'], 'Boolean');
             }
             if (data.hasOwnProperty('document')) {
-                obj['document'] = ApiClient.convertToType(data['document'], TemplateDocument);
+                obj['document'] = ApiClient.convertToType(data['document'], TemplateDocumentSummary);
             }
             if (data.hasOwnProperty('parent_folder_id')) {
                 obj['parent_folder_id'] = ApiClient.convertToType(data['parent_folder_id'], 'String');
             }
             if (data.hasOwnProperty('path')) {
                 obj['path'] = ApiClient.convertToType(data['path'], 'String');
-            }
-            if (data.hasOwnProperty('version')) {
-                obj['version'] = ApiClient.convertToType(data['version'], 'String');
             }
             if (data.hasOwnProperty('latest_version')) {
                 obj['latest_version'] = ApiClient.convertToType(data['latest_version'], 'String');
@@ -168,74 +115,8 @@ class TemplateSummary {
             if (data.hasOwnProperty('locked')) {
                 obj['locked'] = ApiClient.convertToType(data['locked'], 'Boolean');
             }
-            if (data.hasOwnProperty('add_signature_request_submission_id_footers')) {
-                obj['add_signature_request_submission_id_footers'] = ApiClient.convertToType(data['add_signature_request_submission_id_footers'], 'Boolean');
-            }
-            if (data.hasOwnProperty('ai_field_naming_language')) {
-                obj['ai_field_naming_language'] = ApiClient.convertToType(data['ai_field_naming_language'], AiFieldNamingLanguage);
-            }
-            if (data.hasOwnProperty('allow_additional_properties')) {
-                obj['allow_additional_properties'] = ApiClient.convertToType(data['allow_additional_properties'], 'Boolean');
-            }
-            if (data.hasOwnProperty('allow_skipping_optional_fields')) {
-                obj['allow_skipping_optional_fields'] = ApiClient.convertToType(data['allow_skipping_optional_fields'], 'Boolean');
-            }
-            if (data.hasOwnProperty('default_form_mode')) {
-                obj['default_form_mode'] = ApiClient.convertToType(data['default_form_mode'], TemplateFormMode);
-            }
-            if (data.hasOwnProperty('editable_submissions')) {
-                obj['editable_submissions'] = ApiClient.convertToType(data['editable_submissions'], 'Boolean');
-            }
-            if (data.hasOwnProperty('embed_domains')) {
-                obj['embed_domains'] = ApiClient.convertToType(data['embed_domains'], ['String']);
-            }
-            if (data.hasOwnProperty('embed_edit_allow_settings')) {
-                obj['embed_edit_allow_settings'] = ApiClient.convertToType(data['embed_edit_allow_settings'], 'Boolean');
-            }
-            if (data.hasOwnProperty('embed_edit_allow_versioning')) {
-                obj['embed_edit_allow_versioning'] = ApiClient.convertToType(data['embed_edit_allow_versioning'], 'Boolean');
-            }
-            if (data.hasOwnProperty('embed_edit_allow_document_replacement')) {
-                obj['embed_edit_allow_document_replacement'] = ApiClient.convertToType(data['embed_edit_allow_document_replacement'], 'Boolean');
-            }
-            if (data.hasOwnProperty('encrypt_pdfs')) {
-                obj['encrypt_pdfs'] = ApiClient.convertToType(data['encrypt_pdfs'], 'Boolean');
-            }
-            if (data.hasOwnProperty('has_encrypt_pdfs_password')) {
-                obj['has_encrypt_pdfs_password'] = ApiClient.convertToType(data['has_encrypt_pdfs_password'], 'Boolean');
-            }
-            if (data.hasOwnProperty('expire_submissions')) {
-                obj['expire_submissions'] = ApiClient.convertToType(data['expire_submissions'], 'Boolean');
-            }
-            if (data.hasOwnProperty('expire_after')) {
-                obj['expire_after'] = ApiClient.convertToType(data['expire_after'], 'Number');
-            }
-            if (data.hasOwnProperty('expiration_interval')) {
-                obj['expiration_interval'] = ApiClient.convertToType(data['expiration_interval'], ExpirationInterval);
-            }
-            if (data.hasOwnProperty('merge_audit_trail_pdf')) {
-                obj['merge_audit_trail_pdf'] = ApiClient.convertToType(data['merge_audit_trail_pdf'], 'Boolean');
-            }
-            if (data.hasOwnProperty('parse_dates_using_template_date_format')) {
-                obj['parse_dates_using_template_date_format'] = ApiClient.convertToType(data['parse_dates_using_template_date_format'], 'Boolean');
-            }
-            if (data.hasOwnProperty('public_submissions')) {
-                obj['public_submissions'] = ApiClient.convertToType(data['public_submissions'], 'Boolean');
-            }
-            if (data.hasOwnProperty('public_web_form')) {
-                obj['public_web_form'] = ApiClient.convertToType(data['public_web_form'], 'Boolean');
-            }
-            if (data.hasOwnProperty('redirect_url')) {
-                obj['redirect_url'] = ApiClient.convertToType(data['redirect_url'], 'String');
-            }
-            if (data.hasOwnProperty('has_slack_webhook_url')) {
-                obj['has_slack_webhook_url'] = ApiClient.convertToType(data['has_slack_webhook_url'], 'Boolean');
-            }
             if (data.hasOwnProperty('last_changed_at')) {
                 obj['last_changed_at'] = ApiClient.convertToType(data['last_changed_at'], 'Date');
-            }
-            if (data.hasOwnProperty('last_changed_by')) {
-                obj['last_changed_by'] = ApiClient.convertToType(data['last_changed_by'], TemplateActor);
             }
             if (data.hasOwnProperty('created_at')) {
                 obj['created_at'] = ApiClient.convertToType(data['created_at'], 'Date');
@@ -273,7 +154,7 @@ class TemplateSummary {
         }
         // validate the optional field `document`
         if (data['document']) { // data not null
-          TemplateDocument.validateJSON(data['document']);
+          TemplateDocumentSummary.validateJSON(data['document']);
         }
         // ensure the json data is a string
         if (data['parent_folder_id'] && !(typeof data['parent_folder_id'] === 'string' || data['parent_folder_id'] instanceof String)) {
@@ -284,24 +165,8 @@ class TemplateSummary {
             throw new Error("Expected the field `path` to be a primitive type in the JSON string but got " + data['path']);
         }
         // ensure the json data is a string
-        if (data['version'] && !(typeof data['version'] === 'string' || data['version'] instanceof String)) {
-            throw new Error("Expected the field `version` to be a primitive type in the JSON string but got " + data['version']);
-        }
-        // ensure the json data is a string
         if (data['latest_version'] && !(typeof data['latest_version'] === 'string' || data['latest_version'] instanceof String)) {
             throw new Error("Expected the field `latest_version` to be a primitive type in the JSON string but got " + data['latest_version']);
-        }
-        // ensure the json data is an array
-        if (!Array.isArray(data['embed_domains'])) {
-            throw new Error("Expected the field `embed_domains` to be an array in the JSON data but got " + data['embed_domains']);
-        }
-        // ensure the json data is a string
-        if (data['redirect_url'] && !(typeof data['redirect_url'] === 'string' || data['redirect_url'] instanceof String)) {
-            throw new Error("Expected the field `redirect_url` to be a primitive type in the JSON string but got " + data['redirect_url']);
-        }
-        // validate the optional field `last_changed_by`
-        if (data['last_changed_by']) { // data not null
-          TemplateActor.validateJSON(data['last_changed_by']);
         }
 
         return true;
@@ -310,7 +175,7 @@ class TemplateSummary {
 
 }
 
-TemplateSummary.RequiredProperties = ["id", "name", "description", "template_type", "ready", "document", "parent_folder_id", "path", "version", "latest_version", "version_published_at", "locked", "add_signature_request_submission_id_footers", "ai_field_naming_language", "allow_additional_properties", "allow_skipping_optional_fields", "default_form_mode", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs", "has_encrypt_pdfs_password", "expire_submissions", "expire_after", "expiration_interval", "merge_audit_trail_pdf", "parse_dates_using_template_date_format", "public_submissions", "public_web_form", "redirect_url", "has_slack_webhook_url", "last_changed_at", "last_changed_by", "created_at", "updated_at"];
+TemplateSummary.RequiredProperties = ["id", "name", "description", "template_type", "ready", "document", "parent_folder_id", "path", "latest_version", "version_published_at", "locked", "last_changed_at", "created_at", "updated_at"];
 
 /**
  * The template's ID.
@@ -337,14 +202,14 @@ TemplateSummary.prototype['description'] = undefined;
 TemplateSummary.prototype['template_type'] = undefined;
 
 /**
- * Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once its document has been processed (`document.state` is `processed`).
+ * Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once DocSpring has stored its PDF, made an image of each page and finished looking for fields on each page, which can be after `document.state` becomes `processed`. A PDF template with no PDF (`document` is null) isn't ready.
  * @member {Boolean} ready
  */
 TemplateSummary.prototype['ready'] = undefined;
 
 /**
- * The PDF of a PDF template. Null for HTML templates, and for a PDF template that has no PDF yet.
- * @member {module:model/TemplateDocument} document
+ * The PDF of a PDF template: its file name, page count and processing state. Null for HTML templates, and for a PDF template that has no PDF yet.
+ * @member {module:model/TemplateDocumentSummary} document
  */
 TemplateSummary.prototype['document'] = undefined;
 
@@ -359,12 +224,6 @@ TemplateSummary.prototype['parent_folder_id'] = undefined;
  * @member {String} path
  */
 TemplateSummary.prototype['path'] = undefined;
-
-/**
- * The published version this is, such as `1.2.0`. Null for the draft.
- * @member {String} version
- */
-TemplateSummary.prototype['version'] = undefined;
 
 /**
  * The template's latest published version. Null if no version has been published.
@@ -385,142 +244,10 @@ TemplateSummary.prototype['version_published_at'] = undefined;
 TemplateSummary.prototype['locked'] = undefined;
 
 /**
- * Print the submission ID in the footer of each page of PDFs signed through signature requests.
- * @member {Boolean} add_signature_request_submission_id_footers
- */
-TemplateSummary.prototype['add_signature_request_submission_id_footers'] = undefined;
-
-/**
- * The language AI field setup names fields in: `auto` uses the form's language when it's written in the Latin alphabet without accents, and English otherwise; `english` always uses English; `form_language` uses the form's language and script. New templates take it from your account's template settings. Null for HTML templates.
- * @member {module:model/AiFieldNamingLanguage} ai_field_naming_language
- */
-TemplateSummary.prototype['ai_field_naming_language'] = undefined;
-
-/**
- * Accept submission data with properties that aren't fields of the template.
- * @member {Boolean} allow_additional_properties
- */
-TemplateSummary.prototype['allow_additional_properties'] = undefined;
-
-/**
- * Visual forms and signature request forms show the Continue button as soon as the required fields are filled in, without visiting each optional field. The `allowSkippingOptionalFields` embed option overrides it.
- * @member {Boolean} allow_skipping_optional_fields
- */
-TemplateSummary.prototype['allow_skipping_optional_fields'] = undefined;
-
-/**
- * The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). HTML templates have no visual form, so `web` is the only value they accept.
- * @member {module:model/TemplateFormMode} default_form_mode
- */
-TemplateSummary.prototype['default_form_mode'] = undefined;
-
-/**
- * Generate PDFs whose text and check fields stay fillable ("Generate Editable PDFs"). A submission's `editable` overrides it.
- * @member {Boolean} editable_submissions
- */
-TemplateSummary.prototype['editable_submissions'] = undefined;
-
-/**
- * The sites where the template's signature requests, forms and embedded template editor can be loaded: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). When it's empty, live signature requests don't load on any site, and the embedded template editor loads on every site.
- * @member {Array.<String>} embed_domains
- */
-TemplateSummary.prototype['embed_domains'] = undefined;
-
-/**
- * Allow the embedded template editor to change sensitive template settings (webhooks, redirect URL, encryption, public access, expiration and so on).
- * @member {Boolean} embed_edit_allow_settings
- */
-TemplateSummary.prototype['embed_edit_allow_settings'] = undefined;
-
-/**
- * Allow the embedded template editor to publish, restore, compare and delete published versions.
- * @member {Boolean} embed_edit_allow_versioning
- */
-TemplateSummary.prototype['embed_edit_allow_versioning'] = undefined;
-
-/**
- * Allow the embedded template editor to replace the template's PDF.
- * @member {Boolean} embed_edit_allow_document_replacement
- */
-TemplateSummary.prototype['embed_edit_allow_document_replacement'] = undefined;
-
-/**
- * Encrypt generated PDFs with `encrypt_pdfs_password`.
- * @member {Boolean} encrypt_pdfs
- */
-TemplateSummary.prototype['encrypt_pdfs'] = undefined;
-
-/**
- * Whether `encrypt_pdfs_password` is set.
- * @member {Boolean} has_encrypt_pdfs_password
- */
-TemplateSummary.prototype['has_encrypt_pdfs_password'] = undefined;
-
-/**
- * Delete each submission's data and PDF after `expire_after` `expiration_interval`.
- * @member {Boolean} expire_submissions
- */
-TemplateSummary.prototype['expire_submissions'] = undefined;
-
-/**
- * How many `expiration_interval`s a submission's data and PDF are kept for, when `expire_submissions` is on. At most 5256000 (10 years in minutes).
- * @member {Number} expire_after
- */
-TemplateSummary.prototype['expire_after'] = undefined;
-
-/**
- * The unit of `expire_after`.
- * @member {module:model/ExpirationInterval} expiration_interval
- */
-TemplateSummary.prototype['expiration_interval'] = undefined;
-
-/**
- * Add the audit trail to the end of PDFs signed through signature requests.
- * @member {Boolean} merge_audit_trail_pdf
- */
-TemplateSummary.prototype['merge_audit_trail_pdf'] = undefined;
-
-/**
- * Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
- * @member {Boolean} parse_dates_using_template_date_format
- */
-TemplateSummary.prototype['parse_dates_using_template_date_format'] = undefined;
-
-/**
- * Allow anyone with a submission's ID to download its PDF.
- * @member {Boolean} public_submissions
- */
-TemplateSummary.prototype['public_submissions'] = undefined;
-
-/**
- * Allow anyone to fill in the template's web form.
- * @member {Boolean} public_web_form
- */
-TemplateSummary.prototype['public_web_form'] = undefined;
-
-/**
- * Where the web form sends people after they submit it.
- * @member {String} redirect_url
- */
-TemplateSummary.prototype['redirect_url'] = undefined;
-
-/**
- * Whether `slack_webhook_url` is set.
- * @member {Boolean} has_slack_webhook_url
- */
-TemplateSummary.prototype['has_slack_webhook_url'] = undefined;
-
-/**
  * When the draft was last changed.
  * @member {Date} last_changed_at
  */
 TemplateSummary.prototype['last_changed_at'] = undefined;
-
-/**
- * Who last changed the draft: a user in your account, an API token, or someone using the embedded template editor. Null if no change has been recorded.
- * @member {module:model/TemplateActor} last_changed_by
- */
-TemplateSummary.prototype['last_changed_by'] = undefined;
 
 /**
  * When the template was created.

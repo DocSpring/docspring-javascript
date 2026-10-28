@@ -17,7 +17,7 @@ import ErrorInfo from './ErrorInfo';
 /**
  * The SubmissionValidation model module.
  * @module model/SubmissionValidation
- * @version 4.1.0
+ * @version 4.2.0
  */
 class SubmissionValidation {
     /**

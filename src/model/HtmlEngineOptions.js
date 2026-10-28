@@ -17,7 +17,7 @@ import PageFormat from './PageFormat';
 /**
  * The HtmlEngineOptions model module.
  * @module model/HtmlEngineOptions
- * @version 4.1.0
+ * @version 4.2.0
  */
 class HtmlEngineOptions {
     /**

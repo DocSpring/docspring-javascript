@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplateSourcePdf model module.
  * @module model/TemplateSourcePdf
- * @version 4.1.0
+ * @version 4.2.0
  */
 class TemplateSourcePdf {
     /**

@@ -17,7 +17,7 @@ import TemplateVersionType from './TemplateVersionType';
 /**
  * The PublishTemplateVersionRequest model module.
  * @module model/PublishTemplateVersionRequest
- * @version 4.1.0
+ * @version 4.2.0
  */
 class PublishTemplateVersionRequest {
     /**

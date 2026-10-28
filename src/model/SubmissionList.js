@@ -12,12 +12,12 @@
  */
 
 import ApiClient from '../ApiClient';
-import Submission from './Submission';
+import SubmissionSummary from './SubmissionSummary';
 
 /**
  * The SubmissionList model module.
  * @module model/SubmissionList
- * @version 4.1.0
+ * @version 4.2.0
  */
 class SubmissionList {
     /**
@@ -25,7 +25,7 @@ class SubmissionList {
      * A page of submissions, newest first.
      * @alias module:model/SubmissionList
      * @extends Object
-     * @param data {Array.<module:model/Submission>} The items on this page.
+     * @param data {Array.<module:model/SubmissionSummary>} The items on this page.
      * @param next_cursor {String} Pass it as `cursor` to get the next page. Null on the last page.
      */
     constructor(data, next_cursor) { 
@@ -58,7 +58,7 @@ class SubmissionList {
             
 
             if (data.hasOwnProperty('data')) {
-                obj['data'] = ApiClient.convertToType(data['data'], [Submission]);
+                obj['data'] = ApiClient.convertToType(data['data'], [SubmissionSummary]);
             }
             if (data.hasOwnProperty('next_cursor')) {
                 obj['next_cursor'] = ApiClient.convertToType(data['next_cursor'], 'String');
@@ -98,7 +98,7 @@ SubmissionList.RequiredProperties = ["data", "next_cursor"];
 
 /**
  * The items on this page.
- * @member {Array.<module:model/Submission>} data
+ * @member {Array.<module:model/SubmissionSummary>} data
  */
 SubmissionList.prototype['data'] = undefined;
 

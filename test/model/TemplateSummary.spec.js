@@ -102,12 +102,6 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property version (base name: "version")', function() {
-      // uncomment below and update the code to test the property version
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
     it('should have the property latest_version (base name: "latest_version")', function() {
       // uncomment below and update the code to test the property latest_version
       //var instance = new DocSpring.TemplateSummary();
@@ -126,140 +120,8 @@
       //expect(instance).to.be();
     });
 
-    it('should have the property add_signature_request_submission_id_footers (base name: "add_signature_request_submission_id_footers")', function() {
-      // uncomment below and update the code to test the property add_signature_request_submission_id_footers
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property ai_field_naming_language (base name: "ai_field_naming_language")', function() {
-      // uncomment below and update the code to test the property ai_field_naming_language
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property allow_additional_properties (base name: "allow_additional_properties")', function() {
-      // uncomment below and update the code to test the property allow_additional_properties
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property allow_skipping_optional_fields (base name: "allow_skipping_optional_fields")', function() {
-      // uncomment below and update the code to test the property allow_skipping_optional_fields
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property default_form_mode (base name: "default_form_mode")', function() {
-      // uncomment below and update the code to test the property default_form_mode
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property editable_submissions (base name: "editable_submissions")', function() {
-      // uncomment below and update the code to test the property editable_submissions
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property embed_domains (base name: "embed_domains")', function() {
-      // uncomment below and update the code to test the property embed_domains
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property embed_edit_allow_settings (base name: "embed_edit_allow_settings")', function() {
-      // uncomment below and update the code to test the property embed_edit_allow_settings
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property embed_edit_allow_versioning (base name: "embed_edit_allow_versioning")', function() {
-      // uncomment below and update the code to test the property embed_edit_allow_versioning
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property embed_edit_allow_document_replacement (base name: "embed_edit_allow_document_replacement")', function() {
-      // uncomment below and update the code to test the property embed_edit_allow_document_replacement
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property encrypt_pdfs (base name: "encrypt_pdfs")', function() {
-      // uncomment below and update the code to test the property encrypt_pdfs
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property has_encrypt_pdfs_password (base name: "has_encrypt_pdfs_password")', function() {
-      // uncomment below and update the code to test the property has_encrypt_pdfs_password
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property expire_submissions (base name: "expire_submissions")', function() {
-      // uncomment below and update the code to test the property expire_submissions
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property expire_after (base name: "expire_after")', function() {
-      // uncomment below and update the code to test the property expire_after
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property expiration_interval (base name: "expiration_interval")', function() {
-      // uncomment below and update the code to test the property expiration_interval
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property merge_audit_trail_pdf (base name: "merge_audit_trail_pdf")', function() {
-      // uncomment below and update the code to test the property merge_audit_trail_pdf
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property parse_dates_using_template_date_format (base name: "parse_dates_using_template_date_format")', function() {
-      // uncomment below and update the code to test the property parse_dates_using_template_date_format
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property public_submissions (base name: "public_submissions")', function() {
-      // uncomment below and update the code to test the property public_submissions
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property public_web_form (base name: "public_web_form")', function() {
-      // uncomment below and update the code to test the property public_web_form
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property redirect_url (base name: "redirect_url")', function() {
-      // uncomment below and update the code to test the property redirect_url
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property has_slack_webhook_url (base name: "has_slack_webhook_url")', function() {
-      // uncomment below and update the code to test the property has_slack_webhook_url
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
     it('should have the property last_changed_at (base name: "last_changed_at")', function() {
       // uncomment below and update the code to test the property last_changed_at
-      //var instance = new DocSpring.TemplateSummary();
-      //expect(instance).to.be();
-    });
-
-    it('should have the property last_changed_by (base name: "last_changed_by")', function() {
-      // uncomment below and update the code to test the property last_changed_by
       //var instance = new DocSpring.TemplateSummary();
       //expect(instance).to.be();
     });

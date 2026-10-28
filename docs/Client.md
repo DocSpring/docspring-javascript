@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**createSubmission**](Client.md#createSubmission) | **POST** /templates/{template_id}/submissions | Generate a PDF
 [**createSubmissionBatch**](Client.md#createSubmissionBatch) | **POST** /submissions/batches | Generate PDFs in a batch
 [**createTemplate**](Client.md#createTemplate) | **POST** /templates | Create a template
+[**createTemplatePreview**](Client.md#createTemplatePreview) | **POST** /templates/{template_id}/previews | Preview a template with data
 [**createWebhook**](Client.md#createWebhook) | **POST** /webhooks | Create a webhook
 [**deleteCustomFile**](Client.md#deleteCustomFile) | **DELETE** /custom_files/{custom_file_id} | Delete a custom file
 [**deleteFolder**](Client.md#deleteFolder) | **DELETE** /folders/{folder_id} | Delete a folder
@@ -34,6 +35,7 @@ Method | HTTP request | Description
 [**getTemplateDiff**](Client.md#getTemplateDiff) | **GET** /templates/{template_id}/diff | Compare a version of a template with the one before it
 [**getTemplateModelCode**](Client.md#getTemplateModelCode) | **GET** /templates/{template_id}/model_code | Generate typed code for a template's submission data
 [**getTemplatePageImages**](Client.md#getTemplatePageImages) | **GET** /templates/{template_id}/page_images | Get images of a template's pages
+[**getTemplatePreview**](Client.md#getTemplatePreview) | **GET** /templates/{template_id}/previews/{preview_id} | Get a template preview
 [**getTemplateSchema**](Client.md#getTemplateSchema) | **GET** /templates/{template_id}/schema | Get the JSON Schema of a template's submission data
 [**getWebhook**](Client.md#getWebhook) | **GET** /webhooks/{webhook_id} | Get a webhook
 [**listCombinedPdfs**](Client.md#listCombinedPdfs) | **GET** /combined_pdfs | List combined PDFs
@@ -188,7 +190,8 @@ api_token_basic.password = 'YOUR PASSWORD';
 let apiInstance = new DocSpring.Client();
 let body = {"source_pdfs":[{"type":"submission","id":"sub_1234567890abcdef01"},{"type":"template","id":"tpl_1234567890abcdef01"},{"type":"url","url":"https://example.com/terms.pdf"}],"metadata":{"user_id":42},"password":"secret","expires_in":3600}; // CreateCombinedPdfRequest | The PDFs to merge, and the combined PDF's settings.
 let opts = {
-  'wait': true // Boolean | Wait until the PDF has been generated before responding. Default true on sync.api hosts.
+  'wait': true, // Boolean | Wait until the PDF has been generated before responding. Default true on sync.api hosts.
+  'idempotencyKey': "idempotencyKey_example" // String | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
 };
 apiInstance.createCombinedPdf(body, opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -205,6 +208,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**CreateCombinedPdfRequest**](CreateCombinedPdfRequest.md)| The PDFs to merge, and the combined PDF's settings. | 
  **wait** | **Boolean**| Wait until the PDF has been generated before responding. Default true on sync.api hosts. | [optional] 
+ **idempotencyKey** | **String**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. | [optional] 
 
 ### Return type
 
@@ -324,7 +328,7 @@ Name | Type | Description  | Notes
 
 Record a signature request event
 
-Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account. 
+Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account. A finished (completed, declined or expired) signature request's audit trail takes no more events, and a test API token can't record one for a live signature request. 
 
 ### Example
 
@@ -445,7 +449,8 @@ let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
 let body = {"data":{"first_name":"John","last_name":"Smith","phone_number":"+11234567890"},"metadata":{"user_id":42},"test":true}; // CreateSubmissionRequest | The submission's data and settings.
 let opts = {
   'version': "version_example", // String | The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
-  'wait': true // Boolean | Wait until the files have been generated before responding. Default true on sync.api hosts.
+  'wait': true, // Boolean | Wait until the files have been generated before responding. Default true on sync.api hosts.
+  'idempotencyKey': "idempotencyKey_example" // String | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
 };
 apiInstance.createSubmission(template_id, body, opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -464,6 +469,7 @@ Name | Type | Description  | Notes
  **body** | [**CreateSubmissionRequest**](CreateSubmissionRequest.md)| The submission's data and settings. | 
  **version** | **String**| The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published). | [optional] 
  **wait** | **Boolean**| Wait until the files have been generated before responding. Default true on sync.api hosts. | [optional] 
+ **idempotencyKey** | **String**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. | [optional] 
 
 ### Return type
 
@@ -500,7 +506,8 @@ api_token_basic.password = 'YOUR PASSWORD';
 let apiInstance = new DocSpring.Client();
 let body = {"template_id":"tpl_1234567890abcdef01","metadata":{"job_id":54321},"submissions":[{"data":{"first_name":"John","last_name":"Smith"},"metadata":{"row":1}},{"data":{"first_name":"Jane","last_name":"Doe"},"test":true,"metadata":{"row":2}}]}; // CreateSubmissionBatchRequest | The submissions to create, and the settings they share.
 let opts = {
-  'wait': true // Boolean | Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts.
+  'wait': true, // Boolean | Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts.
+  'idempotencyKey': "idempotencyKey_example" // String | A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
 };
 apiInstance.createSubmissionBatch(body, opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -517,6 +524,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**CreateSubmissionBatchRequest**](CreateSubmissionBatchRequest.md)| The submissions to create, and the settings they share. | 
  **wait** | **Boolean**| Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts. | [optional] 
+ **idempotencyKey** | **String**| A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds. | [optional] 
 
 ### Return type
 
@@ -574,6 +582,61 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Template**](Template.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## createTemplatePreview
+
+> TemplatePreview createTemplatePreview(template_id, body, opts)
+
+Preview a template with data
+
+Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML or PDF template prints with your data before you publish a version or send live data. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef02"; // String | The template's ID.
+let body = {"data":{"invoice_number":"INV-001"}}; // CreateTemplatePreviewRequest | The data to render the template with.
+let opts = {
+  'version': "version_example" // String | A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+};
+apiInstance.createTemplatePreview(template_id, body, opts).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **body** | [**CreateTemplatePreviewRequest**](CreateTemplatePreviewRequest.md)| The data to render the template with. | 
+ **version** | **String**| A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`. | [optional] 
+
+### Return type
+
+[**TemplatePreview**](TemplatePreview.md)
 
 ### Authorization
 
@@ -1491,7 +1554,7 @@ Name | Type | Description  | Notes
 
 Generate typed code for a template's submission data
 
-Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
+Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object, and `just_types=true` leaves out the code that converts JSON to and from the types. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
 
 ### Example
 
@@ -1507,7 +1570,8 @@ let apiInstance = new DocSpring.Client();
 let template_id = "tpl_1234567890abcdef01"; // String | The template's ID.
 let lang = new DocSpring.ModelCodeLanguage(); // ModelCodeLanguage | The language to generate the code in.
 let opts = {
-  'version': "draft" // String | The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+  'version': "draft", // String | The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+  'just_types': true // Boolean | Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way.
 };
 apiInstance.getTemplateModelCode(template_id, lang, opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -1525,6 +1589,7 @@ Name | Type | Description  | Notes
  **template_id** | **String**| The template's ID. | 
  **lang** | [**ModelCodeLanguage**](.md)| The language to generate the code in. | 
  **version** | **String**| The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default. | [optional] 
+ **just_types** | **Boolean**| Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way. | [optional] 
 
 ### Return type
 
@@ -1582,6 +1647,57 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**TemplatePageImages**](TemplatePageImages.md)
+
+### Authorization
+
+[api_token_basic](../README.md#api_token_basic)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## getTemplatePreview
+
+> TemplatePreview getTemplatePreview(template_id, preview_id)
+
+Get a template preview
+
+Returns a preview made with POST /templates/{template_id}/previews. Once it's `processed`, `pages` has a PNG image of each page with a temporary link to download it: a preview has no PDF. Previews are deleted an hour after they're created. 
+
+### Example
+
+```javascript
+import DocSpring from 'docspring';
+let defaultClient = DocSpring.ApiClient.instance;
+// Configure HTTP basic authorization: api_token_basic
+let api_token_basic = defaultClient.authentications['api_token_basic'];
+api_token_basic.username = 'YOUR USERNAME';
+api_token_basic.password = 'YOUR PASSWORD';
+
+let apiInstance = new DocSpring.Client();
+let template_id = "tpl_1234567890abcdef02"; // String | The template's ID.
+let preview_id = "tpv_1234567890abcdef0123"; // String | The preview's ID.
+apiInstance.getTemplatePreview(template_id, preview_id).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_id** | **String**| The template's ID. | 
+ **preview_id** | **String**| The preview's ID. | 
+
+### Return type
+
+[**TemplatePreview**](TemplatePreview.md)
 
 ### Authorization
 
@@ -1862,7 +1978,7 @@ Name | Type | Description  | Notes
 
 List submissions
 
-Returns the submissions in your account, newest first, one page at a time. Lists leave out each submission's `data` unless you pass `include_data=true`. 
+Returns the submissions in your account, newest first, one page at a time. Each one is a summary: its `data` is null unless you pass `include_data=true`, and its `files` are empty unless you pass `include_files=true`. Get a submission by its ID for its signature requests, uploads and page images. 
 
 ### Example
 
@@ -1882,7 +1998,9 @@ let opts = {
   'created_before': new Date("2018-10-20T09:00:00Z"), // Date | Only list submissions created before this time.
   'include_data': true, // Boolean | Include each submission's `data` (null without it).
   'limit': 50, // Number | How many items to return (1-100, default 50).
-  'cursor': "cursor_example" // String | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+  'cursor': "cursor_example", // String | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+  'state': new DocSpring.SubmissionState(), // SubmissionState | Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck.
+  'include_files': true // Boolean | Include each submission's generated files and their download links (`files`, empty without it), without the page images' links.
 };
 apiInstance.listSubmissions(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -1904,6 +2022,8 @@ Name | Type | Description  | Notes
  **include_data** | **Boolean**| Include each submission's `data` (null without it). | [optional] 
  **limit** | **Number**| How many items to return (1-100, default 50). | [optional] [default to 50]
  **cursor** | **String**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] 
+ **state** | [**SubmissionState**](.md)| Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. | [optional] 
+ **include_files** | **Boolean**| Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. | [optional] 
 
 ### Return type
 
@@ -1998,7 +2118,9 @@ let opts = {
   'created_before': new Date("2013-10-20T19:20:30+01:00"), // Date | Only list submissions created before this time.
   'include_data': true, // Boolean | Include each submission's `data` (null without it).
   'limit': 50, // Number | How many items to return (1-100, default 50).
-  'cursor': "cursor_example" // String | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+  'cursor': "cursor_example", // String | The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+  'state': new DocSpring.SubmissionState(), // SubmissionState | Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck.
+  'include_files': true // Boolean | Include each submission's generated files and their download links (`files`, empty without it), without the page images' links.
 };
 apiInstance.listTemplateSubmissions(template_id, opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -2020,6 +2142,8 @@ Name | Type | Description  | Notes
  **include_data** | **Boolean**| Include each submission's `data` (null without it). | [optional] 
  **limit** | **Number**| How many items to return (1-100, default 50). | [optional] [default to 50]
  **cursor** | **String**| The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one. | [optional] 
+ **state** | [**SubmissionState**](.md)| Only list submissions in this state (one state per request). The ones that failed are `invalid_data`, `error`, `syntax_error`, `image_download_failed` and `image_processing_failed`, and one still `pending` an hour after it was created is stuck. | [optional] 
+ **include_files** | **Boolean**| Include each submission's generated files and their download links (`files`, empty without it), without the page images' links. | [optional] 
 
 ### Return type
 
@@ -2041,7 +2165,7 @@ Name | Type | Description  | Notes
 
 List templates
 
-Returns the templates in your account (their drafts), newest first, one page at a time. Get a template by its ID for its HTML, defaults and published versions. 
+Returns the templates in your account (their drafts), newest first, one page at a time. Each one is a summary: get a template by its ID for its settings, its PDF in full, its HTML, defaults and published versions. 
 
 ### Example
 

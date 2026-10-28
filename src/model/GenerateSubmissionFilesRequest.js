@@ -17,7 +17,7 @@ import GenerateFilesFormat from './GenerateFilesFormat';
 /**
  * The GenerateSubmissionFilesRequest model module.
  * @module model/GenerateSubmissionFilesRequest
- * @version 4.1.0
+ * @version 4.2.0
  */
 class GenerateSubmissionFilesRequest {
     /**

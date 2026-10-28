@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SubmissionSourcePdf model module.
  * @module model/SubmissionSourcePdf
- * @version 4.1.0
+ * @version 4.2.0
  */
 class SubmissionSourcePdf {
     /**
