@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -18,7 +18,7 @@ import TemplateFieldChanges from './TemplateFieldChanges';
 /**
  * The TemplateDiff model module.
  * @module model/TemplateDiff
- * @version 4.2.0
+ * @version 4.3.0
  */
 class TemplateDiff {
     /**
@@ -31,8 +31,8 @@ class TemplateDiff {
      * @param to_version {String} The later version, such as `1.2.0`. Null for the draft.
      * @param summary {module:model/TemplateDiffSummary} How many changes of each kind there are.
      * @param fields {module:model/TemplateFieldChanges} The fields that changed.
-     * @param changed_settings {Array.<String>} The names of the template's settings that changed, as they're named on the Template (`name`, `html`, `defaults`, `expire_after`, ...). Values aren't included, and secrets like `encrypt_pdfs_password` are named when they change.
-     * @param document_changed {Boolean} The template's PDF was replaced (or added, when there's no `from_version`).
+     * @param changed_settings {Array.<String>} The names of the template's settings that changed, as they're named on the Template (`name`, `html`, `defaults`, `merge_audit_trail_pdf`, ...). Values aren't included. Settings that apply to every version, such as `webhook_url` and `encrypt_pdfs_password`, are the same on every version, so they're named only when there's no earlier version to compare with; a secret is named without its value.
+     * @param document_changed {Boolean} The template's PDF was replaced, or its Word document replaced or edited (or added, when there's no `from_version`).
      */
     constructor(template_id, from_version, to_version, summary, fields, changed_settings, document_changed) { 
         
@@ -169,13 +169,13 @@ TemplateDiff.prototype['summary'] = undefined;
 TemplateDiff.prototype['fields'] = undefined;
 
 /**
- * The names of the template's settings that changed, as they're named on the Template (`name`, `html`, `defaults`, `expire_after`, ...). Values aren't included, and secrets like `encrypt_pdfs_password` are named when they change.
+ * The names of the template's settings that changed, as they're named on the Template (`name`, `html`, `defaults`, `merge_audit_trail_pdf`, ...). Values aren't included. Settings that apply to every version, such as `webhook_url` and `encrypt_pdfs_password`, are the same on every version, so they're named only when there's no earlier version to compare with; a secret is named without its value.
  * @member {Array.<String>} changed_settings
  */
 TemplateDiff.prototype['changed_settings'] = undefined;
 
 /**
- * The template's PDF was replaced (or added, when there's no `from_version`).
+ * The template's PDF was replaced, or its Word document replaced or edited (or added, when there's no `from_version`).
  * @member {Boolean} document_changed
  */
 TemplateDiff.prototype['document_changed'] = undefined;

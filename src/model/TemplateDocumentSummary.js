@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -17,17 +17,17 @@ import TemplateDocumentState from './TemplateDocumentState';
 /**
  * The TemplateDocumentSummary model module.
  * @module model/TemplateDocumentSummary
- * @version 4.2.0
+ * @version 4.3.0
  */
 class TemplateDocumentSummary {
     /**
      * Constructs a new <code>TemplateDocumentSummary</code>.
-     * A PDF template's PDF, as template lists show it.
+     * A PDF template's PDF or a Word template's Word document, as template lists show it.
      * @alias module:model/TemplateDocumentSummary
-     * @param filename {String} The PDF's file name. Null until a `document_url` has been downloaded.
-     * @param state {module:model/TemplateDocumentState} `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
-     * @param error_message {String} Why the PDF couldn't be processed or downloaded, and how to fix it. Null unless `state` is an error.
-     * @param page_count {Number} 0 until the PDF has been processed.
+     * @param filename {String} The file's name. Null until a `document_url` has been downloaded or an OpenDocument file converted.
+     * @param state {module:model/TemplateDocumentState} `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. `converting` while DocSpring converts an OpenDocument file (.odt) uploaded to a Word template to a Word document, and `conversion_failed` when it couldn't, with `error_message` saying why. A template keeps its document while a new one is downloaded or converted, and when it couldn't be. A Word document is `processed` once it's uploaded, downloaded or converted.
+     * @param error_message {String} Why the PDF couldn't be processed, or the document downloaded or converted, and how to fix it. Null unless `state` is an error.
+     * @param page_count {Number} 0 until the PDF has been processed. 0 for a Word document, whose pages depend on the data.
      */
     constructor(filename, state, error_message, page_count) { 
         
@@ -103,25 +103,25 @@ class TemplateDocumentSummary {
 TemplateDocumentSummary.RequiredProperties = ["filename", "state", "error_message", "page_count"];
 
 /**
- * The PDF's file name. Null until a `document_url` has been downloaded.
+ * The file's name. Null until a `document_url` has been downloaded or an OpenDocument file converted.
  * @member {String} filename
  */
 TemplateDocumentSummary.prototype['filename'] = undefined;
 
 /**
- * `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
+ * `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. `converting` while DocSpring converts an OpenDocument file (.odt) uploaded to a Word template to a Word document, and `conversion_failed` when it couldn't, with `error_message` saying why. A template keeps its document while a new one is downloaded or converted, and when it couldn't be. A Word document is `processed` once it's uploaded, downloaded or converted.
  * @member {module:model/TemplateDocumentState} state
  */
 TemplateDocumentSummary.prototype['state'] = undefined;
 
 /**
- * Why the PDF couldn't be processed or downloaded, and how to fix it. Null unless `state` is an error.
+ * Why the PDF couldn't be processed, or the document downloaded or converted, and how to fix it. Null unless `state` is an error.
  * @member {String} error_message
  */
 TemplateDocumentSummary.prototype['error_message'] = undefined;
 
 /**
- * 0 until the PDF has been processed.
+ * 0 until the PDF has been processed. 0 for a Word document, whose pages depend on the data.
  * @member {Number} page_count
  */
 TemplateDocumentSummary.prototype['page_count'] = undefined;

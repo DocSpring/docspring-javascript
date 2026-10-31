@@ -7,4 +7,6 @@
 
 * `html` (value: `"html"`)
 
+* `docx` (value: `"docx"`)
+
 

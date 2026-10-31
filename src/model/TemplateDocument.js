@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -20,25 +20,25 @@ import TemplatePageProcessingStatus from './TemplatePageProcessingStatus';
 /**
  * The TemplateDocument model module.
  * @module model/TemplateDocument
- * @version 4.2.0
+ * @version 4.3.0
  */
 class TemplateDocument {
     /**
      * Constructs a new <code>TemplateDocument</code>.
-     * A PDF template's PDF.
+     * A PDF template's PDF, or a Word template's Word document.
      * @alias module:model/TemplateDocument
-     * @param filename {String} The PDF's file name. Null until a `document_url` has been downloaded.
-     * @param state {module:model/TemplateDocumentState} `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
-     * @param error_message {String} Why the PDF couldn't be processed or downloaded, and how to fix it. Null unless `state` is an error.
-     * @param page_count {Number} 0 until the PDF has been processed.
-     * @param md5 {String} The MD5 hash of the PDF.
+     * @param filename {String} The file's name. Null until a `document_url` has been downloaded or an OpenDocument file converted.
+     * @param state {module:model/TemplateDocumentState} `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. `converting` while DocSpring converts an OpenDocument file (.odt) uploaded to a Word template to a Word document, and `conversion_failed` when it couldn't, with `error_message` saying why. A template keeps its document while a new one is downloaded or converted, and when it couldn't be. A Word document is `processed` once it's uploaded, downloaded or converted.
+     * @param error_message {String} Why the PDF couldn't be processed, or the document downloaded or converted, and how to fix it. Null unless `state` is an error.
+     * @param page_count {Number} 0 until the PDF has been processed. 0 for a Word document, whose pages depend on the data.
+     * @param md5 {String} The MD5 hash of the PDF. Null for a Word document.
      * @param field_reimport_state {module:model/FieldReimportState} Whether the fields are being re-imported from this PDF (`reimport_fields` when the PDF was replaced): `requested` while DocSpring processes the PDF, then `imported`, or `no_fields` when the PDF had no fillable fields and the template kept its fields. `none` when no re-import was asked for, or when it couldn't run (the PDF couldn't be processed, or the template was locked or published while it was).
      * @param page_dimensions {Array.<Array.<Number>>} Each page's width and height in PDF points. Null until the PDF has been processed.
-     * @param has_fillable_fields {Boolean} Whether the PDF has fillable form fields. Null until DocSpring has read the PDF.
-     * @param page_processing_statuses {Array.<module:model/TemplatePageProcessingStatus>} How processing is going on each page, in page order: its image, and its fields when DocSpring sets them up (`detect_fields` when the template was created). `state` becomes `processed` once every page is done. Empty until DocSpring has read the PDF, and for PDFs uploaded before DocSpring recorded page statuses.
-     * @param field_logic_status {module:model/TemplateFieldLogicStatus} AI field setup's last step, which reads the whole form once every page is done and can still rename fields and add conditional logic and required fields: `pending` or `processing` until it finishes, then `processed`, `failed` or `skipped`. Null until every page is done, and when there's no logic step to run (`field_logic` is `none`, or the PDF has no fields).
-     * @param download_url {String} A temporary link to download the PDF.
-     * @param permanent_url {String} A link to download the PDF that doesn't expire. Null until the PDF has been processed.
+     * @param has_fillable_fields {Boolean} Whether the PDF has fillable form fields. Null until DocSpring has read the PDF, and for a Word document.
+     * @param page_processing_statuses {Array.<module:model/TemplatePageProcessingStatus>} How processing is going on each page, in page order: its image, and its fields when DocSpring sets them up (`detect_fields` when the template was created). `state` becomes `processed` once every page is done. Empty until DocSpring has read the PDF, for PDFs uploaded before DocSpring recorded page statuses, and for a Word document.
+     * @param field_logic_status {module:model/TemplateFieldLogicStatus} AI field setup's last step, which reads the whole form once every page is done and can still rename fields and add conditional logic and required fields: `pending` or `processing` until it finishes, then `processed`, `failed` or `skipped`. Null until every page is done, and when there's no logic step to run (`field_logic` is `none`, or the PDF has no fields). Null for a Word document.
+     * @param download_url {String} A temporary link to download the PDF. Null for a Word document (use `permanent_url`).
+     * @param permanent_url {String} A link to download the file that doesn't expire. Null until a PDF has been processed. A Word document's is built from the template's current document when it's downloaded.
      */
     constructor(filename, state, error_message, page_count, md5, field_reimport_state, page_dimensions, has_fillable_fields, page_processing_statuses, field_logic_status, download_url, permanent_url) { 
         
@@ -172,31 +172,31 @@ class TemplateDocument {
 TemplateDocument.RequiredProperties = ["filename", "state", "error_message", "page_count", "md5", "field_reimport_state", "page_dimensions", "has_fillable_fields", "page_processing_statuses", "field_logic_status", "download_url", "permanent_url"];
 
 /**
- * The PDF's file name. Null until a `document_url` has been downloaded.
+ * The file's name. Null until a `document_url` has been downloaded or an OpenDocument file converted.
  * @member {String} filename
  */
 TemplateDocument.prototype['filename'] = undefined;
 
 /**
- * `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. A template keeps its PDF while a new one is downloaded, and when it couldn't be.
+ * `pending` while DocSpring processes the PDF, then `processed` (`ready` says when its pages are done too). `password_required`, `malformed_pdf` and `unknown_error` mean the PDF couldn't be processed, and `error_message` says why: upload it again or upload another one. `downloading` while DocSpring downloads a `document_url`, then as for an upload. `download_failed` means it couldn't be downloaded, and `error_message` says why. `converting` while DocSpring converts an OpenDocument file (.odt) uploaded to a Word template to a Word document, and `conversion_failed` when it couldn't, with `error_message` saying why. A template keeps its document while a new one is downloaded or converted, and when it couldn't be. A Word document is `processed` once it's uploaded, downloaded or converted.
  * @member {module:model/TemplateDocumentState} state
  */
 TemplateDocument.prototype['state'] = undefined;
 
 /**
- * Why the PDF couldn't be processed or downloaded, and how to fix it. Null unless `state` is an error.
+ * Why the PDF couldn't be processed, or the document downloaded or converted, and how to fix it. Null unless `state` is an error.
  * @member {String} error_message
  */
 TemplateDocument.prototype['error_message'] = undefined;
 
 /**
- * 0 until the PDF has been processed.
+ * 0 until the PDF has been processed. 0 for a Word document, whose pages depend on the data.
  * @member {Number} page_count
  */
 TemplateDocument.prototype['page_count'] = undefined;
 
 /**
- * The MD5 hash of the PDF.
+ * The MD5 hash of the PDF. Null for a Word document.
  * @member {String} md5
  */
 TemplateDocument.prototype['md5'] = undefined;
@@ -214,31 +214,31 @@ TemplateDocument.prototype['field_reimport_state'] = undefined;
 TemplateDocument.prototype['page_dimensions'] = undefined;
 
 /**
- * Whether the PDF has fillable form fields. Null until DocSpring has read the PDF.
+ * Whether the PDF has fillable form fields. Null until DocSpring has read the PDF, and for a Word document.
  * @member {Boolean} has_fillable_fields
  */
 TemplateDocument.prototype['has_fillable_fields'] = undefined;
 
 /**
- * How processing is going on each page, in page order: its image, and its fields when DocSpring sets them up (`detect_fields` when the template was created). `state` becomes `processed` once every page is done. Empty until DocSpring has read the PDF, and for PDFs uploaded before DocSpring recorded page statuses.
+ * How processing is going on each page, in page order: its image, and its fields when DocSpring sets them up (`detect_fields` when the template was created). `state` becomes `processed` once every page is done. Empty until DocSpring has read the PDF, for PDFs uploaded before DocSpring recorded page statuses, and for a Word document.
  * @member {Array.<module:model/TemplatePageProcessingStatus>} page_processing_statuses
  */
 TemplateDocument.prototype['page_processing_statuses'] = undefined;
 
 /**
- * AI field setup's last step, which reads the whole form once every page is done and can still rename fields and add conditional logic and required fields: `pending` or `processing` until it finishes, then `processed`, `failed` or `skipped`. Null until every page is done, and when there's no logic step to run (`field_logic` is `none`, or the PDF has no fields).
+ * AI field setup's last step, which reads the whole form once every page is done and can still rename fields and add conditional logic and required fields: `pending` or `processing` until it finishes, then `processed`, `failed` or `skipped`. Null until every page is done, and when there's no logic step to run (`field_logic` is `none`, or the PDF has no fields). Null for a Word document.
  * @member {module:model/TemplateFieldLogicStatus} field_logic_status
  */
 TemplateDocument.prototype['field_logic_status'] = undefined;
 
 /**
- * A temporary link to download the PDF.
+ * A temporary link to download the PDF. Null for a Word document (use `permanent_url`).
  * @member {String} download_url
  */
 TemplateDocument.prototype['download_url'] = undefined;
 
 /**
- * A link to download the PDF that doesn't expire. Null until the PDF has been processed.
+ * A link to download the file that doesn't expire. Null until a PDF has been processed. A Word document's is built from the template's current document when it's downloaded.
  * @member {String} permanent_url
  */
 TemplateDocument.prototype['permanent_url'] = undefined;

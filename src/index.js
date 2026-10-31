@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -180,7 +180,7 @@ import Client from './api/Client';
 
 
 /**
-* An API client for the DocSpring PDF generation service.<br>
+* An API client for DocSpring: fill PDF forms, generate PDFs and Word documents, and collect e-signatures.<br>
 * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
 * <p>
 * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
@@ -208,7 +208,7 @@ import Client from './api/Client';
 * </pre>
 * </p>
 * @module index
-* @version 4.2.0
+* @version 4.3.0
 */
 export {
     /**

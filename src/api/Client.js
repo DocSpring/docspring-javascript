@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -41,6 +41,7 @@ import GenerateSubmissionFilesRequest from '../model/GenerateSubmissionFilesRequ
 import ModelCodeLanguage from '../model/ModelCodeLanguage';
 import MoveFolderRequest from '../model/MoveFolderRequest';
 import MoveTemplateRequest from '../model/MoveTemplateRequest';
+import OutputFormat from '../model/OutputFormat';
 import PublishTemplateVersionRequest from '../model/PublishTemplateVersionRequest';
 import RemoveTemplateFieldsRequest from '../model/RemoveTemplateFieldsRequest';
 import RenameFolderRequest from '../model/RenameFolderRequest';
@@ -77,7 +78,7 @@ import WebhookMode from '../model/WebhookMode';
 /**
 * Client service.
 * @module api/Client
-* @version 4.2.0
+* @version 4.3.0
 */
 export default class Client {
 
@@ -572,7 +573,7 @@ export default class Client {
      * Creates up to 50 submissions in one request, from one template or several. The PDFs are only generated when every submission is valid. On sync.api hosts the request waits until every PDF has been generated (unless you pass `wait=false`), otherwise poll GET /submissions/batches/{submission_batch_id} until `processed_at` is set.  When any submission is invalid, nothing is generated and the request returns a 422. Submissions whose data doesn't match their template's fields are still saved with their errors (an `invalid_data` error, with each one's `submission_id` in its details), so you can find them in DocSpring. The other submissions aren't saved. 
      * @param {module:model/CreateSubmissionBatchRequest} body The submissions to create, and the settings they share.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait] Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts.
+     * @param {Boolean} [wait] Wait until every file in the batch has been generated before responding. Default true on sync.api hosts.
      * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SubmissionBatch} and HTTP response
      */
@@ -611,7 +612,7 @@ export default class Client {
      * Creates up to 50 submissions in one request, from one template or several. The PDFs are only generated when every submission is valid. On sync.api hosts the request waits until every PDF has been generated (unless you pass `wait=false`), otherwise poll GET /submissions/batches/{submission_batch_id} until `processed_at` is set.  When any submission is invalid, nothing is generated and the request returns a 422. Submissions whose data doesn't match their template's fields are still saved with their errors (an `invalid_data` error, with each one's `submission_id` in its details), so you can find them in DocSpring. The other submissions aren't saved. 
      * @param {module:model/CreateSubmissionBatchRequest} body The submissions to create, and the settings they share.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.wait Wait until every PDF in the batch has been generated before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.wait Wait until every file in the batch has been generated before responding. Default true on sync.api hosts.
      * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SubmissionBatch}
      */
@@ -625,10 +626,10 @@ export default class Client {
 
     /**
      * Create a template
-     * Creates an HTML template, or a PDF template from a PDF you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. To send the PDF with the request instead, use POST /templates/upload.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
+     * Creates an HTML template, or a PDF or Word template from a file you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. You can send a link to the file (`document_url`) or the file in base64 (`document_base64`) instead, or send the file with the request with POST /templates/upload. A Word template is made from a Word document (.docx) or an OpenDocument text file (.odt), which DocSpring converts to a Word document. It needs its `output_format`: what each submission makes, a Word document (`docx`), an OpenDocument file (`odt`) or a PDF.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF, a template created from a `document_url` once its document has been downloaded, and one created from an .odt once it has been converted (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
      * @param {module:model/CreateTemplateRequest} body The template to create.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait] Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
+     * @param {Boolean} [wait] Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     createTemplateWithHttpInfo(body, opts) {
@@ -662,10 +663,10 @@ export default class Client {
 
     /**
      * Create a template
-     * Creates an HTML template, or a PDF template from a PDF you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. To send the PDF with the request instead, use POST /templates/upload.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
+     * Creates an HTML template, or a PDF or Word template from a file you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. You can send a link to the file (`document_url`) or the file in base64 (`document_base64`) instead, or send the file with the request with POST /templates/upload. A Word template is made from a Word document (.docx) or an OpenDocument text file (.odt), which DocSpring converts to a Word document. It needs its `output_format`: what each submission makes, a Word document (`docx`), an OpenDocument file (`odt`) or a PDF.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF, a template created from a `document_url` once its document has been downloaded, and one created from an .odt once it has been converted (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
      * @param {module:model/CreateTemplateRequest} body The template to create.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.wait Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     createTemplate(body, opts) {
@@ -678,7 +679,7 @@ export default class Client {
 
     /**
      * Preview a template with data
-     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML or PDF template prints with your data before you publish a version or send live data. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
+     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML, PDF or Word template prints with your data before you publish a version or send live data. A Word template's pages are its PDF's, whatever its `output_format`. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
      * @param {String} template_id The template's ID.
      * @param {module:model/CreateTemplatePreviewRequest} body The data to render the template with.
      * @param {Object} opts Optional parameters
@@ -721,7 +722,7 @@ export default class Client {
 
     /**
      * Preview a template with data
-     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML or PDF template prints with your data before you publish a version or send live data. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
+     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML, PDF or Word template prints with your data before you publish a version or send live data. A Word template's pages are its PDF's, whatever its `output_format`. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
      * @param {String} template_id The template's ID.
      * @param {module:model/CreateTemplatePreviewRequest} body The data to render the template with.
      * @param {Object} opts Optional parameters
@@ -1079,7 +1080,7 @@ export default class Client {
 
     /**
      * Generate more files
-     * Adds formats to a processed submission's files, in the background: `png`, a PNG image of each page of the PDF (up to 100 pages). To make them with the submission, add them to `output_formats` when you create it.  Each new file is listed in `files` while it's made: on sync.api hosts the request waits for them (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until none of their `state` is `pending`. A file that couldn't be made has the state `error` and an `error_message`, and the submission stays processed. Asking for a format the submission already has (or is making) changes nothing. 
+     * Adds formats to a processed submission's files, in the background, without using credits again: `pdf`, the PDF of a Word template's submission that made only its Word document (converted from that document), `docx`, the Word document of a Word template's submission that made only its PDF (made again from its data and the template version it used), `odt`, a Word template's submission's OpenDocument file (converted from its Word document, or from one made again when it didn't keep one), and `png`, a PNG image of each page of the PDF (up to 100 pages), which makes the PDF first when the submission doesn't have one. To make them with the submission, add them to `output_formats` when you create it.  Each new file is listed in `files` while it's made: on sync.api hosts the request waits for them (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until none of their `state` is `pending`. A file that couldn't be made has the state `error` and an `error_message`, and the submission stays processed. Asking for a format the submission already has (or is making) changes nothing. 
      * @param {String} submission_id The submission's ID.
      * @param {module:model/GenerateSubmissionFilesRequest} body The formats to make.
      * @param {Object} opts Optional parameters
@@ -1122,7 +1123,7 @@ export default class Client {
 
     /**
      * Generate more files
-     * Adds formats to a processed submission's files, in the background: `png`, a PNG image of each page of the PDF (up to 100 pages). To make them with the submission, add them to `output_formats` when you create it.  Each new file is listed in `files` while it's made: on sync.api hosts the request waits for them (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until none of their `state` is `pending`. A file that couldn't be made has the state `error` and an `error_message`, and the submission stays processed. Asking for a format the submission already has (or is making) changes nothing. 
+     * Adds formats to a processed submission's files, in the background, without using credits again: `pdf`, the PDF of a Word template's submission that made only its Word document (converted from that document), `docx`, the Word document of a Word template's submission that made only its PDF (made again from its data and the template version it used), `odt`, a Word template's submission's OpenDocument file (converted from its Word document, or from one made again when it didn't keep one), and `png`, a PNG image of each page of the PDF (up to 100 pages), which makes the PDF first when the submission doesn't have one. To make them with the submission, add them to `output_formats` when you create it.  Each new file is listed in `files` while it's made: on sync.api hosts the request waits for them (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until none of their `state` is `pending`. A file that couldn't be made has the state `error` and an `error_message`, and the submission stays processed. Asking for a format the submission already has (or is making) changes nothing. 
      * @param {String} submission_id The submission's ID.
      * @param {module:model/GenerateSubmissionFilesRequest} body The formats to make.
      * @param {Object} opts Optional parameters
@@ -1630,12 +1631,12 @@ export default class Client {
 
     /**
      * Generate typed code for a template's submission data
-     * Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object, and `just_types=true` leaves out the code that converts JSON to and from the types. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
+     * Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir, Go or Rust, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object, and `just_types=true` leaves out the code that converts JSON to and from the types. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
      * @param {String} template_id The template's ID.
      * @param {module:model/ModelCodeLanguage} lang The language to generate the code in.
      * @param {Object} opts Optional parameters
      * @param {String} [version] The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
-     * @param {Boolean} [just_types] Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way.
+     * @param {Boolean} [just_types] Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateModelCode} and HTTP response
      */
     getTemplateModelCodeWithHttpInfo(template_id, lang, opts) {
@@ -1676,12 +1677,12 @@ export default class Client {
 
     /**
      * Generate typed code for a template's submission data
-     * Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir or Go, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object, and `just_types=true` leaves out the code that converts JSON to and from the types. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
+     * Generates types for a template's submission data in TypeScript, JavaScript, Ruby, Python, PHP, Java, C#, Elixir, Go or Rust, so your app catches mistakes before it calls the API. `root_type_name` is the type of the whole `data` object, and `just_types=true` leaves out the code that converts JSON to and from the types. Java returns every class in `code`, each under a `// ClassName.java` comment. A template with no named fields returns 422. 
      * @param {String} template_id The template's ID.
      * @param {module:model/ModelCodeLanguage} lang The language to generate the code in.
      * @param {Object} opts Optional parameters
      * @param {String} opts.version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
-     * @param {Boolean} opts.just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types and PHP no types-only code, so theirs is the same either way.
+     * @param {Boolean} opts.just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateModelCode}
      */
     getTemplateModelCode(template_id, lang, opts) {
@@ -2487,7 +2488,7 @@ export default class Client {
 
     /**
      * Publish a template version
-     * Publishes the template's draft as a new version that doesn't change. `version_type` says which part of the latest version number goes up. While the template's PDF is downloading or being processed, or DocSpring is setting up its fields, it returns a 409 that says so. 
+     * Publishes the template's draft as a new version. Its content (the PDF or HTML, fields, name and description) never changes, while settings such as `webhook_url` and `public_submissions` keep following the draft. `version_type` says which part of the latest version number goes up. While the template's PDF is downloading or being processed, or DocSpring is setting up its fields, it returns a 409 that says so. 
      * @param {String} template_id The template's ID.
      * @param {module:model/PublishTemplateVersionRequest} body The version to publish.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateVersion} and HTTP response
@@ -2526,7 +2527,7 @@ export default class Client {
 
     /**
      * Publish a template version
-     * Publishes the template's draft as a new version that doesn't change. `version_type` says which part of the latest version number goes up. While the template's PDF is downloading or being processed, or DocSpring is setting up its fields, it returns a 409 that says so. 
+     * Publishes the template's draft as a new version. Its content (the PDF or HTML, fields, name and description) never changes, while settings such as `webhook_url` and `public_submissions` keep following the draft. `version_type` says which part of the latest version number goes up. While the template's PDF is downloading or being processed, or DocSpring is setting up its fields, it returns a 409 that says so. 
      * @param {String} template_id The template's ID.
      * @param {module:model/PublishTemplateVersionRequest} body The version to publish.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateVersion}
@@ -2703,7 +2704,7 @@ export default class Client {
 
     /**
      * Restore a template version
-     * Replaces the template's draft with a copy of one of its published versions.
+     * Replaces the template's draft with a copy of one of its published versions. The draft keeps its settings that apply to every version, such as `webhook_url`.
      * @param {String} template_id The template's ID.
      * @param {module:model/RestoreTemplateVersionRequest} body The version to restore.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
@@ -2742,7 +2743,7 @@ export default class Client {
 
     /**
      * Restore a template version
-     * Replaces the template's draft with a copy of one of its published versions.
+     * Replaces the template's draft with a copy of one of its published versions. The draft keeps its settings that apply to every version, such as `webhook_url`.
      * @param {String} template_id The template's ID.
      * @param {module:model/RestoreTemplateVersionRequest} body The version to restore.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
@@ -2852,7 +2853,7 @@ export default class Client {
 
     /**
      * Update a template
-     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Setting `parent_folder_id` moves the template and all of its published versions. 
+     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Settings such as `webhook_url`, `public_submissions` and `expire_after` apply to every published version too, and setting `parent_folder_id` moves the template and all of its published versions. 
      * @param {String} template_id The template's ID.
      * @param {module:model/UpdateTemplateRequest} body The settings to change. Properties left out keep their values.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
@@ -2891,7 +2892,7 @@ export default class Client {
 
     /**
      * Update a template
-     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Setting `parent_folder_id` moves the template and all of its published versions. 
+     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Settings such as `webhook_url`, `public_submissions` and `expire_after` apply to every published version too, and setting `parent_folder_id` moves the template and all of its published versions. 
      * @param {String} template_id The template's ID.
      * @param {module:model/UpdateTemplateRequest} body The settings to change. Properties left out keep their values.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
@@ -2905,12 +2906,12 @@ export default class Client {
 
 
     /**
-     * Replace a template's PDF
-     * Replaces a PDF template's PDF with one you uploaded with the presigned upload (GET /uploads/presign) (`cache_id`), a link to download it from (`document_url`), or the file in base64 (`document_base64`). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. To send the PDF as `multipart/form-data` instead, use PUT /templates/{template_id}/document/upload. 
+     * Replace a template's document
+     * Replaces a PDF template's PDF, or a Word template's Word document (from a .docx or an .odt), with one you uploaded with the presigned upload (GET /uploads/presign) (`cache_id`), a link to download it from (`document_url`), or the file in base64 (`document_base64`). A PDF template's fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields, and a Word template gets a field for each new tag. To send the file as `multipart/form-data` instead, use PUT /templates/{template_id}/document/upload. 
      * @param {String} template_id The template's ID.
-     * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF, as one of `cache_id`, `document_url` and `document_base64`.
+     * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait] Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
+     * @param {Boolean} [wait] Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     updateTemplateDocumentWithHttpInfo(template_id, body, opts) {
@@ -2948,12 +2949,12 @@ export default class Client {
     }
 
     /**
-     * Replace a template's PDF
-     * Replaces a PDF template's PDF with one you uploaded with the presigned upload (GET /uploads/presign) (`cache_id`), a link to download it from (`document_url`), or the file in base64 (`document_base64`). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. To send the PDF as `multipart/form-data` instead, use PUT /templates/{template_id}/document/upload. 
+     * Replace a template's document
+     * Replaces a PDF template's PDF, or a Word template's Word document (from a .docx or an .odt), with one you uploaded with the presigned upload (GET /uploads/presign) (`cache_id`), a link to download it from (`document_url`), or the file in base64 (`document_base64`). A PDF template's fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields, and a Word template gets a field for each new tag. To send the file as `multipart/form-data` instead, use PUT /templates/{template_id}/document/upload. 
      * @param {String} template_id The template's ID.
-     * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF, as one of `cache_id`, `document_url` and `document_base64`.
+     * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.wait Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     updateTemplateDocument(template_id, body, opts) {
@@ -3073,11 +3074,11 @@ export default class Client {
 
 
     /**
-     * Create a PDF template from an uploaded PDF
-     * Creates a PDF template from a PDF sent with the request (`multipart/form-data`). For large files, upload the PDF with the presigned upload (GET /uploads/presign) and create the template with POST /templates. 
-     * @param {File} document The PDF.
+     * Create a template from an uploaded PDF or Word document
+     * Creates a PDF template from a PDF, or a Word template from a Word document (.docx) or an OpenDocument text file (.odt), sent with the request (`multipart/form-data`). A Word template needs its `output_format`. For large files, upload the file with the presigned upload (GET /uploads/presign) and create the template with POST /templates. 
+     * @param {File} document A PDF (for a PDF template) or a Word document (.docx or .odt, for a Word template). DocSpring converts an OpenDocument text file (.odt) to a Word document after responding: the template's `document.state` is `converting` until then (sync.api hosts wait for it).
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait] Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
+     * @param {Boolean} [wait] Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
      * @param {String} [name] The template's name.
      * @param {String} [description] The template's description.
      * @param {String} [parent_folder_id] The folder to put the template in. Left out, it's created at the root.
@@ -3086,6 +3087,7 @@ export default class Client {
      * @param {module:model/FieldSetupSource} [field_source] With `detect_fields`, where the fields come from. `auto` (the default) imports the form fields of a fillable PDF and detects the fields of a PDF without them; `pdf_detection` detects the fields from the page layout, even on a fillable PDF; `pdf_form_fields` only imports the PDF's form fields.
      * @param {module:model/FieldSetupNaming} [field_naming] With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`.
      * @param {module:model/FieldSetupLogic} [field_logic] With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings.
+     * @param {module:model/OutputFormat} [output_format] What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     uploadTemplateWithHttpInfo(document, opts) {
@@ -3112,7 +3114,8 @@ export default class Client {
         'detect_fields': opts['detect_fields'],
         'field_source': opts['field_source'],
         'field_naming': opts['field_naming'],
-        'field_logic': opts['field_logic']
+        'field_logic': opts['field_logic'],
+        'output_format': opts['output_format']
       };
 
       let authNames = ['api_token_basic'];
@@ -3127,11 +3130,11 @@ export default class Client {
     }
 
     /**
-     * Create a PDF template from an uploaded PDF
-     * Creates a PDF template from a PDF sent with the request (`multipart/form-data`). For large files, upload the PDF with the presigned upload (GET /uploads/presign) and create the template with POST /templates. 
-     * @param {File} document The PDF.
+     * Create a template from an uploaded PDF or Word document
+     * Creates a PDF template from a PDF, or a Word template from a Word document (.docx) or an OpenDocument text file (.odt), sent with the request (`multipart/form-data`). A Word template needs its `output_format`. For large files, upload the file with the presigned upload (GET /uploads/presign) and create the template with POST /templates. 
+     * @param {File} document A PDF (for a PDF template) or a Word document (.docx or .odt, for a Word template). DocSpring converts an OpenDocument text file (.odt) to a Word document after responding: the template's `document.state` is `converting` until then (sync.api hosts wait for it).
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.wait Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
      * @param {String} opts.name The template's name.
      * @param {String} opts.description The template's description.
      * @param {String} opts.parent_folder_id The folder to put the template in. Left out, it's created at the root.
@@ -3140,6 +3143,7 @@ export default class Client {
      * @param {module:model/FieldSetupSource} opts.field_source With `detect_fields`, where the fields come from. `auto` (the default) imports the form fields of a fillable PDF and detects the fields of a PDF without them; `pdf_detection` detects the fields from the page layout, even on a fillable PDF; `pdf_form_fields` only imports the PDF's form fields.
      * @param {module:model/FieldSetupNaming} opts.field_naming With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`.
      * @param {module:model/FieldSetupLogic} opts.field_logic With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings.
+     * @param {module:model/OutputFormat} opts.output_format What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     uploadTemplate(document, opts) {
@@ -3151,13 +3155,13 @@ export default class Client {
 
 
     /**
-     * Replace a template's PDF with an uploaded PDF
-     * Replaces a PDF template's PDF with one sent with the request (`multipart/form-data`). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. 
+     * Replace a template's document with an uploaded file
+     * Replaces a PDF template's PDF, or a Word template's Word document, with one sent with the request (`multipart/form-data`). A PDF template's fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields, and a Word template gets a field for each new tag. 
      * @param {String} template_id The template's ID.
-     * @param {File} document The new PDF.
+     * @param {File} document The new PDF, or the new Word document (.docx or .odt) of a Word template.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} [wait] Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
-     * @param {Boolean} [reimport_fields] Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields.
+     * @param {Boolean} [wait] Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
+     * @param {Boolean} [reimport_fields] Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     uploadTemplateDocumentWithHttpInfo(template_id, document, opts) {
@@ -3197,13 +3201,13 @@ export default class Client {
     }
 
     /**
-     * Replace a template's PDF with an uploaded PDF
-     * Replaces a PDF template's PDF with one sent with the request (`multipart/form-data`). The fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields. 
+     * Replace a template's document with an uploaded file
+     * Replaces a PDF template's PDF, or a Word template's Word document, with one sent with the request (`multipart/form-data`). A PDF template's fields stay where they are, unless `reimport_fields` replaces them with the new PDF's fillable fields, and a Word template gets a field for each new tag. 
      * @param {String} template_id The template's ID.
-     * @param {File} document The new PDF.
+     * @param {File} document The new PDF, or the new Word document (.docx or .odt) of a Word template.
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.wait Wait until the PDF has been processed, and a `document_url` downloaded, before responding. Default true on sync.api hosts.
-     * @param {Boolean} opts.reimport_fields Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields.
+     * @param {Boolean} opts.wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
+     * @param {Boolean} opts.reimport_fields Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     uploadTemplateDocument(template_id, document, opts) {

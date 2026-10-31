@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -18,19 +18,19 @@ import TemplatePreviewState from './TemplatePreviewState';
 /**
  * The TemplatePreview model module.
  * @module model/TemplatePreview
- * @version 4.2.0
+ * @version 4.3.0
  */
 class TemplatePreview {
     /**
      * Constructs a new <code>TemplatePreview</code>.
-     * PNG images of a template's pages filled in with data you send (not a PDF), to check how an HTML or PDF template prints with your data before you publish a version or send live data. A preview makes no submission and uses no credits. Its pages are watermarked like a test submission's PDF, and it's deleted an hour after it's created.
+     * PNG images of a template's pages filled in with data you send (not a PDF), to check how an HTML, PDF or Word template prints with your data before you publish a version or send live data. A preview makes no submission and uses no credits. Its pages are watermarked like a test submission's PDF, and it's deleted an hour after it's created.
      * @alias module:model/TemplatePreview
      * @extends Object
      * @param id {String} The preview's ID.
      * @param template_id {String} The template's ID.
      * @param version {String} The published version that was rendered, such as `1.2.0`. Null for the draft.
      * @param state {module:model/TemplatePreviewState} `pending` while it renders (usually a few seconds), then `processed`, or `error` with an `error_message`.
-     * @param error_message {String} Why the preview couldn't be rendered, such as an error in an HTML template's Liquid, or a value in the data that a field can't print.
+     * @param error_message {String} Why the preview couldn't be rendered, such as an error in an HTML or Word template's Liquid, or a value in the data that a field can't print.
      * @param page_count {Number} How many pages the template printed, once it's processed.
      * @param pages {Array.<module:model/PageImage>} A PNG image of each page once it's processed, in order: `pages[0]` is page 1. A preview has no PDF. Their `download_url`s expire, so get the preview again when you need them.
      * @param expires_at {Date} When the preview and its images are deleted.
@@ -164,7 +164,7 @@ TemplatePreview.prototype['version'] = undefined;
 TemplatePreview.prototype['state'] = undefined;
 
 /**
- * Why the preview couldn't be rendered, such as an error in an HTML template's Liquid, or a value in the data that a field can't print.
+ * Why the preview couldn't be rendered, such as an error in an HTML or Word template's Liquid, or a value in the data that a field can't print.
  * @member {String} error_message
  */
 TemplatePreview.prototype['error_message'] = undefined;

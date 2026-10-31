@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -17,7 +17,7 @@ import FieldGroupType from './FieldGroupType';
 /**
  * The FieldGroup model module.
  * @module model/FieldGroup
- * @version 4.2.0
+ * @version 4.3.0
  */
 class FieldGroup {
     /**
@@ -26,12 +26,12 @@ class FieldGroup {
      * @alias module:model/FieldGroup
      * @extends Object
      * @param name {String} The group's name: `address` for the field `address/city`. A list's item numbers are written as `~`, so the fields `items/0/price` and `items/1/price` are in the groups `items` and `items/~`, the list's items.
-     * @param type {module:model/FieldGroupType} `array` for a list, whose fields' names number its items after the group's name (`items/0/price`, or `items/~/price` in an HTML template), and `object` for the other groups.
+     * @param type {module:model/FieldGroupType} `array` for a list, whose fields' names number its items after the group's name (`items/0/price`, or `items/~/price` in an HTML or Word template), and `object` for the other groups.
      * @param title {String} The group's title in the template's data schema and on forms. When it's empty, a title is made from the group's name.
      * @param description {String} Help text for the group, added to the template's data schema and shown on forms.
      * @param metadata {String} Text for your own use, added to the template's data schema as `x-metadata`. DocSpring doesn't use it.
      * @param min_items {Number} Lists only (`type` `array`): the fewest items submission data must have. Null for no minimum.
-     * @param max_items {Number} HTML templates' lists only: the most items submission data can have. Null for no limit. A PDF template's list takes as many items as its fields are numbered for, or more with `allow_additional_items`.
+     * @param max_items {Number} HTML and Word templates' lists only: the most items submission data can have. Null for no limit. A PDF template's list takes as many items as its fields are numbered for, or more with `allow_additional_items`.
      * @param allow_additional_items {Boolean} PDF templates' lists only: submission data can have more items than the list's fields are numbered for. Default false.
      */
     constructor(name, type, title, description, metadata, min_items, max_items, allow_additional_items) { 
@@ -141,7 +141,7 @@ FieldGroup.RequiredProperties = ["name", "type", "title", "description", "metada
 FieldGroup.prototype['name'] = undefined;
 
 /**
- * `array` for a list, whose fields' names number its items after the group's name (`items/0/price`, or `items/~/price` in an HTML template), and `object` for the other groups.
+ * `array` for a list, whose fields' names number its items after the group's name (`items/0/price`, or `items/~/price` in an HTML or Word template), and `object` for the other groups.
  * @member {module:model/FieldGroupType} type
  */
 FieldGroup.prototype['type'] = undefined;
@@ -171,7 +171,7 @@ FieldGroup.prototype['metadata'] = undefined;
 FieldGroup.prototype['min_items'] = undefined;
 
 /**
- * HTML templates' lists only: the most items submission data can have. Null for no limit. A PDF template's list takes as many items as its fields are numbered for, or more with `allow_additional_items`.
+ * HTML and Word templates' lists only: the most items submission data can have. Null for no limit. A PDF template's list takes as many items as its fields are numbered for, or more with `allow_additional_items`.
  * @member {Number} max_items
  */
 FieldGroup.prototype['max_items'] = undefined;

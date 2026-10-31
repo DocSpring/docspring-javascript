@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -18,7 +18,7 @@ import PageImages from './PageImages';
 /**
  * The SubmissionFiles model module.
  * @module model/SubmissionFiles
- * @version 4.2.0
+ * @version 4.3.0
  */
 class SubmissionFiles {
     /**
@@ -63,6 +63,12 @@ class SubmissionFiles {
             if (data.hasOwnProperty('preview')) {
                 obj['preview'] = ApiClient.convertToType(data['preview'], GeneratedFile);
             }
+            if (data.hasOwnProperty('docx')) {
+                obj['docx'] = ApiClient.convertToType(data['docx'], GeneratedFile);
+            }
+            if (data.hasOwnProperty('odt')) {
+                obj['odt'] = ApiClient.convertToType(data['odt'], GeneratedFile);
+            }
             if (data.hasOwnProperty('png')) {
                 obj['png'] = data['png'] === null ? null : PageImages.constructFromObject(data['png']);
             }
@@ -102,6 +108,18 @@ SubmissionFiles.prototype['audit_trail'] = undefined;
  * @member {module:model/GeneratedFile} preview
  */
 SubmissionFiles.prototype['preview'] = undefined;
+
+/**
+ * The Word document of a Word template's submission, when the submission makes one (`output_formats`).
+ * @member {module:model/GeneratedFile} docx
+ */
+SubmissionFiles.prototype['docx'] = undefined;
+
+/**
+ * The OpenDocument file (.odt, the format LibreOffice uses) of a Word template's submission, converted from its Word document, when the submission makes one (`output_formats`).
+ * @member {module:model/GeneratedFile} odt
+ */
+SubmissionFiles.prototype['odt'] = undefined;
 
 /**
  * @member {module:model/PageImages} png

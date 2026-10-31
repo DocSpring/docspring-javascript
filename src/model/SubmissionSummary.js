@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -21,7 +21,7 @@ import TemplateType from './TemplateType';
 /**
  * The SubmissionSummary model module.
  * @module model/SubmissionSummary
- * @version 4.2.0
+ * @version 4.3.0
  */
 class SubmissionSummary {
     /**
@@ -31,11 +31,11 @@ class SubmissionSummary {
      * @extends Object
      * @param id {String} The submission's ID.
      * @param template_id {String} Null once the template has been permanently deleted.
-     * @param template_type {module:model/TemplateType} The template's type: `pdf` or `html`.
+     * @param template_type {module:model/TemplateType} The template's type: `pdf`, `html` or `docx`.
      * @param template_version {String} The published version of the template the submission used. Null for the draft.
      * @param batch_id {String} The ID of the batch the submission was created in.
      * @param source {module:model/SubmissionSource} `api`: created with the API. `web`: a web form. `reprocess`: a copy of another submission, made to generate its PDF again.
-     * @param state {module:model/SubmissionState} `pending` until the PDF has been generated, then `processed`. `waiting_for_signature_requests` until every signature request is completed. `insufficient_credits`: waiting for credits; `error_message` says whether the PDF is generated once you add them. `account_suspended`: waiting for the account to be reactivated, for up to 30 days. Waiting ends in `error` if it's discarded or takes over 30 days. Every other state is final, with no PDF: `invalid_data` (the data doesn't match the template's fields: see `data_errors`), `declined` (a signature request was declined), and the states where generating the PDF failed, which have an `error_message`: `syntax_error` (a mistake in an HTML template's Liquid or SCSS), `image_download_failed` or `image_processing_failed` (an image in the data or the template couldn't be downloaded or read) and `error` (anything else). Older submissions can also be `license_revoked` or `accidental`.
+     * @param state {module:model/SubmissionState} `pending` until the files have been generated, then `processed`. `waiting_for_signature_requests` until every signature request is completed. `insufficient_credits`: waiting for credits; `error_message` says whether the files are generated once you add them. `account_suspended`: waiting for the account to be reactivated, for up to 30 days. Waiting ends in `error` if it's discarded or takes over 30 days. Every other state is final, with no files: `invalid_data` (the data doesn't match the template's fields: see `data_errors`), `declined` (a signature request was declined), and the states where generating the files failed, which have an `error_message`: `syntax_error` (a mistake in an HTML template's Liquid or SCSS, or in a Word template's tags), `image_download_failed` or `image_processing_failed` (an image in the data or the template couldn't be downloaded or read) and `error` (anything else). Older submissions can also be `license_revoked` or `accidental`.
      * @param test {Boolean} Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions.
      * @param editable {Boolean} `true` keeps the PDF's text and check fields fillable, and `false` flattens every field. Left out, the template decides: its `editable_submissions` setting, or each field's own Editable option. A response shows the template's setting when the request left this out. Can't be `true` with `signature_requests`.
      * @param data {Object.<String, Object>} The submission's data, with the values entered in completed signature requests. Null unless you pass `include_data=true`. Empty once the submission has expired.
@@ -214,7 +214,7 @@ SubmissionSummary.prototype['id'] = undefined;
 SubmissionSummary.prototype['template_id'] = undefined;
 
 /**
- * The template's type: `pdf` or `html`.
+ * The template's type: `pdf`, `html` or `docx`.
  * @member {module:model/TemplateType} template_type
  */
 SubmissionSummary.prototype['template_type'] = undefined;
@@ -238,7 +238,7 @@ SubmissionSummary.prototype['batch_id'] = undefined;
 SubmissionSummary.prototype['source'] = undefined;
 
 /**
- * `pending` until the PDF has been generated, then `processed`. `waiting_for_signature_requests` until every signature request is completed. `insufficient_credits`: waiting for credits; `error_message` says whether the PDF is generated once you add them. `account_suspended`: waiting for the account to be reactivated, for up to 30 days. Waiting ends in `error` if it's discarded or takes over 30 days. Every other state is final, with no PDF: `invalid_data` (the data doesn't match the template's fields: see `data_errors`), `declined` (a signature request was declined), and the states where generating the PDF failed, which have an `error_message`: `syntax_error` (a mistake in an HTML template's Liquid or SCSS), `image_download_failed` or `image_processing_failed` (an image in the data or the template couldn't be downloaded or read) and `error` (anything else). Older submissions can also be `license_revoked` or `accidental`.
+ * `pending` until the files have been generated, then `processed`. `waiting_for_signature_requests` until every signature request is completed. `insufficient_credits`: waiting for credits; `error_message` says whether the files are generated once you add them. `account_suspended`: waiting for the account to be reactivated, for up to 30 days. Waiting ends in `error` if it's discarded or takes over 30 days. Every other state is final, with no files: `invalid_data` (the data doesn't match the template's fields: see `data_errors`), `declined` (a signature request was declined), and the states where generating the files failed, which have an `error_message`: `syntax_error` (a mistake in an HTML template's Liquid or SCSS, or in a Word template's tags), `image_download_failed` or `image_processing_failed` (an image in the data or the template couldn't be downloaded or read) and `error` (anything else). Older submissions can also be `license_revoked` or `accidental`.
  * @member {module:model/SubmissionState} state
  */
 SubmissionSummary.prototype['state'] = undefined;

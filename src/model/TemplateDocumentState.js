@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -66,6 +66,20 @@ export default class TemplateDocumentState {
          * @const
          */
         static "download_failed" = "download_failed";
+
+    
+        /**
+         * value: "converting"
+         * @const
+         */
+        static "converting" = "converting";
+
+    
+        /**
+         * value: "conversion_failed"
+         * @const
+         */
+        static "conversion_failed" = "conversion_failed";
 
     
 

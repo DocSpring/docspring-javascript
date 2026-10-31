@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -16,6 +16,7 @@ import AiFieldNamingLanguage from './AiFieldNamingLanguage';
 import ExpirationInterval from './ExpirationInterval';
 import FieldGroup from './FieldGroup';
 import HtmlEngineOptions from './HtmlEngineOptions';
+import OutputFormat from './OutputFormat';
 import PredefinedField from './PredefinedField';
 import TemplateActor from './TemplateActor';
 import TemplateDefaults from './TemplateDefaults';
@@ -28,7 +29,7 @@ import TemplateVersion from './TemplateVersion';
 /**
  * The Template model module.
  * @module model/Template
- * @version 4.2.0
+ * @version 4.3.0
  */
 class Template {
     /**
@@ -39,9 +40,10 @@ class Template {
      * @param id {String} The template's ID.
      * @param name {String} The template's name.
      * @param description {String} Shown under the template's name at the top of its hosted forms, and used as their meta description. Not shown on embedded forms or signature requests.
-     * @param template_type {module:model/TemplateType} `pdf`: fields placed on an uploaded PDF. `html`: a PDF rendered from HTML and SCSS. It can't be changed after the template is created.
-     * @param ready {Boolean} Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once DocSpring has stored its PDF, made an image of each page and finished looking for fields on each page, which can be after `document.state` becomes `processed`. A PDF template with no PDF (`document` is null) isn't ready.
-     * @param document {module:model/TemplateDocument} The PDF of a PDF template. Null for HTML templates, and for a PDF template that has no PDF yet.
+     * @param template_type {module:model/TemplateType} `pdf`: fields placed on an uploaded PDF. `html`: a PDF rendered from HTML and SCSS. `docx`: a Word document with tags where the data goes, which makes Word documents or PDFs. It can't be changed after the template is created.
+     * @param output_format {module:model/OutputFormat} What each submission makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. A Word template's is chosen when it's created; PDF and HTML templates always make PDFs. A Word template that encrypts its PDFs makes PDFs, because Word documents and OpenDocument files can't be password-protected.
+     * @param ready {Boolean} Whether the template can make documents. HTML templates are always ready. A PDF template is ready once DocSpring has stored its PDF, made an image of each page and finished looking for fields on each page, which can be after `document.state` becomes `processed`. A PDF template with no PDF (`document` is null) isn't ready. A Word template is ready once it has a Word document (a `document_url`'s has been downloaded).
+     * @param document {module:model/TemplateDocument} The PDF of a PDF template, or the Word document of a Word template. Null for HTML templates, and for a PDF template that has no PDF yet. A template created from a `document_url` has one, with no file, while it's downloaded.
      * @param parent_folder_id {String} The ID of the folder the template is in. Null for a template at the root. Setting it moves the template and all of its published versions.
      * @param path {String} The path of the folder the template is in, such as `/Contracts`. `/` for a template at the root.
      * @param latest_version {String} The template's latest published version. Null if no version has been published.
@@ -55,19 +57,19 @@ class Template {
      * @param ai_field_naming_language {module:model/AiFieldNamingLanguage} The language AI field setup names fields in: `auto` uses the form's language when it's written in the Latin alphabet without accents, and English otherwise; `english` always uses English; `form_language` uses the form's language and script. New templates take it from your account's template settings. Null for HTML templates.
      * @param allow_additional_properties {Boolean} Accept submission data with properties that aren't fields of the template.
      * @param allow_skipping_optional_fields {Boolean} Visual forms and signature request forms show the Continue button as soon as the required fields are filled in, without visiting each optional field. The `allowSkippingOptionalFields` embed option overrides it.
-     * @param default_form_mode {module:model/TemplateFormMode} The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). HTML templates have no visual form, so `web` is the only value they accept.
+     * @param default_form_mode {module:model/TemplateFormMode} The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). Only PDF templates have a visual form, so other templates accept only `web`.
      * @param editable_submissions {Boolean} Generate PDFs whose text and check fields stay fillable ("Generate Editable PDFs"). A submission's `editable` overrides it.
      * @param embed_domains {Array.<String>} The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
      * @param embed_edit_allow_settings {Boolean} Allow the embedded template editor to change sensitive template settings (webhooks, redirect URL, encryption, public access, expiration and so on).
      * @param embed_edit_allow_versioning {Boolean} Allow the embedded template editor to publish, restore, compare and delete published versions.
      * @param embed_edit_allow_document_replacement {Boolean} Allow the embedded template editor to replace the template's PDF.
-     * @param encrypt_pdfs {Boolean} Encrypt generated PDFs with `encrypt_pdfs_password`.
+     * @param encrypt_pdfs {Boolean} Encrypt generated PDFs with `encrypt_pdfs_password`. A Word template can only encrypt its PDFs when its `output_format` is `pdf`, because Word documents and OpenDocument files can't be password-protected.
      * @param has_encrypt_pdfs_password {Boolean} Whether `encrypt_pdfs_password` is set.
      * @param expire_submissions {Boolean} Delete each submission's data and PDF after `expire_after` `expiration_interval`.
      * @param expire_after {Number} How many `expiration_interval`s a submission's data and PDF are kept for, when `expire_submissions` is on. At most 5256000 (10 years in minutes).
      * @param expiration_interval {module:model/ExpirationInterval} The unit of `expire_after`.
      * @param merge_audit_trail_pdf {Boolean} Add the audit trail to the end of PDFs signed through signature requests.
-     * @param parse_dates_using_template_date_format {Boolean} Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
+     * @param parse_dates_using_template_date_format {Boolean} Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML or Word template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
      * @param public_submissions {Boolean} Allow anyone with a submission's ID to download its PDF.
      * @param public_web_form {Boolean} Allow anyone to fill in the template's web form.
      * @param redirect_url {String} Where the web form sends people after they submit it.
@@ -78,18 +80,18 @@ class Template {
      * @param field_groups {Array.<module:model/FieldGroup>} The groups of the template's fields, with their settings. A field's name puts it in groups: `address/city` is in the group `address`, and `items/0/price` is in the list `items` and its items' group `items/~`.
      * @param predefined_fields {Array.<module:model/PredefinedField>} The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
      * @param predefined_fields_sample_data {Object.<String, Object>} Sample submission data that sets `predefined_fields`: each value becomes a predefined field, with a type that fits it (`string`, `number`, `boolean`, `date`, `email` or `url`) and `required_in_template` true. Nested objects and arrays become names with `/`, such as `customer/email`. Without `predefined_fields` in the same request, it replaces them; with them, it adds to them and sets the types of the ones it has values for.
-     * @param html {String} The HTML of an HTML template, as a Liquid template. Null for PDF templates.
+     * @param html {String} The HTML of an HTML template, as a Liquid template. Null for PDF and Word templates.
      * @param scss {String} The SCSS of an HTML template.
      * @param header_html {String} The HTML printed at the top of each page of an HTML template.
      * @param footer_html {String} The HTML printed at the bottom of each page of an HTML template.
-     * @param html_engine_options {module:model/HtmlEngineOptions} How an HTML template's PDFs are printed. Null for PDF templates. Setting it replaces the whole object: options left out use their defaults.
+     * @param html_engine_options {module:model/HtmlEngineOptions} How an HTML template's PDFs are printed. Null for PDF and Word templates. Setting it replaces the whole object: options left out use their defaults.
      * @param html_escape_data {Boolean} Whether an HTML template HTML-escapes the values it prints. When true, `{{ value }}` prints a value as text, so a `<` or `&` in it is printed as that character, and `{{ value | raw }}` prints a value as HTML. New HTML templates default to true. Templates created before October 2026, or with API v1, default to false, which prints every value as HTML. Null for PDF templates.
      * @param embed_edit_token {String} The token that opens the template in the embedded template editor.
      * @param versions {Array.<module:model/TemplateVersion>} The template's published versions, newest first (up to 100).
      */
-    constructor(id, name, description, template_type, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, embed_edit_token, versions) { 
+    constructor(id, name, description, template_type, output_format, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, embed_edit_token, versions) { 
         
-        Template.initialize(this, id, name, description, template_type, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, embed_edit_token, versions);
+        Template.initialize(this, id, name, description, template_type, output_format, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, embed_edit_token, versions);
     }
 
     /**
@@ -97,11 +99,12 @@ class Template {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, name, description, template_type, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, embed_edit_token, versions) { 
+    static initialize(obj, id, name, description, template_type, output_format, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, embed_edit_token, versions) { 
         obj['id'] = id;
         obj['name'] = name;
         obj['description'] = description;
         obj['template_type'] = template_type;
+        obj['output_format'] = output_format;
         obj['ready'] = ready;
         obj['document'] = document;
         obj['parent_folder_id'] = parent_folder_id;
@@ -175,6 +178,9 @@ class Template {
             }
             if (data.hasOwnProperty('template_type')) {
                 obj['template_type'] = ApiClient.convertToType(data['template_type'], TemplateType);
+            }
+            if (data.hasOwnProperty('output_format')) {
+                obj['output_format'] = ApiClient.convertToType(data['output_format'], OutputFormat);
             }
             if (data.hasOwnProperty('ready')) {
                 obj['ready'] = ApiClient.convertToType(data['ready'], 'Boolean');
@@ -427,7 +433,7 @@ class Template {
 
 }
 
-Template.RequiredProperties = ["id", "name", "description", "template_type", "ready", "document", "parent_folder_id", "path", "latest_version", "version_published_at", "locked", "last_changed_at", "created_at", "updated_at", "version", "add_signature_request_submission_id_footers", "ai_field_naming_language", "allow_additional_properties", "allow_skipping_optional_fields", "default_form_mode", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs", "has_encrypt_pdfs_password", "expire_submissions", "expire_after", "expiration_interval", "merge_audit_trail_pdf", "parse_dates_using_template_date_format", "public_submissions", "public_web_form", "redirect_url", "has_slack_webhook_url", "last_changed_by", "defaults", "field_dependencies", "field_groups", "predefined_fields", "predefined_fields_sample_data", "html", "scss", "header_html", "footer_html", "html_engine_options", "html_escape_data", "embed_edit_token", "versions"];
+Template.RequiredProperties = ["id", "name", "description", "template_type", "output_format", "ready", "document", "parent_folder_id", "path", "latest_version", "version_published_at", "locked", "last_changed_at", "created_at", "updated_at", "version", "add_signature_request_submission_id_footers", "ai_field_naming_language", "allow_additional_properties", "allow_skipping_optional_fields", "default_form_mode", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs", "has_encrypt_pdfs_password", "expire_submissions", "expire_after", "expiration_interval", "merge_audit_trail_pdf", "parse_dates_using_template_date_format", "public_submissions", "public_web_form", "redirect_url", "has_slack_webhook_url", "last_changed_by", "defaults", "field_dependencies", "field_groups", "predefined_fields", "predefined_fields_sample_data", "html", "scss", "header_html", "footer_html", "html_engine_options", "html_escape_data", "embed_edit_token", "versions"];
 
 /**
  * The template's ID.
@@ -448,19 +454,25 @@ Template.prototype['name'] = undefined;
 Template.prototype['description'] = undefined;
 
 /**
- * `pdf`: fields placed on an uploaded PDF. `html`: a PDF rendered from HTML and SCSS. It can't be changed after the template is created.
+ * `pdf`: fields placed on an uploaded PDF. `html`: a PDF rendered from HTML and SCSS. `docx`: a Word document with tags where the data goes, which makes Word documents or PDFs. It can't be changed after the template is created.
  * @member {module:model/TemplateType} template_type
  */
 Template.prototype['template_type'] = undefined;
 
 /**
- * Whether the template can generate PDFs. HTML templates are always ready. A PDF template is ready once DocSpring has stored its PDF, made an image of each page and finished looking for fields on each page, which can be after `document.state` becomes `processed`. A PDF template with no PDF (`document` is null) isn't ready.
+ * What each submission makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. A Word template's is chosen when it's created; PDF and HTML templates always make PDFs. A Word template that encrypts its PDFs makes PDFs, because Word documents and OpenDocument files can't be password-protected.
+ * @member {module:model/OutputFormat} output_format
+ */
+Template.prototype['output_format'] = undefined;
+
+/**
+ * Whether the template can make documents. HTML templates are always ready. A PDF template is ready once DocSpring has stored its PDF, made an image of each page and finished looking for fields on each page, which can be after `document.state` becomes `processed`. A PDF template with no PDF (`document` is null) isn't ready. A Word template is ready once it has a Word document (a `document_url`'s has been downloaded).
  * @member {Boolean} ready
  */
 Template.prototype['ready'] = undefined;
 
 /**
- * The PDF of a PDF template. Null for HTML templates, and for a PDF template that has no PDF yet.
+ * The PDF of a PDF template, or the Word document of a Word template. Null for HTML templates, and for a PDF template that has no PDF yet. A template created from a `document_url` has one, with no file, while it's downloaded.
  * @member {module:model/TemplateDocument} document
  */
 Template.prototype['document'] = undefined;
@@ -544,7 +556,7 @@ Template.prototype['allow_additional_properties'] = undefined;
 Template.prototype['allow_skipping_optional_fields'] = undefined;
 
 /**
- * The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). HTML templates have no visual form, so `web` is the only value they accept.
+ * The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). Only PDF templates have a visual form, so other templates accept only `web`.
  * @member {module:model/TemplateFormMode} default_form_mode
  */
 Template.prototype['default_form_mode'] = undefined;
@@ -580,7 +592,7 @@ Template.prototype['embed_edit_allow_versioning'] = undefined;
 Template.prototype['embed_edit_allow_document_replacement'] = undefined;
 
 /**
- * Encrypt generated PDFs with `encrypt_pdfs_password`.
+ * Encrypt generated PDFs with `encrypt_pdfs_password`. A Word template can only encrypt its PDFs when its `output_format` is `pdf`, because Word documents and OpenDocument files can't be password-protected.
  * @member {Boolean} encrypt_pdfs
  */
 Template.prototype['encrypt_pdfs'] = undefined;
@@ -616,7 +628,7 @@ Template.prototype['expiration_interval'] = undefined;
 Template.prototype['merge_audit_trail_pdf'] = undefined;
 
 /**
- * Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
+ * Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML or Word template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
  * @member {Boolean} parse_dates_using_template_date_format
  */
 Template.prototype['parse_dates_using_template_date_format'] = undefined;
@@ -681,7 +693,7 @@ Template.prototype['predefined_fields'] = undefined;
 Template.prototype['predefined_fields_sample_data'] = undefined;
 
 /**
- * The HTML of an HTML template, as a Liquid template. Null for PDF templates.
+ * The HTML of an HTML template, as a Liquid template. Null for PDF and Word templates.
  * @member {String} html
  */
 Template.prototype['html'] = undefined;
@@ -705,7 +717,7 @@ Template.prototype['header_html'] = undefined;
 Template.prototype['footer_html'] = undefined;
 
 /**
- * How an HTML template's PDFs are printed. Null for PDF templates. Setting it replaces the whole object: options left out use their defaults.
+ * How an HTML template's PDFs are printed. Null for PDF and Word templates. Setting it replaces the whole object: options left out use their defaults.
  * @member {module:model/HtmlEngineOptions} html_engine_options
  */
 Template.prototype['html_engine_options'] = undefined;

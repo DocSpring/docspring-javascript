@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -18,6 +18,7 @@ import FieldSetupLogic from './FieldSetupLogic';
 import FieldSetupNaming from './FieldSetupNaming';
 import FieldSetupSource from './FieldSetupSource';
 import HtmlEngineOptionsInput from './HtmlEngineOptionsInput';
+import OutputFormat from './OutputFormat';
 import PredefinedFieldInput from './PredefinedFieldInput';
 import TemplateDefaultsInput from './TemplateDefaultsInput';
 import TemplateFieldDependencyInput from './TemplateFieldDependencyInput';
@@ -27,14 +28,14 @@ import TemplateType from './TemplateType';
 /**
  * The CreateTemplateRequest model module.
  * @module model/CreateTemplateRequest
- * @version 4.2.0
+ * @version 4.3.0
  */
 class CreateTemplateRequest {
     /**
      * Constructs a new <code>CreateTemplateRequest</code>.
      * The template to create.
      * @alias module:model/CreateTemplateRequest
-     * @param template_type {module:model/TemplateType} `pdf`: fields placed on an uploaded PDF. `html`: a PDF rendered from HTML and SCSS. It can't be changed after the template is created.
+     * @param template_type {module:model/TemplateType} `pdf`: fields placed on an uploaded PDF. `html`: a PDF rendered from HTML and SCSS. `docx`: a Word document with tags where the data goes, which makes Word documents or PDFs. It can't be changed after the template is created.
      */
     constructor(template_type) { 
         
@@ -69,6 +70,9 @@ class CreateTemplateRequest {
             }
             if (data.hasOwnProperty('template_type')) {
                 obj['template_type'] = ApiClient.convertToType(data['template_type'], TemplateType);
+            }
+            if (data.hasOwnProperty('output_format')) {
+                obj['output_format'] = ApiClient.convertToType(data['output_format'], OutputFormat);
             }
             if (data.hasOwnProperty('parent_folder_id')) {
                 obj['parent_folder_id'] = ApiClient.convertToType(data['parent_folder_id'], 'String');
@@ -319,10 +323,16 @@ CreateTemplateRequest.prototype['name'] = undefined;
 CreateTemplateRequest.prototype['description'] = undefined;
 
 /**
- * `pdf`: fields placed on an uploaded PDF. `html`: a PDF rendered from HTML and SCSS. It can't be changed after the template is created.
+ * `pdf`: fields placed on an uploaded PDF. `html`: a PDF rendered from HTML and SCSS. `docx`: a Word document with tags where the data goes, which makes Word documents or PDFs. It can't be changed after the template is created.
  * @member {module:model/TemplateType} template_type
  */
 CreateTemplateRequest.prototype['template_type'] = undefined;
+
+/**
+ * What each submission makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. A Word template's is chosen when it's created; PDF and HTML templates always make PDFs. A Word template that encrypts its PDFs makes PDFs, because Word documents and OpenDocument files can't be password-protected.
+ * @member {module:model/OutputFormat} output_format
+ */
+CreateTemplateRequest.prototype['output_format'] = undefined;
 
 /**
  * The ID of the folder the template is in. Null for a template at the root. Setting it moves the template and all of its published versions.
@@ -361,7 +371,7 @@ CreateTemplateRequest.prototype['allow_additional_properties'] = undefined;
 CreateTemplateRequest.prototype['allow_skipping_optional_fields'] = undefined;
 
 /**
- * The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). HTML templates have no visual form, so `web` is the only value they accept.
+ * The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). Only PDF templates have a visual form, so other templates accept only `web`.
  * @member {module:model/TemplateFormMode} default_form_mode
  */
 CreateTemplateRequest.prototype['default_form_mode'] = undefined;
@@ -397,7 +407,7 @@ CreateTemplateRequest.prototype['embed_edit_allow_versioning'] = undefined;
 CreateTemplateRequest.prototype['embed_edit_allow_document_replacement'] = undefined;
 
 /**
- * Encrypt generated PDFs with `encrypt_pdfs_password`.
+ * Encrypt generated PDFs with `encrypt_pdfs_password`. A Word template can only encrypt its PDFs when its `output_format` is `pdf`, because Word documents and OpenDocument files can't be password-protected.
  * @member {Boolean} encrypt_pdfs
  */
 CreateTemplateRequest.prototype['encrypt_pdfs'] = undefined;
@@ -433,7 +443,7 @@ CreateTemplateRequest.prototype['expiration_interval'] = undefined;
 CreateTemplateRequest.prototype['merge_audit_trail_pdf'] = undefined;
 
 /**
- * Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
+ * Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML or Word template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
  * @member {Boolean} parse_dates_using_template_date_format
  */
 CreateTemplateRequest.prototype['parse_dates_using_template_date_format'] = undefined;
@@ -487,7 +497,7 @@ CreateTemplateRequest.prototype['predefined_fields'] = undefined;
 CreateTemplateRequest.prototype['predefined_fields_sample_data'] = undefined;
 
 /**
- * The HTML of an HTML template, as a Liquid template. Null for PDF templates.
+ * The HTML of an HTML template, as a Liquid template. Null for PDF and Word templates.
  * @member {String} html
  */
 CreateTemplateRequest.prototype['html'] = undefined;
@@ -523,25 +533,25 @@ CreateTemplateRequest.prototype['html_engine_options'] = undefined;
 CreateTemplateRequest.prototype['html_escape_data'] = undefined;
 
 /**
- * A PDF template's document: the `fields.key` of a file you uploaded with the presigned upload (GET /uploads/presign). A PDF template needs one of `cache_id`, `document_url` and `document_base64`. To upload the PDF with the request, use POST /templates/upload.
+ * The template's document, a PDF or a Word document (.docx or .odt): the `fields.key` of a file you uploaded with the presigned upload (GET /uploads/presign). PDF and Word templates need one of `cache_id`, `document_url` and `document_base64`. To upload the file with the request, use POST /templates/upload.
  * @member {String} cache_id
  */
 CreateTemplateRequest.prototype['cache_id'] = undefined;
 
 /**
- * An https:// link to the template's PDF (up to 100 MB), instead of `cache_id`. DocSpring downloads it after responding, following redirects to other https:// links: the template's `document.state` is `downloading` until then (sync.api hosts wait for it). If it can't be downloaded, the state is `download_failed` and `document.error_message` says why.
+ * An https:// link to the template's document, instead of `cache_id`: a PDF template's PDF (up to 100 MB) or a Word template's Word document (.docx or .odt, up to 50 MB). DocSpring downloads it after responding, following redirects to other https:// links: the template's `document.state` is `downloading` until then, and `converting` while an .odt is converted (sync.api hosts wait for both). If it can't be downloaded, the state is `download_failed` and `document.error_message` says why.
  * @member {String} document_url
  */
 CreateTemplateRequest.prototype['document_url'] = undefined;
 
 /**
- * The template's PDF, encoded as base64 (a `data:` URI works too), instead of `cache_id`. Up to 7 MB before it's encoded: send a larger file with `cache_id` or `document_url`.
+ * The template's document (a PDF, or a Word template's Word document), encoded as base64 (a `data:` URI works too), instead of `cache_id`. Up to 7 MB before it's encoded: send a larger file with `cache_id` or `document_url`.
  * @member {String} document_base64
  */
 CreateTemplateRequest.prototype['document_base64'] = undefined;
 
 /**
- * The PDF's file name, for a `cache_id` (presigned uploads don't send one) or `document_base64`. A `document_url`'s is the last part of its path unless you set it.
+ * The file's name, for a `cache_id` (presigned uploads don't send one) or `document_base64`. A `document_url`'s is the last part of its path unless you set it.
  * @member {String} filename
  */
 CreateTemplateRequest.prototype['filename'] = undefined;

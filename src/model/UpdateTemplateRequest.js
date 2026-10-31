@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -16,6 +16,7 @@ import AiFieldNamingLanguage from './AiFieldNamingLanguage';
 import ExpirationInterval from './ExpirationInterval';
 import FieldGroupInput from './FieldGroupInput';
 import HtmlEngineOptionsInput from './HtmlEngineOptionsInput';
+import OutputFormat from './OutputFormat';
 import PredefinedFieldInput from './PredefinedFieldInput';
 import TemplateDefaultsInput from './TemplateDefaultsInput';
 import TemplateFieldDependencyInput from './TemplateFieldDependencyInput';
@@ -24,7 +25,7 @@ import TemplateFormMode from './TemplateFormMode';
 /**
  * The UpdateTemplateRequest model module.
  * @module model/UpdateTemplateRequest
- * @version 4.2.0
+ * @version 4.3.0
  */
 class UpdateTemplateRequest {
     /**
@@ -61,6 +62,9 @@ class UpdateTemplateRequest {
             }
             if (data.hasOwnProperty('description')) {
                 obj['description'] = ApiClient.convertToType(data['description'], 'String');
+            }
+            if (data.hasOwnProperty('output_format')) {
+                obj['output_format'] = ApiClient.convertToType(data['output_format'], OutputFormat);
             }
             if (data.hasOwnProperty('parent_folder_id')) {
                 obj['parent_folder_id'] = ApiClient.convertToType(data['parent_folder_id'], 'String');
@@ -278,6 +282,12 @@ UpdateTemplateRequest.prototype['name'] = undefined;
 UpdateTemplateRequest.prototype['description'] = undefined;
 
 /**
+ * What each submission makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. A Word template's is chosen when it's created; PDF and HTML templates always make PDFs. A Word template that encrypts its PDFs makes PDFs, because Word documents and OpenDocument files can't be password-protected.
+ * @member {module:model/OutputFormat} output_format
+ */
+UpdateTemplateRequest.prototype['output_format'] = undefined;
+
+/**
  * The ID of the folder the template is in. Null for a template at the root. Setting it moves the template and all of its published versions.
  * @member {String} parent_folder_id
  */
@@ -314,7 +324,7 @@ UpdateTemplateRequest.prototype['allow_additional_properties'] = undefined;
 UpdateTemplateRequest.prototype['allow_skipping_optional_fields'] = undefined;
 
 /**
- * The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). HTML templates have no visual form, so `web` is the only value they accept.
+ * The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). Only PDF templates have a visual form, so other templates accept only `web`.
  * @member {module:model/TemplateFormMode} default_form_mode
  */
 UpdateTemplateRequest.prototype['default_form_mode'] = undefined;
@@ -350,7 +360,7 @@ UpdateTemplateRequest.prototype['embed_edit_allow_versioning'] = undefined;
 UpdateTemplateRequest.prototype['embed_edit_allow_document_replacement'] = undefined;
 
 /**
- * Encrypt generated PDFs with `encrypt_pdfs_password`.
+ * Encrypt generated PDFs with `encrypt_pdfs_password`. A Word template can only encrypt its PDFs when its `output_format` is `pdf`, because Word documents and OpenDocument files can't be password-protected.
  * @member {Boolean} encrypt_pdfs
  */
 UpdateTemplateRequest.prototype['encrypt_pdfs'] = undefined;
@@ -386,7 +396,7 @@ UpdateTemplateRequest.prototype['expiration_interval'] = undefined;
 UpdateTemplateRequest.prototype['merge_audit_trail_pdf'] = undefined;
 
 /**
- * Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
+ * Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML or Word template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
  * @member {Boolean} parse_dates_using_template_date_format
  */
 UpdateTemplateRequest.prototype['parse_dates_using_template_date_format'] = undefined;
@@ -446,7 +456,7 @@ UpdateTemplateRequest.prototype['predefined_fields'] = undefined;
 UpdateTemplateRequest.prototype['predefined_fields_sample_data'] = undefined;
 
 /**
- * The HTML of an HTML template, as a Liquid template. Null for PDF templates.
+ * The HTML of an HTML template, as a Liquid template. Null for PDF and Word templates.
  * @member {String} html
  */
 UpdateTemplateRequest.prototype['html'] = undefined;

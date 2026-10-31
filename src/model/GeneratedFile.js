@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -17,20 +17,20 @@ import GeneratedFileState from './GeneratedFileState';
 /**
  * The GeneratedFile model module.
  * @module model/GeneratedFile
- * @version 4.2.0
+ * @version 4.3.0
  */
 class GeneratedFile {
     /**
      * Constructs a new <code>GeneratedFile</code>.
-     * A file that DocSpring generated, such as a submission's PDF. A file made after its submission was processed is listed while it's being made: check its `state` before using its links.
+     * A file that DocSpring generated, such as a submission's PDF or Word document. A file made after its submission was processed is listed while it's being made: check its `state` before using its links.
      * @alias module:model/GeneratedFile
      * @extends Object
      * @param state {module:model/GeneratedFileState} `processed` once the file has been made. `pending` while it's being made, and `error` if it couldn't be made (see `error_message`).
      * @param error_message {String} Why the file couldn't be made, when `state` is `error`.
      * @param download_url {String} A temporary link to download the file. Null until the file has been made, and when your account turns off download links for submissions.
      * @param permanent_url {String} A link to download the file that doesn't expire: it redirects to a new temporary link. It needs your API token or a signed-in session, except for a submission of a template that makes its submissions public. Null until the file has been made.
-     * @param filename {String} The file's name, such as `sub_123.pdf`.
-     * @param content_type {String} The file's media type, such as `application/pdf`.
+     * @param filename {String} The file's name, such as `sub_123.pdf`, `sub_123.docx` or `sub_123.odt`.
+     * @param content_type {String} The file's media type: `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document` for a Word document, or `application/vnd.oasis.opendocument.text` for an OpenDocument file.
      * @param size {Number} The file's size in bytes. Null until the file has been made.
      * @param sha256 {String} The SHA-256 hash of the file. Null until the file has been made.
      */
@@ -167,13 +167,13 @@ GeneratedFile.prototype['download_url'] = undefined;
 GeneratedFile.prototype['permanent_url'] = undefined;
 
 /**
- * The file's name, such as `sub_123.pdf`.
+ * The file's name, such as `sub_123.pdf`, `sub_123.docx` or `sub_123.odt`.
  * @member {String} filename
  */
 GeneratedFile.prototype['filename'] = undefined;
 
 /**
- * The file's media type, such as `application/pdf`.
+ * The file's media type: `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document` for a Word document, or `application/vnd.oasis.opendocument.text` for an OpenDocument file.
  * @member {String} content_type
  */
 GeneratedFile.prototype['content_type'] = undefined;

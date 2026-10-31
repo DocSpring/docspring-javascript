@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -18,20 +18,20 @@ import SubmissionBatchState from './SubmissionBatchState';
 /**
  * The SubmissionBatch model module.
  * @module model/SubmissionBatch
- * @version 4.2.0
+ * @version 4.3.0
  */
 class SubmissionBatch {
     /**
      * Constructs a new <code>SubmissionBatch</code>.
-     * Submissions created together in one request. Their PDFs are only generated when every submission in the batch is valid.
+     * Submissions created together in one request. Their files are only generated when every submission in the batch is valid.
      * @alias module:model/SubmissionBatch
      * @extends Object
      * @param id {String} The batch's ID.
-     * @param state {module:model/SubmissionBatchState} `pending` while the PDFs are being generated, then `processed`. `error` as soon as a submission fails, while the others can still be pending: the batch has finished once `processed_at` is set.
+     * @param state {module:model/SubmissionBatchState} `pending` while the files are being generated, then `processed`. `error` as soon as a submission fails, while the others can still be pending: the batch has finished once `processed_at` is set.
      * @param metadata {Object.<String, Object>} Your own data about the batch, such as an ID from your app.
      * @param total_count {Number} The number of submissions in the request.
-     * @param pending_count {Number} The submissions whose PDFs haven't been generated yet.
-     * @param error_count {Number} The submissions that were invalid or whose PDFs couldn't be generated.
+     * @param pending_count {Number} The submissions whose files haven't been generated yet.
+     * @param error_count {Number} The submissions that were invalid or whose files couldn't be generated.
      * @param completion_percentage {Number} The percentage of the batch's submissions that have finished, from 0 to 100.
      * @param submissions {Array.<module:model/Submission>} The batch's submissions, in the order of the request. Their `data` is null unless you pass `include_data=true`. A batch that failed validation only has the submissions that were recorded as `invalid_data`.
      * @param processed_at {Date} When every submission had finished.
@@ -149,7 +149,7 @@ SubmissionBatch.RequiredProperties = ["id", "state", "metadata", "total_count", 
 SubmissionBatch.prototype['id'] = undefined;
 
 /**
- * `pending` while the PDFs are being generated, then `processed`. `error` as soon as a submission fails, while the others can still be pending: the batch has finished once `processed_at` is set.
+ * `pending` while the files are being generated, then `processed`. `error` as soon as a submission fails, while the others can still be pending: the batch has finished once `processed_at` is set.
  * @member {module:model/SubmissionBatchState} state
  */
 SubmissionBatch.prototype['state'] = undefined;
@@ -167,13 +167,13 @@ SubmissionBatch.prototype['metadata'] = undefined;
 SubmissionBatch.prototype['total_count'] = undefined;
 
 /**
- * The submissions whose PDFs haven't been generated yet.
+ * The submissions whose files haven't been generated yet.
  * @member {Number} pending_count
  */
 SubmissionBatch.prototype['pending_count'] = undefined;
 
 /**
- * The submissions that were invalid or whose PDFs couldn't be generated.
+ * The submissions that were invalid or whose files couldn't be generated.
  * @member {Number} error_count
  */
 SubmissionBatch.prototype['error_count'] = undefined;

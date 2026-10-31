@@ -1,6 +1,6 @@
 /**
  * DocSpring API
- * Use DocSpring's API to programmatically fill out PDF forms, convert HTML to PDFs, merge PDFs, or request legally binding e-signatures.
+ * Use DocSpring's API to fill PDF forms, generate PDFs and Word documents from HTML or Word templates, merge PDFs, and request legally binding e-signatures.
  *
  * The version of the OpenAPI document: v2
  * 
@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The FieldGroupInput model module.
  * @module model/FieldGroupInput
- * @version 4.2.0
+ * @version 4.3.0
  */
 class FieldGroupInput {
     /**
@@ -143,7 +143,7 @@ FieldGroupInput.prototype['metadata'] = undefined;
 FieldGroupInput.prototype['min_items'] = undefined;
 
 /**
- * HTML templates' lists only: the most items submission data can have. Null for no limit. A PDF template's list takes as many items as its fields are numbered for, or more with `allow_additional_items`.
+ * HTML and Word templates' lists only: the most items submission data can have. Null for no limit. A PDF template's list takes as many items as its fields are numbered for, or more with `allow_additional_items`.
  * @member {Number} max_items
  */
 FieldGroupInput.prototype['max_items'] = undefined;
