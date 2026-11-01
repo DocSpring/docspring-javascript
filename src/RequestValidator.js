@@ -262,6 +262,10 @@ function checkObject(schema, data, pointer, location, details) {
       details.push(detail(location, `${pointer}/${escape(name)}`, 'required', 'is required'));
     }
   });
+  // Only an update's body has minProperties, and it's always 1 (api_clients/scripts/extract_request_schemas)
+  if (schema.minProperties !== undefined && Object.keys(data).length < schema.minProperties) {
+    details.push(detail(location, pointer, 'minProperties', 'must have at least one property to change'));
+  }
 
   const properties = schema.properties || {};
   Object.keys(data).forEach((name) => {

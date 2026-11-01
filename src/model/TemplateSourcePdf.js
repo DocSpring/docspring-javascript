@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplateSourcePdf model module.
  * @module model/TemplateSourcePdf
- * @version 4.3.0
+ * @version 4.4.0
  */
 class TemplateSourcePdf {
     /**
@@ -115,7 +115,7 @@ TemplateSourcePdf.prototype['type'] = 'template';
 TemplateSourcePdf.prototype['id'] = undefined;
 
 /**
- * For a `template` source, the version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+ * For a `template` source, the version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
  * @member {String} template_version
  */
 TemplateSourcePdf.prototype['template_version'] = undefined;

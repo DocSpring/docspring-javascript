@@ -18,24 +18,25 @@ import SubmissionActionType from './SubmissionActionType';
 /**
  * The SubmissionAction model module.
  * @module model/SubmissionAction
- * @version 4.3.0
+ * @version 4.4.0
  */
 class SubmissionAction {
     /**
      * Constructs a new <code>SubmissionAction</code>.
-     * An upload of a PDF to your storage, such as an S3 bucket.
+     * An upload of a PDF to your storage, such as an S3 bucket, or an email action's email.
      * @alias module:model/SubmissionAction
      * @extends Object
      * @param id {String} The upload's ID.
      * @param integration_id {String} The ID of the account integration it used.
-     * @param state {module:model/SubmissionActionState} `pending` until the upload has run, then `processed`. `failed`: your storage rejected it. `error`: it failed in DocSpring.
-     * @param action_type {module:model/SubmissionActionType} The kind of storage, such as `aws_s3_upload` for an S3 bucket.
-     * @param result_data {Object.<String, Object>} Where the PDF was uploaded, such as the S3 bucket and key.
+     * @param email_action_id {String} The ID of the email action that sent the email. Null for an upload, or once the email action is deleted.
+     * @param state {module:model/SubmissionActionState} `pending` until the upload or email has run, then `processed`. `failed`: your storage or the email service rejected it. `error`: it failed in DocSpring.
+     * @param action_type {module:model/SubmissionActionType} The kind of storage, such as `aws_s3_upload` for an S3 bucket, or `email` for an email action's email.
+     * @param result_data {Object.<String, Object>} Where the PDF was uploaded, such as the S3 bucket and key. For an email: its `subject`, `recipients`, each with its `address`, `kind` (`to`, `cc` or `bcc`), `source`, `field` or `metadata` when the address came from one, and `status` (`sent`, `delivered`, `bounced`, `complained`, `skipped` and others), `sent_at`, `delivery`, and `files` (the files it sent: `pdf`, `docx`, `odt`). An email whose submission didn't meet the email action's `send_when` conditions has only `skipped`, `conditions_not_met`, and its state is `processed`. An email whose submission made none of the files the email action sends has `skipped`, `no_files` and the action's `file_formats`, and its state is `processed` too. When the submission's data is left out (a batch, or a webhook without submission data), the subject and the addresses that came from fields or metadata are null.
      * @param error_message {String} Why the upload failed, when `state` is `failed` or `error`.
      */
-    constructor(id, integration_id, state, action_type, result_data, error_message) { 
+    constructor(id, integration_id, email_action_id, state, action_type, result_data, error_message) { 
         
-        SubmissionAction.initialize(this, id, integration_id, state, action_type, result_data, error_message);
+        SubmissionAction.initialize(this, id, integration_id, email_action_id, state, action_type, result_data, error_message);
     }
 
     /**
@@ -43,9 +44,10 @@ class SubmissionAction {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, integration_id, state, action_type, result_data, error_message) { 
+    static initialize(obj, id, integration_id, email_action_id, state, action_type, result_data, error_message) { 
         obj['id'] = id;
         obj['integration_id'] = integration_id;
+        obj['email_action_id'] = email_action_id;
         obj['state'] = state;
         obj['action_type'] = action_type;
         obj['result_data'] = result_data;
@@ -71,6 +73,9 @@ class SubmissionAction {
             }
             if (data.hasOwnProperty('integration_id')) {
                 obj['integration_id'] = ApiClient.convertToType(data['integration_id'], 'String');
+            }
+            if (data.hasOwnProperty('email_action_id')) {
+                obj['email_action_id'] = ApiClient.convertToType(data['email_action_id'], 'String');
             }
             if (data.hasOwnProperty('state')) {
                 obj['state'] = ApiClient.convertToType(data['state'], SubmissionActionState);
@@ -109,6 +114,10 @@ class SubmissionAction {
             throw new Error("Expected the field `integration_id` to be a primitive type in the JSON string but got " + data['integration_id']);
         }
         // ensure the json data is a string
+        if (data['email_action_id'] && !(typeof data['email_action_id'] === 'string' || data['email_action_id'] instanceof String)) {
+            throw new Error("Expected the field `email_action_id` to be a primitive type in the JSON string but got " + data['email_action_id']);
+        }
+        // ensure the json data is a string
         if (data['error_message'] && !(typeof data['error_message'] === 'string' || data['error_message'] instanceof String)) {
             throw new Error("Expected the field `error_message` to be a primitive type in the JSON string but got " + data['error_message']);
         }
@@ -119,7 +128,7 @@ class SubmissionAction {
 
 }
 
-SubmissionAction.RequiredProperties = ["id", "integration_id", "state", "action_type", "result_data", "error_message"];
+SubmissionAction.RequiredProperties = ["id", "integration_id", "email_action_id", "state", "action_type", "result_data", "error_message"];
 
 /**
  * The upload's ID.
@@ -134,19 +143,25 @@ SubmissionAction.prototype['id'] = undefined;
 SubmissionAction.prototype['integration_id'] = undefined;
 
 /**
- * `pending` until the upload has run, then `processed`. `failed`: your storage rejected it. `error`: it failed in DocSpring.
+ * The ID of the email action that sent the email. Null for an upload, or once the email action is deleted.
+ * @member {String} email_action_id
+ */
+SubmissionAction.prototype['email_action_id'] = undefined;
+
+/**
+ * `pending` until the upload or email has run, then `processed`. `failed`: your storage or the email service rejected it. `error`: it failed in DocSpring.
  * @member {module:model/SubmissionActionState} state
  */
 SubmissionAction.prototype['state'] = undefined;
 
 /**
- * The kind of storage, such as `aws_s3_upload` for an S3 bucket.
+ * The kind of storage, such as `aws_s3_upload` for an S3 bucket, or `email` for an email action's email.
  * @member {module:model/SubmissionActionType} action_type
  */
 SubmissionAction.prototype['action_type'] = undefined;
 
 /**
- * Where the PDF was uploaded, such as the S3 bucket and key.
+ * Where the PDF was uploaded, such as the S3 bucket and key. For an email: its `subject`, `recipients`, each with its `address`, `kind` (`to`, `cc` or `bcc`), `source`, `field` or `metadata` when the address came from one, and `status` (`sent`, `delivered`, `bounced`, `complained`, `skipped` and others), `sent_at`, `delivery`, and `files` (the files it sent: `pdf`, `docx`, `odt`). An email whose submission didn't meet the email action's `send_when` conditions has only `skipped`, `conditions_not_met`, and its state is `processed`. An email whose submission made none of the files the email action sends has `skipped`, `no_files` and the action's `file_formats`, and its state is `processed` too. When the submission's data is left out (a batch, or a webhook without submission data), the subject and the addresses that came from fields or metadata are null.
  * @member {Object.<String, Object>} result_data
  */
 SubmissionAction.prototype['result_data'] = undefined;

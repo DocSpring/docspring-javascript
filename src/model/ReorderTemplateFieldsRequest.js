@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The ReorderTemplateFieldsRequest model module.
  * @module model/ReorderTemplateFieldsRequest
- * @version 4.3.0
+ * @version 4.4.0
  */
 class ReorderTemplateFieldsRequest {
     /**

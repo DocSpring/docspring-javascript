@@ -19,8 +19,11 @@ import AuthenticationCheck from '../model/AuthenticationCheck';
 import CombinedPdf from '../model/CombinedPdf';
 import CombinedPdfList from '../model/CombinedPdfList';
 import CopyTemplateRequest from '../model/CopyTemplateRequest';
+import CreateAccountEmailActionRequest from '../model/CreateAccountEmailActionRequest';
 import CreateCombinedPdfRequest from '../model/CreateCombinedPdfRequest';
 import CreateCustomFileFromUploadRequest from '../model/CreateCustomFileFromUploadRequest';
+import CreateEmailActionRequest from '../model/CreateEmailActionRequest';
+import CreateEmailDomainRequest from '../model/CreateEmailDomainRequest';
 import CreateFolderRequest from '../model/CreateFolderRequest';
 import CreateSignatureRequestEventRequest from '../model/CreateSignatureRequestEventRequest';
 import CreateSignatureRequestTokenRequest from '../model/CreateSignatureRequestTokenRequest';
@@ -31,6 +34,11 @@ import CreateTemplateRequest from '../model/CreateTemplateRequest';
 import CreateWebhookRequest from '../model/CreateWebhookRequest';
 import CustomFile from '../model/CustomFile';
 import CustomFileList from '../model/CustomFileList';
+import EmailAction from '../model/EmailAction';
+import EmailActionList from '../model/EmailActionList';
+import EmailActionTestEmail from '../model/EmailActionTestEmail';
+import EmailDomain from '../model/EmailDomain';
+import EmailDomainList from '../model/EmailDomainList';
 import ErrorResponse from '../model/ErrorResponse';
 import FieldSetupLogic from '../model/FieldSetupLogic';
 import FieldSetupNaming from '../model/FieldSetupNaming';
@@ -47,6 +55,7 @@ import RemoveTemplateFieldsRequest from '../model/RemoveTemplateFieldsRequest';
 import RenameFolderRequest from '../model/RenameFolderRequest';
 import ReorderTemplateFieldsRequest from '../model/ReorderTemplateFieldsRequest';
 import RestoreTemplateVersionRequest from '../model/RestoreTemplateVersionRequest';
+import SendAccountEmailActionTestEmailRequest from '../model/SendAccountEmailActionTestEmailRequest';
 import SignatureRequest from '../model/SignatureRequest';
 import SignatureRequestEvent from '../model/SignatureRequestEvent';
 import SignatureRequestToken from '../model/SignatureRequestToken';
@@ -63,6 +72,9 @@ import TemplatePageImages from '../model/TemplatePageImages';
 import TemplatePreview from '../model/TemplatePreview';
 import TemplateSummaryList from '../model/TemplateSummaryList';
 import TemplateVersion from '../model/TemplateVersion';
+import UpdateAccountEmailActionRequest from '../model/UpdateAccountEmailActionRequest';
+import UpdateEmailActionCustomizationRequest from '../model/UpdateEmailActionCustomizationRequest';
+import UpdateEmailActionRequest from '../model/UpdateEmailActionRequest';
 import UpdateSignatureRequestRequest from '../model/UpdateSignatureRequestRequest';
 import UpdateTemplateDocumentRequest from '../model/UpdateTemplateDocumentRequest';
 import UpdateTemplateFieldsRequest from '../model/UpdateTemplateFieldsRequest';
@@ -78,7 +90,7 @@ import WebhookMode from '../model/WebhookMode';
 /**
 * Client service.
 * @module api/Client
-* @version 4.3.0
+* @version 4.4.0
 */
 export default class Client {
 
@@ -140,12 +152,15 @@ export default class Client {
 
     /**
      * Add fields to a template
-     * Adds fields to a template's draft and returns all of its fields. Publish a version for submissions of published versions to have them. 
+     * Adds fields to a template's draft and returns all of its fields. Publish a version for submissions of published versions to have them. A field with the name of one of the template's fields shares its settings (`type`, `required`, `default`, ...), so a field that sets one to another value is refused: PUT /templates/{template_id}/fields changes them for every field with the name. 
      * @param {String} template_id The template's ID.
      * @param {module:model/AddTemplateFieldsRequest} body The fields to add to the template's draft.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
      */
-    addTemplateFieldsWithHttpInfo(template_id, body) {
+    addTemplateFieldsWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'template_id' is set
       if (template_id === undefined || template_id === null) {
@@ -162,6 +177,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -179,13 +195,15 @@ export default class Client {
 
     /**
      * Add fields to a template
-     * Adds fields to a template's draft and returns all of its fields. Publish a version for submissions of published versions to have them. 
+     * Adds fields to a template's draft and returns all of its fields. Publish a version for submissions of published versions to have them. A field with the name of one of the template's fields shares its settings (`type`, `required`, `default`, ...), so a field that sets one to another value is refused: PUT /templates/{template_id}/fields changes them for every field with the name. 
      * @param {String} template_id The template's ID.
      * @param {module:model/AddTemplateFieldsRequest} body The fields to add to the template's draft.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
      */
-    addTemplateFields(template_id, body) {
-      return this.addTemplateFieldsWithHttpInfo(template_id, body)
+    addTemplateFields(template_id, body, opts) {
+      return this.addTemplateFieldsWithHttpInfo(template_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -198,6 +216,7 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
      * @param {module:model/CopyTemplateRequest} [body] Settings for the copy.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     copyTemplateWithHttpInfo(template_id, opts) {
@@ -214,6 +233,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -235,10 +255,64 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
      * @param {module:model/CopyTemplateRequest} opts.body Settings for the copy.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     copyTemplate(template_id, opts) {
       return this.copyTemplateWithHttpInfo(template_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Create an account email action
+     * Adds an email action to your account. It sends for every template, or only for the templates in `template_ids` and the templates in the folders in `folder_ids` (and the folders inside them). Each template can turn it off or change its settings for that template only (`PUT /templates/{template_id}/email_actions/{email_action_id}/customization`). Without a paid plan (Starter or higher), email actions only email your team: test submissions' emails go to your account's users, and live submissions' emails aren't sent. 
+     * @param {module:model/CreateAccountEmailActionRequest} body The account email action to create. Properties left out get their defaults, and it sends for every template unless it lists `template_ids` or `folder_ids`.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    createAccountEmailActionWithHttpInfo(body, opts) {
+      opts = opts || {};
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createAccountEmailAction");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/email_actions', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Create an account email action
+     * Adds an email action to your account. It sends for every template, or only for the templates in `template_ids` and the templates in the folders in `folder_ids` (and the folders inside them). Each template can turn it off or change its settings for that template only (`PUT /templates/{template_id}/email_actions/{email_action_id}/customization`). Without a paid plan (Starter or higher), email actions only email your team: test submissions' emails go to your account's users, and live submissions' emails aren't sent. 
+     * @param {module:model/CreateAccountEmailActionRequest} body The account email action to create. Properties left out get their defaults, and it sends for every template unless it lists `template_ids` or `folder_ids`.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    createAccountEmailAction(body, opts) {
+      return this.createAccountEmailActionWithHttpInfo(body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -251,7 +325,7 @@ export default class Client {
      * @param {module:model/CreateCombinedPdfRequest} body The PDFs to merge, and the combined PDF's settings.
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait] Wait until the PDF has been generated before responding. Default true on sync.api hosts.
-     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/CombinedPdf} and HTTP response
      */
     createCombinedPdfWithHttpInfo(body, opts) {
@@ -290,7 +364,7 @@ export default class Client {
      * @param {module:model/CreateCombinedPdfRequest} body The PDFs to merge, and the combined PDF's settings.
      * @param {Object} opts Optional parameters
      * @param {Boolean} opts.wait Wait until the PDF has been generated before responding. Default true on sync.api hosts.
-     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another combined PDF. Send a new key with each new combined PDF, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/CombinedPdf}
      */
     createCombinedPdf(body, opts) {
@@ -305,9 +379,12 @@ export default class Client {
      * Create a custom file from an upload
      * Creates a custom file from a PDF you uploaded, so you can merge it with other PDFs. Upload the file with the presigned upload (GET /uploads/presign) first, then pass its `fields.key` as `cache_id`. 
      * @param {module:model/CreateCustomFileFromUploadRequest} body The uploaded file to create the custom file from.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/CustomFile} and HTTP response
      */
-    createCustomFileFromUploadWithHttpInfo(body) {
+    createCustomFileFromUploadWithHttpInfo(body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -319,6 +396,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -338,10 +416,125 @@ export default class Client {
      * Create a custom file from an upload
      * Creates a custom file from a PDF you uploaded, so you can merge it with other PDFs. Upload the file with the presigned upload (GET /uploads/presign) first, then pass its `fields.key` as `cache_id`. 
      * @param {module:model/CreateCustomFileFromUploadRequest} body The uploaded file to create the custom file from.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/CustomFile}
      */
-    createCustomFileFromUpload(body) {
-      return this.createCustomFileFromUploadWithHttpInfo(body)
+    createCustomFileFromUpload(body, opts) {
+      return this.createCustomFileFromUploadWithHttpInfo(body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Create an email action
+     * Adds an email action to a template's draft. From then on, each processed submission emails its PDF to the recipients in `to`, `cc` and `bcc`: addresses, and tags for the address in one of the submission's fields (`{{ data.tenant_email }}`) or in its metadata (`{{ metadata.agent_email }}`). With `send_when`, only the submissions whose values meet its conditions send one. Without a paid plan (Starter or higher), email actions only email your team: test submissions' emails go to your account's users, and live submissions' emails aren't sent. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/CreateEmailActionRequest} body The email action to create. Properties left out get their defaults.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    createEmailActionWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
+      let postBody = body;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling createEmailAction");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createEmailAction");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/email_actions', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Create an email action
+     * Adds an email action to a template's draft. From then on, each processed submission emails its PDF to the recipients in `to`, `cc` and `bcc`: addresses, and tags for the address in one of the submission's fields (`{{ data.tenant_email }}`) or in its metadata (`{{ metadata.agent_email }}`). With `send_when`, only the submissions whose values meet its conditions send one. Without a paid plan (Starter or higher), email actions only email your team: test submissions' emails go to your account's users, and live submissions' emails aren't sent. 
+     * @param {String} template_id The template's ID.
+     * @param {module:model/CreateEmailActionRequest} body The email action to create. Properties left out get their defaults.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    createEmailAction(template_id, body, opts) {
+      return this.createEmailActionWithHttpInfo(template_id, body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Add an email domain
+     * Adds a domain for email actions to send from, and returns the DNS records to add to it. DocSpring checks for them every few minutes, and the domain is verified once its DKIM and DMARC records are found. Needs a paid monthly plan. 
+     * @param {module:model/CreateEmailDomainRequest} body The domain to add.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailDomain} and HTTP response
+     */
+    createEmailDomainWithHttpInfo(body, opts) {
+      opts = opts || {};
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createEmailDomain");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = EmailDomain;
+      return this.apiClient.callApi(
+        '/email_domains', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Add an email domain
+     * Adds a domain for email actions to send from, and returns the DNS records to add to it. DocSpring checks for them every few minutes, and the domain is verified once its DKIM and DMARC records are found. Needs a paid monthly plan. 
+     * @param {module:model/CreateEmailDomainRequest} body The domain to add.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailDomain}
+     */
+    createEmailDomain(body, opts) {
+      return this.createEmailDomainWithHttpInfo(body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -352,9 +545,12 @@ export default class Client {
      * Create a folder
      * Creates a folder for organizing templates. Pass `parent_folder_id` to create it inside another folder. Folder names are unique within their parent folder. 
      * @param {module:model/CreateFolderRequest} body The folder to create.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Folder} and HTTP response
      */
-    createFolderWithHttpInfo(body) {
+    createFolderWithHttpInfo(body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -366,6 +562,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -385,10 +582,12 @@ export default class Client {
      * Create a folder
      * Creates a folder for organizing templates. Pass `parent_folder_id` to create it inside another folder. Folder names are unique within their parent folder. 
      * @param {module:model/CreateFolderRequest} body The folder to create.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Folder}
      */
-    createFolder(body) {
-      return this.createFolderWithHttpInfo(body)
+    createFolder(body, opts) {
+      return this.createFolderWithHttpInfo(body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -400,9 +599,12 @@ export default class Client {
      * Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account. A finished (completed, declined or expired) signature request's audit trail takes no more events, and a test API token can't record one for a live signature request. 
      * @param {String} signature_request_id The signature request's ID.
      * @param {module:model/CreateSignatureRequestEventRequest} body The event to record.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SignatureRequestEvent} and HTTP response
      */
-    createSignatureRequestEventWithHttpInfo(signature_request_id, body) {
+    createSignatureRequestEventWithHttpInfo(signature_request_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'signature_request_id' is set
       if (signature_request_id === undefined || signature_request_id === null) {
@@ -419,6 +621,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -439,10 +642,12 @@ export default class Client {
      * Records something that happened outside DocSpring in the signature request's audit trail: you sent the request to the person (`send_request`). The audit trail shows it as reported by your account. A finished (completed, declined or expired) signature request's audit trail takes no more events, and a test API token can't record one for a live signature request. 
      * @param {String} signature_request_id The signature request's ID.
      * @param {module:model/CreateSignatureRequestEventRequest} body The event to record.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SignatureRequestEvent}
      */
-    createSignatureRequestEvent(signature_request_id, body) {
-      return this.createSignatureRequestEventWithHttpInfo(signature_request_id, body)
+    createSignatureRequestEvent(signature_request_id, body, opts) {
+      return this.createSignatureRequestEventWithHttpInfo(signature_request_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -455,6 +660,7 @@ export default class Client {
      * @param {String} signature_request_id The signature request's ID.
      * @param {Object} opts Optional parameters
      * @param {module:model/CreateSignatureRequestTokenRequest} [body] The kind of link to make. Send no body for an `api` token.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SignatureRequestToken} and HTTP response
      */
     createSignatureRequestTokenWithHttpInfo(signature_request_id, opts) {
@@ -471,6 +677,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -492,6 +699,7 @@ export default class Client {
      * @param {String} signature_request_id The signature request's ID.
      * @param {Object} opts Optional parameters
      * @param {module:model/CreateSignatureRequestTokenRequest} opts.body The kind of link to make. Send no body for an `api` token.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SignatureRequestToken}
      */
     createSignatureRequestToken(signature_request_id, opts) {
@@ -504,13 +712,13 @@ export default class Client {
 
     /**
      * Generate a PDF
-     * Creates a submission: fills in a template with your data and generates a PDF. The PDF is generated in the background: on sync.api hosts the request waits for it (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until `state` isn't `pending`.  Data that doesn't match the template's fields returns a 422 with an `invalid_data` error. The submission is still saved, with its errors, so you can find it in DocSpring: the error's `submission_id` is its ID. 
+     * Creates a submission: fills in a template with your data and generates a PDF. The PDF is generated in the background: on sync.api hosts the request waits for it (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until `state` isn't `pending`.  Data that doesn't match the template's fields returns a 422 with an `invalid_data` error. The submission is still saved, with its errors, so you can find it in DocSpring: the error's `submission_id` is its ID.  With `signature_requests`, the PDF is generated once everyone has signed. DocSpring emails each signer a link to sign, unless `send_email` is false, and can send reminders and the completed document. 
      * @param {String} template_id The template's ID.
      * @param {module:model/CreateSubmissionRequest} body The submission's data and settings.
      * @param {Object} opts Optional parameters
-     * @param {String} [version] The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+     * @param {String} [version] The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
      * @param {Boolean} [wait] Wait until the files have been generated before responding. Default true on sync.api hosts.
-     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Submission} and HTTP response
      */
     createSubmissionWithHttpInfo(template_id, body, opts) {
@@ -551,13 +759,13 @@ export default class Client {
 
     /**
      * Generate a PDF
-     * Creates a submission: fills in a template with your data and generates a PDF. The PDF is generated in the background: on sync.api hosts the request waits for it (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until `state` isn't `pending`.  Data that doesn't match the template's fields returns a 422 with an `invalid_data` error. The submission is still saved, with its errors, so you can find it in DocSpring: the error's `submission_id` is its ID. 
+     * Creates a submission: fills in a template with your data and generates a PDF. The PDF is generated in the background: on sync.api hosts the request waits for it (unless you pass `wait=false`), otherwise poll GET /submissions/{submission_id} until `state` isn't `pending`.  Data that doesn't match the template's fields returns a 422 with an `invalid_data` error. The submission is still saved, with its errors, so you can find it in DocSpring: the error's `submission_id` is its ID.  With `signature_requests`, the PDF is generated once everyone has signed. DocSpring emails each signer a link to sign, unless `send_email` is false, and can send reminders and the completed document. 
      * @param {String} template_id The template's ID.
      * @param {module:model/CreateSubmissionRequest} body The submission's data and settings.
      * @param {Object} opts Optional parameters
-     * @param {String} opts.version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+     * @param {String} opts.version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
      * @param {Boolean} opts.wait Wait until the files have been generated before responding. Default true on sync.api hosts.
-     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another submission. Send a new key with each new submission, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Submission}
      */
     createSubmission(template_id, body, opts) {
@@ -574,7 +782,7 @@ export default class Client {
      * @param {module:model/CreateSubmissionBatchRequest} body The submissions to create, and the settings they share.
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait] Wait until every file in the batch has been generated before responding. Default true on sync.api hosts.
-     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SubmissionBatch} and HTTP response
      */
     createSubmissionBatchWithHttpInfo(body, opts) {
@@ -613,7 +821,7 @@ export default class Client {
      * @param {module:model/CreateSubmissionBatchRequest} body The submissions to create, and the settings they share.
      * @param {Object} opts Optional parameters
      * @param {Boolean} opts.wait Wait until every file in the batch has been generated before responding. Default true on sync.api hosts.
-     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of creating another batch. Send a new key with each new batch, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` means the first request is still being processed: send the request again in a few seconds.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SubmissionBatch}
      */
     createSubmissionBatch(body, opts) {
@@ -626,10 +834,11 @@ export default class Client {
 
     /**
      * Create a template
-     * Creates an HTML template, or a PDF or Word template from a file you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. You can send a link to the file (`document_url`) or the file in base64 (`document_base64`) instead, or send the file with the request with POST /templates/upload. A Word template is made from a Word document (.docx) or an OpenDocument text file (.odt), which DocSpring converts to a Word document. It needs its `output_format`: what each submission makes, a Word document (`docx`), an OpenDocument file (`odt`) or a PDF.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF, a template created from a `document_url` once its document has been downloaded, and one created from an .odt once it has been converted (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
+     * Creates an HTML template, or a PDF or Word template from a file you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. You can send a link to the file (`document_url`) or the file in base64 (`document_base64`) instead, or send the file with the request with POST /templates/upload. A Word template is made from a Word document (.docx) or an OpenDocument text file (.odt), which DocSpring converts to a Word document. It needs its `output_format`: what each submission makes, a Word document (`docx`), an OpenDocument file (`odt`) or a PDF. A page design (`page_designer`) takes its `layout` in the Page Designer layout format, or starts with an empty page without one.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF, a template created from a `document_url` once its document has been downloaded, and one created from an .odt once it has been converted (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
      * @param {module:model/CreateTemplateRequest} body The template to create.
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait] Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     createTemplateWithHttpInfo(body, opts) {
@@ -646,6 +855,7 @@ export default class Client {
         'wait': opts['wait']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -663,10 +873,11 @@ export default class Client {
 
     /**
      * Create a template
-     * Creates an HTML template, or a PDF or Word template from a file you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. You can send a link to the file (`document_url`) or the file in base64 (`document_base64`) instead, or send the file with the request with POST /templates/upload. A Word template is made from a Word document (.docx) or an OpenDocument text file (.odt), which DocSpring converts to a Word document. It needs its `output_format`: what each submission makes, a Word document (`docx`), an OpenDocument file (`odt`) or a PDF.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF, a template created from a `document_url` once its document has been downloaded, and one created from an .odt once it has been converted (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
+     * Creates an HTML template, or a PDF or Word template from a file you uploaded with the presigned upload (GET /uploads/presign): pass its `fields.key` as `cache_id`. You can send a link to the file (`document_url`) or the file in base64 (`document_base64`) instead, or send the file with the request with POST /templates/upload. A Word template is made from a Word document (.docx) or an OpenDocument text file (.odt), which DocSpring converts to a Word document. It needs its `output_format`: what each submission makes, a Word document (`docx`), an OpenDocument file (`odt`) or a PDF. A page design (`page_designer`) takes its `layout` in the Page Designer layout format, or starts with an empty page without one.  A PDF template is ready to generate PDFs once DocSpring has processed its PDF, a template created from a `document_url` once its document has been downloaded, and one created from an .odt once it has been converted (`ready` is true). On sync.api hosts the request waits for that unless you pass `wait=false`. 
      * @param {module:model/CreateTemplateRequest} body The template to create.
      * @param {Object} opts Optional parameters
      * @param {Boolean} opts.wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     createTemplate(body, opts) {
@@ -679,11 +890,12 @@ export default class Client {
 
     /**
      * Preview a template with data
-     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML, PDF or Word template prints with your data before you publish a version or send live data. A Word template's pages are its PDF's, whatever its `output_format`. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
+     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML, PDF or Word template or a page design prints with your data before you publish a version or send live data. A Word template's pages are its PDF's, whatever its `output_format`. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
      * @param {String} template_id The template's ID.
      * @param {module:model/CreateTemplatePreviewRequest} body The data to render the template with.
      * @param {Object} opts Optional parameters
-     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplatePreview} and HTTP response
      */
     createTemplatePreviewWithHttpInfo(template_id, body, opts) {
@@ -705,6 +917,7 @@ export default class Client {
         'version': opts['version']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -722,11 +935,12 @@ export default class Client {
 
     /**
      * Preview a template with data
-     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML, PDF or Word template prints with your data before you publish a version or send live data. A Word template's pages are its PDF's, whatever its `output_format`. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
+     * Makes PNG images of a template's pages filled in with the data you send (not a PDF), so you can check how an HTML, PDF or Word template or a page design prints with your data before you publish a version or send live data. A Word template's pages are its PDF's, whatever its `output_format`. It renders the template's draft, or the published `version` you ask for. A preview makes no submission and uses no credits, and its pages are watermarked like a test submission's PDF. It's `pending` while it renders: get it with GET /templates/{template_id}/previews/{preview_id} until it's `processed`, with an image of each page, or `error`. 
      * @param {String} template_id The template's ID.
      * @param {module:model/CreateTemplatePreviewRequest} body The data to render the template with.
      * @param {Object} opts Optional parameters
-     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplatePreview}
      */
     createTemplatePreview(template_id, body, opts) {
@@ -741,9 +955,12 @@ export default class Client {
      * Create a webhook
      * Creates a webhook that sends a POST request to your endpoint whenever a subscribed event happens. Scope it to API tokens, templates or folders to receive only their events. 
      * @param {module:model/CreateWebhookRequest} body The webhook to create.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Webhook} and HTTP response
      */
-    createWebhookWithHttpInfo(body) {
+    createWebhookWithHttpInfo(body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -755,6 +972,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -774,10 +992,66 @@ export default class Client {
      * Create a webhook
      * Creates a webhook that sends a POST request to your endpoint whenever a subscribed event happens. Scope it to API tokens, templates or folders to receive only their events. 
      * @param {module:model/CreateWebhookRequest} body The webhook to create.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Webhook}
      */
-    createWebhook(body) {
-      return this.createWebhookWithHttpInfo(body)
+    createWebhook(body, opts) {
+      return this.createWebhookWithHttpInfo(body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Delete an account email action
+     * Deletes one of your account's email actions, with every template's customization of it. Emails it has already queued for submissions aren't sent. Submissions keep the record of the emails it sent. 
+     * @param {String} email_action_id The account email action's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    deleteAccountEmailActionWithHttpInfo(email_action_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling deleteAccountEmailAction");
+      }
+
+      let pathParams = {
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/email_actions/{email_action_id}', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Delete an account email action
+     * Deletes one of your account's email actions, with every template's customization of it. Emails it has already queued for submissions aren't sent. Submissions keep the record of the emails it sent. 
+     * @param {String} email_action_id The account email action's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    deleteAccountEmailAction(email_action_id, opts) {
+      return this.deleteAccountEmailActionWithHttpInfo(email_action_id, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -788,9 +1062,12 @@ export default class Client {
      * Delete a custom file
      * Deletes a custom file and returns it. Use a live API token: test tokens can't delete custom files. 
      * @param {String} custom_file_id The custom file's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/CustomFile} and HTTP response
      */
-    deleteCustomFileWithHttpInfo(custom_file_id) {
+    deleteCustomFileWithHttpInfo(custom_file_id, opts) {
+      opts = opts || {};
       let postBody = null;
       // verify the required parameter 'custom_file_id' is set
       if (custom_file_id === undefined || custom_file_id === null) {
@@ -803,6 +1080,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -822,10 +1100,188 @@ export default class Client {
      * Delete a custom file
      * Deletes a custom file and returns it. Use a live API token: test tokens can't delete custom files. 
      * @param {String} custom_file_id The custom file's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/CustomFile}
      */
-    deleteCustomFile(custom_file_id) {
-      return this.deleteCustomFileWithHttpInfo(custom_file_id)
+    deleteCustomFile(custom_file_id, opts) {
+      return this.deleteCustomFileWithHttpInfo(custom_file_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Delete an email action
+     * Deletes an email action. Emails it has already queued for submissions aren't sent. Submissions keep the record of the emails it sent. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The email action's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    deleteEmailActionWithHttpInfo(template_id, email_action_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling deleteEmailAction");
+      }
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling deleteEmailAction");
+      }
+
+      let pathParams = {
+        'template_id': template_id,
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/email_actions/{email_action_id}', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Delete an email action
+     * Deletes an email action. Emails it has already queued for submissions aren't sent. Submissions keep the record of the emails it sent. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The email action's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    deleteEmailAction(template_id, email_action_id, opts) {
+      return this.deleteEmailActionWithHttpInfo(template_id, email_action_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Reset an account email action's customization
+     * Removes the template's changes to one of your account's email actions: it sends for this template as it is, and again if the template had turned it off. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The ID of one of your account's email actions that sends for the template.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    deleteEmailActionCustomizationWithHttpInfo(template_id, email_action_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling deleteEmailActionCustomization");
+      }
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling deleteEmailActionCustomization");
+      }
+
+      let pathParams = {
+        'template_id': template_id,
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/email_actions/{email_action_id}/customization', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Reset an account email action's customization
+     * Removes the template's changes to one of your account's email actions: it sends for this template as it is, and again if the template had turned it off. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The ID of one of your account's email actions that sends for the template.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    deleteEmailActionCustomization(template_id, email_action_id, opts) {
+      return this.deleteEmailActionCustomizationWithHttpInfo(template_id, email_action_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Remove an email domain
+     * Removes an email domain. Email actions that send from an address at it fail until you add and verify it again, or change their `from_address`. You can then remove its DNS records. 
+     * @param {String} email_domain_id The email domain's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailDomain} and HTTP response
+     */
+    deleteEmailDomainWithHttpInfo(email_domain_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'email_domain_id' is set
+      if (email_domain_id === undefined || email_domain_id === null) {
+        throw new Error("Missing the required parameter 'email_domain_id' when calling deleteEmailDomain");
+      }
+
+      let pathParams = {
+        'email_domain_id': email_domain_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailDomain;
+      return this.apiClient.callApi(
+        '/email_domains/{email_domain_id}', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Remove an email domain
+     * Removes an email domain. Email actions that send from an address at it fail until you add and verify it again, or change their `from_address`. You can then remove its DNS records. 
+     * @param {String} email_domain_id The email domain's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailDomain}
+     */
+    deleteEmailDomain(email_domain_id, opts) {
+      return this.deleteEmailDomainWithHttpInfo(email_domain_id, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -836,9 +1292,12 @@ export default class Client {
      * Delete a folder
      * Deletes an empty folder and returns it. A folder that still has templates or folders in it can't be deleted. 
      * @param {String} folder_id The folder's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Folder} and HTTP response
      */
-    deleteFolderWithHttpInfo(folder_id) {
+    deleteFolderWithHttpInfo(folder_id, opts) {
+      opts = opts || {};
       let postBody = null;
       // verify the required parameter 'folder_id' is set
       if (folder_id === undefined || folder_id === null) {
@@ -851,6 +1310,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -870,10 +1330,12 @@ export default class Client {
      * Delete a folder
      * Deletes an empty folder and returns it. A folder that still has templates or folders in it can't be deleted. 
      * @param {String} folder_id The folder's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Folder}
      */
-    deleteFolder(folder_id) {
-      return this.deleteFolderWithHttpInfo(folder_id)
+    deleteFolder(folder_id, opts) {
+      return this.deleteFolderWithHttpInfo(folder_id, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -886,6 +1348,7 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
      * @param {String} [version] Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     deleteTemplateWithHttpInfo(template_id, opts) {
@@ -903,6 +1366,7 @@ export default class Client {
         'version': opts['version']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -924,6 +1388,7 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
      * @param {String} opts.version Delete only this published version (`1.2.0`) or the draft (`draft`, when no version has been published). Without it, the draft and every published version are deleted.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     deleteTemplate(template_id, opts) {
@@ -938,9 +1403,12 @@ export default class Client {
      * Delete a webhook
      * Deletes a webhook so it stops receiving events, and returns it.
      * @param {String} webhook_id The webhook's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Webhook} and HTTP response
      */
-    deleteWebhookWithHttpInfo(webhook_id) {
+    deleteWebhookWithHttpInfo(webhook_id, opts) {
+      opts = opts || {};
       let postBody = null;
       // verify the required parameter 'webhook_id' is set
       if (webhook_id === undefined || webhook_id === null) {
@@ -953,6 +1421,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -972,10 +1441,12 @@ export default class Client {
      * Delete a webhook
      * Deletes a webhook so it stops receiving events, and returns it.
      * @param {String} webhook_id The webhook's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Webhook}
      */
-    deleteWebhook(webhook_id) {
-      return this.deleteWebhookWithHttpInfo(webhook_id)
+    deleteWebhook(webhook_id, opts) {
+      return this.deleteWebhookWithHttpInfo(webhook_id, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -986,9 +1457,12 @@ export default class Client {
      * Expire a combined PDF
      * Deletes a combined PDF's PDF and returns the expired combined PDF.
      * @param {String} combined_pdf_id The combined PDF's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/CombinedPdf} and HTTP response
      */
-    expireCombinedPdfWithHttpInfo(combined_pdf_id) {
+    expireCombinedPdfWithHttpInfo(combined_pdf_id, opts) {
+      opts = opts || {};
       let postBody = null;
       // verify the required parameter 'combined_pdf_id' is set
       if (combined_pdf_id === undefined || combined_pdf_id === null) {
@@ -1001,6 +1475,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -1020,10 +1495,12 @@ export default class Client {
      * Expire a combined PDF
      * Deletes a combined PDF's PDF and returns the expired combined PDF.
      * @param {String} combined_pdf_id The combined PDF's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/CombinedPdf}
      */
-    expireCombinedPdf(combined_pdf_id) {
-      return this.expireCombinedPdfWithHttpInfo(combined_pdf_id)
+    expireCombinedPdf(combined_pdf_id, opts) {
+      return this.expireCombinedPdfWithHttpInfo(combined_pdf_id, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -1034,9 +1511,12 @@ export default class Client {
      * Expire a submission
      * Deletes a submission's data and PDF now, and returns the expired submission.
      * @param {String} submission_id The submission's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Submission} and HTTP response
      */
-    expireSubmissionWithHttpInfo(submission_id) {
+    expireSubmissionWithHttpInfo(submission_id, opts) {
+      opts = opts || {};
       let postBody = null;
       // verify the required parameter 'submission_id' is set
       if (submission_id === undefined || submission_id === null) {
@@ -1049,6 +1529,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -1068,10 +1549,12 @@ export default class Client {
      * Expire a submission
      * Deletes a submission's data and PDF now, and returns the expired submission.
      * @param {String} submission_id The submission's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Submission}
      */
-    expireSubmission(submission_id) {
-      return this.expireSubmissionWithHttpInfo(submission_id)
+    expireSubmission(submission_id, opts) {
+      return this.expireSubmissionWithHttpInfo(submission_id, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -1085,6 +1568,7 @@ export default class Client {
      * @param {module:model/GenerateSubmissionFilesRequest} body The formats to make.
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait] Wait until the files have been generated before responding. Default true on sync.api hosts.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Submission} and HTTP response
      */
     generateSubmissionFilesWithHttpInfo(submission_id, body, opts) {
@@ -1106,6 +1590,7 @@ export default class Client {
         'wait': opts['wait']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -1128,6 +1613,7 @@ export default class Client {
      * @param {module:model/GenerateSubmissionFilesRequest} body The formats to make.
      * @param {Object} opts Optional parameters
      * @param {Boolean} opts.wait Wait until the files have been generated before responding. Default true on sync.api hosts.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Submission}
      */
     generateSubmissionFiles(submission_id, body, opts) {
@@ -1142,9 +1628,12 @@ export default class Client {
      * Generate a preview PDF
      * Generates a preview of a submission's PDF in the background, such as for a submission still waiting for its signature requests. It's in `files.preview` once `preview_generated_at` changes. 
      * @param {String} submission_id The submission's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Submission} and HTTP response
      */
-    generateSubmissionPreviewWithHttpInfo(submission_id) {
+    generateSubmissionPreviewWithHttpInfo(submission_id, opts) {
+      opts = opts || {};
       let postBody = null;
       // verify the required parameter 'submission_id' is set
       if (submission_id === undefined || submission_id === null) {
@@ -1157,6 +1646,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -1176,10 +1666,60 @@ export default class Client {
      * Generate a preview PDF
      * Generates a preview of a submission's PDF in the background, such as for a submission still waiting for its signature requests. It's in `files.preview` once `preview_generated_at` changes. 
      * @param {String} submission_id The submission's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Submission}
      */
-    generateSubmissionPreview(submission_id) {
-      return this.generateSubmissionPreviewWithHttpInfo(submission_id)
+    generateSubmissionPreview(submission_id, opts) {
+      return this.generateSubmissionPreviewWithHttpInfo(submission_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Get an account email action
+     * Returns one of your account's email actions, with its settings and whether its emails are failing.
+     * @param {String} email_action_id The account email action's ID.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    getAccountEmailActionWithHttpInfo(email_action_id) {
+      let postBody = null;
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling getAccountEmailAction");
+      }
+
+      let pathParams = {
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/email_actions/{email_action_id}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Get an account email action
+     * Returns one of your account's email actions, with its settings and whether its emails are failing.
+     * @param {String} email_action_id The account email action's ID.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    getAccountEmailAction(email_action_id) {
+      return this.getAccountEmailActionWithHttpInfo(email_action_id)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -1276,6 +1816,109 @@ export default class Client {
      */
     getCustomFile(custom_file_id) {
       return this.getCustomFileWithHttpInfo(custom_file_id)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Get an email action
+     * Returns one of a template's email actions, with its settings and whether its emails are failing.
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The email action's ID.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    getEmailActionWithHttpInfo(template_id, email_action_id) {
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling getEmailAction");
+      }
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling getEmailAction");
+      }
+
+      let pathParams = {
+        'template_id': template_id,
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/email_actions/{email_action_id}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Get an email action
+     * Returns one of a template's email actions, with its settings and whether its emails are failing.
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The email action's ID.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    getEmailAction(template_id, email_action_id) {
+      return this.getEmailActionWithHttpInfo(template_id, email_action_id)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Get an email domain
+     * Returns an email domain, whether it's verified, and the DNS records to add to it.
+     * @param {String} email_domain_id The email domain's ID.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailDomain} and HTTP response
+     */
+    getEmailDomainWithHttpInfo(email_domain_id) {
+      let postBody = null;
+      // verify the required parameter 'email_domain_id' is set
+      if (email_domain_id === undefined || email_domain_id === null) {
+        throw new Error("Missing the required parameter 'email_domain_id' when calling getEmailDomain");
+      }
+
+      let pathParams = {
+        'email_domain_id': email_domain_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailDomain;
+      return this.apiClient.callApi(
+        '/email_domains/{email_domain_id}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Get an email domain
+     * Returns an email domain, whether it's verified, and the DNS records to add to it.
+     * @param {String} email_domain_id The email domain's ID.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailDomain}
+     */
+    getEmailDomain(email_domain_id) {
+      return this.getEmailDomainWithHttpInfo(email_domain_id)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -1526,7 +2169,7 @@ export default class Client {
      * Returns a template: its draft, or one of its published versions.
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     getTemplateWithHttpInfo(template_id, opts) {
@@ -1564,7 +2207,7 @@ export default class Client {
      * Returns a template: its draft, or one of its published versions.
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     getTemplate(template_id, opts) {
@@ -1580,7 +2223,7 @@ export default class Client {
      * Returns what changed in the template's draft since its latest published version (or in a published version since the one before it): fields added, removed, changed and moved, the settings that changed, and whether the document was replaced. Check it before you publish a version. 
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateDiff} and HTTP response
      */
     getTemplateDiffWithHttpInfo(template_id, opts) {
@@ -1618,7 +2261,7 @@ export default class Client {
      * Returns what changed in the template's draft since its latest published version (or in a published version since the one before it): fields added, removed, changed and moved, the settings that changed, and whether the document was replaced. Check it before you publish a version. 
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateDiff}
      */
     getTemplateDiff(template_id, opts) {
@@ -1635,7 +2278,7 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {module:model/ModelCodeLanguage} lang The language to generate the code in.
      * @param {Object} opts Optional parameters
-     * @param {String} [version] The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+     * @param {String} [version] The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default.
      * @param {Boolean} [just_types] Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateModelCode} and HTTP response
      */
@@ -1681,7 +2324,7 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {module:model/ModelCodeLanguage} lang The language to generate the code in.
      * @param {Object} opts Optional parameters
-     * @param {String} opts.version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+     * @param {String} opts.version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default.
      * @param {Boolean} opts.just_types Return only the types (interfaces, classes or structs), without the code that converts JSON to and from them. Default false. JavaScript has no types, PHP has no types-only code, and Rust's code is only types (serde converts the JSON), so theirs is the same either way.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateModelCode}
      */
@@ -1698,7 +2341,7 @@ export default class Client {
      * Returns a JPEG image of each page of a PDF template's PDF, with temporary links to download them: the draft's PDF, or a published version's. Use them to see the pages that fields are placed on. 
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplatePageImages} and HTTP response
      */
     getTemplatePageImagesWithHttpInfo(template_id, opts) {
@@ -1736,7 +2379,7 @@ export default class Client {
      * Returns a JPEG image of each page of a PDF template's PDF, with temporary links to download them: the draft's PDF, or a published version's. Use them to see the pages that fields are placed on. 
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplatePageImages}
      */
     getTemplatePageImages(template_id, opts) {
@@ -1807,7 +2450,7 @@ export default class Client {
      * Returns the JSON Schema that a submission's `data` must match. Use it to check data before you create submissions, or to build a form for the template's fields. 
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} [version] The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+     * @param {String} [version] The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Object.<String, {String: Object}>} and HTTP response
      */
     getTemplateSchemaWithHttpInfo(template_id, opts) {
@@ -1845,7 +2488,7 @@ export default class Client {
      * Returns the JSON Schema that a submission's `data` must match. Use it to check data before you create submissions, or to build a form for the template's fields. 
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} opts.version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published), the version a submission uses by default.
+     * @param {String} opts.version The template version: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`, the version a submission uses by default.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Object.<String, {String: Object}>}
      */
     getTemplateSchema(template_id, opts) {
@@ -1898,6 +2541,56 @@ export default class Client {
      */
     getWebhook(webhook_id) {
       return this.getWebhookWithHttpInfo(webhook_id)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * List account email actions
+     * Returns your account's email actions, newest first, one page at a time. Each one emails the files of every template's processed submissions, or of the templates and folders it lists. A template's own email actions are listed with the template (`GET /templates/{template_id}/email_actions`). 
+     * @param {Object} opts Optional parameters
+     * @param {Number} [limit = 50)] How many items to return (1-100, default 50).
+     * @param {String} [cursor] The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailActionList} and HTTP response
+     */
+    listAccountEmailActionsWithHttpInfo(opts) {
+      opts = opts || {};
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'limit': opts['limit'],
+        'cursor': opts['cursor']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailActionList;
+      return this.apiClient.callApi(
+        '/email_actions', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * List account email actions
+     * Returns your account's email actions, newest first, one page at a time. Each one emails the files of every template's processed submissions, or of the templates and folders it lists. A template's own email actions are listed with the template (`GET /templates/{template_id}/email_actions`). 
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.limit How many items to return (1-100, default 50). (default to 50)
+     * @param {String} opts.cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailActionList}
+     */
+    listAccountEmailActions(opts) {
+      return this.listAccountEmailActionsWithHttpInfo(opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -1998,6 +2691,113 @@ export default class Client {
      */
     listCustomFiles(opts) {
       return this.listCustomFilesWithHttpInfo(opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * List email actions
+     * Returns the email actions of a template's draft, and your account's email actions that send for it, newest first, one page at a time. Each one emails every processed submission's files to the people it lists. An account email action (`template_id` null) shows the settings it sends for this template, with the template's changes in `customization`. 
+     * @param {String} template_id The template's ID.
+     * @param {Object} opts Optional parameters
+     * @param {Number} [limit = 50)] How many items to return (1-100, default 50).
+     * @param {String} [cursor] The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailActionList} and HTTP response
+     */
+    listEmailActionsWithHttpInfo(template_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling listEmailActions");
+      }
+
+      let pathParams = {
+        'template_id': template_id
+      };
+      let queryParams = {
+        'limit': opts['limit'],
+        'cursor': opts['cursor']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailActionList;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/email_actions', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * List email actions
+     * Returns the email actions of a template's draft, and your account's email actions that send for it, newest first, one page at a time. Each one emails every processed submission's files to the people it lists. An account email action (`template_id` null) shows the settings it sends for this template, with the template's changes in `customization`. 
+     * @param {String} template_id The template's ID.
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.limit How many items to return (1-100, default 50). (default to 50)
+     * @param {String} opts.cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailActionList}
+     */
+    listEmailActions(template_id, opts) {
+      return this.listEmailActionsWithHttpInfo(template_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * List email domains
+     * Returns the domains in your account that email actions can send from once they're verified, newest first, one page at a time. 
+     * @param {Object} opts Optional parameters
+     * @param {Number} [limit = 50)] How many items to return (1-100, default 50).
+     * @param {String} [cursor] The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailDomainList} and HTTP response
+     */
+    listEmailDomainsWithHttpInfo(opts) {
+      opts = opts || {};
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'limit': opts['limit'],
+        'cursor': opts['cursor']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailDomainList;
+      return this.apiClient.callApi(
+        '/email_domains', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * List email domains
+     * Returns the domains in your account that email actions can send from once they're verified, newest first, one page at a time. 
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.limit How many items to return (1-100, default 50). (default to 50)
+     * @param {String} opts.cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailDomainList}
+     */
+    listEmailDomains(opts) {
+      return this.listEmailDomainsWithHttpInfo(opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2133,7 +2933,7 @@ export default class Client {
      * Returns a template's fields with all of their settings, page by page: the draft's fields, or a published version's. A PDF template's fields are placed on its pages: GET /templates/{template_id}/page_images has images of the pages. 
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} [version] A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
      */
     listTemplateFieldsWithHttpInfo(template_id, opts) {
@@ -2171,7 +2971,7 @@ export default class Client {
      * Returns a template's fields with all of their settings, page by page: the draft's fields, or a published version's. A PDF template's fields are placed on its pages: GET /templates/{template_id}/page_images has images of the pages. 
      * @param {String} template_id The template's ID.
      * @param {Object} opts Optional parameters
-     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `draft`.
+     * @param {String} opts.version A published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `draft`.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
      */
     listTemplateFields(template_id, opts) {
@@ -2261,7 +3061,7 @@ export default class Client {
      * List templates
      * Returns the templates in your account (their drafts), newest first, one page at a time. Each one is a summary: get a template by its ID for its settings, its PDF in full, its HTML, defaults and published versions. 
      * @param {Object} opts Optional parameters
-     * @param {String} [query] Only list templates whose name contains this text (ignoring case).
+     * @param {String} [query] Only list templates whose name contains this text (ignoring case). `%` and `_` match themselves.
      * @param {String} [parent_folder_id] Only list the templates in this folder (not in its subfolders).
      * @param {Number} [limit = 50)] How many items to return (1-100, default 50).
      * @param {String} [cursor] The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
@@ -2299,7 +3099,7 @@ export default class Client {
      * List templates
      * Returns the templates in your account (their drafts), newest first, one page at a time. Each one is a summary: get a template by its ID for its settings, its PDF in full, its HTML, defaults and published versions. 
      * @param {Object} opts Optional parameters
-     * @param {String} opts.query Only list templates whose name contains this text (ignoring case).
+     * @param {String} opts.query Only list templates whose name contains this text (ignoring case). `%` and `_` match themselves.
      * @param {String} opts.parent_folder_id Only list the templates in this folder (not in its subfolders).
      * @param {Number} opts.limit How many items to return (1-100, default 50). (default to 50)
      * @param {String} opts.cursor The previous page's `next_cursor`, to get the next page. It's the ID of that page's last item, so get the next page before you delete or change the items on this one.
@@ -2383,9 +3183,12 @@ export default class Client {
      * Moves a folder into another folder, or to the root with `parent_folder_id: null`. Its templates and folders move with it. A folder can't move into itself or one of its own folders. 
      * @param {String} folder_id The folder's ID.
      * @param {module:model/MoveFolderRequest} body Where to move the folder.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Folder} and HTTP response
      */
-    moveFolderWithHttpInfo(folder_id, body) {
+    moveFolderWithHttpInfo(folder_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'folder_id' is set
       if (folder_id === undefined || folder_id === null) {
@@ -2402,6 +3205,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2422,10 +3226,12 @@ export default class Client {
      * Moves a folder into another folder, or to the root with `parent_folder_id: null`. Its templates and folders move with it. A folder can't move into itself or one of its own folders. 
      * @param {String} folder_id The folder's ID.
      * @param {module:model/MoveFolderRequest} body Where to move the folder.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Folder}
      */
-    moveFolder(folder_id, body) {
-      return this.moveFolderWithHttpInfo(folder_id, body)
+    moveFolder(folder_id, body, opts) {
+      return this.moveFolderWithHttpInfo(folder_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2437,9 +3243,12 @@ export default class Client {
      * Moves a template and all of its published versions to a folder, or to the root (`null`).
      * @param {String} template_id The template's ID.
      * @param {module:model/MoveTemplateRequest} body Where to move the template.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
-    moveTemplateWithHttpInfo(template_id, body) {
+    moveTemplateWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'template_id' is set
       if (template_id === undefined || template_id === null) {
@@ -2456,6 +3265,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2476,10 +3286,12 @@ export default class Client {
      * Moves a template and all of its published versions to a folder, or to the root (`null`).
      * @param {String} template_id The template's ID.
      * @param {module:model/MoveTemplateRequest} body Where to move the template.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
-    moveTemplate(template_id, body) {
-      return this.moveTemplateWithHttpInfo(template_id, body)
+    moveTemplate(template_id, body, opts) {
+      return this.moveTemplateWithHttpInfo(template_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2491,9 +3303,12 @@ export default class Client {
      * Publishes the template's draft as a new version. Its content (the PDF or HTML, fields, name and description) never changes, while settings such as `webhook_url` and `public_submissions` keep following the draft. `version_type` says which part of the latest version number goes up. While the template's PDF is downloading or being processed, or DocSpring is setting up its fields, it returns a 409 that says so. 
      * @param {String} template_id The template's ID.
      * @param {module:model/PublishTemplateVersionRequest} body The version to publish.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateVersion} and HTTP response
      */
-    publishTemplateVersionWithHttpInfo(template_id, body) {
+    publishTemplateVersionWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'template_id' is set
       if (template_id === undefined || template_id === null) {
@@ -2510,6 +3325,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2530,10 +3346,12 @@ export default class Client {
      * Publishes the template's draft as a new version. Its content (the PDF or HTML, fields, name and description) never changes, while settings such as `webhook_url` and `public_submissions` keep following the draft. `version_type` says which part of the latest version number goes up. While the template's PDF is downloading or being processed, or DocSpring is setting up its fields, it returns a 409 that says so. 
      * @param {String} template_id The template's ID.
      * @param {module:model/PublishTemplateVersionRequest} body The version to publish.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateVersion}
      */
-    publishTemplateVersion(template_id, body) {
-      return this.publishTemplateVersionWithHttpInfo(template_id, body)
+    publishTemplateVersion(template_id, body, opts) {
+      return this.publishTemplateVersionWithHttpInfo(template_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2545,9 +3363,12 @@ export default class Client {
      * Removes fields from a template's draft and returns the fields that are left. Conditional logic that used only the removed fields is removed too. 
      * @param {String} template_id The template's ID.
      * @param {module:model/RemoveTemplateFieldsRequest} body The fields to remove from the template's draft.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
      */
-    removeTemplateFieldsWithHttpInfo(template_id, body) {
+    removeTemplateFieldsWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'template_id' is set
       if (template_id === undefined || template_id === null) {
@@ -2564,6 +3385,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2584,10 +3406,12 @@ export default class Client {
      * Removes fields from a template's draft and returns the fields that are left. Conditional logic that used only the removed fields is removed too. 
      * @param {String} template_id The template's ID.
      * @param {module:model/RemoveTemplateFieldsRequest} body The fields to remove from the template's draft.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
      */
-    removeTemplateFields(template_id, body) {
-      return this.removeTemplateFieldsWithHttpInfo(template_id, body)
+    removeTemplateFields(template_id, body, opts) {
+      return this.removeTemplateFieldsWithHttpInfo(template_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2599,9 +3423,12 @@ export default class Client {
      * Renames a folder. The name must be unique within its parent folder. 
      * @param {String} folder_id The folder's ID.
      * @param {module:model/RenameFolderRequest} body The folder's new name.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Folder} and HTTP response
      */
-    renameFolderWithHttpInfo(folder_id, body) {
+    renameFolderWithHttpInfo(folder_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'folder_id' is set
       if (folder_id === undefined || folder_id === null) {
@@ -2618,6 +3445,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2638,10 +3466,12 @@ export default class Client {
      * Renames a folder. The name must be unique within its parent folder. 
      * @param {String} folder_id The folder's ID.
      * @param {module:model/RenameFolderRequest} body The folder's new name.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Folder}
      */
-    renameFolder(folder_id, body) {
-      return this.renameFolderWithHttpInfo(folder_id, body)
+    renameFolder(folder_id, body, opts) {
+      return this.renameFolderWithHttpInfo(folder_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2653,9 +3483,12 @@ export default class Client {
      * Changes the order of the fields in a template's draft and returns them in their new order. Send every field's ID: each field stays on its page, and a page's fields are printed in this order, so a later field prints over an earlier one where they overlap. Their values are in this order in the template's data schema and forms. 
      * @param {String} template_id The template's ID.
      * @param {module:model/ReorderTemplateFieldsRequest} body The new order of the fields in the template's draft.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
      */
-    reorderTemplateFieldsWithHttpInfo(template_id, body) {
+    reorderTemplateFieldsWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'template_id' is set
       if (template_id === undefined || template_id === null) {
@@ -2672,6 +3505,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2692,10 +3526,12 @@ export default class Client {
      * Changes the order of the fields in a template's draft and returns them in their new order. Send every field's ID: each field stays on its page, and a page's fields are printed in this order, so a later field prints over an earlier one where they overlap. Their values are in this order in the template's data schema and forms. 
      * @param {String} template_id The template's ID.
      * @param {module:model/ReorderTemplateFieldsRequest} body The new order of the fields in the template's draft.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
      */
-    reorderTemplateFields(template_id, body) {
-      return this.reorderTemplateFieldsWithHttpInfo(template_id, body)
+    reorderTemplateFields(template_id, body, opts) {
+      return this.reorderTemplateFieldsWithHttpInfo(template_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2707,9 +3543,12 @@ export default class Client {
      * Replaces the template's draft with a copy of one of its published versions. The draft keeps its settings that apply to every version, such as `webhook_url`.
      * @param {String} template_id The template's ID.
      * @param {module:model/RestoreTemplateVersionRequest} body The version to restore.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
-    restoreTemplateVersionWithHttpInfo(template_id, body) {
+    restoreTemplateVersionWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'template_id' is set
       if (template_id === undefined || template_id === null) {
@@ -2726,6 +3565,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2746,10 +3586,129 @@ export default class Client {
      * Replaces the template's draft with a copy of one of its published versions. The draft keeps its settings that apply to every version, such as `webhook_url`.
      * @param {String} template_id The template's ID.
      * @param {module:model/RestoreTemplateVersionRequest} body The version to restore.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
-    restoreTemplateVersion(template_id, body) {
-      return this.restoreTemplateVersionWithHttpInfo(template_id, body)
+    restoreTemplateVersion(template_id, body, opts) {
+      return this.restoreTemplateVersionWithHttpInfo(template_id, body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Send a test email for an account email action
+     * Sends the account email action's email to the API token's user only, as it would go for one template it sends for, with each field shown as its name in brackets, so you can check how it looks. When the email action attaches its files and that template is a PDF template, the test attaches the template's blank PDF. It isn't recorded on any submission. 
+     * @param {String} email_action_id The account email action's ID.
+     * @param {Object} opts Optional parameters
+     * @param {module:model/SendAccountEmailActionTestEmailRequest} [body] Which template the test email is for.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailActionTestEmail} and HTTP response
+     */
+    sendAccountEmailActionTestEmailWithHttpInfo(email_action_id, opts) {
+      opts = opts || {};
+      let postBody = opts['body'];
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling sendAccountEmailActionTestEmail");
+      }
+
+      let pathParams = {
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = EmailActionTestEmail;
+      return this.apiClient.callApi(
+        '/email_actions/{email_action_id}/test_email', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Send a test email for an account email action
+     * Sends the account email action's email to the API token's user only, as it would go for one template it sends for, with each field shown as its name in brackets, so you can check how it looks. When the email action attaches its files and that template is a PDF template, the test attaches the template's blank PDF. It isn't recorded on any submission. 
+     * @param {String} email_action_id The account email action's ID.
+     * @param {Object} opts Optional parameters
+     * @param {module:model/SendAccountEmailActionTestEmailRequest} opts.body Which template the test email is for.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailActionTestEmail}
+     */
+    sendAccountEmailActionTestEmail(email_action_id, opts) {
+      return this.sendAccountEmailActionTestEmailWithHttpInfo(email_action_id, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Send a test email
+     * Sends the email action's email to the API token's user only, with each field and metadata value shown as its name in brackets, so you can check how it looks. When the email action attaches its files and the template is a PDF template, the test attaches the template's blank PDF. It isn't recorded on any submission. Without a paid plan, the user needs a confirmed email address. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The email action's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailActionTestEmail} and HTTP response
+     */
+    sendEmailActionTestEmailWithHttpInfo(template_id, email_action_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling sendEmailActionTestEmail");
+      }
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling sendEmailActionTestEmail");
+      }
+
+      let pathParams = {
+        'template_id': template_id,
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailActionTestEmail;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/email_actions/{email_action_id}/test_email', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Send a test email
+     * Sends the email action's email to the API token's user only, with each field and metadata value shown as its name in brackets, so you can check how it looks. When the email action attaches its files and the template is a PDF template, the test attaches the template's blank PDF. It isn't recorded on any submission. Without a paid plan, the user needs a confirmed email address. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The email action's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailActionTestEmail}
+     */
+    sendEmailActionTestEmail(template_id, email_action_id, opts) {
+      return this.sendEmailActionTestEmailWithHttpInfo(template_id, email_action_id, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2798,13 +3757,210 @@ export default class Client {
 
 
     /**
+     * Update an account email action
+     * Changes one of your account's email actions. Properties left out keep their values. Its templates' customizations keep their own changes, and follow the rest. Set `enabled` to false to stop its emails for every template. 
+     * @param {String} email_action_id The account email action's ID.
+     * @param {module:model/UpdateAccountEmailActionRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    updateAccountEmailActionWithHttpInfo(email_action_id, body, opts) {
+      opts = opts || {};
+      let postBody = body;
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling updateAccountEmailAction");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updateAccountEmailAction");
+      }
+
+      let pathParams = {
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/email_actions/{email_action_id}', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Update an account email action
+     * Changes one of your account's email actions. Properties left out keep their values. Its templates' customizations keep their own changes, and follow the rest. Set `enabled` to false to stop its emails for every template. 
+     * @param {String} email_action_id The account email action's ID.
+     * @param {module:model/UpdateAccountEmailActionRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    updateAccountEmailAction(email_action_id, body, opts) {
+      return this.updateAccountEmailActionWithHttpInfo(email_action_id, body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Update an email action
+     * Changes an email action's settings. Properties left out keep their values. Set `enabled` to false to stop its emails, or to true to turn it back on after DocSpring turned it off. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The email action's ID.
+     * @param {module:model/UpdateEmailActionRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    updateEmailActionWithHttpInfo(template_id, email_action_id, body, opts) {
+      opts = opts || {};
+      let postBody = body;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling updateEmailAction");
+      }
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling updateEmailAction");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updateEmailAction");
+      }
+
+      let pathParams = {
+        'template_id': template_id,
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/email_actions/{email_action_id}', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Update an email action
+     * Changes an email action's settings. Properties left out keep their values. Set `enabled` to false to stop its emails, or to true to turn it back on after DocSpring turned it off. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The email action's ID.
+     * @param {module:model/UpdateEmailActionRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    updateEmailAction(template_id, email_action_id, body, opts) {
+      return this.updateEmailActionWithHttpInfo(template_id, email_action_id, body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Customize an account email action for a template
+     * Changes one of your account's email actions for this template only, replacing any changes the template had. Each setting you send is changed for this template, and the ones you leave out follow the account email action, including later changes to it. Set `enabled` to false to stop it sending for this template. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The ID of one of your account's email actions that sends for the template.
+     * @param {module:model/UpdateEmailActionCustomizationRequest} body The template's changes to the account email action, replacing any it had. Each setting you send is changed for this template, and the ones you leave out follow the account email action. `enabled: false` stops it sending for this template; left out, it sends.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailAction} and HTTP response
+     */
+    updateEmailActionCustomizationWithHttpInfo(template_id, email_action_id, body, opts) {
+      opts = opts || {};
+      let postBody = body;
+      // verify the required parameter 'template_id' is set
+      if (template_id === undefined || template_id === null) {
+        throw new Error("Missing the required parameter 'template_id' when calling updateEmailActionCustomization");
+      }
+      // verify the required parameter 'email_action_id' is set
+      if (email_action_id === undefined || email_action_id === null) {
+        throw new Error("Missing the required parameter 'email_action_id' when calling updateEmailActionCustomization");
+      }
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updateEmailActionCustomization");
+      }
+
+      let pathParams = {
+        'template_id': template_id,
+        'email_action_id': email_action_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = ['application/json'];
+      let accepts = ['application/json'];
+      let returnType = EmailAction;
+      return this.apiClient.callApi(
+        '/templates/{template_id}/email_actions/{email_action_id}/customization', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Customize an account email action for a template
+     * Changes one of your account's email actions for this template only, replacing any changes the template had. Each setting you send is changed for this template, and the ones you leave out follow the account email action, including later changes to it. Set `enabled` to false to stop it sending for this template. 
+     * @param {String} template_id The template's ID.
+     * @param {String} email_action_id The ID of one of your account's email actions that sends for the template.
+     * @param {module:model/UpdateEmailActionCustomizationRequest} body The template's changes to the account email action, replacing any it had. Each setting you send is changed for this template, and the ones you leave out follow the account email action. `enabled: false` stops it sending for this template; left out, it sends.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailAction}
+     */
+    updateEmailActionCustomization(template_id, email_action_id, body, opts) {
+      return this.updateEmailActionCustomizationWithHttpInfo(template_id, email_action_id, body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * Update a signature request
      * Changes a pending signature request's metadata, or how your app authenticated the person (for the audit trail). Once the person has opened it, only its metadata can be changed, and a completed or declined signature request can't be changed. 
      * @param {String} signature_request_id The signature request's ID.
      * @param {module:model/UpdateSignatureRequestRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SignatureRequest} and HTTP response
      */
-    updateSignatureRequestWithHttpInfo(signature_request_id, body) {
+    updateSignatureRequestWithHttpInfo(signature_request_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'signature_request_id' is set
       if (signature_request_id === undefined || signature_request_id === null) {
@@ -2821,6 +3977,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2841,10 +3998,12 @@ export default class Client {
      * Changes a pending signature request's metadata, or how your app authenticated the person (for the audit trail). Once the person has opened it, only its metadata can be changed, and a completed or declined signature request can't be changed. 
      * @param {String} signature_request_id The signature request's ID.
      * @param {module:model/UpdateSignatureRequestRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SignatureRequest}
      */
-    updateSignatureRequest(signature_request_id, body) {
-      return this.updateSignatureRequestWithHttpInfo(signature_request_id, body)
+    updateSignatureRequest(signature_request_id, body, opts) {
+      return this.updateSignatureRequestWithHttpInfo(signature_request_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2853,12 +4012,15 @@ export default class Client {
 
     /**
      * Update a template
-     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Settings such as `webhook_url`, `public_submissions` and `expire_after` apply to every published version too, and setting `parent_folder_id` moves the template and all of its published versions. 
+     * Changes a template's draft. Properties left out keep their values. `defaults`, `html_engine_options` and a page design's `layout` replace the whole object, and `field_groups` changes only the groups it lists. A new layout adds a field for each new value it reads. Settings such as `webhook_url`, `public_submissions` and `expire_after` apply to every published version too, and setting `parent_folder_id` moves the template and all of its published versions. 
      * @param {String} template_id The template's ID.
      * @param {module:model/UpdateTemplateRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
-    updateTemplateWithHttpInfo(template_id, body) {
+    updateTemplateWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'template_id' is set
       if (template_id === undefined || template_id === null) {
@@ -2875,6 +4037,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2892,13 +4055,15 @@ export default class Client {
 
     /**
      * Update a template
-     * Changes a template's draft. Properties left out keep their values. `defaults` and `html_engine_options` replace the whole object, and `field_groups` changes only the groups it lists. Settings such as `webhook_url`, `public_submissions` and `expire_after` apply to every published version too, and setting `parent_folder_id` moves the template and all of its published versions. 
+     * Changes a template's draft. Properties left out keep their values. `defaults`, `html_engine_options` and a page design's `layout` replace the whole object, and `field_groups` changes only the groups it lists. A new layout adds a field for each new value it reads. Settings such as `webhook_url`, `public_submissions` and `expire_after` apply to every published version too, and setting `parent_folder_id` moves the template and all of its published versions. 
      * @param {String} template_id The template's ID.
      * @param {module:model/UpdateTemplateRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
-    updateTemplate(template_id, body) {
-      return this.updateTemplateWithHttpInfo(template_id, body)
+    updateTemplate(template_id, body, opts) {
+      return this.updateTemplateWithHttpInfo(template_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -2912,6 +4077,7 @@ export default class Client {
      * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`.
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait] Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     updateTemplateDocumentWithHttpInfo(template_id, body, opts) {
@@ -2933,6 +4099,7 @@ export default class Client {
         'wait': opts['wait']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -2955,6 +4122,7 @@ export default class Client {
      * @param {module:model/UpdateTemplateDocumentRequest} body The new PDF, or a Word template's new Word document, as one of `cache_id`, `document_url` and `document_base64`.
      * @param {Object} opts Optional parameters
      * @param {Boolean} opts.wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     updateTemplateDocument(template_id, body, opts) {
@@ -2970,9 +4138,12 @@ export default class Client {
      * Changes fields of a template's draft and returns all of its fields. Settings left out keep their values. A shared setting (`type`, `required`, `default`, ...) changes for every field with the same name. 
      * @param {String} template_id The template's ID.
      * @param {module:model/UpdateTemplateFieldsRequest} body The fields to change in the template's draft.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/TemplateFields} and HTTP response
      */
-    updateTemplateFieldsWithHttpInfo(template_id, body) {
+    updateTemplateFieldsWithHttpInfo(template_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'template_id' is set
       if (template_id === undefined || template_id === null) {
@@ -2989,6 +4160,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -3009,10 +4181,12 @@ export default class Client {
      * Changes fields of a template's draft and returns all of its fields. Settings left out keep their values. A shared setting (`type`, `required`, `default`, ...) changes for every field with the same name. 
      * @param {String} template_id The template's ID.
      * @param {module:model/UpdateTemplateFieldsRequest} body The fields to change in the template's draft.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/TemplateFields}
      */
-    updateTemplateFields(template_id, body) {
-      return this.updateTemplateFieldsWithHttpInfo(template_id, body)
+    updateTemplateFields(template_id, body, opts) {
+      return this.updateTemplateFieldsWithHttpInfo(template_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -3024,9 +4198,12 @@ export default class Client {
      * Updates a webhook. Only the properties you send change.
      * @param {String} webhook_id The webhook's ID.
      * @param {module:model/UpdateWebhookRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Webhook} and HTTP response
      */
-    updateWebhookWithHttpInfo(webhook_id, body) {
+    updateWebhookWithHttpInfo(webhook_id, body, opts) {
+      opts = opts || {};
       let postBody = body;
       // verify the required parameter 'webhook_id' is set
       if (webhook_id === undefined || webhook_id === null) {
@@ -3043,6 +4220,7 @@ export default class Client {
       let queryParams = {
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -3063,10 +4241,12 @@ export default class Client {
      * Updates a webhook. Only the properties you send change.
      * @param {String} webhook_id The webhook's ID.
      * @param {module:model/UpdateWebhookRequest} body The settings to change. Properties left out keep their values.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Webhook}
      */
-    updateWebhook(webhook_id, body) {
-      return this.updateWebhookWithHttpInfo(webhook_id, body)
+    updateWebhook(webhook_id, body, opts) {
+      return this.updateWebhookWithHttpInfo(webhook_id, body, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -3088,6 +4268,7 @@ export default class Client {
      * @param {module:model/FieldSetupNaming} [field_naming] With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`.
      * @param {module:model/FieldSetupLogic} [field_logic] With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings.
      * @param {module:model/OutputFormat} [output_format] What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     uploadTemplateWithHttpInfo(document, opts) {
@@ -3104,6 +4285,7 @@ export default class Client {
         'wait': opts['wait']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
         'document': document,
@@ -3144,6 +4326,7 @@ export default class Client {
      * @param {module:model/FieldSetupNaming} opts.field_naming With `detect_fields`, how the fields are named. `ai` (the default) names them and sets their types and settings with AI; `preserve` keeps the names of the PDF's form fields, and AI only names the fields it detected. `preserve` needs `field_source` `auto` or `pdf_form_fields`.
      * @param {module:model/FieldSetupLogic} opts.field_logic With `detect_fields`, whether AI reads the whole form once the fields are named and sets up conditional logic and required fields (`ai`) or not (`none`). Default: your account's template settings.
      * @param {module:model/OutputFormat} opts.output_format What each submission of a Word template makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. Required when `document` is a Word document.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     uploadTemplate(document, opts) {
@@ -3162,6 +4345,7 @@ export default class Client {
      * @param {Object} opts Optional parameters
      * @param {Boolean} [wait] Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
      * @param {Boolean} [reimport_fields] Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Template} and HTTP response
      */
     uploadTemplateDocumentWithHttpInfo(template_id, document, opts) {
@@ -3183,6 +4367,7 @@ export default class Client {
         'wait': opts['wait']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
         'document': document,
@@ -3208,6 +4393,7 @@ export default class Client {
      * @param {Object} opts Optional parameters
      * @param {Boolean} opts.wait Wait until the PDF has been processed, a `document_url`'s PDF or Word document downloaded, and an OpenDocument file converted, before responding. Default true on sync.api hosts.
      * @param {Boolean} opts.reimport_fields Replace all of the template's fields with the fillable fields in the new PDF, once DocSpring has processed it (`document.field_reimport_state`). As on a first upload, the default typeface, font size, bold and color are taken from the PDF's fields; the template's other settings are kept. If the PDF has no fillable fields, the template keeps its fields. A locked template can't re-import its fields. Only for PDF templates: a Word template adds a field for each new tag.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Template}
      */
     uploadTemplateDocument(template_id, document, opts) {
@@ -3224,7 +4410,8 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {module:model/ValidateSubmissionRequest} body The submission's data and settings.
      * @param {Object} opts Optional parameters
-     * @param {String} [version] The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+     * @param {String} [version] The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/SubmissionValidation} and HTTP response
      */
     validateSubmissionWithHttpInfo(template_id, body, opts) {
@@ -3246,6 +4433,7 @@ export default class Client {
         'version': opts['version']
       };
       let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
       };
       let formParams = {
       };
@@ -3267,11 +4455,66 @@ export default class Client {
      * @param {String} template_id The template's ID.
      * @param {module:model/ValidateSubmissionRequest} body The submission's data and settings.
      * @param {Object} opts Optional parameters
-     * @param {String} opts.version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+     * @param {String} opts.version The template version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/SubmissionValidation}
      */
     validateSubmission(template_id, body, opts) {
       return this.validateSubmissionWithHttpInfo(template_id, body, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Verify an email domain
+     * Checks the email domain's DNS records now, instead of waiting for the next check. If DocSpring has stopped looking for its DKIM records (3 days after they were created), it starts again with new ones: replace the CNAME records with them. 
+     * @param {String} email_domain_id The email domain's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} [idempotencyKey] A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmailDomain} and HTTP response
+     */
+    verifyEmailDomainWithHttpInfo(email_domain_id, opts) {
+      opts = opts || {};
+      let postBody = null;
+      // verify the required parameter 'email_domain_id' is set
+      if (email_domain_id === undefined || email_domain_id === null) {
+        throw new Error("Missing the required parameter 'email_domain_id' when calling verifyEmailDomain");
+      }
+
+      let pathParams = {
+        'email_domain_id': email_domain_id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'Idempotency-Key': opts['idempotencyKey']
+      };
+      let formParams = {
+      };
+
+      let authNames = ['api_token_basic'];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = EmailDomain;
+      return this.apiClient.callApi(
+        '/email_domains/{email_domain_id}/verify', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Verify an email domain
+     * Checks the email domain's DNS records now, instead of waiting for the next check. If DocSpring has stopped looking for its DKIM records (3 days after they were created), it starts again with new ones: replace the CNAME records with them. 
+     * @param {String} email_domain_id The email domain's ID.
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.idempotencyKey A key of your own, such as a UUID, that makes it safe to send this request again: for 24 hours, DocSpring answers a request with the same key from the same API token with the first request's response (and an `Idempotent-Replayed: true` header) instead of processing it again. Send a new key with each new request, and the same key each time you send the same request again, such as after a timeout, a network error or a 5xx. The same key with a different request is a 422 `idempotency_key_reused`. A 409 `idempotency_key_in_use` with a `Retry-After` header means the first request is still being processed: send the request again then.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmailDomain}
+     */
+    verifyEmailDomain(email_domain_id, opts) {
+      return this.verifyEmailDomainWithHttpInfo(email_domain_id, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

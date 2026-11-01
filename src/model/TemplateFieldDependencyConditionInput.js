@@ -21,7 +21,7 @@ import FieldRangeCondition from './FieldRangeCondition';
 /**
  * The TemplateFieldDependencyConditionInput model module.
  * @module model/TemplateFieldDependencyConditionInput
- * @version 4.3.0
+ * @version 4.4.0
  */
 class TemplateFieldDependencyConditionInput {
     /**

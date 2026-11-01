@@ -1,0 +1,97 @@
+# Written by DocSpring/docspring's api_clients/scripts/generate from api_clients/github_workflows/javascript/release.yml:
+# change it there.
+#
+# Builds the package on every push and pull request. A v* tag (pushed by the monorepo's api_clients/scripts/release)
+# also publishes it to npm with trusted publishing, in the release environment, and waits until npm serves it.
+name: Release
+
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Check the tag matches the package version
+        if: github.ref_type == 'tag'
+        run: |
+          VERSION="$(node -p 'require("./package.json").version')"
+          if [ "v$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::The tag is $GITHUB_REF_NAME, but the package version is $VERSION"
+            exit 1
+          fi
+      # npm ci runs the package's prepare script, which builds dist/
+      - run: npm ci
+      - run: npm pack
+      - name: Publish dry run
+        run: |
+          VERSION="$(node -p 'require("./package.json").version')"
+          # npm's dry run fails for a version it already has, as every push does between a release and the next bump
+          if curl -fs -o /dev/null "https://registry.npmjs.org/docspring/$VERSION"; then
+            echo "::notice::npm already has docspring $VERSION, so there's nothing to dry-run"
+            exit 0
+          fi
+          # npm refuses a prerelease without a dist-tag, and latest must stay on the newest release
+          DIST_TAG=latest
+          case "$VERSION" in *-*) DIST_TAG=next ;; esac
+          npm publish "docspring-$VERSION.tgz" --dry-run --access public --tag "$DIST_TAG"
+      - if: github.ref_type == 'tag'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: package
+          path: docspring-*.tgz
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      # Trusted publishing needs npm 11.5.1 or later
+      - run: npm install --global npm@11.21.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: package
+      - name: Publish to npm
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          DIST_TAG=latest
+          case "$VERSION" in *-*) DIST_TAG=next ;; esac
+          npm publish "docspring-$VERSION.tgz" --access public --tag "$DIST_TAG"
+
+  verify:
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Wait until npm serves the version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          for _ in $(seq 60); do
+            if curl -fsS -o /dev/null "https://registry.npmjs.org/docspring/$VERSION"; then
+              echo "npm serves docspring $VERSION"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::npm doesn't serve docspring $VERSION after 10 minutes"
+          exit 1

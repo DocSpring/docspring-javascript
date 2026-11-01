@@ -17,7 +17,7 @@ import PageFormat from './PageFormat';
 /**
  * The HtmlEngineOptionsInput model module.
  * @module model/HtmlEngineOptionsInput
- * @version 4.3.0
+ * @version 4.4.0
  */
 class HtmlEngineOptionsInput {
     /**
@@ -141,7 +141,7 @@ HtmlEngineOptionsInput.prototype['width'] = undefined;
 HtmlEngineOptionsInput.prototype['height'] = undefined;
 
 /**
- * How much to scale the page, such as `0.8`. `1` prints it at its normal size.
+ * How much to scale the page, from 0.1 to 2, such as `0.8`. `1` prints it at its normal size.
  * @member {Number} scale
  */
 HtmlEngineOptionsInput.prototype['scale'] = undefined;

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **format** | [**PageFormat**](PageFormat.md) | The paper size. `Custom` uses `width` and `height`. | 
 **width** | **String** | The page width for the `Custom` format, with a unit (`8.5in`, `210mm`). | [optional] 
 **height** | **String** | The page height for the `Custom` format, with a unit. | [optional] 
-**scale** | **Number** | How much to scale the page, such as `0.8`. `1` prints it at its normal size. | 
+**scale** | **Number** | How much to scale the page, from 0.1 to 2, such as `0.8`. `1` prints it at its normal size. | 
 **landscape** | **Boolean** | Print pages in landscape orientation. | 
 **print_background** | **Boolean** | Print background colors and images. | 
 **margin_top** | **String** | The top margin, with a unit, such as `1in` or `20mm`. | 

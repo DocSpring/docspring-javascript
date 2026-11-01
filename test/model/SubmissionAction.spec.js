@@ -66,6 +66,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property email_action_id (base name: "email_action_id")', function() {
+      // uncomment below and update the code to test the property email_action_id
+      //var instance = new DocSpring.SubmissionAction();
+      //expect(instance).to.be();
+    });
+
     it('should have the property state (base name: "state")', function() {
       // uncomment below and update the code to test the property state
       //var instance = new DocSpring.SubmissionAction();

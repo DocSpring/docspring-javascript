@@ -18,7 +18,7 @@ import SignatureRequestAuthType from './SignatureRequestAuthType';
 /**
  * The SignatureRequestInput model module.
  * @module model/SignatureRequestInput
- * @version 4.3.0
+ * @version 4.4.0
  */
 class SignatureRequestInput {
     /**
@@ -26,11 +26,10 @@ class SignatureRequestInput {
      * A request for someone to fill in their fields of a submission and sign it. Someone who only fills in fields for the people who sign later (such as an employer's section) has a signature request too. The submission's PDF is generated once every signature request is completed.
      * @alias module:model/SignatureRequestInput
      * @param fields {Array.<String>} The fields this person fills in. Each field can only be in one signature request, and a field that `data` fills in needs `prefilled_values_editable`.
-     * @param auth_type {module:model/SignatureRequestAuthType} How your app authenticated the person before it showed them the signature request.
      */
-    constructor(fields, auth_type) { 
+    constructor(fields) { 
         
-        SignatureRequestInput.initialize(this, fields, auth_type);
+        SignatureRequestInput.initialize(this, fields);
     }
 
     /**
@@ -38,9 +37,8 @@ class SignatureRequestInput {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, fields, auth_type) { 
+    static initialize(obj, fields) { 
         obj['fields'] = fields;
-        obj['auth_type'] = auth_type;
     }
 
     /**
@@ -98,6 +96,12 @@ class SignatureRequestInput {
             }
             if (data.hasOwnProperty('prefilled_values_editable')) {
                 obj['prefilled_values_editable'] = ApiClient.convertToType(data['prefilled_values_editable'], 'Boolean');
+            }
+            if (data.hasOwnProperty('send_email')) {
+                obj['send_email'] = ApiClient.convertToType(data['send_email'], 'Boolean');
+            }
+            if (data.hasOwnProperty('signing_step')) {
+                obj['signing_step'] = ApiClient.convertToType(data['signing_step'], 'Number');
             }
         }
         return obj;
@@ -158,7 +162,7 @@ class SignatureRequestInput {
 
 }
 
-SignatureRequestInput.RequiredProperties = ["fields", "auth_type"];
+SignatureRequestInput.RequiredProperties = ["fields"];
 
 /**
  * The name of the person the request is for.
@@ -167,7 +171,7 @@ SignatureRequestInput.RequiredProperties = ["fields", "auth_type"];
 SignatureRequestInput.prototype['name'] = undefined;
 
 /**
- * Their email address.
+ * Their email address. Null when they have none.
  * @member {String} email
  */
 SignatureRequestInput.prototype['email'] = undefined;
@@ -249,6 +253,18 @@ SignatureRequestInput.prototype['ignore_unknown_fields'] = undefined;
  * @member {Boolean} prefilled_values_editable
  */
 SignatureRequestInput.prototype['prefilled_values_editable'] = undefined;
+
+/**
+ * Whether DocSpring emails this person their signing link. Default: the submission's `send_email`. Set it to false for someone who signs in your app (embedded signing) or whose link you send yourself. When DocSpring emails them, `email` is required and `auth_type` is `email_link` (the default). Otherwise `auth_type` is required.
+ * @member {Boolean} send_email
+ */
+SignatureRequestInput.prototype['send_email'] = undefined;
+
+/**
+ * When this person signs, with `signing_order: sequential`: everyone in step 1 first, then step 2, and so on. People in the same step sign in any order. Only the order of the numbers matters. Either every signature request has a `signing_step` or none does; without them, each person is a step of their own, in the order of `signature_requests`.
+ * @member {Number} signing_step
+ */
+SignatureRequestInput.prototype['signing_step'] = undefined;
 
 
 

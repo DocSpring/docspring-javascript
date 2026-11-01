@@ -17,14 +17,14 @@ import FieldInput from './FieldInput';
 /**
  * The AddTemplateFieldsRequest model module.
  * @module model/AddTemplateFieldsRequest
- * @version 4.3.0
+ * @version 4.4.0
  */
 class AddTemplateFieldsRequest {
     /**
      * Constructs a new <code>AddTemplateFieldsRequest</code>.
      * The fields to add to the template's draft.
      * @alias module:model/AddTemplateFieldsRequest
-     * @param fields {Array.<module:model/FieldInput>} The fields to add. Settings left out have their defaults, except that a field with the name of other fields takes their shared settings. Shared settings it sets change them for every field with the name.
+     * @param fields {Array.<module:model/FieldInput>} The fields to add. Settings left out have their defaults, except that a field with the name of other fields takes their shared settings. It can't set one of them to another value: PUT /templates/{template_id}/fields changes them for every field with the name.
      */
     constructor(fields) { 
         
@@ -90,7 +90,7 @@ class AddTemplateFieldsRequest {
 AddTemplateFieldsRequest.RequiredProperties = ["fields"];
 
 /**
- * The fields to add. Settings left out have their defaults, except that a field with the name of other fields takes their shared settings. Shared settings it sets change them for every field with the name.
+ * The fields to add. Settings left out have their defaults, except that a field with the name of other fields takes their shared settings. It can't set one of them to another value: PUT /templates/{template_id}/fields changes them for every field with the name.
  * @member {Array.<module:model/FieldInput>} fields
  */
 AddTemplateFieldsRequest.prototype['fields'] = undefined;

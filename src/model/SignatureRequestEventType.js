@@ -61,6 +61,20 @@ export default class SignatureRequestEventType {
         static "all_completed" = "all_completed";
 
     
+        /**
+         * value: "email_bounced"
+         * @const
+         */
+        static "email_bounced" = "email_bounced";
+
+    
+        /**
+         * value: "email_marked_as_spam"
+         * @const
+         */
+        static "email_marked_as_spam" = "email_marked_as_spam";
+
+    
 
     /**
     * Returns a <code>SignatureRequestEventType</code> enum value from a Javascript object name.

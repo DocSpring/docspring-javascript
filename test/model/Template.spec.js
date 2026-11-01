@@ -270,6 +270,48 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property signature_request_email_attachments (base name: "signature_request_email_attachments")', function() {
+      // uncomment below and update the code to test the property signature_request_email_attachments
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signature_request_from_address (base name: "signature_request_from_address")', function() {
+      // uncomment below and update the code to test the property signature_request_from_address
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signature_request_include_signing_token (base name: "signature_request_include_signing_token")', function() {
+      // uncomment below and update the code to test the property signature_request_include_signing_token
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signature_request_from_name (base name: "signature_request_from_name")', function() {
+      // uncomment below and update the code to test the property signature_request_from_name
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signature_request_notification_emails (base name: "signature_request_notification_emails")', function() {
+      // uncomment below and update the code to test the property signature_request_notification_emails
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signature_request_reply_to (base name: "signature_request_reply_to")', function() {
+      // uncomment below and update the code to test the property signature_request_reply_to
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signature_request_signing_url (base name: "signature_request_signing_url")', function() {
+      // uncomment below and update the code to test the property signature_request_signing_url
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
     it('should have the property has_slack_webhook_url (base name: "has_slack_webhook_url")', function() {
       // uncomment below and update the code to test the property has_slack_webhook_url
       //var instance = new DocSpring.Template();
@@ -344,6 +386,12 @@
 
     it('should have the property html_escape_data (base name: "html_escape_data")', function() {
       // uncomment below and update the code to test the property html_escape_data
+      //var instance = new DocSpring.Template();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property layout (base name: "layout")', function() {
+      // uncomment below and update the code to test the property layout
       //var instance = new DocSpring.Template();
       //expect(instance).to.be();
     });

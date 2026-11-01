@@ -41,6 +41,13 @@ export default class WebhookEventType {
 
     
         /**
+         * value: "signature_request.sent"
+         * @const
+         */
+        static "signature_request.sent" = "signature_request.sent";
+
+    
+        /**
          * value: "signature_request.viewed"
          * @const
          */
@@ -59,6 +66,13 @@ export default class WebhookEventType {
          * @const
          */
         static "signature_request.declined" = "signature_request.declined";
+
+    
+        /**
+         * value: "signature_request.email_bounced"
+         * @const
+         */
+        static "signature_request.email_bounced" = "signature_request.email_bounced";
 
     
         /**

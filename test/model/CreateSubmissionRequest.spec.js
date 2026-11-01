@@ -120,6 +120,60 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property send_email (base name: "send_email")', function() {
+      // uncomment below and update the code to test the property send_email
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signing_order (base name: "signing_order")', function() {
+      // uncomment below and update the code to test the property signing_order
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property email_subject (base name: "email_subject")', function() {
+      // uncomment below and update the code to test the property email_subject
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property email_message (base name: "email_message")', function() {
+      // uncomment below and update the code to test the property email_message
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property cc (base name: "cc")', function() {
+      // uncomment below and update the code to test the property cc
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property reply_to (base name: "reply_to")', function() {
+      // uncomment below and update the code to test the property reply_to
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property notification_emails (base name: "notification_emails")', function() {
+      // uncomment below and update the code to test the property notification_emails
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property notify_when_signed (base name: "notify_when_signed")', function() {
+      // uncomment below and update the code to test the property notify_when_signed
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property reminders (base name: "reminders")', function() {
+      // uncomment below and update the code to test the property reminders
+      //var instance = new DocSpring.CreateSubmissionRequest();
+      //expect(instance).to.be();
+    });
+
   });
 
 }));

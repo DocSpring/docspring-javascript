@@ -18,7 +18,7 @@ import WebhookMode from './WebhookMode';
 /**
  * The UpdateWebhookRequest model module.
  * @module model/UpdateWebhookRequest
- * @version 4.3.0
+ * @version 4.4.0
  */
 class UpdateWebhookRequest {
     /**

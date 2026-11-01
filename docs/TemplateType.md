@@ -9,4 +9,6 @@
 
 * `docx` (value: `"docx"`)
 
+* `page_designer` (value: `"page_designer"`)
+
 

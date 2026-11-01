@@ -102,6 +102,30 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property send_email (base name: "send_email")', function() {
+      // uncomment below and update the code to test the property send_email
+      //var instance = new DocSpring.SignatureRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signing_step (base name: "signing_step")', function() {
+      // uncomment below and update the code to test the property signing_step
+      //var instance = new DocSpring.SignatureRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property sent_at (base name: "sent_at")', function() {
+      // uncomment below and update the code to test the property sent_at
+      //var instance = new DocSpring.SignatureRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property email_status (base name: "email_status")', function() {
+      // uncomment below and update the code to test the property email_status
+      //var instance = new DocSpring.SignatureRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property state (base name: "state")', function() {
       // uncomment below and update the code to test the property state
       //var instance = new DocSpring.SignatureRequest();

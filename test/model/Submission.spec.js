@@ -180,6 +180,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property signing_order (base name: "signing_order")', function() {
+      // uncomment below and update the code to test the property signing_order
+      //var instance = new DocSpring.Submission();
+      //expect(instance).to.be();
+    });
+
     it('should have the property actions (base name: "actions")', function() {
       // uncomment below and update the code to test the property actions
       //var instance = new DocSpring.Submission();

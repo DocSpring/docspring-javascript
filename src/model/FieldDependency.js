@@ -19,7 +19,7 @@ import TemplateFieldDependencyMatch from './TemplateFieldDependencyMatch';
 /**
  * The FieldDependency model module.
  * @module model/FieldDependency
- * @version 4.3.0
+ * @version 4.4.0
  */
 class FieldDependency {
     /**

@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The UpdateTemplateDocumentRequest model module.
  * @module model/UpdateTemplateDocumentRequest
- * @version 4.3.0
+ * @version 4.4.0
  */
 class UpdateTemplateDocumentRequest {
     /**
@@ -111,7 +111,7 @@ UpdateTemplateDocumentRequest.prototype['cache_id'] = undefined;
 UpdateTemplateDocumentRequest.prototype['document_url'] = undefined;
 
 /**
- * The template's document (a PDF, or a Word template's Word document), encoded as base64 (a `data:` URI works too), instead of `cache_id`. Up to 7 MB before it's encoded: send a larger file with `cache_id` or `document_url`.
+ * The template's document (a PDF, or a Word template's Word document), encoded as base64 (a `data:` URI works too), instead of `cache_id`. Line breaks and spaces in it are ignored. Up to 7 MB before it's encoded: send a larger file with `cache_id` or `document_url`.
  * @member {String} document_base64
  */
 UpdateTemplateDocumentRequest.prototype['document_base64'] = undefined;

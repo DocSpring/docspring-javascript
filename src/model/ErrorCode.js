@@ -48,6 +48,13 @@ export default class ErrorCode {
 
     
         /**
+         * value: "insufficient_credits_to_send"
+         * @const
+         */
+        static "insufficient_credits_to_send" = "insufficient_credits_to_send";
+
+    
+        /**
          * value: "forbidden"
          * @const
          */
@@ -129,6 +136,13 @@ export default class ErrorCode {
          * @const
          */
         static "rate_limited" = "rate_limited";
+
+    
+        /**
+         * value: "daily_email_limit_reached"
+         * @const
+         */
+        static "daily_email_limit_reached" = "daily_email_limit_reached";
 
     
         /**

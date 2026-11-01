@@ -17,7 +17,7 @@ import PageFormat from './PageFormat';
 /**
  * The HtmlEngineOptions model module.
  * @module model/HtmlEngineOptions
- * @version 4.3.0
+ * @version 4.4.0
  */
 class HtmlEngineOptions {
     /**
@@ -25,7 +25,7 @@ class HtmlEngineOptions {
      * How an HTML template's PDFs are printed.
      * @alias module:model/HtmlEngineOptions
      * @param format {module:model/PageFormat} The paper size. `Custom` uses `width` and `height`.
-     * @param scale {Number} How much to scale the page, such as `0.8`. `1` prints it at its normal size.
+     * @param scale {Number} How much to scale the page, from 0.1 to 2, such as `0.8`. `1` prints it at its normal size.
      * @param landscape {Boolean} Print pages in landscape orientation.
      * @param print_background {Boolean} Print background colors and images.
      * @param margin_top {String} The top margin, with a unit, such as `1in` or `20mm`.
@@ -163,7 +163,7 @@ HtmlEngineOptions.prototype['width'] = undefined;
 HtmlEngineOptions.prototype['height'] = undefined;
 
 /**
- * How much to scale the page, such as `0.8`. `1` prints it at its normal size.
+ * How much to scale the page, from 0.1 to 2, such as `0.8`. `1` prints it at its normal size.
  * @member {Number} scale
  */
 HtmlEngineOptions.prototype['scale'] = undefined;

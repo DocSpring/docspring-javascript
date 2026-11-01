@@ -15,4 +15,8 @@
 
 * `all_completed` (value: `"all_completed"`)
 
+* `email_bounced` (value: `"email_bounced"`)
+
+* `email_marked_as_spam` (value: `"email_marked_as_spam"`)
+
 

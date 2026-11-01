@@ -17,7 +17,7 @@ import CombinedPdfSourceInput from './CombinedPdfSourceInput';
 /**
  * The CreateCombinedPdfRequest model module.
  * @module model/CreateCombinedPdfRequest
- * @version 4.3.0
+ * @version 4.4.0
  */
 class CreateCombinedPdfRequest {
     /**

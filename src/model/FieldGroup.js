@@ -17,7 +17,7 @@ import FieldGroupType from './FieldGroupType';
 /**
  * The FieldGroup model module.
  * @module model/FieldGroup
- * @version 4.3.0
+ * @version 4.4.0
  */
 class FieldGroup {
     /**

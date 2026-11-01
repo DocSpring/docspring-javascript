@@ -30,8 +30,11 @@ import CombinedPdfSourcePdf from './model/CombinedPdfSourcePdf';
 import CombinedPdfSourceType from './model/CombinedPdfSourceType';
 import CombinedPdfState from './model/CombinedPdfState';
 import CopyTemplateRequest from './model/CopyTemplateRequest';
+import CreateAccountEmailActionRequest from './model/CreateAccountEmailActionRequest';
 import CreateCombinedPdfRequest from './model/CreateCombinedPdfRequest';
 import CreateCustomFileFromUploadRequest from './model/CreateCustomFileFromUploadRequest';
+import CreateEmailActionRequest from './model/CreateEmailActionRequest';
+import CreateEmailDomainRequest from './model/CreateEmailDomainRequest';
 import CreateFolderRequest from './model/CreateFolderRequest';
 import CreateSignatureRequestEventRequest from './model/CreateSignatureRequestEventRequest';
 import CreateSignatureRequestTokenRequest from './model/CreateSignatureRequestTokenRequest';
@@ -43,6 +46,23 @@ import CreateWebhookRequest from './model/CreateWebhookRequest';
 import CustomFile from './model/CustomFile';
 import CustomFileList from './model/CustomFileList';
 import CustomFileSourcePdf from './model/CustomFileSourcePdf';
+import DnsRecordType from './model/DnsRecordType';
+import EmailAction from './model/EmailAction';
+import EmailActionConditions from './model/EmailActionConditions';
+import EmailActionConditionsInput from './model/EmailActionConditionsInput';
+import EmailActionCustomization from './model/EmailActionCustomization';
+import EmailActionDelivery from './model/EmailActionDelivery';
+import EmailActionFileFormats from './model/EmailActionFileFormats';
+import EmailActionList from './model/EmailActionList';
+import EmailActionSetting from './model/EmailActionSetting';
+import EmailActionSubmissionType from './model/EmailActionSubmissionType';
+import EmailActionTestEmail from './model/EmailActionTestEmail';
+import EmailDomain from './model/EmailDomain';
+import EmailDomainDnsRecord from './model/EmailDomainDnsRecord';
+import EmailDomainDnsRecordPurpose from './model/EmailDomainDnsRecordPurpose';
+import EmailDomainList from './model/EmailDomainList';
+import EmailDomainRecordState from './model/EmailDomainRecordState';
+import EmailDomainState from './model/EmailDomainState';
 import ErrorCode from './model/ErrorCode';
 import ErrorDetail from './model/ErrorDetail';
 import ErrorInfo from './model/ErrorInfo';
@@ -95,17 +115,22 @@ import RemoveTemplateFieldsRequest from './model/RemoveTemplateFieldsRequest';
 import RenameFolderRequest from './model/RenameFolderRequest';
 import ReorderTemplateFieldsRequest from './model/ReorderTemplateFieldsRequest';
 import RestoreTemplateVersionRequest from './model/RestoreTemplateVersionRequest';
+import SendAccountEmailActionTestEmailRequest from './model/SendAccountEmailActionTestEmailRequest';
 import ShapeType from './model/ShapeType';
 import SignatureRequest from './model/SignatureRequest';
 import SignatureRequestAuthSecondFactorType from './model/SignatureRequestAuthSecondFactorType';
 import SignatureRequestAuthType from './model/SignatureRequestAuthType';
+import SignatureRequestEmailAttachments from './model/SignatureRequestEmailAttachments';
+import SignatureRequestEmailStatus from './model/SignatureRequestEmailStatus';
 import SignatureRequestEvent from './model/SignatureRequestEvent';
 import SignatureRequestEventType from './model/SignatureRequestEventType';
 import SignatureRequestInput from './model/SignatureRequestInput';
 import SignatureRequestMessageType from './model/SignatureRequestMessageType';
+import SignatureRequestReminders from './model/SignatureRequestReminders';
 import SignatureRequestState from './model/SignatureRequestState';
 import SignatureRequestToken from './model/SignatureRequestToken';
 import SignatureRequestTokenType from './model/SignatureRequestTokenType';
+import SigningOrder from './model/SigningOrder';
 import StringConditionType from './model/StringConditionType';
 import Submission from './model/Submission';
 import SubmissionAction from './model/SubmissionAction';
@@ -163,6 +188,9 @@ import TextAlignment from './model/TextAlignment';
 import TextOverflow from './model/TextOverflow';
 import TextVerticalAlignment from './model/TextVerticalAlignment';
 import Typeface from './model/Typeface';
+import UpdateAccountEmailActionRequest from './model/UpdateAccountEmailActionRequest';
+import UpdateEmailActionCustomizationRequest from './model/UpdateEmailActionCustomizationRequest';
+import UpdateEmailActionRequest from './model/UpdateEmailActionRequest';
 import UpdateSignatureRequestRequest from './model/UpdateSignatureRequestRequest';
 import UpdateTemplateDocumentRequest from './model/UpdateTemplateDocumentRequest';
 import UpdateTemplateFieldsRequest from './model/UpdateTemplateFieldsRequest';
@@ -208,7 +236,7 @@ import Client from './api/Client';
 * </pre>
 * </p>
 * @module index
-* @version 4.3.0
+* @version 4.4.0
 */
 export {
     /**
@@ -308,6 +336,12 @@ export {
     CopyTemplateRequest,
 
     /**
+     * The CreateAccountEmailActionRequest model constructor.
+     * @property {module:model/CreateAccountEmailActionRequest}
+     */
+    CreateAccountEmailActionRequest,
+
+    /**
      * The CreateCombinedPdfRequest model constructor.
      * @property {module:model/CreateCombinedPdfRequest}
      */
@@ -318,6 +352,18 @@ export {
      * @property {module:model/CreateCustomFileFromUploadRequest}
      */
     CreateCustomFileFromUploadRequest,
+
+    /**
+     * The CreateEmailActionRequest model constructor.
+     * @property {module:model/CreateEmailActionRequest}
+     */
+    CreateEmailActionRequest,
+
+    /**
+     * The CreateEmailDomainRequest model constructor.
+     * @property {module:model/CreateEmailDomainRequest}
+     */
+    CreateEmailDomainRequest,
 
     /**
      * The CreateFolderRequest model constructor.
@@ -384,6 +430,108 @@ export {
      * @property {module:model/CustomFileSourcePdf}
      */
     CustomFileSourcePdf,
+
+    /**
+     * The DnsRecordType model constructor.
+     * @property {module:model/DnsRecordType}
+     */
+    DnsRecordType,
+
+    /**
+     * The EmailAction model constructor.
+     * @property {module:model/EmailAction}
+     */
+    EmailAction,
+
+    /**
+     * The EmailActionConditions model constructor.
+     * @property {module:model/EmailActionConditions}
+     */
+    EmailActionConditions,
+
+    /**
+     * The EmailActionConditionsInput model constructor.
+     * @property {module:model/EmailActionConditionsInput}
+     */
+    EmailActionConditionsInput,
+
+    /**
+     * The EmailActionCustomization model constructor.
+     * @property {module:model/EmailActionCustomization}
+     */
+    EmailActionCustomization,
+
+    /**
+     * The EmailActionDelivery model constructor.
+     * @property {module:model/EmailActionDelivery}
+     */
+    EmailActionDelivery,
+
+    /**
+     * The EmailActionFileFormats model constructor.
+     * @property {module:model/EmailActionFileFormats}
+     */
+    EmailActionFileFormats,
+
+    /**
+     * The EmailActionList model constructor.
+     * @property {module:model/EmailActionList}
+     */
+    EmailActionList,
+
+    /**
+     * The EmailActionSetting model constructor.
+     * @property {module:model/EmailActionSetting}
+     */
+    EmailActionSetting,
+
+    /**
+     * The EmailActionSubmissionType model constructor.
+     * @property {module:model/EmailActionSubmissionType}
+     */
+    EmailActionSubmissionType,
+
+    /**
+     * The EmailActionTestEmail model constructor.
+     * @property {module:model/EmailActionTestEmail}
+     */
+    EmailActionTestEmail,
+
+    /**
+     * The EmailDomain model constructor.
+     * @property {module:model/EmailDomain}
+     */
+    EmailDomain,
+
+    /**
+     * The EmailDomainDnsRecord model constructor.
+     * @property {module:model/EmailDomainDnsRecord}
+     */
+    EmailDomainDnsRecord,
+
+    /**
+     * The EmailDomainDnsRecordPurpose model constructor.
+     * @property {module:model/EmailDomainDnsRecordPurpose}
+     */
+    EmailDomainDnsRecordPurpose,
+
+    /**
+     * The EmailDomainList model constructor.
+     * @property {module:model/EmailDomainList}
+     */
+    EmailDomainList,
+
+    /**
+     * The EmailDomainRecordState model constructor.
+     * @property {module:model/EmailDomainRecordState}
+     */
+    EmailDomainRecordState,
+
+    /**
+     * The EmailDomainState model constructor.
+     * @property {module:model/EmailDomainState}
+     */
+    EmailDomainState,
 
     /**
      * The ErrorCode model constructor.
@@ -698,6 +846,12 @@ export {
     RestoreTemplateVersionRequest,
 
     /**
+     * The SendAccountEmailActionTestEmailRequest model constructor.
+     * @property {module:model/SendAccountEmailActionTestEmailRequest}
+     */
+    SendAccountEmailActionTestEmailRequest,
+
+    /**
      * The ShapeType model constructor.
      * @property {module:model/ShapeType}
      */
@@ -720,6 +874,18 @@ export {
      * @property {module:model/SignatureRequestAuthType}
      */
     SignatureRequestAuthType,
+
+    /**
+     * The SignatureRequestEmailAttachments model constructor.
+     * @property {module:model/SignatureRequestEmailAttachments}
+     */
+    SignatureRequestEmailAttachments,
+
+    /**
+     * The SignatureRequestEmailStatus model constructor.
+     * @property {module:model/SignatureRequestEmailStatus}
+     */
+    SignatureRequestEmailStatus,
 
     /**
      * The SignatureRequestEvent model constructor.
@@ -746,6 +912,12 @@ export {
     SignatureRequestMessageType,
 
     /**
+     * The SignatureRequestReminders model constructor.
+     * @property {module:model/SignatureRequestReminders}
+     */
+    SignatureRequestReminders,
+
+    /**
      * The SignatureRequestState model constructor.
      * @property {module:model/SignatureRequestState}
      */
@@ -762,6 +934,12 @@ export {
      * @property {module:model/SignatureRequestTokenType}
      */
     SignatureRequestTokenType,
+
+    /**
+     * The SigningOrder model constructor.
+     * @property {module:model/SigningOrder}
+     */
+    SigningOrder,
 
     /**
      * The StringConditionType model constructor.
@@ -1104,6 +1282,24 @@ export {
      * @property {module:model/Typeface}
      */
     Typeface,
+
+    /**
+     * The UpdateAccountEmailActionRequest model constructor.
+     * @property {module:model/UpdateAccountEmailActionRequest}
+     */
+    UpdateAccountEmailActionRequest,
+
+    /**
+     * The UpdateEmailActionCustomizationRequest model constructor.
+     * @property {module:model/UpdateEmailActionCustomizationRequest}
+     */
+    UpdateEmailActionCustomizationRequest,
+
+    /**
+     * The UpdateEmailActionRequest model constructor.
+     * @property {module:model/UpdateEmailActionRequest}
+     */
+    UpdateEmailActionRequest,
 
     /**
      * The UpdateSignatureRequestRequest model constructor.

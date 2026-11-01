@@ -11,6 +11,8 @@
 
 * `insufficient_credits` (value: `"insufficient_credits"`)
 
+* `insufficient_credits_to_send` (value: `"insufficient_credits_to_send"`)
+
 * `forbidden` (value: `"forbidden"`)
 
 * `upgrade_required` (value: `"upgrade_required"`)
@@ -34,6 +36,8 @@
 * `invalid_data` (value: `"invalid_data"`)
 
 * `rate_limited` (value: `"rate_limited"`)
+
+* `daily_email_limit_reached` (value: `"daily_email_limit_reached"`)
 
 * `internal_error` (value: `"internal_error"`)
 

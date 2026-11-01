@@ -17,7 +17,7 @@ import GeneratedFile from './GeneratedFile';
 /**
  * The CombinedPdfFiles model module.
  * @module model/CombinedPdfFiles
- * @version 4.3.0
+ * @version 4.4.0
  */
 class CombinedPdfFiles {
     /**

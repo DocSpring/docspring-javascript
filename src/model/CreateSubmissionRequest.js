@@ -15,11 +15,13 @@ import ApiClient from '../ApiClient';
 import FieldOverride from './FieldOverride';
 import OutputFormat from './OutputFormat';
 import SignatureRequestInput from './SignatureRequestInput';
+import SignatureRequestReminders from './SignatureRequestReminders';
+import SigningOrder from './SigningOrder';
 
 /**
  * The CreateSubmissionRequest model module.
  * @module model/CreateSubmissionRequest
- * @version 4.3.0
+ * @version 4.4.0
  */
 class CreateSubmissionRequest {
     /**
@@ -84,6 +86,33 @@ class CreateSubmissionRequest {
             if (data.hasOwnProperty('signature_requests')) {
                 obj['signature_requests'] = ApiClient.convertToType(data['signature_requests'], [SignatureRequestInput]);
             }
+            if (data.hasOwnProperty('send_email')) {
+                obj['send_email'] = ApiClient.convertToType(data['send_email'], 'Boolean');
+            }
+            if (data.hasOwnProperty('signing_order')) {
+                obj['signing_order'] = ApiClient.convertToType(data['signing_order'], SigningOrder);
+            }
+            if (data.hasOwnProperty('email_subject')) {
+                obj['email_subject'] = ApiClient.convertToType(data['email_subject'], 'String');
+            }
+            if (data.hasOwnProperty('email_message')) {
+                obj['email_message'] = ApiClient.convertToType(data['email_message'], 'String');
+            }
+            if (data.hasOwnProperty('cc')) {
+                obj['cc'] = ApiClient.convertToType(data['cc'], ['String']);
+            }
+            if (data.hasOwnProperty('reply_to')) {
+                obj['reply_to'] = ApiClient.convertToType(data['reply_to'], 'String');
+            }
+            if (data.hasOwnProperty('notification_emails')) {
+                obj['notification_emails'] = ApiClient.convertToType(data['notification_emails'], ['String']);
+            }
+            if (data.hasOwnProperty('notify_when_signed')) {
+                obj['notify_when_signed'] = ApiClient.convertToType(data['notify_when_signed'], 'Boolean');
+            }
+            if (data.hasOwnProperty('reminders')) {
+                obj['reminders'] = ApiClient.convertToType(data['reminders'], SignatureRequestReminders);
+            }
         }
         return obj;
     }
@@ -120,6 +149,30 @@ class CreateSubmissionRequest {
                 SignatureRequestInput.validateJSON(item);
             };
         }
+        // ensure the json data is a string
+        if (data['email_subject'] && !(typeof data['email_subject'] === 'string' || data['email_subject'] instanceof String)) {
+            throw new Error("Expected the field `email_subject` to be a primitive type in the JSON string but got " + data['email_subject']);
+        }
+        // ensure the json data is a string
+        if (data['email_message'] && !(typeof data['email_message'] === 'string' || data['email_message'] instanceof String)) {
+            throw new Error("Expected the field `email_message` to be a primitive type in the JSON string but got " + data['email_message']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['cc'])) {
+            throw new Error("Expected the field `cc` to be an array in the JSON data but got " + data['cc']);
+        }
+        // ensure the json data is a string
+        if (data['reply_to'] && !(typeof data['reply_to'] === 'string' || data['reply_to'] instanceof String)) {
+            throw new Error("Expected the field `reply_to` to be a primitive type in the JSON string but got " + data['reply_to']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['notification_emails'])) {
+            throw new Error("Expected the field `notification_emails` to be an array in the JSON data but got " + data['notification_emails']);
+        }
+        // validate the optional field `reminders`
+        if (data['reminders']) { // data not null
+          SignatureRequestReminders.validateJSON(data['reminders']);
+        }
 
         return true;
     }
@@ -130,7 +183,7 @@ class CreateSubmissionRequest {
 
 
 /**
- * Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions.
+ * Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions, and the demo API token's are always live.
  * @member {Boolean} test
  */
 CreateSubmissionRequest.prototype['test'] = undefined;
@@ -142,7 +195,7 @@ CreateSubmissionRequest.prototype['test'] = undefined;
 CreateSubmissionRequest.prototype['editable'] = undefined;
 
 /**
- * The values of the template's fields, by field name. Required for PDF and Word templates, unless `signature_requests` collects them (PDF templates only).
+ * The values of the template's fields, by field name. Required for PDF templates, Word templates and page designs, unless `signature_requests` collects them (PDF templates only).
  * @member {Object.<String, Object>} data
  */
 CreateSubmissionRequest.prototype['data'] = undefined;
@@ -166,7 +219,7 @@ CreateSubmissionRequest.prototype['password'] = undefined;
 CreateSubmissionRequest.prototype['output_formats'] = undefined;
 
 /**
- * Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours.
+ * Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours. The demo API token's submissions expire within an hour: up to 3600, and that's their default.
  * @member {Number} expires_in
  */
 CreateSubmissionRequest.prototype['expires_in'] = undefined;
@@ -194,6 +247,60 @@ CreateSubmissionRequest.prototype['css'] = undefined;
  * @member {Array.<module:model/SignatureRequestInput>} signature_requests
  */
 CreateSubmissionRequest.prototype['signature_requests'] = undefined;
+
+/**
+ * Whether DocSpring emails the signers their signing links, and sends the reminders and the completed document. Default true. Each signature request's own `send_email` overrides it. A test submission only emails your DocSpring team: every other address is a 422. `true` needs `signature_requests`. DocSpring doesn't email the signers of a form library template: leave `send_email` out, and send them their links yourself.
+ * @member {Boolean} send_email
+ */
+CreateSubmissionRequest.prototype['send_email'] = undefined;
+
+/**
+ * `parallel` (the default): everyone can sign at once. `sequential`: people sign one step at a time (`signing_step`), and DocSpring emails each step when the one before it is done. Needs `signature_requests`.
+ * @member {module:model/SigningOrder} signing_order
+ */
+CreateSubmissionRequest.prototype['signing_order'] = undefined;
+
+/**
+ * The subject of the emails that ask people to sign. You can use `{{ signer.name }}`, `{{ signer.email }}`, `{{ document.name }}`, `{{ sender.name }}` and `{{ account.name }}`. Default "<sender> sent you <document> to sign" when you leave it out (a blank subject is a 422). Links and web addresses are shown as plain text (`example[.]com`).
+ * @member {String} email_subject
+ */
+CreateSubmissionRequest.prototype['email_subject'] = undefined;
+
+/**
+ * A message for the people who sign, shown above the signing button. It takes the same variables as `email_subject`. Links and web addresses are shown as plain text. Leave it out for none: a blank message is a 422.
+ * @member {String} email_message
+ */
+CreateSubmissionRequest.prototype['email_message'] = undefined;
+
+/**
+ * People who get a copy of the completed document. They don't sign.
+ * @member {Array.<String>} cc
+ */
+CreateSubmissionRequest.prototype['cc'] = undefined;
+
+/**
+ * Where replies to the emails go: a member of your DocSpring team, or an address at one of your verified email domains. Leave it out for the template's reply-to address (the account owner when it has none).
+ * @member {String} reply_to
+ */
+CreateSubmissionRequest.prototype['reply_to'] = undefined;
+
+/**
+ * Who DocSpring tells when the document is completed or declined, or an email bounces or can't be sent: members of your DocSpring team or addresses at your verified email domains. Leave it out for the template's notification addresses (the account owner when it has none); an empty list means the account owner.
+ * @member {Array.<String>} notification_emails
+ */
+CreateSubmissionRequest.prototype['notification_emails'] = undefined;
+
+/**
+ * Also email `notification_emails` each time someone signs. Default false.
+ * @member {Boolean} notify_when_signed
+ */
+CreateSubmissionRequest.prototype['notify_when_signed'] = undefined;
+
+/**
+ * Remind people who haven't signed: every `interval_days` days, up to `max_count` times. Each reminder has a new signing link. Without it, DocSpring sends no reminders.
+ * @member {module:model/SignatureRequestReminders} reminders
+ */
+CreateSubmissionRequest.prototype['reminders'] = undefined;
 
 
 

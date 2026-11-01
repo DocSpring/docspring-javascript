@@ -18,7 +18,7 @@ import OutputFormat from './OutputFormat';
 /**
  * The SubmissionInput model module.
  * @module model/SubmissionInput
- * @version 4.3.0
+ * @version 4.4.0
  */
 class SubmissionInput {
     /**
@@ -130,7 +130,7 @@ class SubmissionInput {
 
 
 /**
- * Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions.
+ * Test PDFs have a watermark and are free. Live PDFs use credits. Submissions made with a test API token are always test submissions, and the demo API token's are always live.
  * @member {Boolean} test
  */
 SubmissionInput.prototype['test'] = undefined;
@@ -142,7 +142,7 @@ SubmissionInput.prototype['test'] = undefined;
 SubmissionInput.prototype['editable'] = undefined;
 
 /**
- * The values of the template's fields, by field name. Required for PDF and Word templates.
+ * The values of the template's fields, by field name. Required for PDF templates, Word templates and page designs.
  * @member {Object.<String, Object>} data
  */
 SubmissionInput.prototype['data'] = undefined;
@@ -166,7 +166,7 @@ SubmissionInput.prototype['password'] = undefined;
 SubmissionInput.prototype['output_formats'] = undefined;
 
 /**
- * Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours.
+ * Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours. The demo API token's submissions expire within an hour: up to 3600, and that's their default.
  * @member {Number} expires_in
  */
 SubmissionInput.prototype['expires_in'] = undefined;

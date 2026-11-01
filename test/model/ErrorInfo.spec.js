@@ -102,6 +102,24 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property folder_id (base name: "folder_id")', function() {
+      // uncomment below and update the code to test the property folder_id
+      //var instance = new DocSpring.ErrorInfo();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property custom_file_id (base name: "custom_file_id")', function() {
+      // uncomment below and update the code to test the property custom_file_id
+      //var instance = new DocSpring.ErrorInfo();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property webhook_id (base name: "webhook_id")', function() {
+      // uncomment below and update the code to test the property webhook_id
+      //var instance = new DocSpring.ErrorInfo();
+      //expect(instance).to.be();
+    });
+
   });
 
 }));

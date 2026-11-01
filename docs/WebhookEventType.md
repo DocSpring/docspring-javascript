@@ -9,11 +9,15 @@
 
 * `submission.declined` (value: `"submission.declined"`)
 
+* `signature_request.sent` (value: `"signature_request.sent"`)
+
 * `signature_request.viewed` (value: `"signature_request.viewed"`)
 
 * `signature_request.completed` (value: `"signature_request.completed"`)
 
 * `signature_request.declined` (value: `"signature_request.declined"`)
+
+* `signature_request.email_bounced` (value: `"signature_request.email_bounced"`)
 
 * `combined_pdf.processed` (value: `"combined_pdf.processed"`)
 

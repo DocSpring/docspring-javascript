@@ -18,7 +18,7 @@ import PageImages from './PageImages';
 /**
  * The SubmissionFiles model module.
  * @module model/SubmissionFiles
- * @version 4.3.0
+ * @version 4.4.0
  */
 class SubmissionFiles {
     /**

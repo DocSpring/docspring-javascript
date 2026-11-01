@@ -7,11 +7,15 @@ Name | Type | Description | Notes
 **id** | **String** | The signature request's ID. | 
 **submission_id** | **String** | The ID of the submission the signature request belongs to. | 
 **name** | **String** | The name of the person the request is for. | 
-**email** | **String** | Their email address. | 
+**email** | **String** | Their email address. Null when they have none. | 
 **fields** | **[String]** | The fields this person fills in. Null for a signature request created with API v1 without a field list: it asks for every field the submission's data doesn't have. | 
 **metadata** | **{String: Object}** | Your own data about the signature request, such as an ID from your app. | 
 **role** | **String** | Which of the template's signers the person is. Until templates have roles of their own, a template's signers are `Signer 1`, `Signer 2` and so on, up to `Signer 100`: `Signer 1` is the one whose details the template's `@@signature_requests/0` fields print. | 
 **sort_order** | **Number** | The signer's position, from 0: `Signer 1` is 0. The template's `@@signature_requests/&lt;sort_order&gt;` fields print this signature request's details. | 
+**send_email** | **Boolean** | Whether DocSpring emails this person their signing link. | 
+**signing_step** | **Number** | When this person signs, when the submission's `signing_order` is `sequential`: everyone in step 1 first, then step 2, and so on. Null when everyone can sign at once. | 
+**sent_at** | **Date** | When DocSpring first emailed this person their signing link. Null until it has, and when it doesn't email them (`send_email` is false). | 
+**email_status** | [**SignatureRequestEmailStatus**](SignatureRequestEmailStatus.md) | What happened to the latest email DocSpring sent this person with their signing link: `sent` until the email service reports on it, then `delayed` (still trying), `delivered`, `undelivered` (it stopped trying, as with a full mailbox), `bounced` (the address doesn't exist) or `complained` (marked as spam). `failed` means DocSpring couldn't send the first email with their link, and `unknown` that it couldn't tell whether that email went: neither is sent again. Null until DocSpring has emailed them or tried to. | 
 **state** | [**SignatureRequestState**](SignatureRequestState.md) | `pending` until the person completes the signature request (`completed`) or declines it (`declined`). | 
 **data** | **{String: Object}** | The values this person entered for their own fields (`fields`). Null when their submission's data is left out: in lists without `include_data=true`, in the events of a webhook that leaves out submission data, and once the submission has expired. | 
 **viewed_at** | **Date** | When the person first opened the signature request. | 

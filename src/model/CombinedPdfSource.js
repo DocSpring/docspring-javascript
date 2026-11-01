@@ -17,7 +17,7 @@ import CombinedPdfSourceType from './CombinedPdfSourceType';
 /**
  * The CombinedPdfSource model module.
  * @module model/CombinedPdfSource
- * @version 4.3.0
+ * @version 4.4.0
  */
 class CombinedPdfSource {
     /**
@@ -122,7 +122,7 @@ CombinedPdfSource.prototype['id'] = undefined;
 CombinedPdfSource.prototype['url'] = undefined;
 
 /**
- * For a `template` source, the version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` or `draft`. Default `latest` (the draft when no version has been published).
+ * For a `template` source, the version to use: a published version (`1.2.0`, or `1` for the latest 1.x.x), `latest` (the newest published version, or the draft when none has been published) or `draft`. Default `latest`.
  * @member {String} template_version
  */
 CombinedPdfSource.prototype['template_version'] = undefined;

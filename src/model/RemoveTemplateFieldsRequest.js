@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The RemoveTemplateFieldsRequest model module.
  * @module model/RemoveTemplateFieldsRequest
- * @version 4.3.0
+ * @version 4.4.0
  */
 class RemoveTemplateFieldsRequest {
     /**

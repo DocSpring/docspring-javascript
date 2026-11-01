@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CombinedPdfSourcePdf model module.
  * @module model/CombinedPdfSourcePdf
- * @version 4.3.0
+ * @version 4.4.0
  */
 class CombinedPdfSourcePdf {
     /**

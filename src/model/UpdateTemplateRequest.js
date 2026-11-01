@@ -18,6 +18,7 @@ import FieldGroupInput from './FieldGroupInput';
 import HtmlEngineOptionsInput from './HtmlEngineOptionsInput';
 import OutputFormat from './OutputFormat';
 import PredefinedFieldInput from './PredefinedFieldInput';
+import SignatureRequestEmailAttachments from './SignatureRequestEmailAttachments';
 import TemplateDefaultsInput from './TemplateDefaultsInput';
 import TemplateFieldDependencyInput from './TemplateFieldDependencyInput';
 import TemplateFormMode from './TemplateFormMode';
@@ -25,7 +26,7 @@ import TemplateFormMode from './TemplateFormMode';
 /**
  * The UpdateTemplateRequest model module.
  * @module model/UpdateTemplateRequest
- * @version 4.3.0
+ * @version 4.4.0
  */
 class UpdateTemplateRequest {
     /**
@@ -132,6 +133,27 @@ class UpdateTemplateRequest {
             if (data.hasOwnProperty('redirect_url')) {
                 obj['redirect_url'] = ApiClient.convertToType(data['redirect_url'], 'String');
             }
+            if (data.hasOwnProperty('signature_request_email_attachments')) {
+                obj['signature_request_email_attachments'] = ApiClient.convertToType(data['signature_request_email_attachments'], SignatureRequestEmailAttachments);
+            }
+            if (data.hasOwnProperty('signature_request_from_address')) {
+                obj['signature_request_from_address'] = ApiClient.convertToType(data['signature_request_from_address'], 'String');
+            }
+            if (data.hasOwnProperty('signature_request_include_signing_token')) {
+                obj['signature_request_include_signing_token'] = ApiClient.convertToType(data['signature_request_include_signing_token'], 'Boolean');
+            }
+            if (data.hasOwnProperty('signature_request_from_name')) {
+                obj['signature_request_from_name'] = ApiClient.convertToType(data['signature_request_from_name'], 'String');
+            }
+            if (data.hasOwnProperty('signature_request_notification_emails')) {
+                obj['signature_request_notification_emails'] = ApiClient.convertToType(data['signature_request_notification_emails'], ['String']);
+            }
+            if (data.hasOwnProperty('signature_request_reply_to')) {
+                obj['signature_request_reply_to'] = ApiClient.convertToType(data['signature_request_reply_to'], 'String');
+            }
+            if (data.hasOwnProperty('signature_request_signing_url')) {
+                obj['signature_request_signing_url'] = ApiClient.convertToType(data['signature_request_signing_url'], 'String');
+            }
             if (data.hasOwnProperty('slack_webhook_url')) {
                 obj['slack_webhook_url'] = ApiClient.convertToType(data['slack_webhook_url'], 'String');
             }
@@ -168,6 +190,9 @@ class UpdateTemplateRequest {
             if (data.hasOwnProperty('html_escape_data')) {
                 obj['html_escape_data'] = ApiClient.convertToType(data['html_escape_data'], 'Boolean');
             }
+            if (data.hasOwnProperty('layout')) {
+                obj['layout'] = ApiClient.convertToType(data['layout'], {'String': Object});
+            }
         }
         return obj;
     }
@@ -201,6 +226,26 @@ class UpdateTemplateRequest {
         // ensure the json data is a string
         if (data['redirect_url'] && !(typeof data['redirect_url'] === 'string' || data['redirect_url'] instanceof String)) {
             throw new Error("Expected the field `redirect_url` to be a primitive type in the JSON string but got " + data['redirect_url']);
+        }
+        // ensure the json data is a string
+        if (data['signature_request_from_address'] && !(typeof data['signature_request_from_address'] === 'string' || data['signature_request_from_address'] instanceof String)) {
+            throw new Error("Expected the field `signature_request_from_address` to be a primitive type in the JSON string but got " + data['signature_request_from_address']);
+        }
+        // ensure the json data is a string
+        if (data['signature_request_from_name'] && !(typeof data['signature_request_from_name'] === 'string' || data['signature_request_from_name'] instanceof String)) {
+            throw new Error("Expected the field `signature_request_from_name` to be a primitive type in the JSON string but got " + data['signature_request_from_name']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['signature_request_notification_emails'])) {
+            throw new Error("Expected the field `signature_request_notification_emails` to be an array in the JSON data but got " + data['signature_request_notification_emails']);
+        }
+        // ensure the json data is a string
+        if (data['signature_request_reply_to'] && !(typeof data['signature_request_reply_to'] === 'string' || data['signature_request_reply_to'] instanceof String)) {
+            throw new Error("Expected the field `signature_request_reply_to` to be a primitive type in the JSON string but got " + data['signature_request_reply_to']);
+        }
+        // ensure the json data is a string
+        if (data['signature_request_signing_url'] && !(typeof data['signature_request_signing_url'] === 'string' || data['signature_request_signing_url'] instanceof String)) {
+            throw new Error("Expected the field `signature_request_signing_url` to be a primitive type in the JSON string but got " + data['signature_request_signing_url']);
         }
         // ensure the json data is a string
         if (data['slack_webhook_url'] && !(typeof data['slack_webhook_url'] === 'string' || data['slack_webhook_url'] instanceof String)) {
@@ -282,7 +327,7 @@ UpdateTemplateRequest.prototype['name'] = undefined;
 UpdateTemplateRequest.prototype['description'] = undefined;
 
 /**
- * What each submission makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. A Word template's is chosen when it's created; PDF and HTML templates always make PDFs. A Word template that encrypts its PDFs makes PDFs, because Word documents and OpenDocument files can't be password-protected.
+ * What each submission makes unless its request sets `output_formats`: `docx` (a Word document), `odt` (an OpenDocument file, converted from the Word document) or `pdf`. A Word template's is chosen when it's created; other templates always make PDFs. A Word template that encrypts its PDFs makes PDFs, because Word documents and OpenDocument files can't be password-protected.
  * @member {module:model/OutputFormat} output_format
  */
 UpdateTemplateRequest.prototype['output_format'] = undefined;
@@ -336,7 +381,7 @@ UpdateTemplateRequest.prototype['default_form_mode'] = undefined;
 UpdateTemplateRequest.prototype['editable_submissions'] = undefined;
 
 /**
- * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work). Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
+ * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
  * @member {Array.<String>} embed_domains
  */
 UpdateTemplateRequest.prototype['embed_domains'] = undefined;
@@ -420,6 +465,48 @@ UpdateTemplateRequest.prototype['public_web_form'] = undefined;
 UpdateTemplateRequest.prototype['redirect_url'] = undefined;
 
 /**
+ * How DocSpring's completed emails send the signed PDF to your signers and CCs: `attachment` (attached, or a download link when it's too big to attach) or `link` (a download link). Null uses your account's rule: a link if your account has signed a BAA, otherwise attached. PDF templates only. A signature request uses the value it had when the request was created.
+ * @member {module:model/SignatureRequestEmailAttachments} signature_request_email_attachments
+ */
+UpdateTemplateRequest.prototype['signature_request_email_attachments'] = undefined;
+
+/**
+ * The address DocSpring's emails to your signers come from: an address at one of your verified email domains, on the Growth plan or higher. Null sends them from DocSpring's shared address, with "via DocSpring" after the sender name. PDF templates only.
+ * @member {String} signature_request_from_address
+ */
+UpdateTemplateRequest.prototype['signature_request_from_address'] = undefined;
+
+/**
+ * Puts a signing token in `signature_request_signing_url`, as `{{ token_id }}` and `{{ token_secret }}`, so your page can open the signing form without creating a token itself. The email then carries a credential: anyone who has it can open the form and sign. PDF templates only.
+ * @member {Boolean} signature_request_include_signing_token
+ */
+UpdateTemplateRequest.prototype['signature_request_include_signing_token'] = undefined;
+
+/**
+ * The sender name on the emails DocSpring sends your signers, as in "Acme via DocSpring". It can't contain an email address, a website or quotes. Null uses your account's name. PDF templates only.
+ * @member {String} signature_request_from_name
+ */
+UpdateTemplateRequest.prototype['signature_request_from_name'] = undefined;
+
+/**
+ * Who DocSpring tells when a signature request's document is completed or declined, or an email bounces or can't be sent: members of your DocSpring team or addresses at your verified email domains. Empty means your account's owner. A submission's `notification_emails` replaces them. PDF templates only.
+ * @member {Array.<String>} signature_request_notification_emails
+ */
+UpdateTemplateRequest.prototype['signature_request_notification_emails'] = undefined;
+
+/**
+ * Where your signers' replies to DocSpring's emails go: a member of your DocSpring team or an address at one of your verified email domains. Null means your account's owner. A submission's `reply_to` replaces it. PDF templates only.
+ * @member {String} signature_request_reply_to
+ */
+UpdateTemplateRequest.prototype['signature_request_reply_to'] = undefined;
+
+/**
+ * A page on your own site that the button in DocSpring's email to a signer opens, instead of DocSpring's signing page: an https URL on one of your verified email domains or a subdomain of one, on the Growth plan or higher. It must include `{{ signature_request_id }}`. Your page authenticates the signer, creates a token for the signature request, and opens the signing form with it. Null links to DocSpring's signing page. PDF templates only.
+ * @member {String} signature_request_signing_url
+ */
+UpdateTemplateRequest.prototype['signature_request_signing_url'] = undefined;
+
+/**
  * A Slack incoming webhook URL that is notified about the template's submissions. It's never returned; `has_slack_webhook_url` says if it's set.
  * @member {String} slack_webhook_url
  */
@@ -456,7 +543,7 @@ UpdateTemplateRequest.prototype['predefined_fields'] = undefined;
 UpdateTemplateRequest.prototype['predefined_fields_sample_data'] = undefined;
 
 /**
- * The HTML of an HTML template, as a Liquid template. Null for PDF and Word templates.
+ * The HTML of an HTML template, as a Liquid template. Null for other templates.
  * @member {String} html
  */
 UpdateTemplateRequest.prototype['html'] = undefined;
@@ -486,10 +573,16 @@ UpdateTemplateRequest.prototype['footer_html'] = undefined;
 UpdateTemplateRequest.prototype['html_engine_options'] = undefined;
 
 /**
- * Whether an HTML template HTML-escapes the values it prints. When true, `{{ value }}` prints a value as text, so a `<` or `&` in it is printed as that character, and `{{ value | raw }}` prints a value as HTML. New HTML templates default to true. Templates created before October 2026, or with API v1, default to false, which prints every value as HTML. Null for PDF templates.
+ * Whether an HTML template HTML-escapes the values it prints. When true, `{{ value }}` prints a value as text, so a `<` or `&` in it is printed as that character, and `{{ value | raw }}` prints a value as HTML. New HTML templates default to true. Templates created before October 2026, or with API v1, default to false, which prints every value as HTML. Null for other templates.
  * @member {Boolean} html_escape_data
  */
 UpdateTemplateRequest.prototype['html_escape_data'] = undefined;
+
+/**
+ * A page design's layout: its page setup, its sections and the elements placed in them, in the Page Designer layout format (https://docspring.com/docs/page-designer/layout-format/). Its JSON Schema is at https://docspring.com/schemas/page-designer/layout.v1.json. Null for other templates. Setting it replaces the whole layout, and DocSpring adds a field for each value it reads. Left out when a page design is created, it starts with an empty page.
+ * @member {Object.<String, Object>} layout
+ */
+UpdateTemplateRequest.prototype['layout'] = undefined;
 
 
 

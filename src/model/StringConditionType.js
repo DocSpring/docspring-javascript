@@ -27,10 +27,24 @@ export default class StringConditionType {
 
     
         /**
+         * value: "not_equals"
+         * @const
+         */
+        static "not_equals" = "not_equals";
+
+    
+        /**
          * value: "contains"
          * @const
          */
         static "contains" = "contains";
+
+    
+        /**
+         * value: "not_contains"
+         * @const
+         */
+        static "not_contains" = "not_contains";
 
     
         /**
@@ -41,6 +55,13 @@ export default class StringConditionType {
 
     
         /**
+         * value: "not_starts_with"
+         * @const
+         */
+        static "not_starts_with" = "not_starts_with";
+
+    
+        /**
          * value: "ends_with"
          * @const
          */
@@ -48,10 +69,38 @@ export default class StringConditionType {
 
     
         /**
+         * value: "not_ends_with"
+         * @const
+         */
+        static "not_ends_with" = "not_ends_with";
+
+    
+        /**
          * value: "regex"
          * @const
          */
         static "regex" = "regex";
+
+    
+        /**
+         * value: "not_regex"
+         * @const
+         */
+        static "not_regex" = "not_regex";
+
+    
+        /**
+         * value: "blank"
+         * @const
+         */
+        static "blank" = "blank";
+
+    
+        /**
+         * value: "not_blank"
+         * @const
+         */
+        static "not_blank" = "not_blank";
 
     
 

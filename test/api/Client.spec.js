@@ -68,6 +68,16 @@
         done();
       });
     });
+    describe('createAccountEmailAction', function() {
+      it('should call createAccountEmailAction successfully', function(done) {
+        //uncomment below and update the code to test createAccountEmailAction
+        //instance.createAccountEmailAction(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('createCombinedPdf', function() {
       it('should call createCombinedPdf successfully', function(done) {
         //uncomment below and update the code to test createCombinedPdf
@@ -82,6 +92,26 @@
       it('should call createCustomFileFromUpload successfully', function(done) {
         //uncomment below and update the code to test createCustomFileFromUpload
         //instance.createCustomFileFromUpload(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('createEmailAction', function() {
+      it('should call createEmailAction successfully', function(done) {
+        //uncomment below and update the code to test createEmailAction
+        //instance.createEmailAction(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('createEmailDomain', function() {
+      it('should call createEmailDomain successfully', function(done) {
+        //uncomment below and update the code to test createEmailDomain
+        //instance.createEmailDomain(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -168,10 +198,50 @@
         done();
       });
     });
+    describe('deleteAccountEmailAction', function() {
+      it('should call deleteAccountEmailAction successfully', function(done) {
+        //uncomment below and update the code to test deleteAccountEmailAction
+        //instance.deleteAccountEmailAction(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('deleteCustomFile', function() {
       it('should call deleteCustomFile successfully', function(done) {
         //uncomment below and update the code to test deleteCustomFile
         //instance.deleteCustomFile(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('deleteEmailAction', function() {
+      it('should call deleteEmailAction successfully', function(done) {
+        //uncomment below and update the code to test deleteEmailAction
+        //instance.deleteEmailAction(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('deleteEmailActionCustomization', function() {
+      it('should call deleteEmailActionCustomization successfully', function(done) {
+        //uncomment below and update the code to test deleteEmailActionCustomization
+        //instance.deleteEmailActionCustomization(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('deleteEmailDomain', function() {
+      it('should call deleteEmailDomain successfully', function(done) {
+        //uncomment below and update the code to test deleteEmailDomain
+        //instance.deleteEmailDomain(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -248,6 +318,16 @@
         done();
       });
     });
+    describe('getAccountEmailAction', function() {
+      it('should call getAccountEmailAction successfully', function(done) {
+        //uncomment below and update the code to test getAccountEmailAction
+        //instance.getAccountEmailAction(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('getCombinedPdf', function() {
       it('should call getCombinedPdf successfully', function(done) {
         //uncomment below and update the code to test getCombinedPdf
@@ -262,6 +342,26 @@
       it('should call getCustomFile successfully', function(done) {
         //uncomment below and update the code to test getCustomFile
         //instance.getCustomFile(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('getEmailAction', function() {
+      it('should call getEmailAction successfully', function(done) {
+        //uncomment below and update the code to test getEmailAction
+        //instance.getEmailAction(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('getEmailDomain', function() {
+      it('should call getEmailDomain successfully', function(done) {
+        //uncomment below and update the code to test getEmailDomain
+        //instance.getEmailDomain(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -388,6 +488,16 @@
         done();
       });
     });
+    describe('listAccountEmailActions', function() {
+      it('should call listAccountEmailActions successfully', function(done) {
+        //uncomment below and update the code to test listAccountEmailActions
+        //instance.listAccountEmailActions(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('listCombinedPdfs', function() {
       it('should call listCombinedPdfs successfully', function(done) {
         //uncomment below and update the code to test listCombinedPdfs
@@ -402,6 +512,26 @@
       it('should call listCustomFiles successfully', function(done) {
         //uncomment below and update the code to test listCustomFiles
         //instance.listCustomFiles(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('listEmailActions', function() {
+      it('should call listEmailActions successfully', function(done) {
+        //uncomment below and update the code to test listEmailActions
+        //instance.listEmailActions(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('listEmailDomains', function() {
+      it('should call listEmailDomains successfully', function(done) {
+        //uncomment below and update the code to test listEmailDomains
+        //instance.listEmailDomains(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -538,10 +668,60 @@
         done();
       });
     });
+    describe('sendAccountEmailActionTestEmail', function() {
+      it('should call sendAccountEmailActionTestEmail successfully', function(done) {
+        //uncomment below and update the code to test sendAccountEmailActionTestEmail
+        //instance.sendAccountEmailActionTestEmail(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('sendEmailActionTestEmail', function() {
+      it('should call sendEmailActionTestEmail successfully', function(done) {
+        //uncomment below and update the code to test sendEmailActionTestEmail
+        //instance.sendEmailActionTestEmail(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('testAuthentication', function() {
       it('should call testAuthentication successfully', function(done) {
         //uncomment below and update the code to test testAuthentication
         //instance.testAuthentication(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('updateAccountEmailAction', function() {
+      it('should call updateAccountEmailAction successfully', function(done) {
+        //uncomment below and update the code to test updateAccountEmailAction
+        //instance.updateAccountEmailAction(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('updateEmailAction', function() {
+      it('should call updateEmailAction successfully', function(done) {
+        //uncomment below and update the code to test updateEmailAction
+        //instance.updateEmailAction(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('updateEmailActionCustomization', function() {
+      it('should call updateEmailActionCustomization successfully', function(done) {
+        //uncomment below and update the code to test updateEmailActionCustomization
+        //instance.updateEmailActionCustomization(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -622,6 +802,16 @@
       it('should call validateSubmission successfully', function(done) {
         //uncomment below and update the code to test validateSubmission
         //instance.validateSubmission(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('verifyEmailDomain', function() {
+      it('should call verifyEmailDomain successfully', function(done) {
+        //uncomment below and update the code to test verifyEmailDomain
+        //instance.verifyEmailDomain(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

@@ -40,6 +40,13 @@ export default class TemplateType {
         static "docx" = "docx";
 
     
+        /**
+         * value: "page_designer"
+         * @const
+         */
+        static "page_designer" = "page_designer";
+
+    
 
     /**
     * Returns a <code>TemplateType</code> enum value from a Javascript object name.

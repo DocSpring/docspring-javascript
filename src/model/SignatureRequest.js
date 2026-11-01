@@ -14,12 +14,13 @@
 import ApiClient from '../ApiClient';
 import SignatureRequestAuthSecondFactorType from './SignatureRequestAuthSecondFactorType';
 import SignatureRequestAuthType from './SignatureRequestAuthType';
+import SignatureRequestEmailStatus from './SignatureRequestEmailStatus';
 import SignatureRequestState from './SignatureRequestState';
 
 /**
  * The SignatureRequest model module.
  * @module model/SignatureRequest
- * @version 4.3.0
+ * @version 4.4.0
  */
 class SignatureRequest {
     /**
@@ -30,11 +31,15 @@ class SignatureRequest {
      * @param id {String} The signature request's ID.
      * @param submission_id {String} The ID of the submission the signature request belongs to.
      * @param name {String} The name of the person the request is for.
-     * @param email {String} Their email address.
+     * @param email {String} Their email address. Null when they have none.
      * @param fields {Array.<String>} The fields this person fills in. Null for a signature request created with API v1 without a field list: it asks for every field the submission's data doesn't have.
      * @param metadata {Object.<String, Object>} Your own data about the signature request, such as an ID from your app.
      * @param role {String} Which of the template's signers the person is. Until templates have roles of their own, a template's signers are `Signer 1`, `Signer 2` and so on, up to `Signer 100`: `Signer 1` is the one whose details the template's `@@signature_requests/0` fields print.
      * @param sort_order {Number} The signer's position, from 0: `Signer 1` is 0. The template's `@@signature_requests/<sort_order>` fields print this signature request's details.
+     * @param send_email {Boolean} Whether DocSpring emails this person their signing link.
+     * @param signing_step {Number} When this person signs, when the submission's `signing_order` is `sequential`: everyone in step 1 first, then step 2, and so on. Null when everyone can sign at once.
+     * @param sent_at {Date} When DocSpring first emailed this person their signing link. Null until it has, and when it doesn't email them (`send_email` is false).
+     * @param email_status {module:model/SignatureRequestEmailStatus} What happened to the latest email DocSpring sent this person with their signing link: `sent` until the email service reports on it, then `delayed` (still trying), `delivered`, `undelivered` (it stopped trying, as with a full mailbox), `bounced` (the address doesn't exist) or `complained` (marked as spam). `failed` means DocSpring couldn't send the first email with their link, and `unknown` that it couldn't tell whether that email went: neither is sent again. Null until DocSpring has emailed them or tried to.
      * @param state {module:model/SignatureRequestState} `pending` until the person completes the signature request (`completed`) or declines it (`declined`).
      * @param data {Object.<String, Object>} The values this person entered for their own fields (`fields`). Null when their submission's data is left out: in lists without `include_data=true`, in the events of a webhook that leaves out submission data, and once the submission has expired.
      * @param viewed_at {Date} When the person first opened the signature request.
@@ -53,9 +58,9 @@ class SignatureRequest {
      * @param created_at {Date} When the signature request was created.
      * @param updated_at {Date} When the signature request was last updated.
      */
-    constructor(id, submission_id, name, email, fields, metadata, role, sort_order, state, data, viewed_at, completed_at, declined_at, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, created_at, updated_at) { 
+    constructor(id, submission_id, name, email, fields, metadata, role, sort_order, send_email, signing_step, sent_at, email_status, state, data, viewed_at, completed_at, declined_at, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, created_at, updated_at) { 
         
-        SignatureRequest.initialize(this, id, submission_id, name, email, fields, metadata, role, sort_order, state, data, viewed_at, completed_at, declined_at, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, created_at, updated_at);
+        SignatureRequest.initialize(this, id, submission_id, name, email, fields, metadata, role, sort_order, send_email, signing_step, sent_at, email_status, state, data, viewed_at, completed_at, declined_at, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, created_at, updated_at);
     }
 
     /**
@@ -63,7 +68,7 @@ class SignatureRequest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, submission_id, name, email, fields, metadata, role, sort_order, state, data, viewed_at, completed_at, declined_at, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, created_at, updated_at) { 
+    static initialize(obj, id, submission_id, name, email, fields, metadata, role, sort_order, send_email, signing_step, sent_at, email_status, state, data, viewed_at, completed_at, declined_at, auth_type, auth_second_factor_type, auth_provider, auth_session_started_at, auth_session_id_hash, auth_user_id_hash, auth_username_hash, auth_phone_number_hash, ip_address, user_agent, created_at, updated_at) { 
         obj['id'] = id;
         obj['submission_id'] = submission_id;
         obj['name'] = name;
@@ -72,6 +77,10 @@ class SignatureRequest {
         obj['metadata'] = metadata;
         obj['role'] = role;
         obj['sort_order'] = sort_order;
+        obj['send_email'] = send_email;
+        obj['signing_step'] = signing_step;
+        obj['sent_at'] = sent_at;
+        obj['email_status'] = email_status;
         obj['state'] = state;
         obj['data'] = data;
         obj['viewed_at'] = viewed_at;
@@ -128,6 +137,18 @@ class SignatureRequest {
             }
             if (data.hasOwnProperty('sort_order')) {
                 obj['sort_order'] = ApiClient.convertToType(data['sort_order'], 'Number');
+            }
+            if (data.hasOwnProperty('send_email')) {
+                obj['send_email'] = ApiClient.convertToType(data['send_email'], 'Boolean');
+            }
+            if (data.hasOwnProperty('signing_step')) {
+                obj['signing_step'] = ApiClient.convertToType(data['signing_step'], 'Number');
+            }
+            if (data.hasOwnProperty('sent_at')) {
+                obj['sent_at'] = ApiClient.convertToType(data['sent_at'], 'Date');
+            }
+            if (data.hasOwnProperty('email_status')) {
+                obj['email_status'] = ApiClient.convertToType(data['email_status'], SignatureRequestEmailStatus);
             }
             if (data.hasOwnProperty('state')) {
                 obj['state'] = ApiClient.convertToType(data['state'], SignatureRequestState);
@@ -255,7 +276,7 @@ class SignatureRequest {
 
 }
 
-SignatureRequest.RequiredProperties = ["id", "submission_id", "name", "email", "fields", "metadata", "role", "sort_order", "state", "data", "viewed_at", "completed_at", "declined_at", "auth_type", "auth_second_factor_type", "auth_provider", "auth_session_started_at", "auth_session_id_hash", "auth_user_id_hash", "auth_username_hash", "auth_phone_number_hash", "ip_address", "user_agent", "created_at", "updated_at"];
+SignatureRequest.RequiredProperties = ["id", "submission_id", "name", "email", "fields", "metadata", "role", "sort_order", "send_email", "signing_step", "sent_at", "email_status", "state", "data", "viewed_at", "completed_at", "declined_at", "auth_type", "auth_second_factor_type", "auth_provider", "auth_session_started_at", "auth_session_id_hash", "auth_user_id_hash", "auth_username_hash", "auth_phone_number_hash", "ip_address", "user_agent", "created_at", "updated_at"];
 
 /**
  * The signature request's ID.
@@ -276,7 +297,7 @@ SignatureRequest.prototype['submission_id'] = undefined;
 SignatureRequest.prototype['name'] = undefined;
 
 /**
- * Their email address.
+ * Their email address. Null when they have none.
  * @member {String} email
  */
 SignatureRequest.prototype['email'] = undefined;
@@ -304,6 +325,30 @@ SignatureRequest.prototype['role'] = undefined;
  * @member {Number} sort_order
  */
 SignatureRequest.prototype['sort_order'] = undefined;
+
+/**
+ * Whether DocSpring emails this person their signing link.
+ * @member {Boolean} send_email
+ */
+SignatureRequest.prototype['send_email'] = undefined;
+
+/**
+ * When this person signs, when the submission's `signing_order` is `sequential`: everyone in step 1 first, then step 2, and so on. Null when everyone can sign at once.
+ * @member {Number} signing_step
+ */
+SignatureRequest.prototype['signing_step'] = undefined;
+
+/**
+ * When DocSpring first emailed this person their signing link. Null until it has, and when it doesn't email them (`send_email` is false).
+ * @member {Date} sent_at
+ */
+SignatureRequest.prototype['sent_at'] = undefined;
+
+/**
+ * What happened to the latest email DocSpring sent this person with their signing link: `sent` until the email service reports on it, then `delayed` (still trying), `delivered`, `undelivered` (it stopped trying, as with a full mailbox), `bounced` (the address doesn't exist) or `complained` (marked as spam). `failed` means DocSpring couldn't send the first email with their link, and `unknown` that it couldn't tell whether that email went: neither is sent again. Null until DocSpring has emailed them or tried to.
+ * @member {module:model/SignatureRequestEmailStatus} email_status
+ */
+SignatureRequest.prototype['email_status'] = undefined;
 
 /**
  * `pending` until the person completes the signature request (`completed`) or declines it (`declined`).
