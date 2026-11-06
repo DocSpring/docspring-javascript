@@ -17,7 +17,7 @@ import FieldPresenceOperator from './FieldPresenceOperator';
 /**
  * The FieldPresenceCondition model module.
  * @module model/FieldPresenceCondition
- * @version 4.4.0
+ * @version 4.5.0
  */
 class FieldPresenceCondition {
     /**

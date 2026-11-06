@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The FieldGroupInput model module.
  * @module model/FieldGroupInput
- * @version 4.4.0
+ * @version 4.5.0
  */
 class FieldGroupInput {
     /**

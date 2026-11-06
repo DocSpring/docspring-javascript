@@ -29,7 +29,7 @@ import TemplateType from './TemplateType';
 /**
  * The CreateTemplateRequest model module.
  * @module model/CreateTemplateRequest
- * @version 4.4.0
+ * @version 4.5.0
  */
 class CreateTemplateRequest {
     /**
@@ -162,6 +162,15 @@ class CreateTemplateRequest {
             if (data.hasOwnProperty('signature_request_signing_url')) {
                 obj['signature_request_signing_url'] = ApiClient.convertToType(data['signature_request_signing_url'], 'String');
             }
+            if (data.hasOwnProperty('success_title')) {
+                obj['success_title'] = ApiClient.convertToType(data['success_title'], 'String');
+            }
+            if (data.hasOwnProperty('success_message')) {
+                obj['success_message'] = ApiClient.convertToType(data['success_message'], 'String');
+            }
+            if (data.hasOwnProperty('show_fill_again_button')) {
+                obj['show_fill_again_button'] = ApiClient.convertToType(data['show_fill_again_button'], 'Boolean');
+            }
             if (data.hasOwnProperty('slack_webhook_url')) {
                 obj['slack_webhook_url'] = ApiClient.convertToType(data['slack_webhook_url'], 'String');
             }
@@ -222,6 +231,9 @@ class CreateTemplateRequest {
             if (data.hasOwnProperty('field_logic')) {
                 obj['field_logic'] = ApiClient.convertToType(data['field_logic'], FieldSetupLogic);
             }
+            if (data.hasOwnProperty('include_office_use_fields')) {
+                obj['include_office_use_fields'] = ApiClient.convertToType(data['include_office_use_fields'], 'Boolean');
+            }
         }
         return obj;
     }
@@ -281,6 +293,14 @@ class CreateTemplateRequest {
         // ensure the json data is a string
         if (data['signature_request_signing_url'] && !(typeof data['signature_request_signing_url'] === 'string' || data['signature_request_signing_url'] instanceof String)) {
             throw new Error("Expected the field `signature_request_signing_url` to be a primitive type in the JSON string but got " + data['signature_request_signing_url']);
+        }
+        // ensure the json data is a string
+        if (data['success_title'] && !(typeof data['success_title'] === 'string' || data['success_title'] instanceof String)) {
+            throw new Error("Expected the field `success_title` to be a primitive type in the JSON string but got " + data['success_title']);
+        }
+        // ensure the json data is a string
+        if (data['success_message'] && !(typeof data['success_message'] === 'string' || data['success_message'] instanceof String)) {
+            throw new Error("Expected the field `success_message` to be a primitive type in the JSON string but got " + data['success_message']);
         }
         // ensure the json data is a string
         if (data['slack_webhook_url'] && !(typeof data['slack_webhook_url'] === 'string' || data['slack_webhook_url'] instanceof String)) {
@@ -428,7 +448,7 @@ CreateTemplateRequest.prototype['default_form_mode'] = undefined;
 CreateTemplateRequest.prototype['editable_submissions'] = undefined;
 
 /**
- * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
+ * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Each one is stored in lowercase, without a trailing slash. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and Web Forms JS) aren't restricted.
  * @member {Array.<String>} embed_domains
  */
 CreateTemplateRequest.prototype['embed_domains'] = undefined;
@@ -506,7 +526,7 @@ CreateTemplateRequest.prototype['public_submissions'] = undefined;
 CreateTemplateRequest.prototype['public_web_form'] = undefined;
 
 /**
- * Where the web form sends people after they submit it.
+ * Where the web form sends people after they submit it, instead of showing its success screen. After its `?` or `#`, it can have variables such as `{{ data.first_name }}`, which the form fills in with what they submitted.
  * @member {String} redirect_url
  */
 CreateTemplateRequest.prototype['redirect_url'] = undefined;
@@ -552,6 +572,24 @@ CreateTemplateRequest.prototype['signature_request_reply_to'] = undefined;
  * @member {String} signature_request_signing_url
  */
 CreateTemplateRequest.prototype['signature_request_signing_url'] = undefined;
+
+/**
+ * The title of the web form's success screen. When it's null or empty, the screen says "Thanks for filling out" and the template's name. It can have variables such as `{{ data.first_name }}`.
+ * @member {String} success_title
+ */
+CreateTemplateRequest.prototype['success_title'] = undefined;
+
+/**
+ * A message under the title of the web form's success screen, as plain text. Line breaks show, and web addresses become links. It can have variables such as `{{ data.first_name }}`.
+ * @member {String} success_message
+ */
+CreateTemplateRequest.prototype['success_message'] = undefined;
+
+/**
+ * Whether the web form's success screen has a "Fill out again" button, which clears the form so someone can fill it in again.
+ * @member {Boolean} show_fill_again_button
+ */
+CreateTemplateRequest.prototype['show_fill_again_button'] = undefined;
 
 /**
  * A Slack incoming webhook URL that is notified about the template's submissions. It's never returned; `has_slack_webhook_url` says if it's set.
@@ -672,6 +710,12 @@ CreateTemplateRequest.prototype['field_naming'] = undefined;
  * @member {module:model/FieldSetupLogic} field_logic
  */
 CreateTemplateRequest.prototype['field_logic'] = undefined;
+
+/**
+ * With `detect_fields`, whether AI field setup keeps the fields that only the office receiving the form fills in, such as a "For office use only" box (`true`), or leaves them out (`false`). Default: your account's template settings.
+ * @member {Boolean} include_office_use_fields
+ */
+CreateTemplateRequest.prototype['include_office_use_fields'] = undefined;
 
 
 

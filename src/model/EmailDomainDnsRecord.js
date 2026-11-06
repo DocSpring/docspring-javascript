@@ -18,7 +18,7 @@ import EmailDomainDnsRecordPurpose from './EmailDomainDnsRecordPurpose';
 /**
  * The EmailDomainDnsRecord model module.
  * @module model/EmailDomainDnsRecord
- * @version 4.4.0
+ * @version 4.5.0
  */
 class EmailDomainDnsRecord {
     /**

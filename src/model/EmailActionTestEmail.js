@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The EmailActionTestEmail model module.
  * @module model/EmailActionTestEmail
- * @version 4.4.0
+ * @version 4.5.0
  */
 class EmailActionTestEmail {
     /**

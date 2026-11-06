@@ -21,7 +21,7 @@ import EmailActionSubmissionType from './EmailActionSubmissionType';
 /**
  * The EmailAction model module.
  * @module model/EmailAction
- * @version 4.4.0
+ * @version 4.5.0
  */
 class EmailAction {
     /**

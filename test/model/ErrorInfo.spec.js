@@ -120,6 +120,18 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property email_action_id (base name: "email_action_id")', function() {
+      // uncomment below and update the code to test the property email_action_id
+      //var instance = new DocSpring.ErrorInfo();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property email_domain_id (base name: "email_domain_id")', function() {
+      // uncomment below and update the code to test the property email_domain_id
+      //var instance = new DocSpring.ErrorInfo();
+      //expect(instance).to.be();
+    });
+
   });
 
 }));

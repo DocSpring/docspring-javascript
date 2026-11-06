@@ -18,7 +18,7 @@ import TemplateFieldDependencyMatch from './TemplateFieldDependencyMatch';
 /**
  * The EmailActionConditions model module.
  * @module model/EmailActionConditions
- * @version 4.4.0
+ * @version 4.5.0
  */
 class EmailActionConditions {
     /**

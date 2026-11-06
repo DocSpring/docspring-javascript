@@ -1844,8 +1844,7 @@ export default {
               "type": [
                 "string",
                 "null"
-              ],
-              "format": "uri"
+              ]
             },
             "signature_request_email_attachments": {
               "type": [
@@ -1894,6 +1893,23 @@ export default {
                 "null"
               ],
               "maxLength": 2048
+            },
+            "success_title": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 512
+            },
+            "success_message": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 5000
+            },
+            "show_fill_again_button": {
+              "type": "boolean"
             },
             "slack_webhook_url": {
               "type": [
@@ -2348,10 +2364,9 @@ export default {
             },
             "filename": {
               "type": "string",
-              "minLength": 1,
               "maxLength": 255,
-              "pattern": "^[^/\\\\]*$",
-              "x-pattern-message": "can't contain a slash (/ or \\)"
+              "pattern": "^[^/\\\\]*[^/\\\\ \t\n\u000b\f\r   -     　][^/\\\\]*$",
+              "x-pattern-message": "can't be blank or contain a slash (/ or \\)"
             },
             "detect_fields": {
               "type": "boolean"
@@ -2377,6 +2392,9 @@ export default {
                 "ai",
                 "none"
               ]
+            },
+            "include_office_use_fields": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -4134,8 +4152,7 @@ export default {
               "type": [
                 "string",
                 "null"
-              ],
-              "format": "uri"
+              ]
             },
             "signature_request_email_attachments": {
               "type": [
@@ -4184,6 +4201,23 @@ export default {
                 "null"
               ],
               "maxLength": 2048
+            },
+            "success_title": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 512
+            },
+            "success_message": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 5000
+            },
+            "show_fill_again_button": {
+              "type": "boolean"
             },
             "slack_webhook_url": {
               "type": [
@@ -4466,6 +4500,7 @@ export default {
             },
             "field_groups": {
               "type": "array",
+              "minItems": 1,
               "items": {
                 "type": "object",
                 "properties": {
@@ -4502,6 +4537,43 @@ export default {
                 },
                 "required": [
                   "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "form_sections": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                    "x-pattern-message": "can't be blank"
+                  },
+                  "title": {
+                    "type": "string",
+                    "maxLength": 512
+                  },
+                  "description": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 5000
+                  },
+                  "field_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "title",
+                  "field_ids"
                 ],
                 "additionalProperties": false
               }
@@ -4701,10 +4773,9 @@ export default {
             },
             "filename": {
               "type": "string",
-              "minLength": 1,
               "maxLength": 255,
-              "pattern": "^[^/\\\\]*$",
-              "x-pattern-message": "can't contain a slash (/ or \\)"
+              "pattern": "^[^/\\\\]*[^/\\\\ \t\n\u000b\f\r   -     　][^/\\\\]*$",
+              "x-pattern-message": "can't be blank or contain a slash (/ or \\)"
             },
             "reimport_fields": {
               "type": "boolean"
@@ -5539,6 +5610,9 @@ export default {
                 "docx",
                 "odt"
               ]
+            },
+            "include_office_use_fields": {
+              "type": "boolean"
             }
           },
           "additionalProperties": false

@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CustomFile model module.
  * @module model/CustomFile
- * @version 4.4.0
+ * @version 4.5.0
  */
 class CustomFile {
     /**

@@ -21,7 +21,7 @@ import TemplateType from './TemplateType';
 /**
  * The SubmissionSummary model module.
  * @module model/SubmissionSummary
- * @version 4.4.0
+ * @version 4.5.0
  */
 class SubmissionSummary {
     /**

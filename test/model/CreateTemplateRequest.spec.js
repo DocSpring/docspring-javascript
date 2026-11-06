@@ -252,6 +252,24 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property success_title (base name: "success_title")', function() {
+      // uncomment below and update the code to test the property success_title
+      //var instance = new DocSpring.CreateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property success_message (base name: "success_message")', function() {
+      // uncomment below and update the code to test the property success_message
+      //var instance = new DocSpring.CreateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property show_fill_again_button (base name: "show_fill_again_button")', function() {
+      // uncomment below and update the code to test the property show_fill_again_button
+      //var instance = new DocSpring.CreateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property slack_webhook_url (base name: "slack_webhook_url")', function() {
       // uncomment below and update the code to test the property slack_webhook_url
       //var instance = new DocSpring.CreateTemplateRequest();
@@ -368,6 +386,12 @@
 
     it('should have the property field_logic (base name: "field_logic")', function() {
       // uncomment below and update the code to test the property field_logic
+      //var instance = new DocSpring.CreateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property include_office_use_fields (base name: "include_office_use_fields")', function() {
+      // uncomment below and update the code to test the property include_office_use_fields
       //var instance = new DocSpring.CreateTemplateRequest();
       //expect(instance).to.be();
     });

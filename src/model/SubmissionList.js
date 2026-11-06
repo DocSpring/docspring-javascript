@@ -17,7 +17,7 @@ import SubmissionSummary from './SubmissionSummary';
 /**
  * The SubmissionList model module.
  * @module model/SubmissionList
- * @version 4.4.0
+ * @version 4.5.0
  */
 class SubmissionList {
     /**

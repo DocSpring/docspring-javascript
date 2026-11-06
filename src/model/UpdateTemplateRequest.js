@@ -22,11 +22,12 @@ import SignatureRequestEmailAttachments from './SignatureRequestEmailAttachments
 import TemplateDefaultsInput from './TemplateDefaultsInput';
 import TemplateFieldDependencyInput from './TemplateFieldDependencyInput';
 import TemplateFormMode from './TemplateFormMode';
+import TemplateFormSectionInput from './TemplateFormSectionInput';
 
 /**
  * The UpdateTemplateRequest model module.
  * @module model/UpdateTemplateRequest
- * @version 4.4.0
+ * @version 4.5.0
  */
 class UpdateTemplateRequest {
     /**
@@ -154,6 +155,15 @@ class UpdateTemplateRequest {
             if (data.hasOwnProperty('signature_request_signing_url')) {
                 obj['signature_request_signing_url'] = ApiClient.convertToType(data['signature_request_signing_url'], 'String');
             }
+            if (data.hasOwnProperty('success_title')) {
+                obj['success_title'] = ApiClient.convertToType(data['success_title'], 'String');
+            }
+            if (data.hasOwnProperty('success_message')) {
+                obj['success_message'] = ApiClient.convertToType(data['success_message'], 'String');
+            }
+            if (data.hasOwnProperty('show_fill_again_button')) {
+                obj['show_fill_again_button'] = ApiClient.convertToType(data['show_fill_again_button'], 'Boolean');
+            }
             if (data.hasOwnProperty('slack_webhook_url')) {
                 obj['slack_webhook_url'] = ApiClient.convertToType(data['slack_webhook_url'], 'String');
             }
@@ -165,6 +175,9 @@ class UpdateTemplateRequest {
             }
             if (data.hasOwnProperty('field_groups')) {
                 obj['field_groups'] = ApiClient.convertToType(data['field_groups'], [FieldGroupInput]);
+            }
+            if (data.hasOwnProperty('form_sections')) {
+                obj['form_sections'] = ApiClient.convertToType(data['form_sections'], [TemplateFormSectionInput]);
             }
             if (data.hasOwnProperty('predefined_fields')) {
                 obj['predefined_fields'] = ApiClient.convertToType(data['predefined_fields'], [PredefinedFieldInput]);
@@ -248,6 +261,14 @@ class UpdateTemplateRequest {
             throw new Error("Expected the field `signature_request_signing_url` to be a primitive type in the JSON string but got " + data['signature_request_signing_url']);
         }
         // ensure the json data is a string
+        if (data['success_title'] && !(typeof data['success_title'] === 'string' || data['success_title'] instanceof String)) {
+            throw new Error("Expected the field `success_title` to be a primitive type in the JSON string but got " + data['success_title']);
+        }
+        // ensure the json data is a string
+        if (data['success_message'] && !(typeof data['success_message'] === 'string' || data['success_message'] instanceof String)) {
+            throw new Error("Expected the field `success_message` to be a primitive type in the JSON string but got " + data['success_message']);
+        }
+        // ensure the json data is a string
         if (data['slack_webhook_url'] && !(typeof data['slack_webhook_url'] === 'string' || data['slack_webhook_url'] instanceof String)) {
             throw new Error("Expected the field `slack_webhook_url` to be a primitive type in the JSON string but got " + data['slack_webhook_url']);
         }
@@ -273,6 +294,16 @@ class UpdateTemplateRequest {
             // validate the optional field `field_groups` (array)
             for (const item of data['field_groups']) {
                 FieldGroupInput.validateJSON(item);
+            };
+        }
+        if (data['form_sections']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['form_sections'])) {
+                throw new Error("Expected the field `form_sections` to be an array in the JSON data but got " + data['form_sections']);
+            }
+            // validate the optional field `form_sections` (array)
+            for (const item of data['form_sections']) {
+                TemplateFormSectionInput.validateJSON(item);
             };
         }
         if (data['predefined_fields']) { // data not null
@@ -381,7 +412,7 @@ UpdateTemplateRequest.prototype['default_form_mode'] = undefined;
 UpdateTemplateRequest.prototype['editable_submissions'] = undefined;
 
 /**
- * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
+ * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Each one is stored in lowercase, without a trailing slash. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and Web Forms JS) aren't restricted.
  * @member {Array.<String>} embed_domains
  */
 UpdateTemplateRequest.prototype['embed_domains'] = undefined;
@@ -459,7 +490,7 @@ UpdateTemplateRequest.prototype['public_submissions'] = undefined;
 UpdateTemplateRequest.prototype['public_web_form'] = undefined;
 
 /**
- * Where the web form sends people after they submit it.
+ * Where the web form sends people after they submit it, instead of showing its success screen. After its `?` or `#`, it can have variables such as `{{ data.first_name }}`, which the form fills in with what they submitted.
  * @member {String} redirect_url
  */
 UpdateTemplateRequest.prototype['redirect_url'] = undefined;
@@ -507,6 +538,24 @@ UpdateTemplateRequest.prototype['signature_request_reply_to'] = undefined;
 UpdateTemplateRequest.prototype['signature_request_signing_url'] = undefined;
 
 /**
+ * The title of the web form's success screen. When it's null or empty, the screen says "Thanks for filling out" and the template's name. It can have variables such as `{{ data.first_name }}`.
+ * @member {String} success_title
+ */
+UpdateTemplateRequest.prototype['success_title'] = undefined;
+
+/**
+ * A message under the title of the web form's success screen, as plain text. Line breaks show, and web addresses become links. It can have variables such as `{{ data.first_name }}`.
+ * @member {String} success_message
+ */
+UpdateTemplateRequest.prototype['success_message'] = undefined;
+
+/**
+ * Whether the web form's success screen has a "Fill out again" button, which clears the form so someone can fill it in again.
+ * @member {Boolean} show_fill_again_button
+ */
+UpdateTemplateRequest.prototype['show_fill_again_button'] = undefined;
+
+/**
  * A Slack incoming webhook URL that is notified about the template's submissions. It's never returned; `has_slack_webhook_url` says if it's set.
  * @member {String} slack_webhook_url
  */
@@ -529,6 +578,12 @@ UpdateTemplateRequest.prototype['field_dependencies'] = undefined;
  * @member {Array.<module:model/FieldGroupInput>} field_groups
  */
 UpdateTemplateRequest.prototype['field_groups'] = undefined;
+
+/**
+ * The web form's sections, in order. Setting them replaces all of the sections; an empty list removes them.
+ * @member {Array.<module:model/TemplateFormSectionInput>} form_sections
+ */
+UpdateTemplateRequest.prototype['form_sections'] = undefined;
 
 /**
  * The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.

@@ -157,6 +157,8 @@ docs/TemplateFieldLogicStatus.md
 docs/TemplateFieldMove.md
 docs/TemplateFields.md
 docs/TemplateFormMode.md
+docs/TemplateFormSection.md
+docs/TemplateFormSectionInput.md
 docs/TemplateModelCode.md
 docs/TemplatePageAiError.md
 docs/TemplatePageAiNamingStatus.md
@@ -352,6 +354,8 @@ src/model/TemplateFieldLogicStatus.js
 src/model/TemplateFieldMove.js
 src/model/TemplateFields.js
 src/model/TemplateFormMode.js
+src/model/TemplateFormSection.js
+src/model/TemplateFormSectionInput.js
 src/model/TemplateModelCode.js
 src/model/TemplatePageAiError.js
 src/model/TemplatePageAiNamingStatus.js
@@ -542,6 +546,8 @@ test/model/TemplateFieldLogicStatus.spec.js
 test/model/TemplateFieldMove.spec.js
 test/model/TemplateFields.spec.js
 test/model/TemplateFormMode.spec.js
+test/model/TemplateFormSection.spec.js
+test/model/TemplateFormSectionInput.spec.js
 test/model/TemplateModelCode.spec.js
 test/model/TemplatePageAiError.spec.js
 test/model/TemplatePageAiNamingStatus.spec.js

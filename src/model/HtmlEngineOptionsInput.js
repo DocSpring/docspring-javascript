@@ -17,7 +17,7 @@ import PageFormat from './PageFormat';
 /**
  * The HtmlEngineOptionsInput model module.
  * @module model/HtmlEngineOptionsInput
- * @version 4.4.0
+ * @version 4.5.0
  */
 class HtmlEngineOptionsInput {
     /**
@@ -129,13 +129,13 @@ class HtmlEngineOptionsInput {
 HtmlEngineOptionsInput.prototype['format'] = undefined;
 
 /**
- * The page width for the `Custom` format, with a unit (`8.5in`, `210mm`).
+ * The page width for the `Custom` format, with a unit (`8.5in`, `210mm`), from 0.05in to 200in.
  * @member {String} width
  */
 HtmlEngineOptionsInput.prototype['width'] = undefined;
 
 /**
- * The page height for the `Custom` format, with a unit.
+ * The page height for the `Custom` format, with a unit, from 0.05in to 200in.
  * @member {String} height
  */
 HtmlEngineOptionsInput.prototype['height'] = undefined;
@@ -159,7 +159,7 @@ HtmlEngineOptionsInput.prototype['landscape'] = undefined;
 HtmlEngineOptionsInput.prototype['print_background'] = undefined;
 
 /**
- * The top margin, with a unit, such as `1in` or `20mm`.
+ * The top margin, with a unit, such as `1in` or `20mm`. The top and bottom margins together must be less than the page's height.
  * @member {String} margin_top
  */
 HtmlEngineOptionsInput.prototype['margin_top'] = undefined;
@@ -171,7 +171,7 @@ HtmlEngineOptionsInput.prototype['margin_top'] = undefined;
 HtmlEngineOptionsInput.prototype['margin_bottom'] = undefined;
 
 /**
- * The left margin, with a unit.
+ * The left margin, with a unit. The left and right margins together must be less than the page's width.
  * @member {String} margin_left
  */
 HtmlEngineOptionsInput.prototype['margin_left'] = undefined;

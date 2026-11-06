@@ -18,7 +18,7 @@ import OutputFormat from './OutputFormat';
 /**
  * The SubmissionInput model module.
  * @module model/SubmissionInput
- * @version 4.4.0
+ * @version 4.5.0
  */
 class SubmissionInput {
     /**
@@ -172,7 +172,7 @@ SubmissionInput.prototype['output_formats'] = undefined;
 SubmissionInput.prototype['expires_in'] = undefined;
 
 /**
- * Changes to field settings for this submission only, by field name, such as `{"name": {"required": false, "font_size": 9}}`. A setting that identifies the field (`id`, `name`, `type`), that only the template sets (such as `description`), or that doesn't apply to the field's type and display type (such as `check_character` on a field displayed as text) is a 422. With `signature_requests`, `editable: true` is a 422, and a `default` for a signature or initials field makes the submission `invalid_data`.
+ * Changes to field settings for this submission only, by field name, such as `{"name": {"required": false, "font_size": 9}}`. A setting that identifies the field (`id`, `name`, `type`), that only the template sets (such as `description`), or that doesn't apply to the field's type and display type (such as `check_character` on a field displayed as text) is a 422. A `default` for a signature or initials field makes the submission `invalid_data`. With `signature_requests`, `editable: true` is a 422.
  * @member {Object.<String, module:model/FieldOverride>} field_overrides
  */
 SubmissionInput.prototype['field_overrides'] = undefined;

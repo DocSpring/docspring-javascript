@@ -19,7 +19,7 @@ import EmailDomainState from './EmailDomainState';
 /**
  * The EmailDomain model module.
  * @module model/EmailDomain
- * @version 4.4.0
+ * @version 4.5.0
  */
 class EmailDomain {
     /**

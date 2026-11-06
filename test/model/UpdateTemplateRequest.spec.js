@@ -246,6 +246,24 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property success_title (base name: "success_title")', function() {
+      // uncomment below and update the code to test the property success_title
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property success_message (base name: "success_message")', function() {
+      // uncomment below and update the code to test the property success_message
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property show_fill_again_button (base name: "show_fill_again_button")', function() {
+      // uncomment below and update the code to test the property show_fill_again_button
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property slack_webhook_url (base name: "slack_webhook_url")', function() {
       // uncomment below and update the code to test the property slack_webhook_url
       //var instance = new DocSpring.UpdateTemplateRequest();
@@ -266,6 +284,12 @@
 
     it('should have the property field_groups (base name: "field_groups")', function() {
       // uncomment below and update the code to test the property field_groups
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property form_sections (base name: "form_sections")', function() {
+      // uncomment below and update the code to test the property form_sections
       //var instance = new DocSpring.UpdateTemplateRequest();
       //expect(instance).to.be();
     });

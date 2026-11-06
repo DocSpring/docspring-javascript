@@ -17,7 +17,7 @@ import EmailActionSetting from './EmailActionSetting';
 /**
  * The EmailActionCustomization model module.
  * @module model/EmailActionCustomization
- * @version 4.4.0
+ * @version 4.5.0
  */
 class EmailActionCustomization {
     /**

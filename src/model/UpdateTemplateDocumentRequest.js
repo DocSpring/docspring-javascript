@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The UpdateTemplateDocumentRequest model module.
  * @module model/UpdateTemplateDocumentRequest
- * @version 4.4.0
+ * @version 4.5.0
  */
 class UpdateTemplateDocumentRequest {
     /**

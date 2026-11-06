@@ -169,6 +169,8 @@ import TemplateFieldLogicStatus from './model/TemplateFieldLogicStatus';
 import TemplateFieldMove from './model/TemplateFieldMove';
 import TemplateFields from './model/TemplateFields';
 import TemplateFormMode from './model/TemplateFormMode';
+import TemplateFormSection from './model/TemplateFormSection';
+import TemplateFormSectionInput from './model/TemplateFormSectionInput';
 import TemplateModelCode from './model/TemplateModelCode';
 import TemplatePageAiError from './model/TemplatePageAiError';
 import TemplatePageAiNamingStatus from './model/TemplatePageAiNamingStatus';
@@ -236,7 +238,7 @@ import Client from './api/Client';
 * </pre>
 * </p>
 * @module index
-* @version 4.4.0
+* @version 4.5.0
 */
 export {
     /**
@@ -1168,6 +1170,18 @@ export {
      * @property {module:model/TemplateFormMode}
      */
     TemplateFormMode,
+
+    /**
+     * The TemplateFormSection model constructor.
+     * @property {module:model/TemplateFormSection}
+     */
+    TemplateFormSection,
+
+    /**
+     * The TemplateFormSectionInput model constructor.
+     * @property {module:model/TemplateFormSectionInput}
+     */
+    TemplateFormSectionInput,
 
     /**
      * The TemplateModelCode model constructor.

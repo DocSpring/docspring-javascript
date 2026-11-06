@@ -24,13 +24,14 @@ import TemplateDefaults from './TemplateDefaults';
 import TemplateDocument from './TemplateDocument';
 import TemplateFieldDependency from './TemplateFieldDependency';
 import TemplateFormMode from './TemplateFormMode';
+import TemplateFormSection from './TemplateFormSection';
 import TemplateType from './TemplateType';
 import TemplateVersion from './TemplateVersion';
 
 /**
  * The Template model module.
  * @module model/Template
- * @version 4.4.0
+ * @version 4.5.0
  */
 class Template {
     /**
@@ -60,7 +61,7 @@ class Template {
      * @param allow_skipping_optional_fields {Boolean} Visual forms and signature request forms show the Continue button as soon as the required fields are filled in, without visiting each optional field. The `allowSkippingOptionalFields` embed option overrides it.
      * @param default_form_mode {module:model/TemplateFormMode} The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). Only PDF templates have a visual form, so other templates accept only `web`.
      * @param editable_submissions {Boolean} Generate PDFs whose text and check fields stay fillable ("Generate Editable PDFs"). A submission's `editable` overrides it.
-     * @param embed_domains {Array.<String>} The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
+     * @param embed_domains {Array.<String>} The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Each one is stored in lowercase, without a trailing slash. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and Web Forms JS) aren't restricted.
      * @param embed_edit_allow_settings {Boolean} Allow the embedded template editor to change sensitive template settings (webhooks, redirect URL, encryption, public access, expiration and so on).
      * @param embed_edit_allow_versioning {Boolean} Allow the embedded template editor to publish, restore, compare and delete published versions.
      * @param embed_edit_allow_document_replacement {Boolean} Allow the embedded template editor to replace the template's PDF.
@@ -73,7 +74,7 @@ class Template {
      * @param parse_dates_using_template_date_format {Boolean} Date fields also accept NN/NN/YYYY dates (with slashes, dashes or dots), read in the order of the template's default date format: month first for %m/%d/%Y, day first for %d/%m/%Y. When false, date fields only accept YYYY-MM-DD. Applies to PDF templates: an HTML or Word template's date fields only accept YYYY-MM-DD. Date fields that include a time take RFC 3339 date-times either way.
      * @param public_submissions {Boolean} Allow anyone with a submission's ID to download its PDF.
      * @param public_web_form {Boolean} Allow anyone to fill in the template's web form.
-     * @param redirect_url {String} Where the web form sends people after they submit it.
+     * @param redirect_url {String} Where the web form sends people after they submit it, instead of showing its success screen. After its `?` or `#`, it can have variables such as `{{ data.first_name }}`, which the form fills in with what they submitted.
      * @param signature_request_email_attachments {module:model/SignatureRequestEmailAttachments} How DocSpring's completed emails send the signed PDF to your signers and CCs: `attachment` (attached, or a download link when it's too big to attach) or `link` (a download link). Null uses your account's rule: a link if your account has signed a BAA, otherwise attached. PDF templates only. A signature request uses the value it had when the request was created.
      * @param signature_request_from_address {String} The address DocSpring's emails to your signers come from: an address at one of your verified email domains, on the Growth plan or higher. Null sends them from DocSpring's shared address, with "via DocSpring" after the sender name. PDF templates only.
      * @param signature_request_include_signing_token {Boolean} Puts a signing token in `signature_request_signing_url`, as `{{ token_id }}` and `{{ token_secret }}`, so your page can open the signing form without creating a token itself. The email then carries a credential: anyone who has it can open the form and sign. PDF templates only.
@@ -81,11 +82,15 @@ class Template {
      * @param signature_request_notification_emails {Array.<String>} Who DocSpring tells when a signature request's document is completed or declined, or an email bounces or can't be sent: members of your DocSpring team or addresses at your verified email domains. Empty means your account's owner. A submission's `notification_emails` replaces them. PDF templates only.
      * @param signature_request_reply_to {String} Where your signers' replies to DocSpring's emails go: a member of your DocSpring team or an address at one of your verified email domains. Null means your account's owner. A submission's `reply_to` replaces it. PDF templates only.
      * @param signature_request_signing_url {String} A page on your own site that the button in DocSpring's email to a signer opens, instead of DocSpring's signing page: an https URL on one of your verified email domains or a subdomain of one, on the Growth plan or higher. It must include `{{ signature_request_id }}`. Your page authenticates the signer, creates a token for the signature request, and opens the signing form with it. Null links to DocSpring's signing page. PDF templates only.
+     * @param success_title {String} The title of the web form's success screen. When it's null or empty, the screen says "Thanks for filling out" and the template's name. It can have variables such as `{{ data.first_name }}`.
+     * @param success_message {String} A message under the title of the web form's success screen, as plain text. Line breaks show, and web addresses become links. It can have variables such as `{{ data.first_name }}`.
+     * @param show_fill_again_button {Boolean} Whether the web form's success screen has a "Fill out again" button, which clears the form so someone can fill it in again.
      * @param has_slack_webhook_url {Boolean} Whether `slack_webhook_url` is set.
      * @param last_changed_by {module:model/TemplateActor} Who last changed the draft: a user in your account, an API token, or someone using the embedded template editor. Null if no change has been recorded.
      * @param defaults {module:model/TemplateDefaults} 
      * @param field_dependencies {Array.<module:model/TemplateFieldDependency>} Conditional logic: each rule shows or hides its target fields, or makes them required, depending on the values of other fields.
      * @param field_groups {Array.<module:model/FieldGroup>} The groups of the template's fields, with their settings. A field's name puts it in groups: `address/city` is in the group `address`, and `items/0/price` is in the list `items` and its items' group `items/~`.
+     * @param form_sections {Array.<module:model/TemplateFormSection>} The web form's sections, in order: Web Forms JS and the hosted web form show one section at a time. Empty when the template has none, and the web form shows all of its fields together, in the order the fields endpoint lists them. A field that no section lists (one added later) goes after the field before it in that order, in that field's section.
      * @param predefined_fields {Array.<module:model/PredefinedField>} The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
      * @param predefined_fields_sample_data {Object.<String, Object>} Sample submission data that sets `predefined_fields`: each value becomes a predefined field, with a type that fits it (`string`, `number`, `boolean`, `date`, `email` or `url`) and `required_in_template` true. Nested objects and arrays become names with `/`, such as `customer/email`. Without `predefined_fields` in the same request, it replaces them; with them, it adds to them and sets the types of the ones it has values for.
      * @param html {String} The HTML of an HTML template, as a Liquid template. Null for other templates.
@@ -98,9 +103,9 @@ class Template {
      * @param embed_edit_token {String} The token that opens the template in the embedded template editor.
      * @param versions {Array.<module:model/TemplateVersion>} The template's published versions, newest first (up to 100).
      */
-    constructor(id, name, description, template_type, output_format, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, signature_request_email_attachments, signature_request_from_address, signature_request_include_signing_token, signature_request_from_name, signature_request_notification_emails, signature_request_reply_to, signature_request_signing_url, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, layout, embed_edit_token, versions) { 
+    constructor(id, name, description, template_type, output_format, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, signature_request_email_attachments, signature_request_from_address, signature_request_include_signing_token, signature_request_from_name, signature_request_notification_emails, signature_request_reply_to, signature_request_signing_url, success_title, success_message, show_fill_again_button, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, form_sections, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, layout, embed_edit_token, versions) { 
         
-        Template.initialize(this, id, name, description, template_type, output_format, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, signature_request_email_attachments, signature_request_from_address, signature_request_include_signing_token, signature_request_from_name, signature_request_notification_emails, signature_request_reply_to, signature_request_signing_url, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, layout, embed_edit_token, versions);
+        Template.initialize(this, id, name, description, template_type, output_format, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, signature_request_email_attachments, signature_request_from_address, signature_request_include_signing_token, signature_request_from_name, signature_request_notification_emails, signature_request_reply_to, signature_request_signing_url, success_title, success_message, show_fill_again_button, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, form_sections, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, layout, embed_edit_token, versions);
     }
 
     /**
@@ -108,7 +113,7 @@ class Template {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, name, description, template_type, output_format, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, signature_request_email_attachments, signature_request_from_address, signature_request_include_signing_token, signature_request_from_name, signature_request_notification_emails, signature_request_reply_to, signature_request_signing_url, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, layout, embed_edit_token, versions) { 
+    static initialize(obj, id, name, description, template_type, output_format, ready, document, parent_folder_id, path, latest_version, version_published_at, locked, last_changed_at, created_at, updated_at, version, add_signature_request_submission_id_footers, ai_field_naming_language, allow_additional_properties, allow_skipping_optional_fields, default_form_mode, editable_submissions, embed_domains, embed_edit_allow_settings, embed_edit_allow_versioning, embed_edit_allow_document_replacement, encrypt_pdfs, has_encrypt_pdfs_password, expire_submissions, expire_after, expiration_interval, merge_audit_trail_pdf, parse_dates_using_template_date_format, public_submissions, public_web_form, redirect_url, signature_request_email_attachments, signature_request_from_address, signature_request_include_signing_token, signature_request_from_name, signature_request_notification_emails, signature_request_reply_to, signature_request_signing_url, success_title, success_message, show_fill_again_button, has_slack_webhook_url, last_changed_by, defaults, field_dependencies, field_groups, form_sections, predefined_fields, predefined_fields_sample_data, html, scss, header_html, footer_html, html_engine_options, html_escape_data, layout, embed_edit_token, versions) { 
         obj['id'] = id;
         obj['name'] = name;
         obj['description'] = description;
@@ -152,11 +157,15 @@ class Template {
         obj['signature_request_notification_emails'] = signature_request_notification_emails;
         obj['signature_request_reply_to'] = signature_request_reply_to;
         obj['signature_request_signing_url'] = signature_request_signing_url;
+        obj['success_title'] = success_title;
+        obj['success_message'] = success_message;
+        obj['show_fill_again_button'] = show_fill_again_button;
         obj['has_slack_webhook_url'] = has_slack_webhook_url;
         obj['last_changed_by'] = last_changed_by;
         obj['defaults'] = defaults;
         obj['field_dependencies'] = field_dependencies;
         obj['field_groups'] = field_groups;
+        obj['form_sections'] = form_sections;
         obj['predefined_fields'] = predefined_fields;
         obj['predefined_fields_sample_data'] = predefined_fields_sample_data;
         obj['html'] = html;
@@ -313,6 +322,15 @@ class Template {
             if (data.hasOwnProperty('signature_request_signing_url')) {
                 obj['signature_request_signing_url'] = ApiClient.convertToType(data['signature_request_signing_url'], 'String');
             }
+            if (data.hasOwnProperty('success_title')) {
+                obj['success_title'] = ApiClient.convertToType(data['success_title'], 'String');
+            }
+            if (data.hasOwnProperty('success_message')) {
+                obj['success_message'] = ApiClient.convertToType(data['success_message'], 'String');
+            }
+            if (data.hasOwnProperty('show_fill_again_button')) {
+                obj['show_fill_again_button'] = ApiClient.convertToType(data['show_fill_again_button'], 'Boolean');
+            }
             if (data.hasOwnProperty('has_slack_webhook_url')) {
                 obj['has_slack_webhook_url'] = ApiClient.convertToType(data['has_slack_webhook_url'], 'Boolean');
             }
@@ -327,6 +345,9 @@ class Template {
             }
             if (data.hasOwnProperty('field_groups')) {
                 obj['field_groups'] = ApiClient.convertToType(data['field_groups'], [FieldGroup]);
+            }
+            if (data.hasOwnProperty('form_sections')) {
+                obj['form_sections'] = ApiClient.convertToType(data['form_sections'], [TemplateFormSection]);
             }
             if (data.hasOwnProperty('predefined_fields')) {
                 obj['predefined_fields'] = ApiClient.convertToType(data['predefined_fields'], [PredefinedField]);
@@ -437,6 +458,14 @@ class Template {
         if (data['signature_request_signing_url'] && !(typeof data['signature_request_signing_url'] === 'string' || data['signature_request_signing_url'] instanceof String)) {
             throw new Error("Expected the field `signature_request_signing_url` to be a primitive type in the JSON string but got " + data['signature_request_signing_url']);
         }
+        // ensure the json data is a string
+        if (data['success_title'] && !(typeof data['success_title'] === 'string' || data['success_title'] instanceof String)) {
+            throw new Error("Expected the field `success_title` to be a primitive type in the JSON string but got " + data['success_title']);
+        }
+        // ensure the json data is a string
+        if (data['success_message'] && !(typeof data['success_message'] === 'string' || data['success_message'] instanceof String)) {
+            throw new Error("Expected the field `success_message` to be a primitive type in the JSON string but got " + data['success_message']);
+        }
         // validate the optional field `last_changed_by`
         if (data['last_changed_by']) { // data not null
           TemplateActor.validateJSON(data['last_changed_by']);
@@ -448,6 +477,10 @@ class Template {
         // ensure the json data is an array
         if (!Array.isArray(data['field_groups'])) {
             throw new Error("Expected the field `field_groups` to be an array in the JSON data but got " + data['field_groups']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['form_sections'])) {
+            throw new Error("Expected the field `form_sections` to be an array in the JSON data but got " + data['form_sections']);
         }
         if (data['predefined_fields']) { // data not null
             // ensure the json data is an array
@@ -494,7 +527,7 @@ class Template {
 
 }
 
-Template.RequiredProperties = ["id", "name", "description", "template_type", "output_format", "ready", "document", "parent_folder_id", "path", "latest_version", "version_published_at", "locked", "last_changed_at", "created_at", "updated_at", "version", "add_signature_request_submission_id_footers", "ai_field_naming_language", "allow_additional_properties", "allow_skipping_optional_fields", "default_form_mode", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs", "has_encrypt_pdfs_password", "expire_submissions", "expire_after", "expiration_interval", "merge_audit_trail_pdf", "parse_dates_using_template_date_format", "public_submissions", "public_web_form", "redirect_url", "signature_request_email_attachments", "signature_request_from_address", "signature_request_include_signing_token", "signature_request_from_name", "signature_request_notification_emails", "signature_request_reply_to", "signature_request_signing_url", "has_slack_webhook_url", "last_changed_by", "defaults", "field_dependencies", "field_groups", "predefined_fields", "predefined_fields_sample_data", "html", "scss", "header_html", "footer_html", "html_engine_options", "html_escape_data", "layout", "embed_edit_token", "versions"];
+Template.RequiredProperties = ["id", "name", "description", "template_type", "output_format", "ready", "document", "parent_folder_id", "path", "latest_version", "version_published_at", "locked", "last_changed_at", "created_at", "updated_at", "version", "add_signature_request_submission_id_footers", "ai_field_naming_language", "allow_additional_properties", "allow_skipping_optional_fields", "default_form_mode", "editable_submissions", "embed_domains", "embed_edit_allow_settings", "embed_edit_allow_versioning", "embed_edit_allow_document_replacement", "encrypt_pdfs", "has_encrypt_pdfs_password", "expire_submissions", "expire_after", "expiration_interval", "merge_audit_trail_pdf", "parse_dates_using_template_date_format", "public_submissions", "public_web_form", "redirect_url", "signature_request_email_attachments", "signature_request_from_address", "signature_request_include_signing_token", "signature_request_from_name", "signature_request_notification_emails", "signature_request_reply_to", "signature_request_signing_url", "success_title", "success_message", "show_fill_again_button", "has_slack_webhook_url", "last_changed_by", "defaults", "field_dependencies", "field_groups", "form_sections", "predefined_fields", "predefined_fields_sample_data", "html", "scss", "header_html", "footer_html", "html_engine_options", "html_escape_data", "layout", "embed_edit_token", "versions"];
 
 /**
  * The template's ID.
@@ -629,7 +662,7 @@ Template.prototype['default_form_mode'] = undefined;
 Template.prototype['editable_submissions'] = undefined;
 
 /**
- * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and the simple form) aren't restricted.
+ * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Each one is stored in lowercase, without a trailing slash. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and Web Forms JS) aren't restricted.
  * @member {Array.<String>} embed_domains
  */
 Template.prototype['embed_domains'] = undefined;
@@ -707,7 +740,7 @@ Template.prototype['public_submissions'] = undefined;
 Template.prototype['public_web_form'] = undefined;
 
 /**
- * Where the web form sends people after they submit it.
+ * Where the web form sends people after they submit it, instead of showing its success screen. After its `?` or `#`, it can have variables such as `{{ data.first_name }}`, which the form fills in with what they submitted.
  * @member {String} redirect_url
  */
 Template.prototype['redirect_url'] = undefined;
@@ -755,6 +788,24 @@ Template.prototype['signature_request_reply_to'] = undefined;
 Template.prototype['signature_request_signing_url'] = undefined;
 
 /**
+ * The title of the web form's success screen. When it's null or empty, the screen says "Thanks for filling out" and the template's name. It can have variables such as `{{ data.first_name }}`.
+ * @member {String} success_title
+ */
+Template.prototype['success_title'] = undefined;
+
+/**
+ * A message under the title of the web form's success screen, as plain text. Line breaks show, and web addresses become links. It can have variables such as `{{ data.first_name }}`.
+ * @member {String} success_message
+ */
+Template.prototype['success_message'] = undefined;
+
+/**
+ * Whether the web form's success screen has a "Fill out again" button, which clears the form so someone can fill it in again.
+ * @member {Boolean} show_fill_again_button
+ */
+Template.prototype['show_fill_again_button'] = undefined;
+
+/**
  * Whether `slack_webhook_url` is set.
  * @member {Boolean} has_slack_webhook_url
  */
@@ -782,6 +833,12 @@ Template.prototype['field_dependencies'] = undefined;
  * @member {Array.<module:model/FieldGroup>} field_groups
  */
 Template.prototype['field_groups'] = undefined;
+
+/**
+ * The web form's sections, in order: Web Forms JS and the hosted web form show one section at a time. Empty when the template has none, and the web form shows all of its fields together, in the order the fields endpoint lists them. A field that no section lists (one added later) goes after the field before it in that order, in that field's section.
+ * @member {Array.<module:model/TemplateFormSection>} form_sections
+ */
+Template.prototype['form_sections'] = undefined;
 
 /**
  * The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.

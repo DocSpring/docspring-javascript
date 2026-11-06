@@ -20,7 +20,7 @@ import SubmissionAction from './SubmissionAction';
 /**
  * The CombinedPdf model module.
  * @module model/CombinedPdf
- * @version 4.4.0
+ * @version 4.5.0
  */
 class CombinedPdf {
     /**

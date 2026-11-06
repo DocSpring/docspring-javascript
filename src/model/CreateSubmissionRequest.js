@@ -21,7 +21,7 @@ import SigningOrder from './SigningOrder';
 /**
  * The CreateSubmissionRequest model module.
  * @module model/CreateSubmissionRequest
- * @version 4.4.0
+ * @version 4.5.0
  */
 class CreateSubmissionRequest {
     /**
@@ -195,7 +195,7 @@ CreateSubmissionRequest.prototype['test'] = undefined;
 CreateSubmissionRequest.prototype['editable'] = undefined;
 
 /**
- * The values of the template's fields, by field name. Required for PDF templates, Word templates and page designs, unless `signature_requests` collects them (PDF templates only).
+ * The values of the template's fields, by field name. Required for PDF templates, Word templates and page designs, unless `signature_requests` collects them (PDF templates only). Signatures come only from signature requests: a value for a signature or initials field makes the submission `invalid_data`, in test mode too. To print an image or a name you send, use an Image or Text field.
  * @member {Object.<String, Object>} data
  */
 CreateSubmissionRequest.prototype['data'] = undefined;
@@ -225,7 +225,7 @@ CreateSubmissionRequest.prototype['output_formats'] = undefined;
 CreateSubmissionRequest.prototype['expires_in'] = undefined;
 
 /**
- * Changes to field settings for this submission only, by field name, such as `{"name": {"required": false, "font_size": 9}}`. A setting that identifies the field (`id`, `name`, `type`), that only the template sets (such as `description`), or that doesn't apply to the field's type and display type (such as `check_character` on a field displayed as text) is a 422. With `signature_requests`, `editable: true` is a 422, and a `default` for a signature or initials field makes the submission `invalid_data`.
+ * Changes to field settings for this submission only, by field name, such as `{"name": {"required": false, "font_size": 9}}`. A setting that identifies the field (`id`, `name`, `type`), that only the template sets (such as `description`), or that doesn't apply to the field's type and display type (such as `check_character` on a field displayed as text) is a 422. A `default` for a signature or initials field makes the submission `invalid_data`. With `signature_requests`, `editable: true` is a 422.
  * @member {Object.<String, module:model/FieldOverride>} field_overrides
  */
 CreateSubmissionRequest.prototype['field_overrides'] = undefined;
@@ -243,7 +243,7 @@ CreateSubmissionRequest.prototype['html'] = undefined;
 CreateSubmissionRequest.prototype['css'] = undefined;
 
 /**
- * The people who sign the PDF, and fill in their fields first. The PDF is generated once every signature request is completed. PDF templates only. Without `role`s, the first signature request is `Signer 1`, the second `Signer 2`, and so on. To leave a signer out, give every signature request its `role` and leave that one's out. Only the signers sign: a value for a signature or initials field in `data` makes the submission `invalid_data`.
+ * The people who sign the PDF, and fill in their fields first. The PDF is generated once every signature request is completed. PDF templates only. Without `role`s, the first signature request is `Signer 1`, the second `Signer 2`, and so on. To leave a signer out, give every signature request its `role` and leave that one's out.
  * @member {Array.<module:model/SignatureRequestInput>} signature_requests
  */
 CreateSubmissionRequest.prototype['signature_requests'] = undefined;
