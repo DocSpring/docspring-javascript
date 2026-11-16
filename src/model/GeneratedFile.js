@@ -17,7 +17,7 @@ import GeneratedFileState from './GeneratedFileState';
 /**
  * The GeneratedFile model module.
  * @module model/GeneratedFile
- * @version 4.5.0
+ * @version 4.6.0
  */
 class GeneratedFile {
     /**
@@ -28,9 +28,9 @@ class GeneratedFile {
      * @param state {module:model/GeneratedFileState} `processed` once the file has been made. `pending` while it's being made, and `error` if it couldn't be made (see `error_message`).
      * @param error_message {String} Why the file couldn't be made, when `state` is `error`.
      * @param download_url {String} A temporary link to download the file. Null until the file has been made, and when your account turns off download links for submissions.
-     * @param permanent_url {String} A link to download the file that doesn't expire: it redirects to a new temporary link. It needs your API token or a signed-in session, except for a submission of a template that makes its submissions public. Null until the file has been made.
+     * @param permanent_url {String} A link to download the file that doesn't expire: it redirects to a new temporary link. It needs your API token or a signed-in session, except for a submission of a template that makes its submissions public (a signing manifest's link always needs one). Null until the file has been made.
      * @param filename {String} The file's name, such as `sub_123.pdf`, `sub_123.docx` or `sub_123.odt`.
-     * @param content_type {String} The file's media type: `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document` for a Word document, or `application/vnd.oasis.opendocument.text` for an OpenDocument file.
+     * @param content_type {String} The file's media type: `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document` for a Word document, or `application/vnd.oasis.opendocument.text` for an OpenDocument file, or `application/json` for a signing manifest.
      * @param size {Number} The file's size in bytes. Null until the file has been made.
      * @param sha256 {String} The SHA-256 hash of the file. Null until the file has been made.
      */
@@ -161,7 +161,7 @@ GeneratedFile.prototype['error_message'] = undefined;
 GeneratedFile.prototype['download_url'] = undefined;
 
 /**
- * A link to download the file that doesn't expire: it redirects to a new temporary link. It needs your API token or a signed-in session, except for a submission of a template that makes its submissions public. Null until the file has been made.
+ * A link to download the file that doesn't expire: it redirects to a new temporary link. It needs your API token or a signed-in session, except for a submission of a template that makes its submissions public (a signing manifest's link always needs one). Null until the file has been made.
  * @member {String} permanent_url
  */
 GeneratedFile.prototype['permanent_url'] = undefined;
@@ -173,7 +173,7 @@ GeneratedFile.prototype['permanent_url'] = undefined;
 GeneratedFile.prototype['filename'] = undefined;
 
 /**
- * The file's media type: `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document` for a Word document, or `application/vnd.oasis.opendocument.text` for an OpenDocument file.
+ * The file's media type: `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document` for a Word document, or `application/vnd.oasis.opendocument.text` for an OpenDocument file, or `application/json` for a signing manifest.
  * @member {String} content_type
  */
 GeneratedFile.prototype['content_type'] = undefined;

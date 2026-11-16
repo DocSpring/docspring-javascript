@@ -21,6 +21,7 @@ import FieldType from './FieldType';
 import ImageGravity from './ImageGravity';
 import ImageScaleType from './ImageScaleType';
 import NumberConditionType from './NumberConditionType';
+import NumberPart from './NumberPart';
 import ShapeType from './ShapeType';
 import StringConditionType from './StringConditionType';
 import TextAlignment from './TextAlignment';
@@ -31,7 +32,7 @@ import Typeface from './Typeface';
 /**
  * The Field model module.
  * @module model/Field
- * @version 4.5.0
+ * @version 4.6.0
  */
 class Field {
     /**
@@ -53,6 +54,8 @@ class Field {
      * @param metadata {String} Text for your own use, added to the template's data schema as `x-metadata`. DocSpring doesn't use it. Shared by every field with the same `name`.
      * @param required {Boolean} Whether each submission must include a value for the field. A submission without one fails validation, and no PDF is generated. Shared by every field with the same `name`.
      * @param option_list {String} String fields only: a comma-separated list of the values the field accepts. It's added to the template's data schema as an `enum`, forms show it as a select list, and an `editable` field becomes a dropdown. Shared by every field with the same `name`.
+     * @param option_labels {Object.<String, String>} With `option_list`: the label forms show for each option, keyed by its value, such as `{"head_of_household": "Head of household"}`. The data, the API and webhooks keep the value, and the PDF prints it unless `print_option_labels` is set. An option without a label shows its value, or its sentence case when the options are lowercase words joined by underscores (`head_of_household` shows as "Head of household"). The template's data schema has them as `x-option-labels`. Each key must be one of the options, and each label must have some text. Shared by every field with the same `name`.
+     * @param print_option_labels {Boolean} Text display, with `option_labels`: the PDF prints the chosen option's label instead of its value, and an `editable` field's dropdown lists the labels. Shared by every field with the same `name`.
      * @param combined_field_names {String} Combined fields only: a comma-separated list of the names of the fields whose values are combined, in order. Shared by every field with the same `name`.
      * @param combined_field_type {module:model/CombinedFieldType} Combined fields only: `separator` joins the values with `combined_field_separator`, and `format` puts them into `combined_field_format`. Shared by every field with the same `name`.
      * @param combined_field_separator {String} Combined fields only: the text placed between the values when `combined_field_type` is `separator`. Empty values are skipped. Defaults to a space. Shared by every field with the same `name`.
@@ -66,6 +69,9 @@ class Field {
      * @param signature_allow_draw {Boolean} Signature and initials fields only: lets signers draw their signature on forms and in data requests. Shared by every field with the same `name`.
      * @param signature_allow_type {Boolean} Signature and initials fields only: lets signers type their name and choose a script font instead of drawing, on forms and in data requests. Shared by every field with the same `name`.
      * @param barcode_symbology {module:model/BarcodeSymbology} Barcode fields only: the barcode format, which the value must match. `code_128` and `pdf417` take any ASCII text; `code_39` and `code_93` take capital letters, digits, spaces and `- . $ / + %`; `code_25` takes digits; `ean_13` takes 12 digits, `ean_8` 7 digits and `upc_a` 11 digits (the check digit is added). Shared by every field with the same `name`.
+     * @param comb_fill_from_right {Boolean} With `comb`: the value fills the last boxes of the comb fields with this name, padded on the left with spaces, or with zeros with `comb_pad_with_zeros`, as amounts are written on paper forms. A number with `decimal_places` in one row of boxes lines up on its decimal point, which takes no box: the decimal places fill the last boxes. Date fields ignore it: a date prints in its format. Shared by every field with the same `name`.
+     * @param comb_pad_with_zeros {Boolean} With `comb_fill_from_right`: pads the value on the left with zeros instead of spaces, such as `000123`. A negative number keeps its minus sign in the first box. Shared by every field with the same `name`.
+     * @param print_digits_only {Boolean} With `comb`, for string fields: only the value's digits print, one in each box, and any punctuation is left out, so `123-45-6789` fills the 9 boxes of an SSN. The template's data schema accepts as many digits as the boxes hold, with anything but letters between them. Number and date fields ignore it. Shared by every field with the same `name`.
      * @param hidden {Boolean} Leaves the field off the PDF. It stays in the template's data schema (marked `x-hidden`) and on forms, so other fields, such as combined fields, can use its value. A hidden static check mark or shape isn't printed.
      * @param x {Number} The distance from the page's left edge to the field's left edge. Positions and sizes are in units where every page is 2480 wide: one unit is the page's width in points divided by 2480 (about 0.247 points on a US Letter page).
      * @param y {Number} The distance from the top edge of the field's `page` down to the field's top edge, in the units of `x`. A page is 2480 times its height divided by its width units tall: about 3209 for US Letter and 3508 for A4.
@@ -97,8 +103,8 @@ class Field {
      * @param alignment {module:model/TextAlignment} Text display only: how the text is aligned across the field: `left`, `center`, `right` or `justify` (both edges of every line of multiline text except the last of each paragraph).
      * @param v_alignment {module:model/TextVerticalAlignment} Text display only: how the text is aligned vertically in the field: `bottom`, `center` or `top`.
      * @param comb {Boolean} Text display only: splits the field into `comb_number_of_cells` boxes of equal width and prints one character, centered, in each.
-     * @param comb_number_of_cells {Number} With `comb`: how many boxes the field has. The value's maximum length in the template's data schema is this plus `comb_value_offset`.
-     * @param comb_value_offset {Number} With `comb`: the position, from 0, of the first character of the value that this field prints. For an SSN printed in boxes of 3, 2 and 4 digits, three fields named `ssn` use offsets 0, 3 and 5.
+     * @param comb_number_of_cells {Number} With `comb`: how many boxes the field has, up to 10,000. The value's maximum length in the template's data schema is the furthest that a comb field of its name reaches: its `comb_value_offset` plus its boxes. With `print_digits_only`, that many digits. A number field is split from its printed form (with `decimal_places`), and a number with a digit that no box prints (more digits than the boxes, or a digit where the offsets leave a gap) is a data error.
+     * @param comb_value_offset {Number} With `comb`: how many boxes of the value's row come before this field, from 0 to 10,000. The comb fields that share a name make one row of boxes, and each prints the row's characters from its offset. For an SSN printed in boxes of 3, 2 and 4 digits, three fields named `ssn` use offsets 0, 3 and 5. The fields that print a number's whole part (`number_part`) make a row of their own, and so do the ones that print its decimal places.
      * @param shape_type {module:model/ShapeType} Shape display only: `square`, `rectangle`, `circle`, `ellipse`, `triangle` or `polygon`. A square or circle uses the smaller of `width` and `height`.
      * @param shape_sides {Number} Shape display only, with `shape_type` `polygon`: the number of sides, 3 to 12.
      * @param shape_border_width {Number} Shape display only: the width of the shape's border, in points.
@@ -127,13 +133,15 @@ class Field {
      * @param invert_boolean_condition {Boolean} Boolean fields with check or shape display: prints the check mark or shape when the value is `false` or missing, instead of `true`.
      * @param currency {Boolean} Number fields only: forms show a currency input, and the template's data schema gives the field `format: currency`. It doesn't change how the number prints.
      * @param decimal_places {Number} Number fields with text display: prints the number with this many decimal places, from 0 (rounds to a whole number) to 99. Empty prints the number as it was sent.
+     * @param number_part {module:model/NumberPart} Number fields with text display: which part of the number this field prints. `all` prints the whole number, `whole` only the part before the decimal point (with a minus sign) and `decimals` only the decimal places. For an amount printed as `$ ____ . __`, two fields with the same name: one `whole`, and one `decimals` with `decimal_places` 2. The number is rounded once, to the `decimals` field's decimal places (2 when it sets none).
      * @param image_scale_type {module:model/ImageScaleType} Image fields only: how the image is resized to the field. `fit` keeps its proportions and fits it inside the field, which can leave empty space; `fill` keeps its proportions and crops it to fill the field; `stretch` stretches it to the field's size. Signatures and initials always fit.
      * @param image_gravity {module:model/ImageGravity} Image, signature and initials fields: where the image sits in the field with `fit`, or which part is kept with `fill`: `NorthWest` (top left), `North`, `NorthEast`, `West`, `Center`, `East`, `SouthWest`, `South` or `SouthEast` (bottom right). It also aligns typed signatures, and isn't used with `stretch`.
+     * @param signer_role {String} Who fills in or signs the field when a submission has signature requests: one of the template's `signer_roles`, by its key, or `sender` for a field that submission data fills in, which no signer is asked for. Null when it has no role: a submission's only signer fills it in when data doesn't, and with two or more signature requests one of them has to list it in its `fields`. In an HTML or Word template, a field whose tag gives it a role (`{% form_field tenant_name, role: tenant %}`) has that one, which only the code can change. Shared by every field with the same `name`.
      * @param dependencies {module:model/FieldDependency} The field's own conditional logic rule: when other fields' values meet its conditions, the field is shown, made required, or both. Null when it has none. The template's rules (`field_dependencies`) can apply to the field too. Shared by every field with the same `name`.
      */
-    constructor(id, name, page, acroform_name, type, _static, editable, _default, title, description, placeholder, metadata, required, option_list, combined_field_names, combined_field_type, combined_field_separator, combined_field_format, integer, minimum, maximum, exclusive_minimum, exclusive_maximum, include_time, signature_allow_draw, signature_allow_type, barcode_symbology, hidden, x, y, width, height, rotation, display_type, opacity, date_time_format, typeface, font_size, character_spacing, bold, uppercase, strikethrough, keep_leading_spaces, overflow, multiline, multiline_lines, min_length, max_length, auto_calculate_max_length, color, color_field_name, color_field_required, background_color, background_color_field_name, background_color_field_required, alignment, v_alignment, comb, comb_number_of_cells, comb_value_offset, shape_type, shape_sides, shape_border_width, shape_border_color, shape_border_color_field_name, shape_border_color_field_required, shape_fill_color, shape_fill_color_field_name, shape_fill_color_field_required, check_character, check_color, check_color_field_name, check_color_field_required, qrcode_color, qrcode_color_field_name, qrcode_color_field_required, true_text, false_text, condition, string_condition_type, number_condition_type, number_condition_range_min, number_condition_range_max, number_condition_range_exclusive_min, number_condition_range_exclusive_max, invert_boolean_condition, currency, decimal_places, image_scale_type, image_gravity, dependencies) { 
+    constructor(id, name, page, acroform_name, type, _static, editable, _default, title, description, placeholder, metadata, required, option_list, option_labels, print_option_labels, combined_field_names, combined_field_type, combined_field_separator, combined_field_format, integer, minimum, maximum, exclusive_minimum, exclusive_maximum, include_time, signature_allow_draw, signature_allow_type, barcode_symbology, comb_fill_from_right, comb_pad_with_zeros, print_digits_only, hidden, x, y, width, height, rotation, display_type, opacity, date_time_format, typeface, font_size, character_spacing, bold, uppercase, strikethrough, keep_leading_spaces, overflow, multiline, multiline_lines, min_length, max_length, auto_calculate_max_length, color, color_field_name, color_field_required, background_color, background_color_field_name, background_color_field_required, alignment, v_alignment, comb, comb_number_of_cells, comb_value_offset, shape_type, shape_sides, shape_border_width, shape_border_color, shape_border_color_field_name, shape_border_color_field_required, shape_fill_color, shape_fill_color_field_name, shape_fill_color_field_required, check_character, check_color, check_color_field_name, check_color_field_required, qrcode_color, qrcode_color_field_name, qrcode_color_field_required, true_text, false_text, condition, string_condition_type, number_condition_type, number_condition_range_min, number_condition_range_max, number_condition_range_exclusive_min, number_condition_range_exclusive_max, invert_boolean_condition, currency, decimal_places, number_part, image_scale_type, image_gravity, signer_role, dependencies) { 
         
-        Field.initialize(this, id, name, page, acroform_name, type, _static, editable, _default, title, description, placeholder, metadata, required, option_list, combined_field_names, combined_field_type, combined_field_separator, combined_field_format, integer, minimum, maximum, exclusive_minimum, exclusive_maximum, include_time, signature_allow_draw, signature_allow_type, barcode_symbology, hidden, x, y, width, height, rotation, display_type, opacity, date_time_format, typeface, font_size, character_spacing, bold, uppercase, strikethrough, keep_leading_spaces, overflow, multiline, multiline_lines, min_length, max_length, auto_calculate_max_length, color, color_field_name, color_field_required, background_color, background_color_field_name, background_color_field_required, alignment, v_alignment, comb, comb_number_of_cells, comb_value_offset, shape_type, shape_sides, shape_border_width, shape_border_color, shape_border_color_field_name, shape_border_color_field_required, shape_fill_color, shape_fill_color_field_name, shape_fill_color_field_required, check_character, check_color, check_color_field_name, check_color_field_required, qrcode_color, qrcode_color_field_name, qrcode_color_field_required, true_text, false_text, condition, string_condition_type, number_condition_type, number_condition_range_min, number_condition_range_max, number_condition_range_exclusive_min, number_condition_range_exclusive_max, invert_boolean_condition, currency, decimal_places, image_scale_type, image_gravity, dependencies);
+        Field.initialize(this, id, name, page, acroform_name, type, _static, editable, _default, title, description, placeholder, metadata, required, option_list, option_labels, print_option_labels, combined_field_names, combined_field_type, combined_field_separator, combined_field_format, integer, minimum, maximum, exclusive_minimum, exclusive_maximum, include_time, signature_allow_draw, signature_allow_type, barcode_symbology, comb_fill_from_right, comb_pad_with_zeros, print_digits_only, hidden, x, y, width, height, rotation, display_type, opacity, date_time_format, typeface, font_size, character_spacing, bold, uppercase, strikethrough, keep_leading_spaces, overflow, multiline, multiline_lines, min_length, max_length, auto_calculate_max_length, color, color_field_name, color_field_required, background_color, background_color_field_name, background_color_field_required, alignment, v_alignment, comb, comb_number_of_cells, comb_value_offset, shape_type, shape_sides, shape_border_width, shape_border_color, shape_border_color_field_name, shape_border_color_field_required, shape_fill_color, shape_fill_color_field_name, shape_fill_color_field_required, check_character, check_color, check_color_field_name, check_color_field_required, qrcode_color, qrcode_color_field_name, qrcode_color_field_required, true_text, false_text, condition, string_condition_type, number_condition_type, number_condition_range_min, number_condition_range_max, number_condition_range_exclusive_min, number_condition_range_exclusive_max, invert_boolean_condition, currency, decimal_places, number_part, image_scale_type, image_gravity, signer_role, dependencies);
     }
 
     /**
@@ -141,7 +149,7 @@ class Field {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, id, name, page, acroform_name, type, _static, editable, _default, title, description, placeholder, metadata, required, option_list, combined_field_names, combined_field_type, combined_field_separator, combined_field_format, integer, minimum, maximum, exclusive_minimum, exclusive_maximum, include_time, signature_allow_draw, signature_allow_type, barcode_symbology, hidden, x, y, width, height, rotation, display_type, opacity, date_time_format, typeface, font_size, character_spacing, bold, uppercase, strikethrough, keep_leading_spaces, overflow, multiline, multiline_lines, min_length, max_length, auto_calculate_max_length, color, color_field_name, color_field_required, background_color, background_color_field_name, background_color_field_required, alignment, v_alignment, comb, comb_number_of_cells, comb_value_offset, shape_type, shape_sides, shape_border_width, shape_border_color, shape_border_color_field_name, shape_border_color_field_required, shape_fill_color, shape_fill_color_field_name, shape_fill_color_field_required, check_character, check_color, check_color_field_name, check_color_field_required, qrcode_color, qrcode_color_field_name, qrcode_color_field_required, true_text, false_text, condition, string_condition_type, number_condition_type, number_condition_range_min, number_condition_range_max, number_condition_range_exclusive_min, number_condition_range_exclusive_max, invert_boolean_condition, currency, decimal_places, image_scale_type, image_gravity, dependencies) { 
+    static initialize(obj, id, name, page, acroform_name, type, _static, editable, _default, title, description, placeholder, metadata, required, option_list, option_labels, print_option_labels, combined_field_names, combined_field_type, combined_field_separator, combined_field_format, integer, minimum, maximum, exclusive_minimum, exclusive_maximum, include_time, signature_allow_draw, signature_allow_type, barcode_symbology, comb_fill_from_right, comb_pad_with_zeros, print_digits_only, hidden, x, y, width, height, rotation, display_type, opacity, date_time_format, typeface, font_size, character_spacing, bold, uppercase, strikethrough, keep_leading_spaces, overflow, multiline, multiline_lines, min_length, max_length, auto_calculate_max_length, color, color_field_name, color_field_required, background_color, background_color_field_name, background_color_field_required, alignment, v_alignment, comb, comb_number_of_cells, comb_value_offset, shape_type, shape_sides, shape_border_width, shape_border_color, shape_border_color_field_name, shape_border_color_field_required, shape_fill_color, shape_fill_color_field_name, shape_fill_color_field_required, check_character, check_color, check_color_field_name, check_color_field_required, qrcode_color, qrcode_color_field_name, qrcode_color_field_required, true_text, false_text, condition, string_condition_type, number_condition_type, number_condition_range_min, number_condition_range_max, number_condition_range_exclusive_min, number_condition_range_exclusive_max, invert_boolean_condition, currency, decimal_places, number_part, image_scale_type, image_gravity, signer_role, dependencies) { 
         obj['id'] = id;
         obj['name'] = name;
         obj['page'] = page;
@@ -156,6 +164,8 @@ class Field {
         obj['metadata'] = metadata;
         obj['required'] = required;
         obj['option_list'] = option_list;
+        obj['option_labels'] = option_labels;
+        obj['print_option_labels'] = print_option_labels;
         obj['combined_field_names'] = combined_field_names;
         obj['combined_field_type'] = combined_field_type;
         obj['combined_field_separator'] = combined_field_separator;
@@ -169,6 +179,9 @@ class Field {
         obj['signature_allow_draw'] = signature_allow_draw;
         obj['signature_allow_type'] = signature_allow_type;
         obj['barcode_symbology'] = barcode_symbology;
+        obj['comb_fill_from_right'] = comb_fill_from_right;
+        obj['comb_pad_with_zeros'] = comb_pad_with_zeros;
+        obj['print_digits_only'] = print_digits_only;
         obj['hidden'] = hidden;
         obj['x'] = x;
         obj['y'] = y;
@@ -230,8 +243,10 @@ class Field {
         obj['invert_boolean_condition'] = invert_boolean_condition;
         obj['currency'] = currency;
         obj['decimal_places'] = decimal_places;
+        obj['number_part'] = number_part;
         obj['image_scale_type'] = image_scale_type;
         obj['image_gravity'] = image_gravity;
+        obj['signer_role'] = signer_role;
         obj['dependencies'] = dependencies;
     }
 
@@ -291,6 +306,12 @@ class Field {
             if (data.hasOwnProperty('option_list')) {
                 obj['option_list'] = ApiClient.convertToType(data['option_list'], 'String');
             }
+            if (data.hasOwnProperty('option_labels')) {
+                obj['option_labels'] = ApiClient.convertToType(data['option_labels'], {'String': 'String'});
+            }
+            if (data.hasOwnProperty('print_option_labels')) {
+                obj['print_option_labels'] = ApiClient.convertToType(data['print_option_labels'], 'Boolean');
+            }
             if (data.hasOwnProperty('combined_field_names')) {
                 obj['combined_field_names'] = ApiClient.convertToType(data['combined_field_names'], 'String');
             }
@@ -329,6 +350,15 @@ class Field {
             }
             if (data.hasOwnProperty('barcode_symbology')) {
                 obj['barcode_symbology'] = ApiClient.convertToType(data['barcode_symbology'], BarcodeSymbology);
+            }
+            if (data.hasOwnProperty('comb_fill_from_right')) {
+                obj['comb_fill_from_right'] = ApiClient.convertToType(data['comb_fill_from_right'], 'Boolean');
+            }
+            if (data.hasOwnProperty('comb_pad_with_zeros')) {
+                obj['comb_pad_with_zeros'] = ApiClient.convertToType(data['comb_pad_with_zeros'], 'Boolean');
+            }
+            if (data.hasOwnProperty('print_digits_only')) {
+                obj['print_digits_only'] = ApiClient.convertToType(data['print_digits_only'], 'Boolean');
             }
             if (data.hasOwnProperty('hidden')) {
                 obj['hidden'] = ApiClient.convertToType(data['hidden'], 'Boolean');
@@ -513,11 +543,17 @@ class Field {
             if (data.hasOwnProperty('decimal_places')) {
                 obj['decimal_places'] = ApiClient.convertToType(data['decimal_places'], 'Number');
             }
+            if (data.hasOwnProperty('number_part')) {
+                obj['number_part'] = ApiClient.convertToType(data['number_part'], NumberPart);
+            }
             if (data.hasOwnProperty('image_scale_type')) {
                 obj['image_scale_type'] = ApiClient.convertToType(data['image_scale_type'], ImageScaleType);
             }
             if (data.hasOwnProperty('image_gravity')) {
                 obj['image_gravity'] = ApiClient.convertToType(data['image_gravity'], ImageGravity);
+            }
+            if (data.hasOwnProperty('signer_role')) {
+                obj['signer_role'] = ApiClient.convertToType(data['signer_role'], 'String');
             }
             if (data.hasOwnProperty('dependencies')) {
                 obj['dependencies'] = ApiClient.convertToType(data['dependencies'], FieldDependency);
@@ -646,6 +682,10 @@ class Field {
         if (data['condition'] && !(typeof data['condition'] === 'string' || data['condition'] instanceof String)) {
             throw new Error("Expected the field `condition` to be a primitive type in the JSON string but got " + data['condition']);
         }
+        // ensure the json data is a string
+        if (data['signer_role'] && !(typeof data['signer_role'] === 'string' || data['signer_role'] instanceof String)) {
+            throw new Error("Expected the field `signer_role` to be a primitive type in the JSON string but got " + data['signer_role']);
+        }
         // validate the optional field `dependencies`
         if (data['dependencies']) { // data not null
           FieldDependency.validateJSON(data['dependencies']);
@@ -657,7 +697,7 @@ class Field {
 
 }
 
-Field.RequiredProperties = ["id", "name", "page", "acroform_name", "type", "static", "editable", "default", "title", "description", "placeholder", "metadata", "required", "option_list", "combined_field_names", "combined_field_type", "combined_field_separator", "combined_field_format", "integer", "minimum", "maximum", "exclusive_minimum", "exclusive_maximum", "include_time", "signature_allow_draw", "signature_allow_type", "barcode_symbology", "hidden", "x", "y", "width", "height", "rotation", "display_type", "opacity", "date_time_format", "typeface", "font_size", "character_spacing", "bold", "uppercase", "strikethrough", "keep_leading_spaces", "overflow", "multiline", "multiline_lines", "min_length", "max_length", "auto_calculate_max_length", "color", "color_field_name", "color_field_required", "background_color", "background_color_field_name", "background_color_field_required", "alignment", "v_alignment", "comb", "comb_number_of_cells", "comb_value_offset", "shape_type", "shape_sides", "shape_border_width", "shape_border_color", "shape_border_color_field_name", "shape_border_color_field_required", "shape_fill_color", "shape_fill_color_field_name", "shape_fill_color_field_required", "check_character", "check_color", "check_color_field_name", "check_color_field_required", "qrcode_color", "qrcode_color_field_name", "qrcode_color_field_required", "true_text", "false_text", "condition", "string_condition_type", "number_condition_type", "number_condition_range_min", "number_condition_range_max", "number_condition_range_exclusive_min", "number_condition_range_exclusive_max", "invert_boolean_condition", "currency", "decimal_places", "image_scale_type", "image_gravity", "dependencies"];
+Field.RequiredProperties = ["id", "name", "page", "acroform_name", "type", "static", "editable", "default", "title", "description", "placeholder", "metadata", "required", "option_list", "option_labels", "print_option_labels", "combined_field_names", "combined_field_type", "combined_field_separator", "combined_field_format", "integer", "minimum", "maximum", "exclusive_minimum", "exclusive_maximum", "include_time", "signature_allow_draw", "signature_allow_type", "barcode_symbology", "comb_fill_from_right", "comb_pad_with_zeros", "print_digits_only", "hidden", "x", "y", "width", "height", "rotation", "display_type", "opacity", "date_time_format", "typeface", "font_size", "character_spacing", "bold", "uppercase", "strikethrough", "keep_leading_spaces", "overflow", "multiline", "multiline_lines", "min_length", "max_length", "auto_calculate_max_length", "color", "color_field_name", "color_field_required", "background_color", "background_color_field_name", "background_color_field_required", "alignment", "v_alignment", "comb", "comb_number_of_cells", "comb_value_offset", "shape_type", "shape_sides", "shape_border_width", "shape_border_color", "shape_border_color_field_name", "shape_border_color_field_required", "shape_fill_color", "shape_fill_color_field_name", "shape_fill_color_field_required", "check_character", "check_color", "check_color_field_name", "check_color_field_required", "qrcode_color", "qrcode_color_field_name", "qrcode_color_field_required", "true_text", "false_text", "condition", "string_condition_type", "number_condition_type", "number_condition_range_min", "number_condition_range_max", "number_condition_range_exclusive_min", "number_condition_range_exclusive_max", "invert_boolean_condition", "currency", "decimal_places", "number_part", "image_scale_type", "image_gravity", "signer_role", "dependencies"];
 
 /**
  * The field's ID, an integer that's unique within the template.
@@ -744,6 +784,18 @@ Field.prototype['required'] = undefined;
 Field.prototype['option_list'] = undefined;
 
 /**
+ * With `option_list`: the label forms show for each option, keyed by its value, such as `{"head_of_household": "Head of household"}`. The data, the API and webhooks keep the value, and the PDF prints it unless `print_option_labels` is set. An option without a label shows its value, or its sentence case when the options are lowercase words joined by underscores (`head_of_household` shows as "Head of household"). The template's data schema has them as `x-option-labels`. Each key must be one of the options, and each label must have some text. Shared by every field with the same `name`.
+ * @member {Object.<String, String>} option_labels
+ */
+Field.prototype['option_labels'] = undefined;
+
+/**
+ * Text display, with `option_labels`: the PDF prints the chosen option's label instead of its value, and an `editable` field's dropdown lists the labels. Shared by every field with the same `name`.
+ * @member {Boolean} print_option_labels
+ */
+Field.prototype['print_option_labels'] = undefined;
+
+/**
  * Combined fields only: a comma-separated list of the names of the fields whose values are combined, in order. Shared by every field with the same `name`.
  * @member {String} combined_field_names
  */
@@ -820,6 +872,24 @@ Field.prototype['signature_allow_type'] = undefined;
  * @member {module:model/BarcodeSymbology} barcode_symbology
  */
 Field.prototype['barcode_symbology'] = undefined;
+
+/**
+ * With `comb`: the value fills the last boxes of the comb fields with this name, padded on the left with spaces, or with zeros with `comb_pad_with_zeros`, as amounts are written on paper forms. A number with `decimal_places` in one row of boxes lines up on its decimal point, which takes no box: the decimal places fill the last boxes. Date fields ignore it: a date prints in its format. Shared by every field with the same `name`.
+ * @member {Boolean} comb_fill_from_right
+ */
+Field.prototype['comb_fill_from_right'] = undefined;
+
+/**
+ * With `comb_fill_from_right`: pads the value on the left with zeros instead of spaces, such as `000123`. A negative number keeps its minus sign in the first box. Shared by every field with the same `name`.
+ * @member {Boolean} comb_pad_with_zeros
+ */
+Field.prototype['comb_pad_with_zeros'] = undefined;
+
+/**
+ * With `comb`, for string fields: only the value's digits print, one in each box, and any punctuation is left out, so `123-45-6789` fills the 9 boxes of an SSN. The template's data schema accepts as many digits as the boxes hold, with anything but letters between them. Number and date fields ignore it. Shared by every field with the same `name`.
+ * @member {Boolean} print_digits_only
+ */
+Field.prototype['print_digits_only'] = undefined;
 
 /**
  * Leaves the field off the PDF. It stays in the template's data schema (marked `x-hidden`) and on forms, so other fields, such as combined fields, can use its value. A hidden static check mark or shape isn't printed.
@@ -1008,13 +1078,13 @@ Field.prototype['v_alignment'] = undefined;
 Field.prototype['comb'] = undefined;
 
 /**
- * With `comb`: how many boxes the field has. The value's maximum length in the template's data schema is this plus `comb_value_offset`.
+ * With `comb`: how many boxes the field has, up to 10,000. The value's maximum length in the template's data schema is the furthest that a comb field of its name reaches: its `comb_value_offset` plus its boxes. With `print_digits_only`, that many digits. A number field is split from its printed form (with `decimal_places`), and a number with a digit that no box prints (more digits than the boxes, or a digit where the offsets leave a gap) is a data error.
  * @member {Number} comb_number_of_cells
  */
 Field.prototype['comb_number_of_cells'] = undefined;
 
 /**
- * With `comb`: the position, from 0, of the first character of the value that this field prints. For an SSN printed in boxes of 3, 2 and 4 digits, three fields named `ssn` use offsets 0, 3 and 5.
+ * With `comb`: how many boxes of the value's row come before this field, from 0 to 10,000. The comb fields that share a name make one row of boxes, and each prints the row's characters from its offset. For an SSN printed in boxes of 3, 2 and 4 digits, three fields named `ssn` use offsets 0, 3 and 5. The fields that print a number's whole part (`number_part`) make a row of their own, and so do the ones that print its decimal places.
  * @member {Number} comb_value_offset
  */
 Field.prototype['comb_value_offset'] = undefined;
@@ -1188,6 +1258,12 @@ Field.prototype['currency'] = undefined;
 Field.prototype['decimal_places'] = undefined;
 
 /**
+ * Number fields with text display: which part of the number this field prints. `all` prints the whole number, `whole` only the part before the decimal point (with a minus sign) and `decimals` only the decimal places. For an amount printed as `$ ____ . __`, two fields with the same name: one `whole`, and one `decimals` with `decimal_places` 2. The number is rounded once, to the `decimals` field's decimal places (2 when it sets none).
+ * @member {module:model/NumberPart} number_part
+ */
+Field.prototype['number_part'] = undefined;
+
+/**
  * Image fields only: how the image is resized to the field. `fit` keeps its proportions and fits it inside the field, which can leave empty space; `fill` keeps its proportions and crops it to fill the field; `stretch` stretches it to the field's size. Signatures and initials always fit.
  * @member {module:model/ImageScaleType} image_scale_type
  */
@@ -1198,6 +1274,12 @@ Field.prototype['image_scale_type'] = undefined;
  * @member {module:model/ImageGravity} image_gravity
  */
 Field.prototype['image_gravity'] = undefined;
+
+/**
+ * Who fills in or signs the field when a submission has signature requests: one of the template's `signer_roles`, by its key, or `sender` for a field that submission data fills in, which no signer is asked for. Null when it has no role: a submission's only signer fills it in when data doesn't, and with two or more signature requests one of them has to list it in its `fields`. In an HTML or Word template, a field whose tag gives it a role (`{% form_field tenant_name, role: tenant %}`) has that one, which only the code can change. Shared by every field with the same `name`.
+ * @member {String} signer_role
+ */
+Field.prototype['signer_role'] = undefined;
 
 /**
  * The field's own conditional logic rule: when other fields' values meet its conditions, the field is shown, made required, or both. Null when it has none. The template's rules (`field_dependencies`) can apply to the field too. Shared by every field with the same `name`.

@@ -17,7 +17,7 @@ import FieldType from './FieldType';
 /**
  * The PredefinedFieldInput model module.
  * @module model/PredefinedFieldInput
- * @version 4.5.0
+ * @version 4.6.0
  */
 class PredefinedFieldInput {
     /**
@@ -67,6 +67,9 @@ class PredefinedFieldInput {
             }
             if (data.hasOwnProperty('option_list')) {
                 obj['option_list'] = ApiClient.convertToType(data['option_list'], 'String');
+            }
+            if (data.hasOwnProperty('option_labels')) {
+                obj['option_labels'] = ApiClient.convertToType(data['option_labels'], {'String': 'String'});
             }
             if (data.hasOwnProperty('required_in_template')) {
                 obj['required_in_template'] = ApiClient.convertToType(data['required_in_template'], 'Boolean');
@@ -144,6 +147,12 @@ PredefinedFieldInput.prototype['type'] = undefined;
  * @member {String} option_list
  */
 PredefinedFieldInput.prototype['option_list'] = undefined;
+
+/**
+ * The labels forms show for `option_list`'s values, by value, as a field's `option_labels`, such as `{"married_filing_jointly": "Married filing jointly"}`. Each key must be one of `option_list`'s values. A value without a label shows the value, or its sentence case when the values are lowercase words joined by underscores. Null gives no value a label of its own.
+ * @member {Object.<String, String>} option_labels
+ */
+PredefinedFieldInput.prototype['option_labels'] = undefined;
 
 /**
  * Whether the template must have a field with this name. The embedded editor shows the names that are missing, and with `disableDoneButtonIfPredefinedFieldsMissing` keeps its Done button disabled until the template has them. Default false.

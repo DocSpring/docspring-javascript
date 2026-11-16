@@ -19,7 +19,7 @@ import Typeface from './Typeface';
 /**
  * The TemplateDefaultsInput model module.
  * @module model/TemplateDefaultsInput
- * @version 4.5.0
+ * @version 4.6.0
  */
 class TemplateDefaultsInput {
     /**
@@ -235,7 +235,7 @@ TemplateDefaultsInput.prototype['opacity'] = undefined;
 TemplateDefaultsInput.prototype['date_format'] = undefined;
 
 /**
- * How date-time fields are printed, as a strftime format such as `%m/%d/%Y %H:%M:%S`.
+ * How date-time fields are printed, as a strftime format such as `%m/%d/%Y %H:%M`.
  * @member {String} date_time_format
  */
 TemplateDefaultsInput.prototype['date_time_format'] = undefined;

@@ -18,7 +18,7 @@ import PageImages from './PageImages';
 /**
  * The SubmissionFiles model module.
  * @module model/SubmissionFiles
- * @version 4.5.0
+ * @version 4.6.0
  */
 class SubmissionFiles {
     /**
@@ -59,6 +59,9 @@ class SubmissionFiles {
             }
             if (data.hasOwnProperty('audit_trail')) {
                 obj['audit_trail'] = ApiClient.convertToType(data['audit_trail'], GeneratedFile);
+            }
+            if (data.hasOwnProperty('signing_manifest')) {
+                obj['signing_manifest'] = ApiClient.convertToType(data['signing_manifest'], GeneratedFile);
             }
             if (data.hasOwnProperty('preview')) {
                 obj['preview'] = ApiClient.convertToType(data['preview'], GeneratedFile);
@@ -102,6 +105,12 @@ SubmissionFiles.prototype['pdf'] = undefined;
  * @member {module:model/GeneratedFile} audit_trail
  */
 SubmissionFiles.prototype['audit_trail'] = undefined;
+
+/**
+ * The audit data behind the audit trail of a submission with signature requests, as JSON: the hashes of the document and the audit trail, and each signing event with the salt and hash that DocSpring's signing record holds for it. It has who signed, like the audit trail, and goes when the submission expires, so keep it with the PDF and the audit trail.
+ * @member {module:model/GeneratedFile} signing_manifest
+ */
+SubmissionFiles.prototype['signing_manifest'] = undefined;
 
 /**
  * The preview PDF from POST /submissions/{submission_id}/generate_preview, such as for a submission still waiting for its signature requests.

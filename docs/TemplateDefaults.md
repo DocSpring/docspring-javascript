@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **alignment** | [**TextAlignment**](TextAlignment.md) | How text is aligned in its field. `justify` lines up both edges of every line of multiline text except the last of each paragraph. | [optional] 
 **opacity** | **Number** | The opacity of the field's content, from 0 (invisible) to 1. | [optional] 
 **date_format** | **String** | How date fields are printed, as a strftime format such as `%m/%d/%Y`. | [optional] 
-**date_time_format** | **String** | How date-time fields are printed, as a strftime format such as `%m/%d/%Y %H:%M:%S`. | [optional] 
+**date_time_format** | **String** | How date-time fields are printed, as a strftime format such as `%m/%d/%Y %H:%M`. | [optional] 
 **check_color** | **String** | The color of check marks, as 6 hex digits. | [optional] 
 **check_character** | [**CheckCharacter**](CheckCharacter.md) | The character that a ticked check box prints. | [optional] 
 **check_background_color** | **String** | The check box's background color, as 6 hex digits. | [optional] 

@@ -18,7 +18,7 @@ import TemplatePreviewState from './TemplatePreviewState';
 /**
  * The TemplatePreview model module.
  * @module model/TemplatePreview
- * @version 4.5.0
+ * @version 4.6.0
  */
 class TemplatePreview {
     /**

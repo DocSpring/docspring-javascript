@@ -92,6 +92,7 @@ docs/ModelCodeLanguage.md
 docs/MoveFolderRequest.md
 docs/MoveTemplateRequest.md
 docs/NumberConditionType.md
+docs/NumberPart.md
 docs/OutputFormat.md
 docs/PageFormat.md
 docs/PageImage.md
@@ -168,6 +169,8 @@ docs/TemplatePageImages.md
 docs/TemplatePageProcessingStatus.md
 docs/TemplatePreview.md
 docs/TemplatePreviewState.md
+docs/TemplateSignerRole.md
+docs/TemplateSignerRoleInput.md
 docs/TemplateSourcePdf.md
 docs/TemplateSummary.md
 docs/TemplateSummaryList.md
@@ -289,6 +292,7 @@ src/model/ModelCodeLanguage.js
 src/model/MoveFolderRequest.js
 src/model/MoveTemplateRequest.js
 src/model/NumberConditionType.js
+src/model/NumberPart.js
 src/model/OutputFormat.js
 src/model/PageFormat.js
 src/model/PageImage.js
@@ -365,6 +369,8 @@ src/model/TemplatePageImages.js
 src/model/TemplatePageProcessingStatus.js
 src/model/TemplatePreview.js
 src/model/TemplatePreviewState.js
+src/model/TemplateSignerRole.js
+src/model/TemplateSignerRoleInput.js
 src/model/TemplateSourcePdf.js
 src/model/TemplateSummary.js
 src/model/TemplateSummaryList.js
@@ -481,6 +487,7 @@ test/model/ModelCodeLanguage.spec.js
 test/model/MoveFolderRequest.spec.js
 test/model/MoveTemplateRequest.spec.js
 test/model/NumberConditionType.spec.js
+test/model/NumberPart.spec.js
 test/model/OutputFormat.spec.js
 test/model/PageFormat.spec.js
 test/model/PageImage.spec.js
@@ -557,6 +564,8 @@ test/model/TemplatePageImages.spec.js
 test/model/TemplatePageProcessingStatus.spec.js
 test/model/TemplatePreview.spec.js
 test/model/TemplatePreviewState.spec.js
+test/model/TemplateSignerRole.spec.js
+test/model/TemplateSignerRoleInput.spec.js
 test/model/TemplateSourcePdf.spec.js
 test/model/TemplateSummary.spec.js
 test/model/TemplateSummaryList.spec.js

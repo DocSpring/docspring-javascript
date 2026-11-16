@@ -20,7 +20,7 @@ import SubmissionAction from './SubmissionAction';
 /**
  * The CombinedPdf model module.
  * @module model/CombinedPdf
- * @version 4.5.0
+ * @version 4.6.0
  */
 class CombinedPdf {
     /**
@@ -38,7 +38,7 @@ class CombinedPdf {
      * @param files {module:model/CombinedPdfFiles} The generated files, by format. Empty until the PDF has been generated, and once it has expired.
      * @param actions {Array.<module:model/SubmissionAction>} The uploads of the PDF to your storage (account integrations).
      * @param expired {Boolean} An expired combined PDF's PDF, metadata, password and source URLs have been deleted.
-     * @param expires_at {Date} When the combined PDF expires (`expires_in` after it's generated). Null if it's kept until you delete it.
+     * @param expires_at {Date} When the combined PDF expires (`expires_in`, or the account's expiry setting, after it's generated). Null if it's kept until you delete it.
      * @param processed_at {Date} When the PDF was generated. Null until then.
      * @param created_at {Date} When the combined PDF was created.
      * @param updated_at {Date} When the combined PDF was last updated.
@@ -234,7 +234,7 @@ CombinedPdf.prototype['actions'] = undefined;
 CombinedPdf.prototype['expired'] = undefined;
 
 /**
- * When the combined PDF expires (`expires_in` after it's generated). Null if it's kept until you delete it.
+ * When the combined PDF expires (`expires_in`, or the account's expiry setting, after it's generated). Null if it's kept until you delete it.
  * @member {Date} expires_at
  */
 CombinedPdf.prototype['expires_at'] = undefined;

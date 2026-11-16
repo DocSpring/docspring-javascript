@@ -104,6 +104,7 @@ import ModelCodeLanguage from './model/ModelCodeLanguage';
 import MoveFolderRequest from './model/MoveFolderRequest';
 import MoveTemplateRequest from './model/MoveTemplateRequest';
 import NumberConditionType from './model/NumberConditionType';
+import NumberPart from './model/NumberPart';
 import OutputFormat from './model/OutputFormat';
 import PageFormat from './model/PageFormat';
 import PageImage from './model/PageImage';
@@ -180,6 +181,8 @@ import TemplatePageImages from './model/TemplatePageImages';
 import TemplatePageProcessingStatus from './model/TemplatePageProcessingStatus';
 import TemplatePreview from './model/TemplatePreview';
 import TemplatePreviewState from './model/TemplatePreviewState';
+import TemplateSignerRole from './model/TemplateSignerRole';
+import TemplateSignerRoleInput from './model/TemplateSignerRoleInput';
 import TemplateSourcePdf from './model/TemplateSourcePdf';
 import TemplateSummary from './model/TemplateSummary';
 import TemplateSummaryList from './model/TemplateSummaryList';
@@ -238,7 +241,7 @@ import Client from './api/Client';
 * </pre>
 * </p>
 * @module index
-* @version 4.5.0
+* @version 4.6.0
 */
 export {
     /**
@@ -782,6 +785,12 @@ export {
     NumberConditionType,
 
     /**
+     * The NumberPart model constructor.
+     * @property {module:model/NumberPart}
+     */
+    NumberPart,
+
+    /**
      * The OutputFormat model constructor.
      * @property {module:model/OutputFormat}
      */
@@ -1236,6 +1245,18 @@ export {
      * @property {module:model/TemplatePreviewState}
      */
     TemplatePreviewState,
+
+    /**
+     * The TemplateSignerRole model constructor.
+     * @property {module:model/TemplateSignerRole}
+     */
+    TemplateSignerRole,
+
+    /**
+     * The TemplateSignerRoleInput model constructor.
+     * @property {module:model/TemplateSignerRoleInput}
+     */
+    TemplateSignerRoleInput,
 
     /**
      * The TemplateSourcePdf model constructor.

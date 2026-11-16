@@ -79,6 +79,19 @@ export default {
                       "null"
                     ]
                   },
+                  "option_labels": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "print_option_labels": {
+                    "type": "boolean"
+                  },
                   "combined_field_names": {
                     "type": "string"
                   },
@@ -140,6 +153,15 @@ export default {
                       "upc_a",
                       "pdf417"
                     ]
+                  },
+                  "comb_fill_from_right": {
+                    "type": "boolean"
+                  },
+                  "comb_pad_with_zeros": {
+                    "type": "boolean"
+                  },
+                  "print_digits_only": {
+                    "type": "boolean"
                   },
                   "hidden": {
                     "type": "boolean"
@@ -324,11 +346,13 @@ export default {
                   },
                   "comb_number_of_cells": {
                     "type": "integer",
-                    "minimum": 1
+                    "minimum": 1,
+                    "maximum": 10000
                   },
                   "comb_value_offset": {
                     "type": "integer",
-                    "minimum": 0
+                    "minimum": 0,
+                    "maximum": 10000
                   },
                   "shape_type": {
                     "type": "string",
@@ -503,6 +527,14 @@ export default {
                     "minimum": 0,
                     "maximum": 99
                   },
+                  "number_part": {
+                    "type": "string",
+                    "enum": [
+                      "all",
+                      "whole",
+                      "decimals"
+                    ]
+                  },
                   "image_scale_type": {
                     "type": "string",
                     "enum": [
@@ -524,6 +556,13 @@ export default {
                       "South",
                       "SouthEast"
                     ]
+                  },
+                  "signer_role": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1
                   },
                   "dependencies": {
                     "type": [
@@ -1508,9 +1547,6 @@ export default {
                     "maximum": 100
                   }
                 },
-                "required": [
-                  "fields"
-                ],
                 "additionalProperties": false
               }
             },
@@ -1774,6 +1810,9 @@ export default {
             "allow_skipping_optional_fields": {
               "type": "boolean"
             },
+            "continue_before_optional_fields": {
+              "type": "boolean"
+            },
             "default_form_mode": {
               "type": "string",
               "enum": [
@@ -1909,6 +1948,9 @@ export default {
               "maxLength": 5000
             },
             "show_fill_again_button": {
+              "type": "boolean"
+            },
+            "form_sections_in_order": {
               "type": "boolean"
             },
             "slack_webhook_url": {
@@ -2190,6 +2232,60 @@ export default {
                 "additionalProperties": false
               }
             },
+            "signer_roles": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_-]{1,64}$",
+                    "x-pattern-message": "must be letters, digits, _ or -, at most 64 of them"
+                  },
+                  "key": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*$",
+                    "maxLength": 64,
+                    "x-pattern-message": "must be snake_case: lowercase letters, digits and underscores, starting with a letter (like tenant)"
+                  },
+                  "name": {
+                    "type": "string",
+                    "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                    "maxLength": 100,
+                    "x-pattern-message": "can't be blank"
+                  },
+                  "name_expression": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 1000
+                  },
+                  "email_expression": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 1000
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "signature_request_cc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "maxLength": 1000,
+                "x-pattern-message": "can't be blank"
+              }
+            },
             "predefined_fields": {
               "type": "array",
               "items": {
@@ -2239,6 +2335,16 @@ export default {
                       "string",
                       "null"
                     ]
+                  },
+                  "option_labels": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": "string",
+                      "minLength": 1
+                    }
                   },
                   "required_in_template": {
                     "type": "boolean"
@@ -2344,6 +2450,12 @@ export default {
                 "object",
                 "null"
               ]
+            },
+            "override_account_expiry": {
+              "type": "boolean"
+            },
+            "sync_fields": {
+              "type": "boolean"
             },
             "cache_id": {
               "type": "string",
@@ -4082,6 +4194,9 @@ export default {
             "allow_skipping_optional_fields": {
               "type": "boolean"
             },
+            "continue_before_optional_fields": {
+              "type": "boolean"
+            },
             "default_form_mode": {
               "type": "string",
               "enum": [
@@ -4217,6 +4332,9 @@ export default {
               "maxLength": 5000
             },
             "show_fill_again_button": {
+              "type": "boolean"
+            },
+            "form_sections_in_order": {
               "type": "boolean"
             },
             "slack_webhook_url": {
@@ -4578,6 +4696,60 @@ export default {
                 "additionalProperties": false
               }
             },
+            "signer_roles": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_-]{1,64}$",
+                    "x-pattern-message": "must be letters, digits, _ or -, at most 64 of them"
+                  },
+                  "key": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*$",
+                    "maxLength": 64,
+                    "x-pattern-message": "must be snake_case: lowercase letters, digits and underscores, starting with a letter (like tenant)"
+                  },
+                  "name": {
+                    "type": "string",
+                    "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                    "maxLength": 100,
+                    "x-pattern-message": "can't be blank"
+                  },
+                  "name_expression": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 1000
+                  },
+                  "email_expression": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 1000
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "signature_request_cc": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "maxLength": 1000,
+                "x-pattern-message": "can't be blank"
+              }
+            },
             "predefined_fields": {
               "type": "array",
               "items": {
@@ -4627,6 +4799,16 @@ export default {
                       "string",
                       "null"
                     ]
+                  },
+                  "option_labels": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": "string",
+                      "minLength": 1
+                    }
                   },
                   "required_in_template": {
                     "type": "boolean"
@@ -4732,6 +4914,12 @@ export default {
                 "object",
                 "null"
               ]
+            },
+            "override_account_expiry": {
+              "type": "boolean"
+            },
+            "sync_fields": {
+              "type": "boolean"
             }
           },
           "minProperties": 1,
@@ -4778,6 +4966,9 @@ export default {
               "x-pattern-message": "can't be blank or contain a slash (/ or \\)"
             },
             "reimport_fields": {
+              "type": "boolean"
+            },
+            "sync_fields": {
               "type": "boolean"
             }
           },
@@ -4863,6 +5054,19 @@ export default {
                       "null"
                     ]
                   },
+                  "option_labels": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "print_option_labels": {
+                    "type": "boolean"
+                  },
                   "combined_field_names": {
                     "type": "string"
                   },
@@ -4924,6 +5128,15 @@ export default {
                       "upc_a",
                       "pdf417"
                     ]
+                  },
+                  "comb_fill_from_right": {
+                    "type": "boolean"
+                  },
+                  "comb_pad_with_zeros": {
+                    "type": "boolean"
+                  },
+                  "print_digits_only": {
+                    "type": "boolean"
                   },
                   "hidden": {
                     "type": "boolean"
@@ -5108,11 +5321,13 @@ export default {
                   },
                   "comb_number_of_cells": {
                     "type": "integer",
-                    "minimum": 1
+                    "minimum": 1,
+                    "maximum": 10000
                   },
                   "comb_value_offset": {
                     "type": "integer",
-                    "minimum": 0
+                    "minimum": 0,
+                    "maximum": 10000
                   },
                   "shape_type": {
                     "type": "string",
@@ -5287,6 +5502,14 @@ export default {
                     "minimum": 0,
                     "maximum": 99
                   },
+                  "number_part": {
+                    "type": "string",
+                    "enum": [
+                      "all",
+                      "whole",
+                      "decimals"
+                    ]
+                  },
                   "image_scale_type": {
                     "type": "string",
                     "enum": [
@@ -5308,6 +5531,13 @@ export default {
                       "South",
                       "SouthEast"
                     ]
+                  },
+                  "signer_role": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1
                   },
                   "dependencies": {
                     "type": [
@@ -5613,6 +5843,9 @@ export default {
             },
             "include_office_use_fields": {
               "type": "boolean"
+            },
+            "sync_fields": {
+              "type": "boolean"
             }
           },
           "additionalProperties": false
@@ -5642,6 +5875,9 @@ export default {
               "format": "binary"
             },
             "reimport_fields": {
+              "type": "boolean"
+            },
+            "sync_fields": {
               "type": "boolean"
             }
           },
@@ -5826,9 +6062,6 @@ export default {
                     "maximum": 100
                   }
                 },
-                "required": [
-                  "fields"
-                ],
                 "additionalProperties": false
               }
             },
@@ -6155,6 +6388,19 @@ export default {
               "null"
             ]
           },
+          "option_labels": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "print_option_labels": {
+            "type": "boolean"
+          },
           "combined_field_names": {
             "type": "string"
           },
@@ -6198,6 +6444,12 @@ export default {
               "upc_a",
               "pdf417"
             ]
+          },
+          "comb_fill_from_right": {
+            "type": "boolean"
+          },
+          "comb_pad_with_zeros": {
+            "type": "boolean"
           },
           "hidden": {
             "type": "boolean"
@@ -6358,11 +6610,13 @@ export default {
           },
           "comb_number_of_cells": {
             "type": "integer",
-            "minimum": 1
+            "minimum": 1,
+            "maximum": 10000
           },
           "comb_value_offset": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 0,
+            "maximum": 10000
           },
           "shape_type": {
             "type": "string",
@@ -6498,6 +6752,14 @@ export default {
             "minimum": 0,
             "maximum": 99
           },
+          "number_part": {
+            "type": "string",
+            "enum": [
+              "all",
+              "whole",
+              "decimals"
+            ]
+          },
           "image_scale_type": {
             "type": "string",
             "enum": [
@@ -6536,6 +6798,8 @@ export default {
           "minItems": "can't be changed for one submission. Change the field in the template",
           "max_items": "can't be changed for one submission. Change the field in the template",
           "maxItems": "can't be changed for one submission. Change the field in the template",
+          "signer_role": "can't be changed for one submission. Change the field in the template",
+          "signerRole": "can't be changed for one submission. Change the field in the template",
           "description": "can't be changed for one submission: the template's setting always applies. Change it in the template",
           "placeholder": "can't be changed for one submission: the template's setting always applies. Change it in the template",
           "metadata": "can't be changed for one submission: the template's setting always applies. Change it in the template",
@@ -6550,6 +6814,8 @@ export default {
           "minLength": "can't be changed for one submission: the template's setting always applies. Change it in the template",
           "auto_calculate_max_length": "can't be changed for one submission: the template's setting always applies. Change it in the template",
           "autoCalculateMaxLength": "can't be changed for one submission: the template's setting always applies. Change it in the template",
+          "print_digits_only": "can't be changed for one submission: the template's setting always applies. Change it in the template",
+          "printDigitsOnly": "can't be changed for one submission: the template's setting always applies. Change it in the template",
           "color_field_name": "can't be changed for one submission: the template's setting always applies. Change it in the template",
           "colorFieldName": "can't be changed for one submission: the template's setting always applies. Change it in the template",
           "color_field_required": "can't be changed for one submission: the template's setting always applies. Change it in the template",

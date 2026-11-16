@@ -84,6 +84,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property sync_fields (base name: "sync_fields")', function() {
+      // uncomment below and update the code to test the property sync_fields
+      //var instance = new DocSpring.UpdateTemplateDocumentRequest();
+      //expect(instance).to.be();
+    });
+
   });
 
 }));

@@ -17,7 +17,7 @@ import ModelCodeLanguage from './ModelCodeLanguage';
 /**
  * The TemplateModelCode model module.
  * @module model/TemplateModelCode
- * @version 4.5.0
+ * @version 4.6.0
  */
 class TemplateModelCode {
     /**

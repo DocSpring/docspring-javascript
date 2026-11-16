@@ -20,7 +20,7 @@ import EmailActionSubmissionType from './EmailActionSubmissionType';
 /**
  * The CreateAccountEmailActionRequest model module.
  * @module model/CreateAccountEmailActionRequest
- * @version 4.5.0
+ * @version 4.6.0
  */
 class CreateAccountEmailActionRequest {
     /**
@@ -265,7 +265,7 @@ CreateAccountEmailActionRequest.prototype['file_name'] = undefined;
 CreateAccountEmailActionRequest.prototype['file_formats'] = undefined;
 
 /**
- * `attachment` attaches the files, or sends a download link when together they're larger than `max_attachment_mb`. `link` sends a download link, which works for 7 days. Accounts with a BAA start with `link`.
+ * `attachment` attaches the files, or sends a download link when together they're larger than `max_attachment_mb`. `link` sends a download link, which works for 7 days, or until the submission expires if that's sooner. Accounts with a BAA start with `link`.
  * @member {module:model/EmailActionDelivery} delivery
  */
 CreateAccountEmailActionRequest.prototype['delivery'] = undefined;

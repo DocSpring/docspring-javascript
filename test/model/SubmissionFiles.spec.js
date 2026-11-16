@@ -66,6 +66,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property signing_manifest (base name: "signing_manifest")', function() {
+      // uncomment below and update the code to test the property signing_manifest
+      //var instance = new DocSpring.SubmissionFiles();
+      //expect(instance).to.be();
+    });
+
     it('should have the property preview (base name: "preview")', function() {
       // uncomment below and update the code to test the property preview
       //var instance = new DocSpring.SubmissionFiles();

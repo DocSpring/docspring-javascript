@@ -21,7 +21,7 @@ import TemplateType from './TemplateType';
 /**
  * The SubmissionSummary model module.
  * @module model/SubmissionSummary
- * @version 4.5.0
+ * @version 4.6.0
  */
 class SubmissionSummary {
     /**
@@ -43,7 +43,7 @@ class SubmissionSummary {
      * @param error_message {String} Why the PDF couldn't be generated, when `state` is `error`.
      * @param metadata {Object.<String, Object>} Your own data about the submission, such as an ID from your app. It isn't printed on the PDF. Two keys also change the PDF: `pdf_filename` names its file (`files.pdf.filename`, and its download), and `pdf_title` is its title in the PDF's document properties (and an HTML template's `<title>`, unless its HTML has one). Without `pdf_title`, the title is the template's name. In `pdf_filename`, a `.pdf` ending is removed, each run of characters other than letters, digits, `-`, `_` and `.` becomes one `_`, and the first 128 characters are kept, then `.pdf` is added. Without it, the file is named after the submission's ID (`sub_1234567890abcdef01.pdf`).
      * @param files {module:model/SubmissionFiles} Empty unless you pass `include_files=true`: then the generated files, as when you get the submission, without the `png` pages' links (`files.png.pages` is null). Get the submission for its page images.
-     * @param expired {Boolean} An expired submission's data, metadata, password and PDF have been deleted.
+     * @param expired {Boolean} An expired submission's data, metadata, password and files have been deleted, along with its signature requests and audit trail.
      * @param expires_at {Date} When the submission expires. Null if it's kept until you delete it.
      * @param processed_at {Date} When the PDF was generated. Null until then.
      * @param created_at {Date} When the submission was created.
@@ -286,7 +286,7 @@ SubmissionSummary.prototype['metadata'] = undefined;
 SubmissionSummary.prototype['files'] = undefined;
 
 /**
- * An expired submission's data, metadata, password and PDF have been deleted.
+ * An expired submission's data, metadata, password and files have been deleted, along with its signature requests and audit trail.
  * @member {Boolean} expired
  */
 SubmissionSummary.prototype['expired'] = undefined;

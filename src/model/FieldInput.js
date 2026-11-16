@@ -21,6 +21,7 @@ import FieldType from './FieldType';
 import ImageGravity from './ImageGravity';
 import ImageScaleType from './ImageScaleType';
 import NumberConditionType from './NumberConditionType';
+import NumberPart from './NumberPart';
 import ShapeType from './ShapeType';
 import StringConditionType from './StringConditionType';
 import TextAlignment from './TextAlignment';
@@ -31,7 +32,7 @@ import Typeface from './Typeface';
 /**
  * The FieldInput model module.
  * @module model/FieldInput
- * @version 4.5.0
+ * @version 4.6.0
  */
 class FieldInput {
     /**
@@ -99,6 +100,12 @@ class FieldInput {
             if (data.hasOwnProperty('option_list')) {
                 obj['option_list'] = ApiClient.convertToType(data['option_list'], 'String');
             }
+            if (data.hasOwnProperty('option_labels')) {
+                obj['option_labels'] = ApiClient.convertToType(data['option_labels'], {'String': 'String'});
+            }
+            if (data.hasOwnProperty('print_option_labels')) {
+                obj['print_option_labels'] = ApiClient.convertToType(data['print_option_labels'], 'Boolean');
+            }
             if (data.hasOwnProperty('combined_field_names')) {
                 obj['combined_field_names'] = ApiClient.convertToType(data['combined_field_names'], 'String');
             }
@@ -137,6 +144,15 @@ class FieldInput {
             }
             if (data.hasOwnProperty('barcode_symbology')) {
                 obj['barcode_symbology'] = ApiClient.convertToType(data['barcode_symbology'], BarcodeSymbology);
+            }
+            if (data.hasOwnProperty('comb_fill_from_right')) {
+                obj['comb_fill_from_right'] = ApiClient.convertToType(data['comb_fill_from_right'], 'Boolean');
+            }
+            if (data.hasOwnProperty('comb_pad_with_zeros')) {
+                obj['comb_pad_with_zeros'] = ApiClient.convertToType(data['comb_pad_with_zeros'], 'Boolean');
+            }
+            if (data.hasOwnProperty('print_digits_only')) {
+                obj['print_digits_only'] = ApiClient.convertToType(data['print_digits_only'], 'Boolean');
             }
             if (data.hasOwnProperty('hidden')) {
                 obj['hidden'] = ApiClient.convertToType(data['hidden'], 'Boolean');
@@ -321,11 +337,17 @@ class FieldInput {
             if (data.hasOwnProperty('decimal_places')) {
                 obj['decimal_places'] = ApiClient.convertToType(data['decimal_places'], 'Number');
             }
+            if (data.hasOwnProperty('number_part')) {
+                obj['number_part'] = ApiClient.convertToType(data['number_part'], NumberPart);
+            }
             if (data.hasOwnProperty('image_scale_type')) {
                 obj['image_scale_type'] = ApiClient.convertToType(data['image_scale_type'], ImageScaleType);
             }
             if (data.hasOwnProperty('image_gravity')) {
                 obj['image_gravity'] = ApiClient.convertToType(data['image_gravity'], ImageGravity);
+            }
+            if (data.hasOwnProperty('signer_role')) {
+                obj['signer_role'] = ApiClient.convertToType(data['signer_role'], 'String');
             }
             if (data.hasOwnProperty('dependencies')) {
                 obj['dependencies'] = ApiClient.convertToType(data['dependencies'], FieldDependencyInput);
@@ -447,6 +469,10 @@ class FieldInput {
         if (data['condition'] && !(typeof data['condition'] === 'string' || data['condition'] instanceof String)) {
             throw new Error("Expected the field `condition` to be a primitive type in the JSON string but got " + data['condition']);
         }
+        // ensure the json data is a string
+        if (data['signer_role'] && !(typeof data['signer_role'] === 'string' || data['signer_role'] instanceof String)) {
+            throw new Error("Expected the field `signer_role` to be a primitive type in the JSON string but got " + data['signer_role']);
+        }
         // validate the optional field `dependencies`
         if (data['dependencies']) { // data not null
           FieldDependencyInput.validateJSON(data['dependencies']);
@@ -533,6 +559,18 @@ FieldInput.prototype['required'] = undefined;
 FieldInput.prototype['option_list'] = undefined;
 
 /**
+ * With `option_list`: the label forms show for each option, keyed by its value, such as `{"head_of_household": "Head of household"}`. The data, the API and webhooks keep the value, and the PDF prints it unless `print_option_labels` is set. An option without a label shows its value, or its sentence case when the options are lowercase words joined by underscores (`head_of_household` shows as "Head of household"). The template's data schema has them as `x-option-labels`. Each key must be one of the options, and each label must have some text. Shared by every field with the same `name`.
+ * @member {Object.<String, String>} option_labels
+ */
+FieldInput.prototype['option_labels'] = undefined;
+
+/**
+ * Text display, with `option_labels`: the PDF prints the chosen option's label instead of its value, and an `editable` field's dropdown lists the labels. Shared by every field with the same `name`.
+ * @member {Boolean} print_option_labels
+ */
+FieldInput.prototype['print_option_labels'] = undefined;
+
+/**
  * Combined fields only: a comma-separated list of the names of the fields whose values are combined, in order. Shared by every field with the same `name`.
  * @member {String} combined_field_names
  */
@@ -609,6 +647,24 @@ FieldInput.prototype['signature_allow_type'] = undefined;
  * @member {module:model/BarcodeSymbology} barcode_symbology
  */
 FieldInput.prototype['barcode_symbology'] = undefined;
+
+/**
+ * With `comb`: the value fills the last boxes of the comb fields with this name, padded on the left with spaces, or with zeros with `comb_pad_with_zeros`, as amounts are written on paper forms. A number with `decimal_places` in one row of boxes lines up on its decimal point, which takes no box: the decimal places fill the last boxes. Date fields ignore it: a date prints in its format. Shared by every field with the same `name`.
+ * @member {Boolean} comb_fill_from_right
+ */
+FieldInput.prototype['comb_fill_from_right'] = undefined;
+
+/**
+ * With `comb_fill_from_right`: pads the value on the left with zeros instead of spaces, such as `000123`. A negative number keeps its minus sign in the first box. Shared by every field with the same `name`.
+ * @member {Boolean} comb_pad_with_zeros
+ */
+FieldInput.prototype['comb_pad_with_zeros'] = undefined;
+
+/**
+ * With `comb`, for string fields: only the value's digits print, one in each box, and any punctuation is left out, so `123-45-6789` fills the 9 boxes of an SSN. The template's data schema accepts as many digits as the boxes hold, with anything but letters between them. Number and date fields ignore it. Shared by every field with the same `name`.
+ * @member {Boolean} print_digits_only
+ */
+FieldInput.prototype['print_digits_only'] = undefined;
 
 /**
  * Leaves the field off the PDF. It stays in the template's data schema (marked `x-hidden`) and on forms, so other fields, such as combined fields, can use its value. A hidden static check mark or shape isn't printed.
@@ -797,13 +853,13 @@ FieldInput.prototype['v_alignment'] = undefined;
 FieldInput.prototype['comb'] = undefined;
 
 /**
- * With `comb`: how many boxes the field has. The value's maximum length in the template's data schema is this plus `comb_value_offset`.
+ * With `comb`: how many boxes the field has, up to 10,000. The value's maximum length in the template's data schema is the furthest that a comb field of its name reaches: its `comb_value_offset` plus its boxes. With `print_digits_only`, that many digits. A number field is split from its printed form (with `decimal_places`), and a number with a digit that no box prints (more digits than the boxes, or a digit where the offsets leave a gap) is a data error.
  * @member {Number} comb_number_of_cells
  */
 FieldInput.prototype['comb_number_of_cells'] = undefined;
 
 /**
- * With `comb`: the position, from 0, of the first character of the value that this field prints. For an SSN printed in boxes of 3, 2 and 4 digits, three fields named `ssn` use offsets 0, 3 and 5.
+ * With `comb`: how many boxes of the value's row come before this field, from 0 to 10,000. The comb fields that share a name make one row of boxes, and each prints the row's characters from its offset. For an SSN printed in boxes of 3, 2 and 4 digits, three fields named `ssn` use offsets 0, 3 and 5. The fields that print a number's whole part (`number_part`) make a row of their own, and so do the ones that print its decimal places.
  * @member {Number} comb_value_offset
  */
 FieldInput.prototype['comb_value_offset'] = undefined;
@@ -977,6 +1033,12 @@ FieldInput.prototype['currency'] = undefined;
 FieldInput.prototype['decimal_places'] = undefined;
 
 /**
+ * Number fields with text display: which part of the number this field prints. `all` prints the whole number, `whole` only the part before the decimal point (with a minus sign) and `decimals` only the decimal places. For an amount printed as `$ ____ . __`, two fields with the same name: one `whole`, and one `decimals` with `decimal_places` 2. The number is rounded once, to the `decimals` field's decimal places (2 when it sets none).
+ * @member {module:model/NumberPart} number_part
+ */
+FieldInput.prototype['number_part'] = undefined;
+
+/**
  * Image fields only: how the image is resized to the field. `fit` keeps its proportions and fits it inside the field, which can leave empty space; `fill` keeps its proportions and crops it to fill the field; `stretch` stretches it to the field's size. Signatures and initials always fit.
  * @member {module:model/ImageScaleType} image_scale_type
  */
@@ -987,6 +1049,12 @@ FieldInput.prototype['image_scale_type'] = undefined;
  * @member {module:model/ImageGravity} image_gravity
  */
 FieldInput.prototype['image_gravity'] = undefined;
+
+/**
+ * Who fills in or signs the field when a submission has signature requests: one of the template's `signer_roles`, by its key, or `sender` for a field that submission data fills in, which no signer is asked for. Null when it has no role: a submission's only signer fills it in when data doesn't, and with two or more signature requests one of them has to list it in its `fields`. In an HTML or Word template, a field whose tag gives it a role (`{% form_field tenant_name, role: tenant %}`) has that one, which only the code can change. Shared by every field with the same `name`.
+ * @member {String} signer_role
+ */
+FieldInput.prototype['signer_role'] = undefined;
 
 /**
  * The field's own conditional logic rule: when other fields' values meet its conditions, the field is shown, made required, or both. Null when it has none. The template's rules (`field_dependencies`) can apply to the field too. Shared by every field with the same `name`.

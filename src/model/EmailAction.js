@@ -21,7 +21,7 @@ import EmailActionSubmissionType from './EmailActionSubmissionType';
 /**
  * The EmailAction model module.
  * @module model/EmailAction
- * @version 4.5.0
+ * @version 4.6.0
  */
 class EmailAction {
     /**
@@ -45,7 +45,7 @@ class EmailAction {
      * @param message {String} The email's text, a Liquid template with the same variables as `subject`. `if`, `unless` and `case` tags work. Line breaks are kept. Null uses a short message that says the files are attached or ready to download.
      * @param file_name {String} The attached files' name, a Liquid template with the same variables as `subject`, such as `{{ data.last_name }} lease`. Each file's extension (`.pdf`, `.docx` or `.odt`) is added. Null uses the submission's `pdf_filename` metadata when it has one, and otherwise the template's name. A download link's files have the names their other downloads have: the submission's `pdf_filename`, or its ID.
      * @param file_formats {module:model/EmailActionFileFormats} Which of the submission's files the email sends: `all` sends every file the submission made (its PDF, and a Word template's Word document and OpenDocument file when it made them), and `docx`, `odt` or `pdf` sends only that file. A submission that made none of them sends nothing, and its email shows as skipped. Only Word templates make Word documents and OpenDocument files, so another template's email action takes `pdf` or `all`.
-     * @param delivery {module:model/EmailActionDelivery} `attachment` attaches the files, or sends a download link when together they're larger than `max_attachment_mb`. `link` sends a download link, which works for 7 days. Accounts with a BAA start with `link`.
+     * @param delivery {module:model/EmailActionDelivery} `attachment` attaches the files, or sends a download link when together they're larger than `max_attachment_mb`. `link` sends a download link, which works for 7 days, or until the submission expires if that's sooner. Accounts with a BAA start with `link`.
      * @param max_attachment_mb {Number} With `delivery` `attachment`, files larger than this many megabytes in all (1 MB is 1,000,000 bytes) are sent as a download link instead. Emailing a file makes it about 38% larger, and many company mail servers refuse emails over 10 MB, so the default is 7. Raise it only when every recipient's mail server accepts larger emails, such as Microsoft 365 (up to 36 MB) or Gmail (50 MB).
      * @param submission_type {module:model/EmailActionSubmissionType} Which submissions send emails: `live`, `test` or `all`. Test submissions only email your team's members, and skip every other recipient.
      * @param send_when {module:model/EmailActionConditions} Sends the email only when the submission's values meet these conditions, which work as a conditional logic rule's do. The values are the ones the PDF has: formulas worked out, and blank for a field that a rule hides. A field the template doesn't have (in an account email action's conditions) counts as blank. A submission that doesn't meet them sends nothing, and its email shows as skipped. Null sends for every submission.
@@ -401,7 +401,7 @@ EmailAction.prototype['file_name'] = undefined;
 EmailAction.prototype['file_formats'] = undefined;
 
 /**
- * `attachment` attaches the files, or sends a download link when together they're larger than `max_attachment_mb`. `link` sends a download link, which works for 7 days. Accounts with a BAA start with `link`.
+ * `attachment` attaches the files, or sends a download link when together they're larger than `max_attachment_mb`. `link` sends a download link, which works for 7 days, or until the submission expires if that's sooner. Accounts with a BAA start with `link`.
  * @member {module:model/EmailActionDelivery} delivery
  */
 EmailAction.prototype['delivery'] = undefined;

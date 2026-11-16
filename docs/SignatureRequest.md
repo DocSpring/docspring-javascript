@@ -8,10 +8,10 @@ Name | Type | Description | Notes
 **submission_id** | **String** | The ID of the submission the signature request belongs to. | 
 **name** | **String** | The name of the person the request is for. | 
 **email** | **String** | Their email address. Null when they have none. | 
-**fields** | **[String]** | The fields this person fills in. Null for a signature request created with API v1 without a field list: it asks for every field the submission's data doesn't have. | 
+**fields** | **[String]** | The fields this person fills in or signs: the ones the template gives their role that data didn't fill in, and the ones their signature request listed. A submission's only signature request without a list also has every field without a role that data didn't fill in. Null for a signature request created with API v1 without a field list, on a PDF template without roles: it asks for every field the submission's data doesn't have. | 
 **metadata** | **{String: Object}** | Your own data about the signature request, such as an ID from your app. | 
-**role** | **String** | Which of the template's signers the person is. Until templates have roles of their own, a template's signers are `Signer 1`, `Signer 2` and so on, up to `Signer 100`: `Signer 1` is the one whose details the template's `@@signature_requests/0` fields print. | 
-**sort_order** | **Number** | The signer's position, from 0: `Signer 1` is 0. The template's `@@signature_requests/&lt;sort_order&gt;` fields print this signature request's details. | 
+**role** | **String** | Which of the template's signers the person is: their role's key (`tenant`) when the template has roles, otherwise `Signer 1`, `Signer 2` and so on, up to `Signer 100`. `Signer 1`, or the template's first role, is the one whose details the template's `@@signature_requests/0` fields print, and a role's details are in its `@@signature_requests/&lt;key&gt;` fields too (`@@signature_requests/tenant/completed_at`). | 
+**sort_order** | **Number** | The signer's position, from 0: `Signer 1` is 0, as is the template's first role. The template's `@@signature_requests/&lt;sort_order&gt;` fields, and its role's `@@signature_requests/&lt;key&gt;` fields, print this signature request's details. | 
 **send_email** | **Boolean** | Whether DocSpring emails this person their signing link. | 
 **signing_step** | **Number** | When this person signs, when the submission's `signing_order` is `sequential`: everyone in step 1 first, then step 2, and so on. Null when everyone can sign at once. | 
 **sent_at** | **Date** | When DocSpring first emailed this person their signing link. Null until it has, and when it doesn't email them (`send_email` is false). | 

@@ -38,6 +38,14 @@ jobs:
       # npm ci runs the package's prepare script, which builds dist/
       - run: npm ci
       - run: npm pack
+      - name: Install shiplist
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/shiplist.tar.gz" https://github.com/DocSpring/shiplist/releases/download/v0.1.0/shiplist-v0.1.0-x86_64-unknown-linux-musl.tar.gz
+          echo "800f0f149aefe68df1302d50a268f5f13fc9af6ba530d48fb49da8df76bbf5ac  $RUNNER_TEMP/shiplist.tar.gz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/shiplist.tar.gz" -C "$RUNNER_TEMP" --strip-components=1
+      - name: Check the package holds only the files .shiplist.yml keeps
+        run: |
+          "$RUNNER_TEMP/shiplist" verify package --archive docspring-*.tgz --root package
       - name: Publish dry run
         run: |
           VERSION="$(node -p 'require("./package.json").version')"

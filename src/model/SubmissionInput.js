@@ -18,7 +18,7 @@ import OutputFormat from './OutputFormat';
 /**
  * The SubmissionInput model module.
  * @module model/SubmissionInput
- * @version 4.5.0
+ * @version 4.6.0
  */
 class SubmissionInput {
     /**
@@ -160,13 +160,13 @@ SubmissionInput.prototype['metadata'] = undefined;
 SubmissionInput.prototype['password'] = undefined;
 
 /**
- * What the submission makes: `pdf`, `docx` (a Word document, from a Word template), `odt` (an OpenDocument file, the format LibreOffice uses, converted from a Word template's Word document), and `png` (an image of each page of the PDF, up to 100 pages, which adds `pdf`) when you ask for it. Default `["pdf"]`, or a Word template's `output_format`. POST /submissions/{submission_id}/generate_files adds `png`, and a Word template's submission's `pdf`, `docx` or `odt`, to a processed submission.
+ * What the submission makes: `pdf`, `docx` (a Word document, from a Word template), `odt` (an OpenDocument file, the format LibreOffice uses, converted from a Word template's Word document), and `png` (an image of each page of the PDF, up to 100 pages, which adds `pdf`) when you ask for it. Default `["pdf"]`, or a Word template's `output_format`. A Word template's submission with signature requests makes only `pdf`, which its signers sign. POST /submissions/{submission_id}/generate_files adds `png`, and a Word template's submission's `pdf`, `docx` or `odt`, to a processed submission.
  * @member {Array.<module:model/OutputFormat>} output_formats
  */
 SubmissionInput.prototype['output_formats'] = undefined;
 
 /**
- * Seconds after the PDF is generated until the submission expires, up to 10 years (315360000). Default the template's expiration setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours. The demo API token's submissions expire within an hour: up to 3600, and that's their default.
+ * Seconds after the submission is processed until it expires, up to 10 years (315360000), sooner or later than the template's or the account's expiry setting. Defaults to the template's expiry when it overrides the account's (`override_account_expiry`), and otherwise to the account's expiry setting. A submission that isn't processed, such as one with invalid data, is kept for at least 48 hours. The demo API token's submissions expire within an hour: up to 3600, and that's their default.
  * @member {Number} expires_in
  */
 SubmissionInput.prototype['expires_in'] = undefined;

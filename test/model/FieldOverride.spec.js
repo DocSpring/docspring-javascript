@@ -90,6 +90,18 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property option_labels (base name: "option_labels")', function() {
+      // uncomment below and update the code to test the property option_labels
+      //var instance = new DocSpring.FieldOverride();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property print_option_labels (base name: "print_option_labels")', function() {
+      // uncomment below and update the code to test the property print_option_labels
+      //var instance = new DocSpring.FieldOverride();
+      //expect(instance).to.be();
+    });
+
     it('should have the property combined_field_names (base name: "combined_field_names")', function() {
       // uncomment below and update the code to test the property combined_field_names
       //var instance = new DocSpring.FieldOverride();
@@ -140,6 +152,18 @@
 
     it('should have the property barcode_symbology (base name: "barcode_symbology")', function() {
       // uncomment below and update the code to test the property barcode_symbology
+      //var instance = new DocSpring.FieldOverride();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property comb_fill_from_right (base name: "comb_fill_from_right")', function() {
+      // uncomment below and update the code to test the property comb_fill_from_right
+      //var instance = new DocSpring.FieldOverride();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property comb_pad_with_zeros (base name: "comb_pad_with_zeros")', function() {
+      // uncomment below and update the code to test the property comb_pad_with_zeros
       //var instance = new DocSpring.FieldOverride();
       //expect(instance).to.be();
     });
@@ -416,6 +440,12 @@
 
     it('should have the property decimal_places (base name: "decimal_places")', function() {
       // uncomment below and update the code to test the property decimal_places
+      //var instance = new DocSpring.FieldOverride();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property number_part (base name: "number_part")', function() {
+      // uncomment below and update the code to test the property number_part
       //var instance = new DocSpring.FieldOverride();
       //expect(instance).to.be();
     });

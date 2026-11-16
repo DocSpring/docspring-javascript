@@ -19,6 +19,7 @@ import FieldDisplayType from './FieldDisplayType';
 import ImageGravity from './ImageGravity';
 import ImageScaleType from './ImageScaleType';
 import NumberConditionType from './NumberConditionType';
+import NumberPart from './NumberPart';
 import ShapeType from './ShapeType';
 import StringConditionType from './StringConditionType';
 import TextAlignment from './TextAlignment';
@@ -29,7 +30,7 @@ import Typeface from './Typeface';
 /**
  * The FieldOverride model module.
  * @module model/FieldOverride
- * @version 4.5.0
+ * @version 4.6.0
  */
 class FieldOverride {
     /**
@@ -79,6 +80,12 @@ class FieldOverride {
             if (data.hasOwnProperty('option_list')) {
                 obj['option_list'] = ApiClient.convertToType(data['option_list'], 'String');
             }
+            if (data.hasOwnProperty('option_labels')) {
+                obj['option_labels'] = ApiClient.convertToType(data['option_labels'], {'String': 'String'});
+            }
+            if (data.hasOwnProperty('print_option_labels')) {
+                obj['print_option_labels'] = ApiClient.convertToType(data['print_option_labels'], 'Boolean');
+            }
             if (data.hasOwnProperty('combined_field_names')) {
                 obj['combined_field_names'] = ApiClient.convertToType(data['combined_field_names'], 'String');
             }
@@ -105,6 +112,12 @@ class FieldOverride {
             }
             if (data.hasOwnProperty('barcode_symbology')) {
                 obj['barcode_symbology'] = ApiClient.convertToType(data['barcode_symbology'], BarcodeSymbology);
+            }
+            if (data.hasOwnProperty('comb_fill_from_right')) {
+                obj['comb_fill_from_right'] = ApiClient.convertToType(data['comb_fill_from_right'], 'Boolean');
+            }
+            if (data.hasOwnProperty('comb_pad_with_zeros')) {
+                obj['comb_pad_with_zeros'] = ApiClient.convertToType(data['comb_pad_with_zeros'], 'Boolean');
             }
             if (data.hasOwnProperty('hidden')) {
                 obj['hidden'] = ApiClient.convertToType(data['hidden'], 'Boolean');
@@ -244,6 +257,9 @@ class FieldOverride {
             if (data.hasOwnProperty('decimal_places')) {
                 obj['decimal_places'] = ApiClient.convertToType(data['decimal_places'], 'Number');
             }
+            if (data.hasOwnProperty('number_part')) {
+                obj['number_part'] = ApiClient.convertToType(data['number_part'], NumberPart);
+            }
             if (data.hasOwnProperty('image_scale_type')) {
                 obj['image_scale_type'] = ApiClient.convertToType(data['image_scale_type'], ImageScaleType);
             }
@@ -370,6 +386,18 @@ FieldOverride.prototype['required'] = undefined;
 FieldOverride.prototype['option_list'] = undefined;
 
 /**
+ * The label forms show for each option, keyed by its value, such as `{"no": "No, I don't"}`. Each key must be one of the options.
+ * @member {Object.<String, String>} option_labels
+ */
+FieldOverride.prototype['option_labels'] = undefined;
+
+/**
+ * Print the chosen option's label instead of its value.
+ * @member {Boolean} print_option_labels
+ */
+FieldOverride.prototype['print_option_labels'] = undefined;
+
+/**
  * The names of the fields a combined field joins, separated by commas.
  * @member {String} combined_field_names
  */
@@ -422,6 +450,18 @@ FieldOverride.prototype['signature_allow_type'] = undefined;
  * @member {module:model/BarcodeSymbology} barcode_symbology
  */
 FieldOverride.prototype['barcode_symbology'] = undefined;
+
+/**
+ * Fill the last boxes of the field's comb fields, padding the value on the left, as amounts are written on paper forms.
+ * @member {Boolean} comb_fill_from_right
+ */
+FieldOverride.prototype['comb_fill_from_right'] = undefined;
+
+/**
+ * With `comb_fill_from_right`, pad the value with zeros instead of spaces.
+ * @member {Boolean} comb_pad_with_zeros
+ */
+FieldOverride.prototype['comb_pad_with_zeros'] = undefined;
 
 /**
  * Leave the field off the PDF. Its value is still in the data, and combined fields can use it.
@@ -580,7 +620,7 @@ FieldOverride.prototype['comb'] = undefined;
 FieldOverride.prototype['comb_number_of_cells'] = undefined;
 
 /**
- * The character of the value that the first box starts from, for a value split over several comb fields (such as the parts of a Social Security number).
+ * How many boxes of the value's row come before this field, for a value split over several comb fields (such as the parts of a Social Security number).
  * @member {Number} comb_value_offset
  */
 FieldOverride.prototype['comb_value_offset'] = undefined;
@@ -698,6 +738,12 @@ FieldOverride.prototype['invert_boolean_condition'] = undefined;
  * @member {Number} decimal_places
  */
 FieldOverride.prototype['decimal_places'] = undefined;
+
+/**
+ * Which part of a number field's number this field prints: the whole number, only the part before the decimal point, or only the decimal places.
+ * @member {module:model/NumberPart} number_part
+ */
+FieldOverride.prototype['number_part'] = undefined;
 
 /**
  * How an image is resized to its field.

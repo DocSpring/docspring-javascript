@@ -1,0 +1,34 @@
+# Written by DocSpring/docspring's api_clients/scripts/generate from api_clients/github_workflows/javascript/.shiplist.yml:
+# change it there.
+#
+# The files the npm package may hold (https://github.com/DocSpring/shiplist). The release workflow packs it and fails
+# if it has any other file.
+version: 1
+stages: [package]
+
+remove_before:
+  package:
+    include:
+      - '.*'
+      - '.*/**'
+      - 'docs/'
+      - 'src/'
+      - 'test/'
+      - 'mocha.opts'
+      - 'package-lock.json'
+
+keep:
+  include:
+    - 'AGENTS.md'
+    - 'LICENSE'
+    - 'package.json'
+    - 'README.md'
+
+forbid:
+  - '**/*.map'
+  - '**/.env'
+  - '**/.env.*'
+
+# What the package's prepare script builds
+build_output:
+  - 'dist/'

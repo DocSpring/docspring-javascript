@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The UpdateTemplateDocumentRequest model module.
  * @module model/UpdateTemplateDocumentRequest
- * @version 4.5.0
+ * @version 4.6.0
  */
 class UpdateTemplateDocumentRequest {
     /**
@@ -62,6 +62,9 @@ class UpdateTemplateDocumentRequest {
             }
             if (data.hasOwnProperty('reimport_fields')) {
                 obj['reimport_fields'] = ApiClient.convertToType(data['reimport_fields'], 'Boolean');
+            }
+            if (data.hasOwnProperty('sync_fields')) {
+                obj['sync_fields'] = ApiClient.convertToType(data['sync_fields'], 'Boolean');
             }
         }
         return obj;
@@ -127,6 +130,12 @@ UpdateTemplateDocumentRequest.prototype['filename'] = undefined;
  * @member {Boolean} reimport_fields
  */
 UpdateTemplateDocumentRequest.prototype['reimport_fields'] = undefined;
+
+/**
+ * Add a field for each value the template's code, Word document or layout reads for the first time, with a type worked out from how it's used. Existing fields keep their settings, and a field you deleted while the code still read the value stays deleted. Default true. Set it to false to manage the fields yourself with the fields endpoints: a form field whose field isn't on the template then fails its submissions and previews. Only for HTML templates, Word templates and page designs.
+ * @member {Boolean} sync_fields
+ */
+UpdateTemplateDocumentRequest.prototype['sync_fields'] = undefined;
 
 
 

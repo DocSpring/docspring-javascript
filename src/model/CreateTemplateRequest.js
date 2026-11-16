@@ -24,12 +24,13 @@ import SignatureRequestEmailAttachments from './SignatureRequestEmailAttachments
 import TemplateDefaultsInput from './TemplateDefaultsInput';
 import TemplateFieldDependencyInput from './TemplateFieldDependencyInput';
 import TemplateFormMode from './TemplateFormMode';
+import TemplateSignerRoleInput from './TemplateSignerRoleInput';
 import TemplateType from './TemplateType';
 
 /**
  * The CreateTemplateRequest model module.
  * @module model/CreateTemplateRequest
- * @version 4.5.0
+ * @version 4.6.0
  */
 class CreateTemplateRequest {
     /**
@@ -92,6 +93,9 @@ class CreateTemplateRequest {
             }
             if (data.hasOwnProperty('allow_skipping_optional_fields')) {
                 obj['allow_skipping_optional_fields'] = ApiClient.convertToType(data['allow_skipping_optional_fields'], 'Boolean');
+            }
+            if (data.hasOwnProperty('continue_before_optional_fields')) {
+                obj['continue_before_optional_fields'] = ApiClient.convertToType(data['continue_before_optional_fields'], 'Boolean');
             }
             if (data.hasOwnProperty('default_form_mode')) {
                 obj['default_form_mode'] = ApiClient.convertToType(data['default_form_mode'], TemplateFormMode);
@@ -171,6 +175,9 @@ class CreateTemplateRequest {
             if (data.hasOwnProperty('show_fill_again_button')) {
                 obj['show_fill_again_button'] = ApiClient.convertToType(data['show_fill_again_button'], 'Boolean');
             }
+            if (data.hasOwnProperty('form_sections_in_order')) {
+                obj['form_sections_in_order'] = ApiClient.convertToType(data['form_sections_in_order'], 'Boolean');
+            }
             if (data.hasOwnProperty('slack_webhook_url')) {
                 obj['slack_webhook_url'] = ApiClient.convertToType(data['slack_webhook_url'], 'String');
             }
@@ -179,6 +186,12 @@ class CreateTemplateRequest {
             }
             if (data.hasOwnProperty('field_dependencies')) {
                 obj['field_dependencies'] = ApiClient.convertToType(data['field_dependencies'], [TemplateFieldDependencyInput]);
+            }
+            if (data.hasOwnProperty('signer_roles')) {
+                obj['signer_roles'] = ApiClient.convertToType(data['signer_roles'], [TemplateSignerRoleInput]);
+            }
+            if (data.hasOwnProperty('signature_request_cc')) {
+                obj['signature_request_cc'] = ApiClient.convertToType(data['signature_request_cc'], ['String']);
             }
             if (data.hasOwnProperty('predefined_fields')) {
                 obj['predefined_fields'] = ApiClient.convertToType(data['predefined_fields'], [PredefinedFieldInput]);
@@ -206,6 +219,12 @@ class CreateTemplateRequest {
             }
             if (data.hasOwnProperty('layout')) {
                 obj['layout'] = ApiClient.convertToType(data['layout'], {'String': Object});
+            }
+            if (data.hasOwnProperty('override_account_expiry')) {
+                obj['override_account_expiry'] = ApiClient.convertToType(data['override_account_expiry'], 'Boolean');
+            }
+            if (data.hasOwnProperty('sync_fields')) {
+                obj['sync_fields'] = ApiClient.convertToType(data['sync_fields'], 'Boolean');
             }
             if (data.hasOwnProperty('cache_id')) {
                 obj['cache_id'] = ApiClient.convertToType(data['cache_id'], 'String');
@@ -320,6 +339,20 @@ class CreateTemplateRequest {
                 TemplateFieldDependencyInput.validateJSON(item);
             };
         }
+        if (data['signer_roles']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['signer_roles'])) {
+                throw new Error("Expected the field `signer_roles` to be an array in the JSON data but got " + data['signer_roles']);
+            }
+            // validate the optional field `signer_roles` (array)
+            for (const item of data['signer_roles']) {
+                TemplateSignerRoleInput.validateJSON(item);
+            };
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['signature_request_cc'])) {
+            throw new Error("Expected the field `signature_request_cc` to be an array in the JSON data but got " + data['signature_request_cc']);
+        }
         if (data['predefined_fields']) { // data not null
             // ensure the json data is an array
             if (!Array.isArray(data['predefined_fields'])) {
@@ -430,10 +463,16 @@ CreateTemplateRequest.prototype['ai_field_naming_language'] = undefined;
 CreateTemplateRequest.prototype['allow_additional_properties'] = undefined;
 
 /**
- * Visual forms and signature request forms show the Continue button as soon as the required fields are filled in, without visiting each optional field. The `allowSkippingOptionalFields` embed option overrides it.
+ * Visual Forms JS 2.16.0 to 2.23.0 only: with it on, Continue takes the place of Next once the required fields are filled in. Later versions use `continue_before_optional_fields`.
  * @member {Boolean} allow_skipping_optional_fields
  */
 CreateTemplateRequest.prototype['allow_skipping_optional_fields'] = undefined;
+
+/**
+ * Visual forms and signature request forms show the Continue button next to Next as soon as the required fields are filled in, without visiting each optional field. Turned off, Continue shows in place of Next only once every field has a value or has been visited. The `allowSkippingOptionalFields` embed option overrides it.
+ * @member {Boolean} continue_before_optional_fields
+ */
+CreateTemplateRequest.prototype['continue_before_optional_fields'] = undefined;
 
 /**
  * The hosted form that /templates/{template_id}/form shows when its URL has no `mode` parameter: `web` (the web form), `visual` (the visual form, where fields are filled in on the PDF) or `dual` (both, in tabs). Only PDF templates have a visual form, so other templates accept only `web`.
@@ -448,7 +487,7 @@ CreateTemplateRequest.prototype['default_form_mode'] = undefined;
 CreateTemplateRequest.prototype['editable_submissions'] = undefined;
 
 /**
- * The sites that can embed the template's live signature requests and its embedded template editor: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Each one is stored in lowercase, without a trailing slash. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. Forms embedded on a page (Visual Forms JS and Web Forms JS) aren't restricted.
+ * The sites that can embed the template's live signature requests, its embedded template editor and its visual form: a host such as `app.example.com`, with an optional leading wildcard (`*.example.com`), port (`localhost:3000`) or scheme (`https://app.example.com`; without one, `http` and `https` both work), without a path. Each one is stored in lowercase, without a trailing slash. Browsers open a live signature request in a frame only on these sites (and DocSpring's), so with an empty list it can't be embedded anywhere; a test signature request can be embedded on any site. The embedded template editor loads only for a page on one of these sites (by its Referer or Origin header), and on any site when the list is empty. A visual form embedded with Visual Forms JS loads only on these sites, and on any site when the list is empty. Web Forms JS isn't restricted.
  * @member {Array.<String>} embed_domains
  */
 CreateTemplateRequest.prototype['embed_domains'] = undefined;
@@ -484,13 +523,13 @@ CreateTemplateRequest.prototype['encrypt_pdfs'] = undefined;
 CreateTemplateRequest.prototype['encrypt_pdfs_password'] = undefined;
 
 /**
- * Delete each submission's data and PDF after `expire_after` `expiration_interval`.
+ * Delete each submission's data and files after `expire_after` `expiration_interval`, when `override_account_expiry` is on.
  * @member {Boolean} expire_submissions
  */
 CreateTemplateRequest.prototype['expire_submissions'] = undefined;
 
 /**
- * How many `expiration_interval`s a submission's data and PDF are kept for, when `expire_submissions` is on. At most 5256000 (10 years in minutes).
+ * How many `expiration_interval`s a submission's data and PDF are kept for, when `expire_submissions` and `override_account_expiry` are on. At most 5256000 (10 years in minutes).
  * @member {Number} expire_after
  */
 CreateTemplateRequest.prototype['expire_after'] = undefined;
@@ -532,43 +571,43 @@ CreateTemplateRequest.prototype['public_web_form'] = undefined;
 CreateTemplateRequest.prototype['redirect_url'] = undefined;
 
 /**
- * How DocSpring's completed emails send the signed PDF to your signers and CCs: `attachment` (attached, or a download link when it's too big to attach) or `link` (a download link). Null uses your account's rule: a link if your account has signed a BAA, otherwise attached. PDF templates only. A signature request uses the value it had when the request was created.
+ * How DocSpring's completed emails send the signed PDF to your signers and CCs: `attachment` (attached, or a download link when it's too big to attach) or `link` (a download link). Null uses your account's rule: a link if your account has signed a BAA, otherwise attached. A signature request uses the value it had when the request was created.
  * @member {module:model/SignatureRequestEmailAttachments} signature_request_email_attachments
  */
 CreateTemplateRequest.prototype['signature_request_email_attachments'] = undefined;
 
 /**
- * The address DocSpring's emails to your signers come from: an address at one of your verified email domains, on the Growth plan or higher. Null sends them from DocSpring's shared address, with "via DocSpring" after the sender name. PDF templates only.
+ * The address DocSpring's emails to your signers come from: an address at one of your verified email domains, on the Growth plan or higher. Null sends them from DocSpring's shared address, with "via DocSpring" after the sender name.
  * @member {String} signature_request_from_address
  */
 CreateTemplateRequest.prototype['signature_request_from_address'] = undefined;
 
 /**
- * Puts a signing token in `signature_request_signing_url`, as `{{ token_id }}` and `{{ token_secret }}`, so your page can open the signing form without creating a token itself. The email then carries a credential: anyone who has it can open the form and sign. PDF templates only.
+ * Puts a signing token in `signature_request_signing_url`, as `{{ token_id }}` and `{{ token_secret }}`, so your page can open the signing form without creating a token itself. The email then carries a credential: anyone who has it can open the form and sign.
  * @member {Boolean} signature_request_include_signing_token
  */
 CreateTemplateRequest.prototype['signature_request_include_signing_token'] = undefined;
 
 /**
- * The sender name on the emails DocSpring sends your signers, as in "Acme via DocSpring". It can't contain an email address, a website or quotes. Null uses your account's name. PDF templates only.
+ * The sender name on the emails DocSpring sends your signers, as in "Acme via DocSpring". It can't contain an email address, a website or quotes. Null uses your account's name.
  * @member {String} signature_request_from_name
  */
 CreateTemplateRequest.prototype['signature_request_from_name'] = undefined;
 
 /**
- * Who DocSpring tells when a signature request's document is completed or declined, or an email bounces or can't be sent: members of your DocSpring team or addresses at your verified email domains. Empty means your account's owner. A submission's `notification_emails` replaces them. PDF templates only.
+ * Who DocSpring tells when a signature request's document is completed or declined, or an email bounces or can't be sent: members of your DocSpring team or addresses at your verified email domains. Empty means your account's owner. A submission's `notification_emails` replaces them.
  * @member {Array.<String>} signature_request_notification_emails
  */
 CreateTemplateRequest.prototype['signature_request_notification_emails'] = undefined;
 
 /**
- * Where your signers' replies to DocSpring's emails go: a member of your DocSpring team or an address at one of your verified email domains. Null means your account's owner. A submission's `reply_to` replaces it. PDF templates only.
+ * Where your signers' replies to DocSpring's emails go: a member of your DocSpring team or an address at one of your verified email domains. Null means your account's owner. A submission's `reply_to` replaces it.
  * @member {String} signature_request_reply_to
  */
 CreateTemplateRequest.prototype['signature_request_reply_to'] = undefined;
 
 /**
- * A page on your own site that the button in DocSpring's email to a signer opens, instead of DocSpring's signing page: an https URL on one of your verified email domains or a subdomain of one, on the Growth plan or higher. It must include `{{ signature_request_id }}`. Your page authenticates the signer, creates a token for the signature request, and opens the signing form with it. Null links to DocSpring's signing page. PDF templates only.
+ * A page on your own site that the button in DocSpring's email to a signer opens, instead of DocSpring's signing page: an https URL on one of your verified email domains or a subdomain of one, on the Growth plan or higher. It must include `{{ signature_request_id }}`. Your page authenticates the signer, creates a token for the signature request, and opens the signing form with it. Null links to DocSpring's signing page.
  * @member {String} signature_request_signing_url
  */
 CreateTemplateRequest.prototype['signature_request_signing_url'] = undefined;
@@ -592,6 +631,12 @@ CreateTemplateRequest.prototype['success_message'] = undefined;
 CreateTemplateRequest.prototype['show_fill_again_button'] = undefined;
 
 /**
+ * Whether a web form with sections makes people fill them out in order. When true, a later section stays locked until they reach it with Next. When false, they can open any section from the list, and Next and Submit still check their answers.
+ * @member {Boolean} form_sections_in_order
+ */
+CreateTemplateRequest.prototype['form_sections_in_order'] = undefined;
+
+/**
  * A Slack incoming webhook URL that is notified about the template's submissions. It's never returned; `has_slack_webhook_url` says if it's set.
  * @member {String} slack_webhook_url
  */
@@ -608,6 +653,18 @@ CreateTemplateRequest.prototype['defaults'] = undefined;
  * @member {Array.<module:model/TemplateFieldDependencyInput>} field_dependencies
  */
 CreateTemplateRequest.prototype['field_dependencies'] = undefined;
+
+/**
+ * The template's signer roles, in order. Setting them replaces the whole list: a role left out is deleted, and its fields are left unassigned. Give each role you keep its `id`.
+ * @member {Array.<module:model/TemplateSignerRoleInput>} signer_roles
+ */
+CreateTemplateRequest.prototype['signer_roles'] = undefined;
+
+/**
+ * Who gets a copy of the completed document when DocSpring emails a submission's signers, with the submission's `cc`: email addresses, or `{{ variables }}` that name an address in the submission's data, such as `{{ agent.email }}`. A value the data doesn't have prints nothing, and an address that comes out blank is left out. The data has to have the value, so it's one of the template's fields (one the sender fills in) or the template allows additional properties: setting a variable that isn't a field is a `422` otherwise. They don't sign. Setting it replaces the whole list.
+ * @member {Array.<String>} signature_request_cc
+ */
+CreateTemplateRequest.prototype['signature_request_cc'] = undefined;
 
 /**
  * The field names that people using the embedded template editor choose from, each with the data type and settings a field gets when it's given that name. Setting it replaces the whole list; an empty list turns them off.
@@ -662,6 +719,18 @@ CreateTemplateRequest.prototype['html_escape_data'] = undefined;
  * @member {Object.<String, Object>} layout
  */
 CreateTemplateRequest.prototype['layout'] = undefined;
+
+/**
+ * Whether the template's own expiry (`expire_submissions`, `expire_after` and `expiration_interval`) decides when all its submissions are deleted, with or without signature requests, including keeping them until you delete them. When false, the account's expiry settings do. Turning `expire_submissions` on also turns this on, unless the same request sets it, and so does creating a template with `expire_submissions` on or off.
+ * @member {Boolean} override_account_expiry
+ */
+CreateTemplateRequest.prototype['override_account_expiry'] = undefined;
+
+/**
+ * Add a field for each value the template's code, Word document or layout reads for the first time, with a type worked out from how it's used. Existing fields keep their settings, and a field you deleted while the code still read the value stays deleted. Default true. Set it to false to manage the fields yourself with the fields endpoints: a form field whose field isn't on the template then fails its submissions and previews. Only for HTML templates, Word templates and page designs.
+ * @member {Boolean} sync_fields
+ */
+CreateTemplateRequest.prototype['sync_fields'] = undefined;
 
 /**
  * The template's document, a PDF or a Word document (.docx or .odt): the `fields.key` of a file you uploaded with the presigned upload (GET /uploads/presign). PDF and Word templates need one of `cache_id`, `document_url` and `document_base64`. To upload the file with the request, use POST /templates/upload.

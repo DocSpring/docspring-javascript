@@ -84,6 +84,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property option_labels (base name: "option_labels")', function() {
+      // uncomment below and update the code to test the property option_labels
+      //var instance = new DocSpring.PredefinedFieldInput();
+      //expect(instance).to.be();
+    });
+
     it('should have the property required_in_template (base name: "required_in_template")', function() {
       // uncomment below and update the code to test the property required_in_template
       //var instance = new DocSpring.PredefinedFieldInput();

@@ -108,6 +108,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property continue_before_optional_fields (base name: "continue_before_optional_fields")', function() {
+      // uncomment below and update the code to test the property continue_before_optional_fields
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property default_form_mode (base name: "default_form_mode")', function() {
       // uncomment below and update the code to test the property default_form_mode
       //var instance = new DocSpring.UpdateTemplateRequest();
@@ -264,6 +270,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property form_sections_in_order (base name: "form_sections_in_order")', function() {
+      // uncomment below and update the code to test the property form_sections_in_order
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
     it('should have the property slack_webhook_url (base name: "slack_webhook_url")', function() {
       // uncomment below and update the code to test the property slack_webhook_url
       //var instance = new DocSpring.UpdateTemplateRequest();
@@ -290,6 +302,18 @@
 
     it('should have the property form_sections (base name: "form_sections")', function() {
       // uncomment below and update the code to test the property form_sections
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signer_roles (base name: "signer_roles")', function() {
+      // uncomment below and update the code to test the property signer_roles
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property signature_request_cc (base name: "signature_request_cc")', function() {
+      // uncomment below and update the code to test the property signature_request_cc
       //var instance = new DocSpring.UpdateTemplateRequest();
       //expect(instance).to.be();
     });
@@ -344,6 +368,18 @@
 
     it('should have the property layout (base name: "layout")', function() {
       // uncomment below and update the code to test the property layout
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property override_account_expiry (base name: "override_account_expiry")', function() {
+      // uncomment below and update the code to test the property override_account_expiry
+      //var instance = new DocSpring.UpdateTemplateRequest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property sync_fields (base name: "sync_fields")', function() {
+      // uncomment below and update the code to test the property sync_fields
       //var instance = new DocSpring.UpdateTemplateRequest();
       //expect(instance).to.be();
     });

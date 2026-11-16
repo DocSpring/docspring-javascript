@@ -17,7 +17,7 @@ import CombinedPdfSourceType from './CombinedPdfSourceType';
 /**
  * The CombinedPdfSource model module.
  * @module model/CombinedPdfSource
- * @version 4.5.0
+ * @version 4.6.0
  */
 class CombinedPdfSource {
     /**

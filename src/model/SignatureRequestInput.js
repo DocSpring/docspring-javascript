@@ -18,18 +18,17 @@ import SignatureRequestAuthType from './SignatureRequestAuthType';
 /**
  * The SignatureRequestInput model module.
  * @module model/SignatureRequestInput
- * @version 4.5.0
+ * @version 4.6.0
  */
 class SignatureRequestInput {
     /**
      * Constructs a new <code>SignatureRequestInput</code>.
      * A request for someone to fill in their fields of a submission and sign it. Someone who only fills in fields for the people who sign later (such as an employer's section) has a signature request too. The submission's PDF is generated once every signature request is completed.
      * @alias module:model/SignatureRequestInput
-     * @param fields {Array.<String>} The fields this person fills in. Each field can only be in one signature request, and a field that `data` fills in needs `prefilled_values_editable`.
      */
-    constructor(fields) { 
+    constructor() { 
         
-        SignatureRequestInput.initialize(this, fields);
+        SignatureRequestInput.initialize(this);
     }
 
     /**
@@ -37,8 +36,7 @@ class SignatureRequestInput {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, fields) { 
-        obj['fields'] = fields;
+    static initialize(obj) { 
     }
 
     /**
@@ -113,12 +111,6 @@ class SignatureRequestInput {
      * @return {boolean} to indicate whether the JSON data is valid with respect to <code>SignatureRequestInput</code>.
      */
     static validateJSON(data) {
-        // check to make sure all required properties are present in the JSON string
-        for (const property of SignatureRequestInput.RequiredProperties) {
-            if (!data.hasOwnProperty(property)) {
-                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
-            }
-        }
         // ensure the json data is a string
         if (data['name'] && !(typeof data['name'] === 'string' || data['name'] instanceof String)) {
             throw new Error("Expected the field `name` to be a primitive type in the JSON string but got " + data['name']);
@@ -162,7 +154,7 @@ class SignatureRequestInput {
 
 }
 
-SignatureRequestInput.RequiredProperties = ["fields"];
+
 
 /**
  * The name of the person the request is for.
@@ -177,7 +169,7 @@ SignatureRequestInput.prototype['name'] = undefined;
 SignatureRequestInput.prototype['email'] = undefined;
 
 /**
- * The fields this person fills in. Each field can only be in one signature request, and a field that `data` fills in needs `prefilled_values_editable`.
+ * The fields this person fills in or signs, besides the ones the template gives their role. A submission's only signature request can leave it out: the person gets every field without a role that `data` doesn't fill in. With two or more signature requests, every required field that `data` doesn't fill in needs a signer, from its role in the template or from a signature request's `fields` (an optional one that nobody is given stays empty). Each field can only be in one signature request, can't be another role's or the sender's, and needs `prefilled_values_editable` when `data` fills it in. A field that the Liquid of an HTML template, a Word template or a page design uses outside its form fields (`{{ name }}`) can only be filled in by the signer who signs first (the only signer, or the only one in the first `signing_step`): their signing page asks them for it before the document is made.
  * @member {Array.<String>} fields
  */
 SignatureRequestInput.prototype['fields'] = undefined;
@@ -189,7 +181,7 @@ SignatureRequestInput.prototype['fields'] = undefined;
 SignatureRequestInput.prototype['metadata'] = undefined;
 
 /**
- * Which of the template's signers the person is: `Signer 1`, `Signer 2` and so on, up to `Signer 100`, until templates have roles of their own. Either every signature request has a `role` or none does, and each role can only have one.
+ * Which of the template's signers the person is: one of its roles, by key (`tenant`), or by place (`Signer 1` is the first role). A template without roles has `Signer 1`, `Signer 2` and so on, up to `Signer 100`. Either every signature request has a `role` or none does, and each role can only have one. Without any `role`, the first signature request is the template's first signer, the second its second, and so on. When the template gives its roles names of their own (`Tenant`, not `Signer 1`), two or more signature requests each need a `role`.
  * @member {String} role
  */
 SignatureRequestInput.prototype['role'] = undefined;
@@ -249,7 +241,7 @@ SignatureRequestInput.prototype['auth_phone_number_hash'] = undefined;
 SignatureRequestInput.prototype['ignore_unknown_fields'] = undefined;
 
 /**
- * Let the person change the values that `data` already has for fields in `fields`. Without it, those fields are a 422.
+ * Let the person change the values that `data` already has for their fields. Without it, a field in `fields` that `data` fills in is a 422, and a field of their role that `data` fills in is the sender's.
  * @member {Boolean} prefilled_values_editable
  */
 SignatureRequestInput.prototype['prefilled_values_editable'] = undefined;
