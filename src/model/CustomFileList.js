@@ -17,7 +17,7 @@ import CustomFile from './CustomFile';
 /**
  * The CustomFileList model module.
  * @module model/CustomFileList
- * @version 4.6.0
+ * @version 4.7.0
  */
 class CustomFileList {
     /**

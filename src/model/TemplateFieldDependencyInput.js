@@ -19,7 +19,7 @@ import TemplateFieldDependencyMatch from './TemplateFieldDependencyMatch';
 /**
  * The TemplateFieldDependencyInput model module.
  * @module model/TemplateFieldDependencyInput
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateFieldDependencyInput {
     /**

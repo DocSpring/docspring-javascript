@@ -17,7 +17,7 @@ import CombinedPdf from './CombinedPdf';
 /**
  * The CombinedPdfList model module.
  * @module model/CombinedPdfList
- * @version 4.6.0
+ * @version 4.7.0
  */
 class CombinedPdfList {
     /**

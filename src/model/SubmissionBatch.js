@@ -18,7 +18,7 @@ import SubmissionBatchState from './SubmissionBatchState';
 /**
  * The SubmissionBatch model module.
  * @module model/SubmissionBatch
- * @version 4.6.0
+ * @version 4.7.0
  */
 class SubmissionBatch {
     /**

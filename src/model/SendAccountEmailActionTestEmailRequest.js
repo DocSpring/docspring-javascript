@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SendAccountEmailActionTestEmailRequest model module.
  * @module model/SendAccountEmailActionTestEmailRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class SendAccountEmailActionTestEmailRequest {
     /**

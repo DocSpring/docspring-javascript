@@ -17,7 +17,7 @@ import TemplateActorType from './TemplateActorType';
 /**
  * The TemplateActor model module.
  * @module model/TemplateActor
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateActor {
     /**

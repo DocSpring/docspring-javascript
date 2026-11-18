@@ -18,7 +18,7 @@ import OutputFormat from './OutputFormat';
 /**
  * The SubmissionInput model module.
  * @module model/SubmissionInput
- * @version 4.6.0
+ * @version 4.7.0
  */
 class SubmissionInput {
     /**

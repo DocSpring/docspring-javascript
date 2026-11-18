@@ -20,7 +20,7 @@ import SignatureRequestState from './SignatureRequestState';
 /**
  * The SignatureRequest model module.
  * @module model/SignatureRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class SignatureRequest {
     /**

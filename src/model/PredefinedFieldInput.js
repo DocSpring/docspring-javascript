@@ -17,7 +17,7 @@ import FieldType from './FieldType';
 /**
  * The PredefinedFieldInput model module.
  * @module model/PredefinedFieldInput
- * @version 4.6.0
+ * @version 4.7.0
  */
 class PredefinedFieldInput {
     /**

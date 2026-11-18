@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CreateCustomFileFromUploadRequest model module.
  * @module model/CreateCustomFileFromUploadRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class CreateCustomFileFromUploadRequest {
     /**

@@ -672,6 +672,70 @@ export default {
         }
       }
     },
+    "askSupportHelp": {
+      "query": {
+        "wait": {
+          "required": false,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      },
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "required": [
+            "question"
+          ],
+          "properties": {
+            "question": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 8000
+            },
+            "tool": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "conversation": {
+              "type": "array",
+              "maxItems": 40,
+              "items": {
+                "type": "object",
+                "required": [
+                  "role",
+                  "text"
+                ],
+                "properties": {
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "user",
+                      "assistant"
+                    ]
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 16000
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
     "copyTemplate": {
       "body": {
         "mediaType": "application/json",
@@ -2742,6 +2806,19 @@ export default {
         }
       }
     },
+    "getSupportHelp": {},
+    "getSupportTicket": {
+      "query": {
+        "after_message_id": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
+          }
+        }
+      }
+    },
     "getTemplate": {
       "query": {
         "version": {
@@ -3037,6 +3114,53 @@ export default {
         }
       }
     },
+    "listSupportTickets": {
+      "query": {
+        "status": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "open",
+              "closed",
+              "all"
+            ]
+          }
+        },
+        "session": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "maxLength": 100,
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
+          }
+        },
+        "updated_since": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "limit": {
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "cursor": {
+          "required": false,
+          "schema": {
+            "type": "string",
+            "pattern": "[^ \t\n\u000b\f\r   -     　]",
+            "x-pattern-message": "can't be blank"
+          }
+        }
+      }
+    },
     "listTemplateFields": {
       "query": {
         "version": {
@@ -3293,6 +3417,140 @@ export default {
         }
       }
     },
+    "openSupportTicket": {
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "required": [
+            "title",
+            "kind",
+            "description"
+          ],
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 200
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "bug",
+                "crash",
+                "wrong_result",
+                "confusing",
+                "missing_feature",
+                "docs",
+                "question",
+                "other"
+              ]
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "pdf_templates",
+                "html_templates",
+                "word_templates",
+                "page_designer",
+                "template_editor",
+                "submissions",
+                "web_forms",
+                "signature_requests",
+                "api",
+                "sdks",
+                "cli",
+                "mcp",
+                "integrations",
+                "webhooks",
+                "billing",
+                "account",
+                "docs",
+                "other"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "impact": {
+              "type": "string",
+              "enum": [
+                "blocked",
+                "worked_around",
+                "friction"
+              ]
+            },
+            "task": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "request_ids": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 255,
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
+              }
+            },
+            "tool": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "suggestion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "source": {
+              "type": "string",
+              "enum": [
+                "agent",
+                "user"
+              ]
+            },
+            "session": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "agent": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "version": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "model": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
     "publishTemplateVersion": {
       "body": {
         "mediaType": "application/json",
@@ -3387,6 +3645,33 @@ export default {
         }
       }
     },
+    "replyToSupportTicket": {
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "required": [
+            "body"
+          ],
+          "properties": {
+            "body": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "outcome": {
+              "type": "string",
+              "enum": [
+                "resolved",
+                "still_broken"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
     "restoreTemplateVersion": {
       "body": {
         "mediaType": "application/json",
@@ -3426,6 +3711,140 @@ export default {
       }
     },
     "sendEmailActionTestEmail": {},
+    "sendSupportFeedback": {
+      "body": {
+        "mediaType": "application/json",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "required": [
+            "title",
+            "kind",
+            "description"
+          ],
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 200
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "bug",
+                "crash",
+                "wrong_result",
+                "confusing",
+                "missing_feature",
+                "docs",
+                "question",
+                "other"
+              ]
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "pdf_templates",
+                "html_templates",
+                "word_templates",
+                "page_designer",
+                "template_editor",
+                "submissions",
+                "web_forms",
+                "signature_requests",
+                "api",
+                "sdks",
+                "cli",
+                "mcp",
+                "integrations",
+                "webhooks",
+                "billing",
+                "account",
+                "docs",
+                "other"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "impact": {
+              "type": "string",
+              "enum": [
+                "blocked",
+                "worked_around",
+                "friction"
+              ]
+            },
+            "task": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "request_ids": {
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "type": "string",
+                "maxLength": 255,
+                "pattern": "[^ \t\n\u000b\f\r   -     　]",
+                "x-pattern-message": "can't be blank"
+              }
+            },
+            "tool": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "suggestion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "source": {
+              "type": "string",
+              "enum": [
+                "agent",
+                "user"
+              ]
+            },
+            "session": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "agent": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "version": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "model": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
     "testAuthentication": {},
     "updateAccountEmailAction": {
       "body": {
@@ -6160,6 +6579,9 @@ export default {
     "GET /submissions": "listSubmissions",
     "GET /submissions/batches/{submission_batch_id}": "getSubmissionBatch",
     "GET /submissions/{submission_id}": "getSubmission",
+    "GET /support/help/{support_help_id}": "getSupportHelp",
+    "GET /support/tickets": "listSupportTickets",
+    "GET /support/tickets/{ticket_id}": "getSupportTicket",
     "GET /templates": "listTemplates",
     "GET /templates/{template_id}": "getTemplate",
     "GET /templates/{template_id}/diff": "getTemplateDiff",
@@ -6188,6 +6610,10 @@ export default {
     "POST /submissions/batches": "createSubmissionBatch",
     "POST /submissions/{submission_id}/generate_files": "generateSubmissionFiles",
     "POST /submissions/{submission_id}/generate_preview": "generateSubmissionPreview",
+    "POST /support/feedback": "sendSupportFeedback",
+    "POST /support/help": "askSupportHelp",
+    "POST /support/tickets": "openSupportTicket",
+    "POST /support/tickets/{ticket_id}/replies": "replyToSupportTicket",
     "POST /templates": "createTemplate",
     "POST /templates/upload": "uploadTemplate",
     "POST /templates/{template_id}/copy": "copyTemplate",

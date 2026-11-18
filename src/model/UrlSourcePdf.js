@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The UrlSourcePdf model module.
  * @module model/UrlSourcePdf
- * @version 4.6.0
+ * @version 4.7.0
  */
 class UrlSourcePdf {
     /**

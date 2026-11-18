@@ -19,7 +19,7 @@ import TemplateFieldMove from './TemplateFieldMove';
 /**
  * The TemplateFieldChanges model module.
  * @module model/TemplateFieldChanges
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateFieldChanges {
     /**

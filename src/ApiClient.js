@@ -29,7 +29,7 @@ function responseInfo(response) {
 
 /**
 * @module ApiClient
-* @version 4.6.0
+* @version 4.7.0
 */
 
 /**
@@ -75,7 +75,7 @@ this.validateRequests = true;
          * @default {}
          */
         this.defaultHeaders = {
-            'User-Agent': 'docspring-javascript-4.6.0'
+            'User-Agent': 'docspring-javascript-4.7.0'
         };
 
         /**

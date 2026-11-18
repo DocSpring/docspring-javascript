@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The SignatureRequestReminders model module.
  * @module model/SignatureRequestReminders
- * @version 4.6.0
+ * @version 4.7.0
  */
 class SignatureRequestReminders {
     /**

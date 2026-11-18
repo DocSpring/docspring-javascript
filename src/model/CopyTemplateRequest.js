@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CopyTemplateRequest model module.
  * @module model/CopyTemplateRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class CopyTemplateRequest {
     /**

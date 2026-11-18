@@ -28,7 +28,7 @@ import TemplateSignerRoleInput from './TemplateSignerRoleInput';
 /**
  * The UpdateTemplateRequest model module.
  * @module model/UpdateTemplateRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class UpdateTemplateRequest {
     /**

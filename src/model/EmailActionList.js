@@ -17,7 +17,7 @@ import EmailAction from './EmailAction';
 /**
  * The EmailActionList model module.
  * @module model/EmailActionList
- * @version 4.6.0
+ * @version 4.7.0
  */
 class EmailActionList {
     /**

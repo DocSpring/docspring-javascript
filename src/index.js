@@ -17,6 +17,7 @@ import { ValidationError } from './RequestValidator';
 import { verifyWebhookSignature } from './WebhookSignature';
 import AddTemplateFieldsRequest from './model/AddTemplateFieldsRequest';
 import AiFieldNamingLanguage from './model/AiFieldNamingLanguage';
+import AskSupportHelpRequest from './model/AskSupportHelpRequest';
 import AuthenticationCheck from './model/AuthenticationCheck';
 import BarcodeSymbology from './model/BarcodeSymbology';
 import CheckCharacter from './model/CheckCharacter';
@@ -105,6 +106,7 @@ import MoveFolderRequest from './model/MoveFolderRequest';
 import MoveTemplateRequest from './model/MoveTemplateRequest';
 import NumberConditionType from './model/NumberConditionType';
 import NumberPart from './model/NumberPart';
+import OpenSupportTicketRequest from './model/OpenSupportTicketRequest';
 import OutputFormat from './model/OutputFormat';
 import PageFormat from './model/PageFormat';
 import PageImage from './model/PageImage';
@@ -115,8 +117,10 @@ import PublishTemplateVersionRequest from './model/PublishTemplateVersionRequest
 import RemoveTemplateFieldsRequest from './model/RemoveTemplateFieldsRequest';
 import RenameFolderRequest from './model/RenameFolderRequest';
 import ReorderTemplateFieldsRequest from './model/ReorderTemplateFieldsRequest';
+import ReplyToSupportTicketRequest from './model/ReplyToSupportTicketRequest';
 import RestoreTemplateVersionRequest from './model/RestoreTemplateVersionRequest';
 import SendAccountEmailActionTestEmailRequest from './model/SendAccountEmailActionTestEmailRequest';
+import SendSupportFeedbackRequest from './model/SendSupportFeedbackRequest';
 import ShapeType from './model/ShapeType';
 import SignatureRequest from './model/SignatureRequest';
 import SignatureRequestAuthSecondFactorType from './model/SignatureRequestAuthSecondFactorType';
@@ -147,6 +151,28 @@ import SubmissionSourcePdf from './model/SubmissionSourcePdf';
 import SubmissionState from './model/SubmissionState';
 import SubmissionSummary from './model/SubmissionSummary';
 import SubmissionValidation from './model/SubmissionValidation';
+import SupportFeedback from './model/SupportFeedback';
+import SupportHelp from './model/SupportHelp';
+import SupportHelpSource from './model/SupportHelpSource';
+import SupportHelpState from './model/SupportHelpState';
+import SupportHelpTurn from './model/SupportHelpTurn';
+import SupportHelpTurnRole from './model/SupportHelpTurnRole';
+import SupportMessage from './model/SupportMessage';
+import SupportMessageAuthor from './model/SupportMessageAuthor';
+import SupportReportAgent from './model/SupportReportAgent';
+import SupportReportCategory from './model/SupportReportCategory';
+import SupportReportImpact from './model/SupportReportImpact';
+import SupportReportKind from './model/SupportReportKind';
+import SupportReportSource from './model/SupportReportSource';
+import SupportTicket from './model/SupportTicket';
+import SupportTicketList from './model/SupportTicketList';
+import SupportTicketListStatus from './model/SupportTicketListStatus';
+import SupportTicketNotifications from './model/SupportTicketNotifications';
+import SupportTicketReply from './model/SupportTicketReply';
+import SupportTicketReplyOutcome from './model/SupportTicketReplyOutcome';
+import SupportTicketResolution from './model/SupportTicketResolution';
+import SupportTicketStatus from './model/SupportTicketStatus';
+import SupportTicketWatch from './model/SupportTicketWatch';
 import Template from './model/Template';
 import TemplateActor from './model/TemplateActor';
 import TemplateActorType from './model/TemplateActorType';
@@ -241,7 +267,7 @@ import Client from './api/Client';
 * </pre>
 * </p>
 * @module index
-* @version 4.6.0
+* @version 4.7.0
 */
 export {
     /**
@@ -261,6 +287,12 @@ export {
      * @property {module:model/AiFieldNamingLanguage}
      */
     AiFieldNamingLanguage,
+
+    /**
+     * The AskSupportHelpRequest model constructor.
+     * @property {module:model/AskSupportHelpRequest}
+     */
+    AskSupportHelpRequest,
 
     /**
      * The AuthenticationCheck model constructor.
@@ -791,6 +823,12 @@ export {
     NumberPart,
 
     /**
+     * The OpenSupportTicketRequest model constructor.
+     * @property {module:model/OpenSupportTicketRequest}
+     */
+    OpenSupportTicketRequest,
+
+    /**
      * The OutputFormat model constructor.
      * @property {module:model/OutputFormat}
      */
@@ -851,6 +889,12 @@ export {
     ReorderTemplateFieldsRequest,
 
     /**
+     * The ReplyToSupportTicketRequest model constructor.
+     * @property {module:model/ReplyToSupportTicketRequest}
+     */
+    ReplyToSupportTicketRequest,
+
+    /**
      * The RestoreTemplateVersionRequest model constructor.
      * @property {module:model/RestoreTemplateVersionRequest}
      */
@@ -861,6 +905,12 @@ export {
      * @property {module:model/SendAccountEmailActionTestEmailRequest}
      */
     SendAccountEmailActionTestEmailRequest,
+
+    /**
+     * The SendSupportFeedbackRequest model constructor.
+     * @property {module:model/SendSupportFeedbackRequest}
+     */
+    SendSupportFeedbackRequest,
 
     /**
      * The ShapeType model constructor.
@@ -1041,6 +1091,138 @@ export {
      * @property {module:model/SubmissionValidation}
      */
     SubmissionValidation,
+
+    /**
+     * The SupportFeedback model constructor.
+     * @property {module:model/SupportFeedback}
+     */
+    SupportFeedback,
+
+    /**
+     * The SupportHelp model constructor.
+     * @property {module:model/SupportHelp}
+     */
+    SupportHelp,
+
+    /**
+     * The SupportHelpSource model constructor.
+     * @property {module:model/SupportHelpSource}
+     */
+    SupportHelpSource,
+
+    /**
+     * The SupportHelpState model constructor.
+     * @property {module:model/SupportHelpState}
+     */
+    SupportHelpState,
+
+    /**
+     * The SupportHelpTurn model constructor.
+     * @property {module:model/SupportHelpTurn}
+     */
+    SupportHelpTurn,
+
+    /**
+     * The SupportHelpTurnRole model constructor.
+     * @property {module:model/SupportHelpTurnRole}
+     */
+    SupportHelpTurnRole,
+
+    /**
+     * The SupportMessage model constructor.
+     * @property {module:model/SupportMessage}
+     */
+    SupportMessage,
+
+    /**
+     * The SupportMessageAuthor model constructor.
+     * @property {module:model/SupportMessageAuthor}
+     */
+    SupportMessageAuthor,
+
+    /**
+     * The SupportReportAgent model constructor.
+     * @property {module:model/SupportReportAgent}
+     */
+    SupportReportAgent,
+
+    /**
+     * The SupportReportCategory model constructor.
+     * @property {module:model/SupportReportCategory}
+     */
+    SupportReportCategory,
+
+    /**
+     * The SupportReportImpact model constructor.
+     * @property {module:model/SupportReportImpact}
+     */
+    SupportReportImpact,
+
+    /**
+     * The SupportReportKind model constructor.
+     * @property {module:model/SupportReportKind}
+     */
+    SupportReportKind,
+
+    /**
+     * The SupportReportSource model constructor.
+     * @property {module:model/SupportReportSource}
+     */
+    SupportReportSource,
+
+    /**
+     * The SupportTicket model constructor.
+     * @property {module:model/SupportTicket}
+     */
+    SupportTicket,
+
+    /**
+     * The SupportTicketList model constructor.
+     * @property {module:model/SupportTicketList}
+     */
+    SupportTicketList,
+
+    /**
+     * The SupportTicketListStatus model constructor.
+     * @property {module:model/SupportTicketListStatus}
+     */
+    SupportTicketListStatus,
+
+    /**
+     * The SupportTicketNotifications model constructor.
+     * @property {module:model/SupportTicketNotifications}
+     */
+    SupportTicketNotifications,
+
+    /**
+     * The SupportTicketReply model constructor.
+     * @property {module:model/SupportTicketReply}
+     */
+    SupportTicketReply,
+
+    /**
+     * The SupportTicketReplyOutcome model constructor.
+     * @property {module:model/SupportTicketReplyOutcome}
+     */
+    SupportTicketReplyOutcome,
+
+    /**
+     * The SupportTicketResolution model constructor.
+     * @property {module:model/SupportTicketResolution}
+     */
+    SupportTicketResolution,
+
+    /**
+     * The SupportTicketStatus model constructor.
+     * @property {module:model/SupportTicketStatus}
+     */
+    SupportTicketStatus,
+
+    /**
+     * The SupportTicketWatch model constructor.
+     * @property {module:model/SupportTicketWatch}
+     */
+    SupportTicketWatch,
 
     /**
      * The Template model constructor.

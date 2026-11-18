@@ -17,7 +17,7 @@ import ErrorInfo from './ErrorInfo';
 /**
  * The ErrorResponse model module.
  * @module model/ErrorResponse
- * @version 4.6.0
+ * @version 4.7.0
  */
 class ErrorResponse {
     /**

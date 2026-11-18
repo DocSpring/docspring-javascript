@@ -18,7 +18,7 @@ import TemplateFieldChanges from './TemplateFieldChanges';
 /**
  * The TemplateDiff model module.
  * @module model/TemplateDiff
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateDiff {
     /**

@@ -30,7 +30,7 @@ import TemplateType from './TemplateType';
 /**
  * The CreateTemplateRequest model module.
  * @module model/CreateTemplateRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class CreateTemplateRequest {
     /**

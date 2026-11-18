@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplateSignerRole model module.
  * @module model/TemplateSignerRole
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateSignerRole {
     /**

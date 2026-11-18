@@ -96,6 +96,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property support_help_id (base name: "support_help_id")', function() {
+      // uncomment below and update the code to test the property support_help_id
+      //var instance = new DocSpring.ErrorInfo();
+      //expect(instance).to.be();
+    });
+
     it('should have the property template_id (base name: "template_id")', function() {
       // uncomment below and update the code to test the property template_id
       //var instance = new DocSpring.ErrorInfo();

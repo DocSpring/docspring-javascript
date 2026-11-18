@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The TemplateFormSection model module.
  * @module model/TemplateFormSection
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateFormSection {
     /**

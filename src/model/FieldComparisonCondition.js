@@ -17,7 +17,7 @@ import FieldComparisonOperator from './FieldComparisonOperator';
 /**
  * The FieldComparisonCondition model module.
  * @module model/FieldComparisonCondition
- * @version 4.6.0
+ * @version 4.7.0
  */
 class FieldComparisonCondition {
     /**

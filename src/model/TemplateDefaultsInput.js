@@ -19,7 +19,7 @@ import Typeface from './Typeface';
 /**
  * The TemplateDefaultsInput model module.
  * @module model/TemplateDefaultsInput
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateDefaultsInput {
     /**

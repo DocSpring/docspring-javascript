@@ -20,7 +20,7 @@ import EmailActionSubmissionType from './EmailActionSubmissionType';
 /**
  * The CreateAccountEmailActionRequest model module.
  * @module model/CreateAccountEmailActionRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class CreateAccountEmailActionRequest {
     /**

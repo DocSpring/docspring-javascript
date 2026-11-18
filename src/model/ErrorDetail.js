@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The ErrorDetail model module.
  * @module model/ErrorDetail
- * @version 4.6.0
+ * @version 4.7.0
  */
 class ErrorDetail {
     /**

@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The RenameFolderRequest model module.
  * @module model/RenameFolderRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class RenameFolderRequest {
     /**

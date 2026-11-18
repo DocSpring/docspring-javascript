@@ -17,7 +17,7 @@ import TemplateFieldDependencyOperator from './TemplateFieldDependencyOperator';
 /**
  * The TemplateFieldDependencyCondition model module.
  * @module model/TemplateFieldDependencyCondition
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateFieldDependencyCondition {
     /**

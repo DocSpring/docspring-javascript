@@ -20,7 +20,7 @@ import TemplatePageProcessingStatus from './TemplatePageProcessingStatus';
 /**
  * The TemplateDocument model module.
  * @module model/TemplateDocument
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateDocument {
     /**

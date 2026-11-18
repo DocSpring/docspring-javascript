@@ -17,7 +17,7 @@ import FieldInput from './FieldInput';
 /**
  * The UpdateTemplateFieldsRequest model module.
  * @module model/UpdateTemplateFieldsRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class UpdateTemplateFieldsRequest {
     /**

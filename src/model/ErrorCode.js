@@ -146,6 +146,27 @@ export default class ErrorCode {
 
     
         /**
+         * value: "support_feedback_limit_reached"
+         * @const
+         */
+        static "support_feedback_limit_reached" = "support_feedback_limit_reached";
+
+    
+        /**
+         * value: "support_help_limit_reached"
+         * @const
+         */
+        static "support_help_limit_reached" = "support_help_limit_reached";
+
+    
+        /**
+         * value: "support_ticket_limit_reached"
+         * @const
+         */
+        static "support_ticket_limit_reached" = "support_ticket_limit_reached";
+
+    
+        /**
          * value: "internal_error"
          * @const
          */

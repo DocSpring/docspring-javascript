@@ -21,7 +21,7 @@ import SigningOrder from './SigningOrder';
 /**
  * The ValidateSubmissionRequest model module.
  * @module model/ValidateSubmissionRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class ValidateSubmissionRequest {
     /**

@@ -58,6 +58,16 @@
         done();
       });
     });
+    describe('askSupportHelp', function() {
+      it('should call askSupportHelp successfully', function(done) {
+        //uncomment below and update the code to test askSupportHelp
+        //instance.askSupportHelp(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('copyTemplate', function() {
       it('should call copyTemplate successfully', function(done) {
         //uncomment below and update the code to test copyTemplate
@@ -418,6 +428,26 @@
         done();
       });
     });
+    describe('getSupportHelp', function() {
+      it('should call getSupportHelp successfully', function(done) {
+        //uncomment below and update the code to test getSupportHelp
+        //instance.getSupportHelp(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('getSupportTicket', function() {
+      it('should call getSupportTicket successfully', function(done) {
+        //uncomment below and update the code to test getSupportTicket
+        //instance.getSupportTicket(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('getTemplate', function() {
       it('should call getTemplate successfully', function(done) {
         //uncomment below and update the code to test getTemplate
@@ -558,6 +588,16 @@
         done();
       });
     });
+    describe('listSupportTickets', function() {
+      it('should call listSupportTickets successfully', function(done) {
+        //uncomment below and update the code to test listSupportTickets
+        //instance.listSupportTickets(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('listTemplateFields', function() {
       it('should call listTemplateFields successfully', function(done) {
         //uncomment below and update the code to test listTemplateFields
@@ -618,6 +658,16 @@
         done();
       });
     });
+    describe('openSupportTicket', function() {
+      it('should call openSupportTicket successfully', function(done) {
+        //uncomment below and update the code to test openSupportTicket
+        //instance.openSupportTicket(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('publishTemplateVersion', function() {
       it('should call publishTemplateVersion successfully', function(done) {
         //uncomment below and update the code to test publishTemplateVersion
@@ -658,6 +708,16 @@
         done();
       });
     });
+    describe('replyToSupportTicket', function() {
+      it('should call replyToSupportTicket successfully', function(done) {
+        //uncomment below and update the code to test replyToSupportTicket
+        //instance.replyToSupportTicket(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('restoreTemplateVersion', function() {
       it('should call restoreTemplateVersion successfully', function(done) {
         //uncomment below and update the code to test restoreTemplateVersion
@@ -682,6 +742,16 @@
       it('should call sendEmailActionTestEmail successfully', function(done) {
         //uncomment below and update the code to test sendEmailActionTestEmail
         //instance.sendEmailActionTestEmail(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('sendSupportFeedback', function() {
+      it('should call sendSupportFeedback successfully', function(done) {
+        //uncomment below and update the code to test sendSupportFeedback
+        //instance.sendSupportFeedback(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

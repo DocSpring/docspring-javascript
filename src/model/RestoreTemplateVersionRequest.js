@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The RestoreTemplateVersionRequest model module.
  * @module model/RestoreTemplateVersionRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class RestoreTemplateVersionRequest {
     /**

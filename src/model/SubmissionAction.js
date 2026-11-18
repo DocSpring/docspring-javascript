@@ -18,7 +18,7 @@ import SubmissionActionType from './SubmissionActionType';
 /**
  * The SubmissionAction model module.
  * @module model/SubmissionAction
- * @version 4.6.0
+ * @version 4.7.0
  */
 class SubmissionAction {
     /**

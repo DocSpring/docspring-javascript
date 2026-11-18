@@ -16,7 +16,7 @@ import ApiClient from '../ApiClient';
 /**
  * The CreateEmailDomainRequest model module.
  * @module model/CreateEmailDomainRequest
- * @version 4.6.0
+ * @version 4.7.0
  */
 class CreateEmailDomainRequest {
     /**

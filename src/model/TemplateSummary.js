@@ -19,7 +19,7 @@ import TemplateType from './TemplateType';
 /**
  * The TemplateSummary model module.
  * @module model/TemplateSummary
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateSummary {
     /**

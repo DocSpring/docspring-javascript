@@ -17,7 +17,7 @@ import TemplateActor from './TemplateActor';
 /**
  * The TemplateVersion model module.
  * @module model/TemplateVersion
- * @version 4.6.0
+ * @version 4.7.0
  */
 class TemplateVersion {
     /**

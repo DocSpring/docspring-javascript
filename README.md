@@ -13,7 +13,7 @@ pull requests are welcome.
 Outside JavaScript code, the [DocSpring CLI](https://docspring.com/docs/cli/) calls the same API from a terminal or a
 shell script, and the [MCP server](https://docspring.com/docs/mcp/) connects AI assistants to your account.
 
-Version 4.6.0. 
+Version 4.7.0. 
 
 ## Install and configure
 
@@ -94,6 +94,7 @@ JavaScript code for every method.
 | Method | Description |
 | ------ | ----------- |
 | [`addTemplateFields`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#addtemplatefields) | Add fields to a template |
+| [`askSupportHelp`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#asksupporthelp) | Ask for help |
 | [`copyTemplate`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#copytemplate) | Copy a template |
 | [`createAccountEmailAction`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#createaccountemailaction) | Create an account email action |
 | [`createCombinedPdf`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#createcombinedpdf) | Combine PDFs |
@@ -130,6 +131,8 @@ JavaScript code for every method.
 | [`getSignatureRequest`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#getsignaturerequest) | Get a signature request |
 | [`getSubmission`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#getsubmission) | Get a submission |
 | [`getSubmissionBatch`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#getsubmissionbatch) | Get a batch |
+| [`getSupportHelp`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#getsupporthelp) | Get a help request |
+| [`getSupportTicket`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#getsupportticket) | Get a support ticket |
 | [`getTemplate`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#gettemplate) | Get a template |
 | [`getTemplateDiff`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#gettemplatediff) | Compare a version of a template with the one before it |
 | [`getTemplateModelCode`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#gettemplatemodelcode) | Generate typed code for a template's submission data |
@@ -144,19 +147,23 @@ JavaScript code for every method.
 | [`listEmailDomains`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#listemaildomains) | List email domains |
 | [`listFolders`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#listfolders) | List folders |
 | [`listSubmissions`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#listsubmissions) | List submissions |
+| [`listSupportTickets`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#listsupporttickets) | List support tickets |
 | [`listTemplateFields`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#listtemplatefields) | List a template's fields |
 | [`listTemplates`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#listtemplates) | List templates |
 | [`listTemplateSubmissions`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#listtemplatesubmissions) | List a template's submissions |
 | [`listWebhooks`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#listwebhooks) | List webhooks |
 | [`moveFolder`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#movefolder) | Move a folder |
 | [`moveTemplate`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#movetemplate) | Move a template to a folder |
+| [`openSupportTicket`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#opensupportticket) | Open a support ticket |
 | [`publishTemplateVersion`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#publishtemplateversion) | Publish a template version |
 | [`removeTemplateFields`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#removetemplatefields) | Remove fields from a template |
 | [`renameFolder`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#renamefolder) | Rename a folder |
 | [`reorderTemplateFields`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#reordertemplatefields) | Reorder a template's fields |
+| [`replyToSupportTicket`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#replytosupportticket) | Reply to a support ticket |
 | [`restoreTemplateVersion`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#restoretemplateversion) | Restore a template version |
 | [`sendAccountEmailActionTestEmail`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#sendaccountemailactiontestemail) | Send a test email for an account email action |
 | [`sendEmailActionTestEmail`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#sendemailactiontestemail) | Send a test email |
+| [`sendSupportFeedback`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#sendsupportfeedback) | Send feedback |
 | [`testAuthentication`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#testauthentication) | Test authentication |
 | [`updateAccountEmailAction`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#updateaccountemailaction) | Update an account email action |
 | [`updateEmailAction`](https://github.com/DocSpring/docspring-javascript/blob/main/docs/Client.md#updateemailaction) | Update an email action |
